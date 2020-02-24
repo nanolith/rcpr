@@ -97,6 +97,20 @@ resource_release(resource* r);
 typedef status (*resource_release_fn)(resource* r);
 
 /******************************************************************************/
+/* Start of protected methods.                                                */
+/******************************************************************************/
+
+/**
+ * \brief Initialize a resource with the given release method.
+ *
+ * \param r         The resource to be initialized.
+ * \param release   The release method to use to release this resource.
+ */
+void
+resource_init(resource* r, resource_release_fn release);
+
+
+/******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
 

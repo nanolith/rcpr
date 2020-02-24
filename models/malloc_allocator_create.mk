@@ -10,10 +10,12 @@ ALL:
 	../models/shadow/allocator/allocator_struct_tag_init.c \
 	../models/shadow/allocator/prop_allocator_valid.c \
 	../models/shadow/resource/prop_resource_valid.c \
+	../models/shadow/resource/resource_struct_tag_init.c \
 	../src/allocator/malloc_allocator_create.c \
 	../src/allocator/allocator_allocate.c \
 	../src/allocator/allocator_reallocate.c \
 	../src/allocator/allocator_reclaim.c \
 	../src/allocator/allocator_resource_handle.c \
+	../src/resource/resource_init.c \
 	../src/resource/resource_release.c \
 	../models/malloc_allocator_create_main.c

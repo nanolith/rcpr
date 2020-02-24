@@ -66,7 +66,7 @@ malloc_allocator_create(allocator** alloc)
     MODEL_STRUCT_TAG_INIT((*alloc)->MODEL_STRUCT_TAG_REF(allocator), allocator);
 
     /* set the release method. */
-    (*alloc)->hdr.release = &malloc_allocator_release;
+    resource_init(&(*alloc)->hdr, &malloc_allocator_release);
 
     /* set the callbacks. */
     (*alloc)->allocate_fn = &malloc_allocator_allocate;

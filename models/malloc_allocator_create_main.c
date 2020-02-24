@@ -2,6 +2,7 @@
 #include <rcpr/allocator.h>
 
 void allocator_struct_tag_init();
+void resource_struct_tag_init();
 
 int main(int argc, char* argv[])
 {
@@ -9,6 +10,9 @@ int main(int argc, char* argv[])
 
     /* set up the global allocator tag. */
     allocator_struct_tag_init();
+
+    /* set up the global resource tag. */
+    resource_struct_tag_init();
 
     /* try to create a malloc allocator. */
     int retval = malloc_allocator_create(&alloc);

@@ -22,6 +22,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(allocator);
  */
 bool prop_allocator_valid(const allocator* alloc)
 {
+    /* parameter sanity checks. */
+    MODEL_ASSERT(NULL != alloc);
     MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
         alloc->MODEL_STRUCT_TAG_REF(allocator), allocator);
 

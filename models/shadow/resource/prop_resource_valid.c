@@ -11,6 +11,8 @@
 
 #include "../../../src/resource/resource_internal.h"
 
+MODEL_STRUCT_TAG_GLOBAL_EXTERN(resource);
+
 /**
  * \brief Valid resource property.
  *
@@ -20,6 +22,11 @@
  */
 bool prop_resource_valid(const resource* r)
 {
+    /* parameter sanity checks. */
+    MODEL_ASSERT(NULL != r);
+    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        r->MODEL_STRUCT_TAG_REF(resource), resource);
+
     return
            NULL != r
         && NULL != r->release;

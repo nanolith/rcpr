@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include <rcpr/model_assert.h>
 #include <rcpr/resource.h>
 
 /* C++ compatibility. */
@@ -19,6 +20,8 @@ extern "C" {
 struct resource
 {
     resource_release_fn release;
+
+    MODEL_STRUCT_TAG(resource);
 };
 
 /* C++ compatibility. */
