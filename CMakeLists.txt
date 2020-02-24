@@ -1,0 +1,55 @@
+PROJECT(rcpr)
+
+cmake_minimum_required(VERSION 3.10)
+
+INCLUDE(CheckSymbolExists)
+
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
+
+find_package(minunit REQUIRED)
+
+INCLUDE_DIRECTORIES(include)
+AUX_SOURCE_DIRECTORY(src/allocator RCPR_ALLOCATOR_SOURCES)
+AUX_SOURCE_DIRECTORY(src/resource RCPR_RESOURCE_SOURCES)
+AUX_SOURCE_DIRECTORY(test RCPR_TEST_SOURCES)
+
+ADD_LIBRARY(rcpr STATIC
+    ${RCPR_ALLOCATOR_SOURCES} ${RCPR_RESOURCE_SOURCES})
+
+ADD_EXECUTABLE(testrcpr
+    ${RCPR_ALLOCATOR_SOURCES} ${RCPR_RESOURCE_SOURCES}
+    ${RCPR_TEST_SOURCES})
+TARGET_COMPILE_OPTIONS(testrcpr PRIVATE --coverage ${MINUNIT_CFLAGS})
+TARGET_LINK_LIBRARIES(testrcpr PRIVATE --coverage ${MINUNIT_LDFLAGS})
+
+ADD_CUSTOM_COMMAND(TARGET testrcpr
+    POST_BUILD
+    COMMAND testrcpr)
+
+ADD_CUSTOM_TARGET(
+    model_checks
+    COMMAND make
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/models)
+ADD_DEPENDENCIES(testrcpr model_checks)
+
+#Build a pkg-config file
+SET(RCPR_PC "${CMAKE_BINARY_DIR}/rcpr.pc")
+FILE(WRITE  ${RCPR_PC} "Name: rcpr")
+FILE(APPEND ${RCPR_PC} "\nDescription: Reliable C Portable Runtime")
+FILE(APPEND ${RCPR_PC} "\nVersion: 0.1")
+FILE(APPEND ${RCPR_PC} "\nURL: https://github.com/nanolith/rcpr")
+FILE(APPEND ${RCPR_PC} "\nprefix=${CMAKE_INSTALL_PREFIX}")
+FILE(APPEND ${RCPR_PC} "\nlibdir=\${prefix}/lib")
+FILE(APPEND ${RCPR_PC} "\nincludedir=\${prefix}/include")
+FILE(APPEND ${RCPR_PC} "\nLibs: -L\${libdir} -lrcpr")
+FILE(APPEND ${RCPR_PC} "\nCflags: -I\${includedir}")
+INSTALL(FILES ${RCPR_PC} DESTINATION lib/pkgconfig)
+
+#Install headers
+FILE(GLOB RCPR_INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/include/rcpr/*.h")
+INSTALL(FILES ${RCPR_INCLUDES} DESTINATION include/rcpr)
+
+#Install library
+INSTALL(TARGETS rcpr
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib)

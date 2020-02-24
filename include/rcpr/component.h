@@ -1,0 +1,77 @@
+/**
+ * \file rcpr/component.h
+ *
+ * \brief Define components and component families.
+ *
+ * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * distribution for the license terms under which this software is distributed.
+ */
+
+#pragma once
+
+/* C++ compatibility. */
+# ifdef   __cplusplus
+extern "C" {
+# endif /*__cplusplus*/
+
+/**
+ * \brief Given a component family and a subcomponent, form a component.
+ */
+#define COMPONENT_MAKE(family, subcomponent) \
+    ((((family) << 8) & 0xFF00) | ((subcomponent) & 0x00FF))
+
+/**
+ * \brief Component Family Enumeration.
+ */
+enum component_family
+{
+    /** \brief RCPR component family. */
+    COMPONENT_FAMILY_RCPR                                       =         0x00,
+
+    /** \brief RCCRYPT component family. */
+    COMPONENT_FAMILY_RCCRYPT                                    =         0x01,
+
+    /** \brief RCCERT component family. */
+    COMPONENT_FAMILY_RCCERT                                     =         0x02,
+
+    /** \brief RCUOS component family. */
+    COMPONENT_FAMILY_RCUOS                                      =         0x03,
+
+    /** \brief RCBLOCK component family. */
+    COMPONENT_FAMILY_RCBLOCK                                    =         0x04,
+
+    /** \brief RCBLOCKSVC component family. */
+    COMPONENT_FAMILY_RCBLOCKSVC                                 =         0x05,
+};
+
+/**
+ * \brief RCPR subcomponents.
+ */
+enum rcpr_subcomponents
+{
+    /** \brief Global subcomponent scope. */
+    RCPR_SUBCOMPONENT_GLOBAL                                =             0x00,
+
+    /** \brief Resource subcomponent scope. */
+    RCPR_SUBCOMPONENT_RESOURCE                              =             0x01,
+
+    /** \brief Allocator subcomponent scope. */
+    RCPR_SUBCOMPONENT_ALLOCATOR                             =             0x02,
+};
+
+/** \brief Global component scope. */
+#define RCPR_COMPONENT_GLOBAL \
+    COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_GLOBAL)
+
+/** \brief Resource component scope. */
+#define RCPR_COMPONENT_RESOURCE \
+    COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_RESOURCE)
+
+/** \brief Allocator component scope. */
+#define RCPR_COMPONENT_ALLOCATOR \
+    COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_ALLOCATOR)
+
+/* C++ compatibility. */
+# ifdef   __cplusplus
+}
+# endif /*__cplusplus*/

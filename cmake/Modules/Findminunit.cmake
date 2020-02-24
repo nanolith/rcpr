@@ -1,0 +1,9 @@
+find_package(PkgConfig REQUIRED)
+
+pkg_check_modules(MINUNIT REQUIRED minunit)
+
+if (${MINUNIT_FOUND})
+    SET(OLD_PKG_CONFIG_PATH ENV{PKG_CONFIG_PATH})
+    SET(ENV{PKG_CONFIG_PATH} ${MINUNIT_PREFIX}/lib/pkgconfig)
+    SET(ENV{PKG_CONFIG_PATH} ${OLD_PKG_CONFIG_PATH})
+endif(${MINUNIT_FOUND})
