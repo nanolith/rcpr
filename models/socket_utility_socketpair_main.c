@@ -1,4 +1,10 @@
+#include <rcpr/model_assert.h>
 #include <rcpr/socket_utilities.h>
+#include <unistd.h>
+
+int nondet_domain();
+int nondet_type();
+int nondet_protocol();
 
 int main(int argc, char* argv[])
 {
