@@ -130,6 +130,8 @@ static status malloc_allocator_release(resource* r)
 static status malloc_allocator_allocate(
     allocator* alloc, void** ptr, size_t size)
 {
+    (void)alloc;
+
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_allocator_valid(alloc));
     MODEL_ASSERT(NULL != ptr);
@@ -169,6 +171,8 @@ static status malloc_allocator_allocate(
 static status malloc_allocator_reclaim(
     allocator* alloc, void* ptr)
 {
+    (void)alloc;
+
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_allocator_valid(alloc));
     MODEL_ASSERT(NULL != ptr);
@@ -212,6 +216,8 @@ static status malloc_allocator_reclaim(
 static status malloc_allocator_reallocate(
     allocator* alloc, void** ptr, size_t size)
 {
+    (void)alloc;
+
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_allocator_valid(alloc));
     MODEL_ASSERT(NULL != ptr);
