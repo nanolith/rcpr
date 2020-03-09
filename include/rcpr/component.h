@@ -57,6 +57,9 @@ enum rcpr_subcomponents
 
     /** \brief Allocator subcomponent scope. */
     RCPR_SUBCOMPONENT_ALLOCATOR                             =             0x02,
+
+    /** \brief Socket utilitiies subcomponent scope. */
+    RCPR_SUBCOMPONENT_SOCKET_UTILITIES                      =             0x03,
 };
 
 /** \brief Global component scope. */
@@ -70,6 +73,10 @@ enum rcpr_subcomponents
 /** \brief Allocator component scope. */
 #define RCPR_COMPONENT_ALLOCATOR \
     COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_ALLOCATOR)
+
+/** \brief Socket Utilities component scope. */
+#define RCPR_COMPONENT_SOCKET_UTILITIES \
+    COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_SOCKET_UTILITIES)
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
