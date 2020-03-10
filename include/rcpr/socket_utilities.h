@@ -39,6 +39,60 @@ status FN_DECL_MUST_CHECK
 socket_utility_socketpair(
     int domain, int type, int protocol, int* left, int* right);
 
+/**
+ * \brief Convert a 64-bit integer value from host to network byte order.
+ *
+ * \param val               The value to convert.
+ *
+ * \returns the value in network byte order.
+ */
+int64_t socket_utility_hton64(int64_t val);
+
+/**
+ * \brief Convert a 64-bit integer value from network to host byte order.
+ *
+ * \param val               The value to convert.
+ *
+ * \returns the value in host byte order.
+ */
+int64_t socket_utility_ntoh64(int64_t val);
+
+/**
+ * \brief Convert a 32-bit integer value from host to network byte order.
+ *
+ * \param val               The value to convert.
+ *
+ * \returns the value in network byte order.
+ */
+int32_t socket_utility_hton32(int32_t val);
+
+/**
+ * \brief Convert a 32-bit integer value from network to host byte order.
+ *
+ * \param val               The value to convert.
+ *
+ * \returns the value in host byte order.
+ */
+int32_t socket_utility_ntoh32(int32_t val);
+
+/**
+ * \brief Convert a 16-bit integer value from host to network byte order.
+ *
+ * \param val               The value to convert.
+ *
+ * \returns the value in network byte order.
+ */
+int16_t socket_utility_hton16(int16_t val);
+
+/**
+ * \brief Convert a 16-bit integer value from network to host byte order.
+ *
+ * \param val               The value to convert.
+ *
+ * \returns the value in host byte order.
+ */
+int16_t socket_utility_ntoh16(int16_t val);
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 }
