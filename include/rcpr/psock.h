@@ -1507,6 +1507,25 @@ resource* psock_resource_handle(psock* sock);
  */
 bool prop_psock_valid(const psock* sock);
 
+/******************************************************************************/
+/* Start of support types.                                                    */
+/******************************************************************************/
+
+enum psock_boxed_type
+{
+    PSOCK_BOXED_TYPE_INT64                      =   0x00000010,
+    PSOCK_BOXED_TYPE_UINT64                     =   0x00000011,
+    PSOCK_BOXED_TYPE_INT32                      =   0x00000012,
+    PSOCK_BOXED_TYPE_UINT32                     =   0x00000013,
+    PSOCK_BOXED_TYPE_INT16                      =   0x00000014,
+    PSOCK_BOXED_TYPE_UINT16                     =   0x00000015,
+    PSOCK_BOXED_TYPE_INT8                       =   0x00000016,
+    PSOCK_BOXED_TYPE_UINT8                      =   0x00000017,
+    PSOCK_BOXED_TYPE_BOOL                       =   0x00000018,
+    PSOCK_BOXED_TYPE_STRING                     =   0x00000020,
+    PSOCK_BOXED_TYPE_DATA                       =   0x00000022,
+};
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 }

@@ -48,3 +48,9 @@
  */
 #define ERROR_PSOCK_WRITE_INVALID_SIZE \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0005)
+
+/**
+ * \brief psock read boxed invalid type error.
+ */
+#define ERROR_PSOCK_READ_BOXED_INVALID_TYPE \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0006)
