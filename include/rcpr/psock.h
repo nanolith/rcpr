@@ -836,7 +836,7 @@ psock_write_boxed_string(
  */
 status FN_DECL_MUST_CHECK
 psock_write_boxed_data(
-    psock* sock, void* data, size_t data_size);
+    psock* sock, const void* data, size_t data_size);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was
