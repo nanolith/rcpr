@@ -54,3 +54,9 @@
  */
 #define ERROR_PSOCK_READ_BOXED_INVALID_TYPE \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0006)
+
+/**
+ * \brief psock read boxed invalid size error.
+ */
+#define ERROR_PSOCK_READ_BOXED_INVALID_SIZE \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0007)
