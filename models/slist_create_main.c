@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
     retval = malloc_allocator_create(&alloc); 
     if (STATUS_SUCCESS != retval)
     {
-        return 0;
+        goto done;
     }
 
     /* create an slist instance. */
@@ -36,16 +36,39 @@ int main(int argc, char* argv[])
         /* the only reason why it could fail is due to a memory issue. */
         MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
 
-        resource_release(allocator_resource_handle(alloc));
-
-        return 0;
+        goto cleanup_allocator;
     }
 
+    /* get the head. */
+    slist_node* head = NULL;
+    retval = slist_head(&head, list);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto cleanup_slist;
+    }
+
+    /* head should be null for an empty list. */
+    MODEL_ASSERT(NULL == head);
+
+    /* get the tail. */
+    slist_node* tail = NULL;
+    retval = slist_tail(&head, list);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto cleanup_slist;
+    }
+
+    /* tail should be null for an empty list. */
+    MODEL_ASSERT(NULL == tail);
+
+cleanup_slist:
     /* release the slist. */
     resource_release(slist_resource_handle(list));
 
+cleanup_allocator:
     /* release the allocator. */
     resource_release(allocator_resource_handle(alloc));
 
+done:
     return 0;
 }

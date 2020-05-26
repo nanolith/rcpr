@@ -21,6 +21,8 @@ ALL:
 	../src/allocator/allocator_resource_handle.c \
 	../src/allocator/malloc_allocator_create.c \
 	../src/slist/slist_create.c \
+	../src/slist/slist_head.c \
+	../src/slist/slist_tail.c \
 	../src/slist/slist_resource_handle.c \
 	../src/slist/slist_node_resource_handle.c \
 	../src/resource/resource_release.c \

@@ -28,6 +28,24 @@ TEST(create)
             slist_create(
                 &l, alloc));
 
+    /* we should be able to get the head. */
+    slist_node* head = nullptr;
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            slist_head(&head, l));
+
+    /* the head should be null. */
+    TEST_ASSERT(nullptr == head);
+
+    /* we should be able to get the tail. */
+    slist_node* tail = nullptr;
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            slist_tail(&tail, l));
+
+    /* the tail should be null. */
+    TEST_ASSERT(nullptr == tail);
+
     /* we should be able to release the slist instance. */
     TEST_ASSERT(
         STATUS_SUCCESS ==
