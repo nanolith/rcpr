@@ -64,7 +64,7 @@ slist_create(
         return retval;
     }
 
-    /* clear out the structure. */
+    /* clear structure. */
     memset(l, 0, sizeof(slist));
 
     /* the tag is not set by default. */
@@ -106,24 +106,24 @@ slist_create(
  */
 static status slist_release(resource* r)
 {
+    status retval;
     slist* l = (slist*)r;
 
     /* iterate through slist nodes, releasing them. */
     while (NULL != l->head)
     {
         slist_node* t = l->head;
-        l->head = t->next;
+        l->head = l->head->next;
 
         t->parent = NULL;
         t->next = NULL;
 
-        /* ensure this is a valid slist node. */
-        MODEL_ASSERT(prop_slist_node_valid(t));
-
-        /* attempt to release this resource. */
-        status retval = resource_release(&t->hdr);
+        /* clean up the node. */
+        retval = slist_node_cleanup(l->alloc, t);
         if (STATUS_SUCCESS != retval)
+        {
             return retval;
+        }
     }
 
     /* clear out tail. */
@@ -134,7 +134,6 @@ static status slist_release(resource* r)
 
     /* clean up. */
     allocator* a = l->alloc;
-    memset(l, 0, sizeof(slist));
 
     /* if reclaiming this slist instance succeeds, so does this release. */
     return

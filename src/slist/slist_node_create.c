@@ -1,49 +1,20 @@
 /**
- * \file slist/slist_internal.h
+ * \file slist/slist_node_create.c
  *
- * \brief Internal data types and functions for slist.
+ * \brief Create a \ref slist_node instance.
  *
  * \copyright 2020 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
-#pragma once
-
-#include <rcpr/allocator.h>
 #include <rcpr/model_assert.h>
-#include <rcpr/slist.h>
-#include <rcpr/resource.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
-#include "../resource/resource_internal.h"
+#include "slist_internal.h"
 
-/* C++ compatibility. */
-# ifdef   __cplusplus
-extern "C" {
-# endif /*__cplusplus*/
-
-struct slist
-{
-    resource hdr;
-
-    MODEL_STRUCT_TAG(slist);
-
-    allocator* alloc;
-    slist_node* head;
-    slist_node* tail;
-    size_t count;
-};
-
-struct slist_node
-{
-    resource hdr;
-
-    MODEL_STRUCT_TAG(slist_node);
-
-    allocator* alloc;
-    slist* parent;
-    slist_node* next;
-    resource* child;
-};
+MODEL_STRUCT_TAG_GLOBAL_EXTERN(slist_node);
 
 /**
  * \brief Create a \ref slist_node instance.
@@ -78,32 +49,56 @@ struct slist_node
  */
 status FN_DECL_MUST_CHECK
 slist_node_create(
-    slist_node** node, slist* list, resource* r);
+    slist_node** node, slist* list, resource* r)
+{
+    /* parameter sanity checks. */
+    MODEL_ASSERT(NULL != node);
+    MODEL_ASSERT(prop_slist_valid(list));
+    MODEL_ASSERT(NULL == r || prop_resource_valid(r));
 
-/**
- * \brief Clean up an slist node.
- *
- * \param a             Pointer to the slist allocator.
- * \param node          Pointer to the slist_node to be released.
- *
- * \returns a status code indicating success or failure.
- *      - STATUS_SUCCESS on success.
- *      - an error code on failure.
- */
-status slist_node_cleanup(allocator* a, slist_node* node);
+    /* attempt to allocate memory for this slist_node. */
+    slist_node* n = NULL;
+    int retval =
+        allocator_allocate(list->alloc, (void**)&n, sizeof(slist_node));
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
 
-/**
- * \brief Release an slist_node resource.
- *
- * \param r             Pointer to the slist_node resource to be released.
- *
- * \returns a status code indicating success or failure.
- *      - STATUS_SUCCESS on success.
- *      - an error code on failure.
- */
-status slist_node_release(resource* r);
+    /* clear structure. */
+    memset(n, 0, sizeof(slist_node));
 
-/* C++ compatibility. */
-# ifdef   __cplusplus
+    /* the tag is not set by default. */
+    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        n->MODEL_STRUCT_TAG_REF(slist_node), slist_node);
+
+    /* set the tag. */
+    MODEL_STRUCT_TAG_INIT(n->MODEL_STRUCT_TAG_REF(slist_node), slist_node);
+
+    /* set the release method. */
+    resource_init(&n->hdr, &slist_node_release);
+
+    /* set the allocator. */
+    n->alloc = list->alloc;
+
+    /* set the child. */
+    n->child = r;
+
+    /* set parent to NULL. */
+    n->parent = NULL;
+
+    /*set next to NULL. */
+    n->next = NULL;
+
+    /* set the node. */
+    *node = n;
+
+    /* verify that this structure is now valid. */
+    MODEL_ASSERT(prop_slist_node_valid(*node));
+
+    /* set the parent; this breaks our invariant, but the caller fixes it up. */
+    n->parent = list;
+
+    /* success. */
+    return STATUS_SUCCESS;
 }
-# endif /*__cplusplus*/

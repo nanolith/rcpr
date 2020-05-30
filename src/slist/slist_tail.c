@@ -49,7 +49,6 @@ slist_tail(
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != node);
-    MODEL_ASSERT(NULL == *node);
     MODEL_ASSERT(prop_slist_valid(list));
 
     /* set the node to tail. */

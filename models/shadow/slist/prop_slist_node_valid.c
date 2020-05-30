@@ -26,6 +26,9 @@ bool prop_slist_node_valid(const slist_node* node)
     MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
         node->MODEL_STRUCT_TAG_REF(slist_node), slist_node);
 
+    MODEL_ASSERT(prop_resource_valid(&node->hdr));
+    MODEL_ASSERT(prop_allocator_valid(node->alloc));
+
     return
         prop_resource_valid(&node->hdr)
      && prop_allocator_valid(node->alloc)
