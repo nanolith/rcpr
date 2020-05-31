@@ -70,6 +70,22 @@ TEST(basics)
     /* this resource should be the same as other. */
     TEST_EXPECT(r == allocator_resource_handle(other));
 
+    /* get the next for head. */
+    slist_node* head_next = nullptr;
+    TEST_ASSERT(
+        STATUS_SUCCESS == slist_node_next(&head_next, head));
+
+    /* head->next should be null. */
+    TEST_ASSERT(nullptr == head_next);
+
+    /* get the next for tail. */
+    slist_node* tail_next = nullptr;
+    TEST_ASSERT(
+        STATUS_SUCCESS == slist_node_next(&tail_next, tail));
+
+    /* tail->next should be null. */
+    TEST_ASSERT(nullptr == tail_next);
+
     /* we should be able to release the slist instance. */
     TEST_ASSERT(
         STATUS_SUCCESS ==
@@ -157,6 +173,22 @@ TEST(double_insert)
 
     /* this resource should be the same as other1. */
     TEST_EXPECT(r2 == allocator_resource_handle(other1));
+
+    /* get the next for head. */
+    slist_node* head_next = nullptr;
+    TEST_ASSERT(
+        STATUS_SUCCESS == slist_node_next(&head_next, head));
+
+    /* head->next should be tail. */
+    TEST_ASSERT(tail == head_next);
+
+    /* get the next for tail. */
+    slist_node* tail_next = nullptr;
+    TEST_ASSERT(
+        STATUS_SUCCESS == slist_node_next(&tail_next, tail));
+
+    /* tail->next should be null. */
+    TEST_ASSERT(nullptr == tail_next);
 
     /* we should be able to release the slist instance. */
     TEST_ASSERT(
