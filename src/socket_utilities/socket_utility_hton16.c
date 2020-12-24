@@ -8,7 +8,7 @@
  * distribution for the license terms under which this software is distributed.
  */
 
-#include <byteswap.h>
+#include <rcpr/byteswap.h>
 #include <rcpr/model_assert.h>
 #include <rcpr/socket_utilities.h>
 
@@ -24,6 +24,6 @@ int16_t socket_utility_hton16(int16_t val)
 #ifdef __BIG_ENDIAN__
     return val;
 #else
-    return bswap_16(val);
+    return byteswap16(val);
 #endif
 }
