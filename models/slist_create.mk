@@ -16,6 +16,8 @@ ALL:
 	../models/shadow/slist/slist_node_struct_tag_init.c \
 	../models/shadow/resource/prop_resource_valid.c \
 	../models/shadow/resource/resource_struct_tag_init.c \
+	../models/shadow/resource/mock_resource_release.c \
+	../models/shadow/slist/slist_node_cleanup.c \
 	../src/allocator/allocator_allocate.c \
 	../src/allocator/allocator_reclaim.c \
 	../src/allocator/allocator_resource_handle.c \
