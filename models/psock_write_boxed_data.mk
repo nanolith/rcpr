@@ -18,6 +18,9 @@ ALL:
 	../models/shadow/unistd/descriptor.c \
 	../models/shadow/unistd/read.c \
 	../models/shadow/unistd/socketpair.c \
+	../models/shadow/byteswap/byteswap16.c \
+	../models/shadow/byteswap/byteswap32.c \
+	../models/shadow/byteswap/byteswap64.c \
 	../src/allocator/allocator_allocate.c \
 	../src/allocator/allocator_reclaim.c \
 	../src/allocator/allocator_resource_handle.c \

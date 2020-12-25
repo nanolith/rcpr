@@ -28,6 +28,13 @@ extern "C" {
 #define byteswap32(x) swap32((x))
 #define byteswap64(x) swap64((x))
 
+/* CBMC shadow method equivalents. */
+#elif defined(CBMC)
+#include <stdint.h>
+int16_t byteswap16(int16_t);
+int32_t byteswap32(int32_t);
+int64_t byteswap64(int64_t);
+
 /* end of platform-specific byte swap utilities. */
 #endif
 
