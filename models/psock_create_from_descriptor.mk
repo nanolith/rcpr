@@ -16,12 +16,15 @@ ALL:
 	../models/shadow/unistd/close.c \
 	../models/shadow/unistd/descriptor.c \
 	../models/shadow/unistd/socketpair.c \
+	../models/shadow/valid_range.c \
 	../src/allocator/allocator_allocate.c \
 	../src/allocator/allocator_reclaim.c \
 	../src/allocator/allocator_resource_handle.c \
 	../src/allocator/malloc_allocator_create.c \
 	../src/psock/psock_create_from_descriptor.c \
 	../src/psock/psock_resource_handle.c \
+	../src/psock/psock_from_descriptor_read.c \
+	../src/psock/psock_from_descriptor_write.c \
 	../src/resource/resource_release.c \
 	../src/resource/resource_init.c \
 	../src/socket_utilities/socket_utility_socketpair.c \

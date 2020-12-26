@@ -17,6 +17,8 @@ ALL:
 	../models/shadow/unistd/close.c \
 	../models/shadow/unistd/descriptor.c \
 	../models/shadow/unistd/socketpair.c \
+	../models/shadow/unistd/read.c \
+	../models/shadow/unistd/write.c \
 	../src/allocator/allocator_allocate.c \
 	../src/allocator/allocator_reclaim.c \
 	../src/allocator/allocator_resource_handle.c \
