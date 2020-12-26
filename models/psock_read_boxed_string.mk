@@ -19,6 +19,8 @@ ALL:
 	../models/shadow/unistd/descriptor.c \
 	../models/shadow/unistd/read.c \
 	../models/shadow/unistd/socketpair.c \
+	../models/shadow/unistd/read.c \
+	../models/shadow/unistd/write.c \
 	../models/shadow/byteswap/byteswap16.c \
 	../models/shadow/byteswap/byteswap32.c \
 	../models/shadow/byteswap/byteswap64.c \
