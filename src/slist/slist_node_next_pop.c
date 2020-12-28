@@ -1,7 +1,7 @@
 /**
- * \file slist/slist_pop.c
+ * \file slist/slist_node_next_pop.c
  *
- * \brief Pop the head value of the list.
+ * \brief Pop the next value of the given node.
  *
  * \copyright 2020 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
@@ -15,14 +15,15 @@
 #include "slist_internal.h"
 
 /**
- * \brief Pop the head value of the list, setting the given resource pointer to
- * the resource previously held in the head node.
+ * \brief Pop the next value of the given node, setting the given resource
+ * pointer to the resource previously held by the next node.
  *
- * The next node in the list after head becomes the new head node.
+ * The next node in the list after node next becomes node next.
  *
- * \param list          Pointer to the \ref slist instance to pop.
+ * \param node          Pointer to the \ref slist_node instance prior to the
+ *                      node to pop.
  * \param r             Pointer to the \ref resource pointer to be set with the
- *                      head value.
+ *                      next node value.
  *
  * \note After this operation is complete, the \ref resource pointer pointer
  * passed to this function is set with the \ref resource from the popped
@@ -36,55 +37,58 @@
  *
  * \pre
  *      - \p r must point to a valid resource pointer, set to NULL.
- *      - \p list must reference a valid \ref slist and must not be NULL.
+ *      - \p node must reference a valid \ref slist_node and must not be NULL.
  *
  * \post
- *      - On success, if \p list has a at least one node, then
- *          - if the head node has a child \ref resource, then the pointer that
+ *      - On success, if \p node has a at least one next node, then
+ *          - if the next node has a child \ref resource, then the pointer that
  *            \p r points to is set to that resource.
- *          - if the head node does not have a child \ref resource, then the
+ *          - if the next node does not have a child \ref resource, then the
  *            pointer that \p r points to is set to NULL.
- *          - the head node is released, and the next node becomes the head
- *            node.
+ *          - the next node is released, and the next next node becomes the next
+ *            node for \p node.
  *      - On failure, the pointer that \p r points to remains unchanged (NULL).
  */
 status FN_DECL_MUST_CHECK
-slist_pop(
-    slist* list, resource** r)
+slist_node_next_pop(
+    slist_node* node, resource** r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_slist_valid(list));
+    MODEL_ASSERT(prop_slist_node_valid(node));
     MODEL_ASSERT(NULL != r);
     MODEL_ASSERT(NULL == *r);
 
-    /* does the head node exist? */
-    if (NULL != list->head)
+    /* get the parent slist for this node. */
+    slist* parent = node->parent;
+
+    /* does the next node exist? */
+    if (NULL != node->next)
     {
         /* is it the same as the tail? */
-        if (list->head == list->tail)
+        if (node->next == parent->tail)
         {
-            /* the tail will be NULL when we're done. */
-            list->tail = NULL;
+            /* the tail will become node as part of this. */
+            parent->tail = node;
         }
 
-        /* save the head node as tmp. */
-        slist_node* tmp = list->head;
+        /* save the next node as tmp. */
+        slist_node* tmp = node->next;
 
-        /* save the resource from the head node. */
+        /* save the resource from the next node. */
         *r = tmp->child;
 
         /* the caller now owns this resource. */
         tmp->child = NULL;
 
-        /* set head to the next node, if it exists. */
-        list->head = tmp->next;
+        /* set the node next to tmp next. */
+        node->next = tmp->next;
 
         /* we are releasing this node, so its parent and next must be NULL. */
         tmp->parent = NULL;
         tmp->next = NULL;
 
-        /* reduce the count by 1. */
-        --list->count;
+        /* reduce parent's count by 1. */
+        --parent->count;
 
         /* get the resource handle for this node. */
         resource* tmp_handle = slist_node_resource_handle(tmp);
