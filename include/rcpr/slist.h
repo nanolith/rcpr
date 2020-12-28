@@ -129,6 +129,40 @@ slist_append_tail(
     slist* list, resource* r);
 
 /**
+ * \brief Append the given \ref resource to the next value of the given \ref
+ * slist_node.
+ *
+ * If there is already a next node, then this \ref resource is placed between
+ * the given \ref slist_node and its next node.
+ *
+ * \param node          Pointer to the \ref slist_node to which the
+ *                      \ref resource should be appended.
+ * \param r             Pointer to the \ref resource to append.
+ *
+ * \note After this operation, a \ref slist_node will be created to hold the
+ * given \ref resource, and this node will become the next node of the provided
+ * \ref slist_node. The parent \ref slist takes ownership of the \ref resource
+ * pointed to by \p r and will release it when it is released.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p node must be a valid \ref slist_node assigned to a \ref slist
+ *        instance.
+ *      - \p r must be a valid \ref resource instance.
+ *
+ * \post
+ *      - On success, \p r is appended to the end of \p list.
+ *      - On failure, \p r remains owned by the caller.
+ */
+status FN_DECL_MUST_CHECK
+slist_append(
+    slist_node* node, resource* r);
+
+/**
  * \brief Swap the \ref resource owned by this \ref slist_node with the given
  * resource, replacing it with the value currently owned by this node.
  *
