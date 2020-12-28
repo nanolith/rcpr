@@ -201,6 +201,45 @@ status FN_DECL_MUST_CHECK
 slist_pop(
     slist* list, resource** r);
 
+/**
+ * \brief Pop the next value of the given node, setting the given resource
+ * pointer to the resource previously held by the next node.
+ *
+ * The next node in the list after node next becomes node next.
+ *
+ * \param node          Pointer to the \ref slist_node instance prior to the
+ *                      node to pop.
+ * \param r             Pointer to the \ref resource pointer to be set with the
+ *                      next node value.
+ *
+ * \note After this operation is complete, the \ref resource pointer pointer
+ * passed to this function is set with the \ref resource from the popped
+ * \ref slist_node.  This \ref slist_node is released; the caller assumes
+ * ownership of the \ref resource and must release it when it is no longer
+ * needed.  If the \ref resource pointer is NULL, then there was either no
+ * resource associated with that node, or no node to pop.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre
+ *      - \p r must point to a valid resource pointer, set to NULL.
+ *      - \p node must reference a valid \ref slist_node and must not be NULL.
+ *
+ * \post
+ *      - On success, if \p node has a at least one next node, then
+ *          - if the next node has a child \ref resource, then the pointer that
+ *            \p r points to is set to that resource.
+ *          - if the next node does not have a child \ref resource, then the
+ *            pointer that \p r points to is set to NULL.
+ *          - the next node is released, and the next next node becomes the next
+ *            node for \p node.
+ *      - On failure, the pointer that \p r points to remains unchanged (NULL).
+ */
+status FN_DECL_MUST_CHECK
+slist_node_next_pop(
+    slist_node* node, resource** r);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
