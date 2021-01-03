@@ -87,12 +87,12 @@ thread_create(
  * \brief Given a \ref thread instance, return the resource handle for this
  * \ref thread instance.
  *
- * \param q             The \ref thread instance from which the resource handle
+ * \param th            The \ref thread instance from which the resource handle
  *                      is returned.
  *
  * \returns the \ref resource handle for this \ref thread instance.
  */
-resource* thread_resource_handle(queue* q);
+resource* thread_resource_handle(thread* th);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
@@ -101,11 +101,11 @@ resource* thread_resource_handle(queue* q);
 /**
  * \brief Valid \ref thread property.
  *
- * \param q             The \ref thread instance to be verified.
+ * \param th            The \ref thread instance to be verified.
  *
  * \returns true if the \ref thread instance is valid.
  */
-bool prop_thread_valid(const queue* q);
+bool prop_thread_valid(const thread* th);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
