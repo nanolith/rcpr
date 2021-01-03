@@ -6,6 +6,8 @@ INCLUDE(CheckSymbolExists)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
+option(MODELCHECK_REQUIRED "Require Model Checking")
+
 find_package(minunit REQUIRED)
 
 #includes
@@ -59,7 +61,10 @@ ADD_CUSTOM_TARGET(
     model_checks
     COMMAND make
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/models)
-ADD_DEPENDENCIES(testrcpr model_checks)
+
+if (MODELCHECK_REQUIRED)
+    ADD_DEPENDENCIES(testrcpr model_checks)
+endif()
 
 #Build a pkg-config file
 SET(RCPR_PC "${CMAKE_BINARY_DIR}/rcpr.pc")
