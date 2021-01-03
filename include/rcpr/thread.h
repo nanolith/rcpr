@@ -9,7 +9,9 @@
 
 #pragma once
 
-#include <rcpr/slist.h>
+#include <rcpr/allocator.h>
+#include <rcpr/resource.h>
+#include <rcpr/status.h>
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
@@ -26,7 +28,7 @@ typedef struct thread thread;
  *
  * \param context       The user context for this thread.
  */
-typedef void (*thread_fn)(void* context);
+typedef status (*thread_fn)(void* context);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
