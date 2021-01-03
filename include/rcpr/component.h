@@ -3,7 +3,7 @@
  *
  * \brief Define components and component families.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -63,6 +63,9 @@ enum rcpr_subcomponents
 
     /** \brief Process Socket library subcomponent scope. */
     RCPR_SUBCOMPONENT_PSOCK                                 =             0x04,
+
+    /** \brief Thread library subcomponent scope. */
+    RCPR_SUBCOMPONENT_THREAD                                =             0x05,
 };
 
 /** \brief Global component scope. */
@@ -84,6 +87,10 @@ enum rcpr_subcomponents
 /** \brief Process Socket library component scope. */
 #define RCPR_COMPONENT_PSOCK \
     COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_PSOCK)
+
+/** \brief Thread library component scope. */
+#define RCPR_COMPONENT_THREAD \
+    COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_THREAD)
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
