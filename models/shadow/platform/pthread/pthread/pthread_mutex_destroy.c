@@ -5,12 +5,12 @@
 
 static int nondet_return_value();
 
-int pthread_join(pthread_t *thread, void** value)
+int pthread_mutex_destroy(pthread_mutex_t *mutex)
 {
-    MODEL_ASSERT(NULL != thread);
-    MODEL_ASSERT(NULL != *thread);
+    MODEL_ASSERT(NULL != mutex);
+    MODEL_ASSERT(NULL != *mutex);
 
-    free((void*)*thread);
+    free((void*)*mutex);
 
     return nondet_return_value();
 }

@@ -10,7 +10,7 @@ int pthread_create(
     MODEL_ASSERT(NULL != thread);
     MODEL_ASSERT(NULL != start_routine);
 
-    *thread = (struct pthread*)malloc(sizeof(struct pthread*));
+    *thread = (struct pthread*)malloc(sizeof(struct pthread));
 
     /* use the non-determinism of malloc to influence our return value. */
     if (NULL == *thread)
