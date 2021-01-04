@@ -25,5 +25,7 @@
  */
 resource* thread_resource_handle(thread* th)
 {
+    MODEL_ASSERT(prop_thread_valid(th));
+
     return &(th->hdr);
 }

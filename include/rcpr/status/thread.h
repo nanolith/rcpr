@@ -34,3 +34,15 @@
  */
 #define ERROR_THREAD_JOIN \
     STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x0003)
+
+/**
+ * \brief Mutex init error.
+ */
+#define ERROR_THREAD_MUTEX_INIT \
+    STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x0004)
+
+/**
+ * \brief Mutex destroy error.
+ */
+#define ERROR_THREAD_MUTEX_DESTROY \
+    STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x0005)

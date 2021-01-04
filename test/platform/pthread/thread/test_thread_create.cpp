@@ -1,5 +1,5 @@
 /**
- * \file test/test_thread_create.cpp
+ * \file test/platform/pthread/thread/test_thread_create.cpp
  *
  * \brief Unit tests for thread_create.
  */
