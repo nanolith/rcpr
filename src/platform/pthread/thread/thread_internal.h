@@ -35,6 +35,16 @@ struct thread
     status exit_code;
 };
 
+struct thread_mutex
+{
+    resource hdr;
+
+    MODEL_STRUCT_TAG(thread_mutex);
+
+    allocator* alloc;
+    pthread_mutex_t mutex;
+};
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 }
