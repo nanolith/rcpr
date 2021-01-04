@@ -145,7 +145,7 @@ static status thread_mutex_release(resource* r)
     /* reclaim the mutex structure. */
     retval = allocator_reclaim(a, mut);
 
-    /* if we succeded at reclaiming the mutex structure, return the */
+    /* if we succeeded at reclaiming the mutex structure, return the */
     /* mutex retval. */
     if (STATUS_SUCCESS == retval)
     {

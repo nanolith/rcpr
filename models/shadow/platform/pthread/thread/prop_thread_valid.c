@@ -27,5 +27,6 @@ bool prop_thread_valid(const thread* th)
         th->MODEL_STRUCT_TAG_REF(thread), thread);
 
     return
-        prop_resource_valid(&th->hdr);
+        prop_allocator_valid(th->alloc)
+     && prop_resource_valid(&th->hdr);
 }

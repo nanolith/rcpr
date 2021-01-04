@@ -5,17 +5,12 @@
 
 void allocator_struct_tag_init();
 void resource_struct_tag_init();
-void thread_struct_tag_init();
-
-static status mythread(void* ctx)
-{
-    return STATUS_SUCCESS;
-}
+void thread_mutex_struct_tag_init();
 
 int main(int argc, char* argv[])
 {
     allocator* alloc = NULL;
-    thread* th = NULL;
+    thread_mutex* mut = NULL;
     int retval;
 
     /* set up the global allocator tag. */
@@ -24,8 +19,8 @@ int main(int argc, char* argv[])
     /* set up the global resource tag. */
     resource_struct_tag_init();
 
-    /* set up the global thread tag. */
-    thread_struct_tag_init();
+    /* set up the global thread_mutex tag. */
+    thread_mutex_struct_tag_init();
 
     /* try to create a malloc allocator. */
     retval = malloc_allocator_create(&alloc); 
@@ -34,18 +29,18 @@ int main(int argc, char* argv[])
         goto done;
     }
 
-    /* create a thread. */
-    retval = thread_create(&th, alloc, 16384, NULL, &mythread);
+    /* initialize a thread_mutex. */
+    retval = thread_mutex_create(&mut, alloc);
     if (STATUS_SUCCESS != retval)
     {
         goto cleanup_allocator;
     }
 
-    goto cleanup_thread;
+    goto cleanup_thread_mutex;
 
-cleanup_thread:
-    /* join and release the thread. */
-    resource_release(thread_resource_handle(th));
+cleanup_thread_mutex:
+    /* release the mutex. */
+    resource_release(thread_mutex_resource_handle(mut));
 
 cleanup_allocator:
     /* release the allocator. */
