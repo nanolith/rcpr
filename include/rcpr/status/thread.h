@@ -46,3 +46,15 @@
  */
 #define ERROR_THREAD_MUTEX_DESTROY \
     STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x0005)
+
+/**
+ * \brief Mutex unlock error.
+ */
+#define ERROR_THREAD_MUTEX_UNLOCK \
+    STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x0006)
+
+/**
+ * \brief Mutex lock error.
+ */
+#define ERROR_THREAD_MUTEX_LOCK \
+    STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x0007)
