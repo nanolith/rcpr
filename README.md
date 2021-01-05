@@ -20,3 +20,4 @@ Features
 * `rbtree` - red / black tree
 * `map` - dictionary based on the red / black tree
 * `set` - set based on the red / black tree
+* `thread` - a threading library including threads, mutexes, and conditionals.
