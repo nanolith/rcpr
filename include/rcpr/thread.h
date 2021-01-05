@@ -38,6 +38,12 @@ typedef struct thread_mutex thread_mutex;
 typedef struct thread_mutex_lock thread_mutex_lock;
 
 /**
+ * \brief A \ref thread_cond represents a condition variable that can be
+ * signaled to unblock threads.
+ */
+typedef struct thread_cond thread_cond;
+
+/**
  * \brief A function that can be executed by a \ref thread.
  *
  * \param context       The user context for this thread.
@@ -124,6 +130,39 @@ status FN_DECL_MUST_CHECK
 thread_mutex_create(
     thread_mutex** mut, allocator* a);
 
+/**
+ * \brief Create a \ref thread_cond instance.
+ *
+ * \param cond          Pointer to the \ref thread_cond pointer to receive this
+ *                      resource on success.
+ * \param a             Pointer to the allocator to use for creating this \ref
+ *                      thread_mutex resource.
+ *
+ * \note This \ref thread_cond is a \ref resource that must be released by
+ * calling \ref resource_release on its resource handle when it is no longer
+ * needed by the caller.  The resource handle can be accessed by calling \ref
+ * thread_cond_resource_handle on this \ref thread_cond instance.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p cond must not reference a valid \ref thread_cond instance and must
+ *        not be NULL.
+ *      - \p a must reference a valid \ref allocator and must not be NULL.
+ *
+ * \post
+ *      - On success, \p cond is set to a pointer to a valid \ref thread_cond
+ *        instance, which is a \ref resource owned by the caller that must be
+ *        released by the caller when no longer needed.
+ *      - On failure, \p cond is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+thread_cond_create(
+    thread_cond** cond, allocator* a);
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
@@ -191,6 +230,17 @@ resource* thread_resource_handle(thread* th);
 resource* thread_mutex_resource_handle(thread_mutex* mut);
 
 /**
+ * \brief Given a \ref thread_cond instance, return the resource handle for
+ * this \ref thread_cond instance.
+ *
+ * \param mut           The \ref thread_cond instance from which the resource
+ *                      handle is returned.
+ *
+ * \returns the \ref resource handle for this \ref thread_cond instance.
+ */
+resource* thread_cond_resource_handle(thread_cond* cond);
+
+/**
  * \brief Given a \ref thread_mutex_lock instance, return the resource handle
  * for this \ref thread_mutex_lock instance.
  *
@@ -222,6 +272,15 @@ bool prop_thread_valid(const thread* th);
  * \returns true if the \ref thread_mutex instance is valid.
  */
 bool prop_thread_mutex_valid(const thread_mutex* mut);
+
+/**
+ * \brief Valid \ref thread_cond property.
+ *
+ * \param mut           The \ref thread_cond instance to be verified.
+ *
+ * \returns true if the \ref thread_cond instance is valid.
+ */
+bool prop_thread_cond_valid(const thread_cond* cond);
 
 /**
  * \brief Valid \ref thread_mutex_lock property.

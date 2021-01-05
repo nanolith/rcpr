@@ -55,6 +55,16 @@ struct thread_mutex
     thread_mutex_lock child;
 };
 
+struct thread_cond
+{
+    resource hdr;
+
+    MODEL_STRUCT_TAG(thread_cond);
+
+    allocator* alloc;
+    pthread_cond_t cond;
+};
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 }
