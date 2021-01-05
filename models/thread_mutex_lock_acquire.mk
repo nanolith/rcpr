@@ -20,6 +20,8 @@ ALL:
 	../models/shadow/platform/pthread/thread/prop_thread_mutex_lock_valid.c \
 	../models/shadow/platform/pthread/pthread/pthread_mutex_init.c \
 	../models/shadow/platform/pthread/pthread/pthread_mutex_destroy.c \
+	../models/shadow/platform/pthread/pthread/pthread_mutex_lock.c \
+	../models/shadow/platform/pthread/pthread/pthread_mutex_unlock.c \
 	../src/allocator/allocator_allocate.c \
 	../src/allocator/allocator_reclaim.c \
 	../src/allocator/allocator_resource_handle.c \
@@ -27,5 +29,7 @@ ALL:
 	../src/resource/resource_release.c \
 	../src/resource/resource_init.c \
 	../src/platform/pthread/thread/thread_mutex_resource_handle.c \
+	../src/platform/pthread/thread/thread_mutex_lock_resource_handle.c \
 	../src/platform/pthread/thread/thread_mutex_create.c \
-	../models/thread_mutex_create_main.c
+	../src/platform/pthread/thread/thread_mutex_lock_acquire.c \
+	../models/thread_mutex_lock_acquire_main.c

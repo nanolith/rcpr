@@ -226,11 +226,11 @@ bool prop_thread_mutex_valid(const thread_mutex* mut);
 /**
  * \brief Valid \ref thread_mutex_lock property.
  *
- * \param mut           The \ref thread_mutex_lock instance to be verified.
+ * \param lock          The \ref thread_mutex_lock instance to be verified.
  *
  * \returns true if the \ref thread_mutex_lock instance is valid.
  */
-bool prop_thread_mutex_lock_valid(const thread_mutex_lock* mut);
+bool prop_thread_mutex_lock_valid(const thread_mutex_lock* lock);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
