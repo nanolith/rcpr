@@ -58,3 +58,15 @@
  */
 #define ERROR_THREAD_MUTEX_LOCK \
     STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x0007)
+
+/**
+ * \brief Condition variable init error.
+ */
+#define ERROR_THREAD_COND_INIT \
+    STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x0008)
+
+/**
+ * \brief Condition variable destroy error.
+ */
+#define ERROR_THREAD_COND_DESTROY \
+    STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x0009)
