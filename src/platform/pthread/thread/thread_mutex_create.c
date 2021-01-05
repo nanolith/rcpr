@@ -16,8 +16,10 @@
 
 /* forward decls. */
 static status thread_mutex_release(resource*);
+static status thread_mutex_lock_release(resource*);
 
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex);
+MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex_lock);
 
 /**
  * \brief Create a \ref thread_mutex instance.
@@ -38,15 +40,15 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex);
  *        out-of-memory condition.
  *
  * \pre
- *      - \p mut must not reference a valid \ref thread instance and must not be
- *        NULL.
+ *      - \p mut must not reference a valid \ref thread_mutex instance and must
+ *        not be NULL.
  *      - \p a must reference a valid \ref allocator and must not be NULL.
  *
  * \post
  *      - On success, \p mut is set to a pointer to a valid \ref thread_mutex
  *        instance, which is a \ref resource owned by the caller that must be
  *        released by the caller when no longer needed.
- *      - On failure, \p th is set to NULL and an error status is returned.
+ *      - On failure, \p lock is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
 thread_mutex_create(
@@ -74,6 +76,10 @@ thread_mutex_create(
     MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
         tmp->MODEL_STRUCT_TAG_REF(thread_mutex), thread_mutex);
 
+    /* the child tag is not set by default. */
+    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->child.MODEL_STRUCT_TAG_REF(thread_mutex_lock), thread_mutex_lock);
+
     /* set the tag. */
     MODEL_STRUCT_TAG_INIT(
         tmp->MODEL_STRUCT_TAG_REF(thread_mutex), thread_mutex);
@@ -92,12 +98,25 @@ thread_mutex_create(
         goto free_thread_mutex;
     }
 
+    /* set the release method for the mutex lock. */
+    resource_init(&tmp->child.hdr, &thread_mutex_lock_release);
+
+    /* set the parent for the lock. */
+    tmp->child.parent = tmp;
+
+    /* set the child tag. */
+    MODEL_STRUCT_TAG_INIT(
+        tmp->child.MODEL_STRUCT_TAG_REF(thread_mutex_lock), thread_mutex_lock);
+
     /* set the return pointer. */
     *mut = tmp;
     retval = STATUS_SUCCESS;
 
     /* verify that this structure is now valid. */
     MODEL_ASSERT(prop_thread_mutex_valid(*mut));
+
+    /* verify that the child structure is now valid. */
+    MODEL_ASSERT(prop_thread_mutex_lock_valid(&(*mut)->child));
 
     /* success. skip to done. */
     goto done;
@@ -113,9 +132,9 @@ done:
 }
 
 /**
- * \brief Release a thread_mutex instance.
+ * \brief Release a \ref thread_mutex instance.
  *
- * \param r         The thread_mutex resource to release.
+ * \param r         The \ref thread_mutex \ref resource to release.
  *
  * \returns a status code indicating success or failure.
  */
@@ -154,5 +173,30 @@ static status thread_mutex_release(resource* r)
     else
     {
         return retval;
+    }
+}
+
+/**
+ * \brief Release a \ref thread_mutex_lock instance.
+ *
+ * \param r         The \ref thread_mutex_lock \ref resource to release.
+ *
+ * \returns a status code indicating success or failure.
+ */
+static status thread_mutex_lock_release(resource* r)
+{
+    status retval;
+    thread_mutex_lock* lock = (thread_mutex_lock*)r;
+    MODEL_ASSERT(prop_thread_mutex_lock_valid(lock));
+
+    /* unlock the pthread_mutex. */
+    retval = pthread_mutex_unlock(&lock->parent->mutex);
+    if (STATUS_SUCCESS != retval)
+    {
+        return ERROR_THREAD_MUTEX_UNLOCK;
+    }
+    else
+    {
+        return STATUS_SUCCESS;
     }
 }

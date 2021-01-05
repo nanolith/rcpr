@@ -35,6 +35,15 @@ struct thread
     status exit_code;
 };
 
+struct thread_mutex_lock
+{
+    resource hdr;
+
+    MODEL_STRUCT_TAG(thread_mutex_lock);
+
+    thread_mutex* parent;
+};
+
 struct thread_mutex
 {
     resource hdr;
@@ -43,6 +52,7 @@ struct thread_mutex
 
     allocator* alloc;
     pthread_mutex_t mutex;
+    thread_mutex_lock child;
 };
 
 /* C++ compatibility. */

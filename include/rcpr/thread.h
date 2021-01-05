@@ -110,15 +110,15 @@ thread_create(
  *        out-of-memory condition.
  *
  * \pre
- *      - \p mut must not reference a valid \ref thread instance and must not be
- *        NULL.
+ *      - \p mut must not reference a valid \ref thread_mutex instance and must
+ *        not be NULL.
  *      - \p a must reference a valid \ref allocator and must not be NULL.
  *
  * \post
  *      - On success, \p mut is set to a pointer to a valid \ref thread_mutex
  *        instance, which is a \ref resource owned by the caller that must be
  *        released by the caller when no longer needed.
- *      - On failure, \p th is set to NULL and an error status is returned.
+ *      - On failure, \p lock is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
 thread_mutex_create(
@@ -127,6 +127,42 @@ thread_mutex_create(
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
+
+/**
+ * \brief Acquire the lock from a \ref thread_mutex.
+ *
+ * \param lock          Pointer to the \ref thread_mutex_lock pointer to receive
+ *                      this resource on success.
+ * \param mut           The \ref thread_mutex from which this lock should be
+ *                      acquired.
+ *
+ * \note This \ref thread_mutex_lock is a \ref resource that must be released by
+ * calling \ref resource_release on its resource handle when it is no longer
+ * needed by the caller.  The resource handle can be accessed by calling \ref
+ * thread_mutex_lock_resource_handle on this \ref thread_mutex_lock instance.
+ *
+ * The lock can only be acquired by one thread at a time. This function blocks
+ * until the lock can be acquired.  It is an error to acquire the same lock
+ * multiple times without releasing it first, and it will cause a deadlock for
+ * the calling thread.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre
+ *      - \p lock must not reference a valid \ref thread_mutex_lock instance and
+ *        must not be NULL.
+ *      - \p mut must reference a valid \ref thread_mutex and must not be NULL.
+ *
+ * \post
+ *      - On success, \p lock is set to a pointer to a valid
+ *        \ref thread_mutex_lock instance, which is a \ref resource owned by the
+ *        caller that must be released by the caller when no longer needed.
+ *      - On failure, \p lock is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+thread_mutex_lock_acquire(
+    thread_mutex_lock** lock, thread_mutex* mut);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -154,6 +190,17 @@ resource* thread_resource_handle(thread* th);
  */
 resource* thread_mutex_resource_handle(thread_mutex* mut);
 
+/**
+ * \brief Given a \ref thread_mutex_lock instance, return the resource handle
+ * for this \ref thread_mutex_lock instance.
+ *
+ * \param mut           The \ref thread_mutex_lock instance from which the
+ *                      resource handle is returned.
+ *
+ * \returns the \ref resource handle for this \ref thread_mutex_lock instance.
+ */
+resource* thread_mutex_lock_resource_handle(thread_mutex_lock* lock);
+
 /******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
@@ -175,6 +222,15 @@ bool prop_thread_valid(const thread* th);
  * \returns true if the \ref thread_mutex instance is valid.
  */
 bool prop_thread_mutex_valid(const thread_mutex* mut);
+
+/**
+ * \brief Valid \ref thread_mutex_lock property.
+ *
+ * \param mut           The \ref thread_mutex_lock instance to be verified.
+ *
+ * \returns true if the \ref thread_mutex_lock instance is valid.
+ */
+bool prop_thread_mutex_lock_valid(const thread_mutex_lock* mut);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
