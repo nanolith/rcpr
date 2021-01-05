@@ -19,7 +19,7 @@ struct threadstuff
 };
 
 /* simple thread context function. */
-status incr(void* context)
+static status incr(void* context)
 {
     threadstuff* ts = (threadstuff*)context;
 

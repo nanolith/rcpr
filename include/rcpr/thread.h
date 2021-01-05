@@ -203,6 +203,87 @@ status FN_DECL_MUST_CHECK
 thread_mutex_lock_acquire(
     thread_mutex_lock** lock, thread_mutex* mut);
 
+/**
+ * \brief Wait on a condition variable, using the given mutex for exclusivity.
+ *
+ * \param lock          Pointer to the \ref thread_mutex_lock pointer to be
+ *                      released while waiting on the condition variable, and
+ *                      re-acquired once signaled.
+ * \param cond          The \ref thread_cond variable on which to wait.
+ *
+ * \note The \ref thread_mutex_lock resource is released while the thread waits
+ * on the condition variable and re-acquired once the condition variable has
+ * been signaled.  The caller maintains ownership of the \ref thread_mutex_lock,
+ * although the pointer may have changed, and must release it when it is no
+ * longer needed by calling \ref resource_release on its resource handle.  The
+ * resource handle can be accessed by calling
+ * \ref thread_mutex_lock_resource_handle on this \ref thread_mutex_lock
+ * instance.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre
+ *      - \p lock must be an acquired lock from a \ref thread_mutex and must not
+ *        be NULL.
+ *      - \p cond must reference a valid \ref thread_cond and must not be NULL.
+ *
+ * \post
+ *      - On success, \p lock is set to a pointer to a valid
+ *        \ref thread_mutex_lock instance, which is a \ref resource owned by the
+ *        caller that must be released by the caller when no longer needed.
+ *      - On failure, \p lock is unchanged.
+ */
+status FN_DECL_MUST_CHECK
+thread_cond_wait(
+    thread_mutex_lock** lock, thread_cond* cond);
+
+/**
+ * \brief Notify a single thread waiting on the condition variable.
+ *
+ * \param cond          The \ref thread_cond variable to signal.
+ *
+ * This method notifies a single thread waiting on the given condition variable
+ * to wake.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre
+ *      - \p cond must be a valid \ref thread_cond variable and must not be
+ *        NULL.
+ *
+ * \post
+ *      - On success, a single thread waiting on the given condition variable
+ *        will be signaled and will wake.
+ */
+status FN_DECL_MUST_CHECK
+thread_cond_signal_one(
+    thread_cond* cond);
+
+/**
+ * \brief Notify all threads waiting on the condition variable.
+ *
+ * \param cond          The \ref thread_cond variable to signal.
+ *
+ * This method notifies all threads waiting on the given condition variable
+ * to wake.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre
+ *      - \p cond must be a valid \ref thread_cond variable and must not be
+ *        NULL.
+ *
+ * \post
+ *      - On success, all threads waiting on the given condition variable
+ *        will be signaled and will wake.
+ */
+status FN_DECL_MUST_CHECK
+thread_cond_signal_all(
+    thread_cond* cond);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
