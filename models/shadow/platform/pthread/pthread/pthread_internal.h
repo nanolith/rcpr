@@ -16,3 +16,7 @@ struct pthread_mutex
 {
     struct pthread_mutex_lock* lock;
 };
+
+struct pthread_cond
+{
+};
