@@ -70,3 +70,9 @@
  */
 #define ERROR_THREAD_COND_DESTROY \
     STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x0009)
+
+/**
+ * \brief Condition variable wait error.
+ */
+#define ERROR_THREAD_COND_WAIT \
+    STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x000a)
