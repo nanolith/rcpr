@@ -15,5 +15,8 @@ int pthread_mutex_init(
     if (NULL == *mutex)
         return 1;
 
+    /* the resource was acquired, so set the lock pointer to null. */
+    (*mutex)->lock = NULL;
+
     return 0;
 }

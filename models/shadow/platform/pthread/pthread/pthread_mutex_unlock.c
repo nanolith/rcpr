@@ -5,13 +5,14 @@
 
 static int nondet_return_value();
 
-int pthread_mutex_destroy(pthread_mutex_t *mutex)
+int pthread_mutex_unlock(pthread_mutex_t* mutex)
 {
     MODEL_ASSERT(NULL != mutex);
     MODEL_ASSERT(NULL != *mutex);
-    MODEL_ASSERT(NULL == (*mutex)->lock);
+    MODEL_ASSERT(NULL != (*mutex)->lock);
 
-    free((void*)*mutex);
+    free((void*)(*mutex)->lock);
+    (*mutex)->lock = NULL;
 
     return nondet_return_value();
 }

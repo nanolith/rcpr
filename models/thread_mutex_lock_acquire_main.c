@@ -12,6 +12,7 @@ int main(int argc, char* argv[])
 {
     allocator* alloc = NULL;
     thread_mutex* mut = NULL;
+    thread_mutex_lock* lock = NULL;
     int retval;
 
     /* set up the global allocator tag. */
@@ -23,7 +24,7 @@ int main(int argc, char* argv[])
     /* set up the global thread_mutex tag. */
     thread_mutex_struct_tag_init();
 
-    /* set up the global thread_mutex_lock tag. */
+    /* set up the global thread_mutex lock tag. */
     thread_mutex_lock_struct_tag_init();
 
     /* try to create a malloc allocator. */
@@ -40,7 +41,18 @@ int main(int argc, char* argv[])
         goto cleanup_allocator;
     }
 
-    goto cleanup_thread_mutex;
+    /* acquire a thread mutex lock. */
+    retval = thread_mutex_lock_acquire(&lock, mut);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto cleanup_thread_mutex;
+    }
+
+    goto cleanup_thread_mutex_lock;
+
+cleanup_thread_mutex_lock:
+    /* release the lock. */
+    resource_release(thread_mutex_lock_resource_handle(lock));
 
 cleanup_thread_mutex:
     /* release the mutex. */
