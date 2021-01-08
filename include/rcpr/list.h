@@ -100,6 +100,34 @@ status FN_DECL_MUST_CHECK
 list_insert_head(
     list* l, resource* r);
 
+/**
+ * \brief Append the given \ref resource to the back of the \ref list.
+ *
+ * \param l             Pointer to the \ref list for the append operation.
+ * \param r             Pointer to the \ref resource to append.
+ *
+ * \note After this operation, a \ref list_node will be created to hold the
+ * given \ref resource, and this node will become the tail of the list.  The
+ * \ref list takes ownership of the \ref resource pointed to by \p r and will
+ * release it when it is released.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p l must be a valid \ref list instance.
+ *      - \p r must be a valid \ref resource instance.
+ *
+ * \post
+ *      - On success, \p r is appended to the end of \p l.
+ *      - On failure, \p r remains owned by the caller.
+ */
+status FN_DECL_MUST_CHECK
+list_append_tail(
+    list* l, resource* r);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
