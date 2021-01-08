@@ -77,7 +77,7 @@ list_create(
 /******************************************************************************/
 
 /**
- * \brief Given an \ref list instance, return the resource handle for this
+ * \brief Given a \ref list instance, return the resource handle for this
  * \ref list instance.
  *
  * \param l             The \ref list instance from which the resource handle
@@ -88,7 +88,7 @@ list_create(
 resource* list_resource_handle(list* l);
 
 /**
- * \brief Given an \ref list_node instance, return the resource handle for this
+ * \brief Given a \ref list_node instance, return the resource handle for this
  * \ref list_node instance.
  *
  * \param node          The \ref list_node instance from which the resource
