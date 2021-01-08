@@ -72,6 +72,34 @@ list_create(
 /* Start of public methods.                                                   */
 /******************************************************************************/
 
+/**
+ * \brief Insert the given \ref resource in the front of the \ref list.
+ *
+ * \param l             Pointer to the \ref list for the insert operation.
+ * \param r             Pointer to the \ref resource to insert.
+ *
+ * \note After this operation, a \ref list_node will be created to hold the
+ * given \ref resource, and this node will become the head of the list.  The
+ * \ref list takes ownership of the \ref resource pointed to by \p r and will
+ * release it when it is released.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p l must be a valid \ref list instance.
+ *      - \p r must be a valid \ref resource instance.
+ *
+ * \post
+ *      - On success, \p r is inserted to the head of \p l.
+ *      - On failure, \p r remains owned by the caller.
+ */
+status FN_DECL_MUST_CHECK
+list_insert_head(
+    list* l, resource* r);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
@@ -163,6 +191,82 @@ list_head(
 status FN_DECL_MUST_CHECK
 list_tail(
     list_node** node, list* l);
+
+/**
+ * \brief Get the resource associated with the given of \ref list_node.
+ *
+ * \param r             Pointer to the \ref resource pointer to receive this
+ *                      child resource.
+ * \param node          Pointer to the \ref list_node under query.
+ *
+ * \note This \ref resource is owned by the \ref list_node queried.  To take
+ * ownership of this \ref resource, the caller must call \ref
+ * list_node_child_swap to remove this \ref resource from the \ref list_node.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre
+ *      - \p r must not reference a valid \ref resource instance and must be
+ *        NULL.
+ *      - \p node must reference a valid \ref list_node and must not be NULL.
+ *
+ * \post
+ *      - On success, \p r is set to the child resource owned by \p node.
+ *      - On failure, \p r is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+list_node_child(
+    resource** r, list_node* node);
+
+/**
+ * \brief Given an \ref list_node, return the next \ref list_node in the list.
+ *
+ * \param next          Pointer to the \ref list_node pointer to receive the
+ *                      next value.
+ * \param node          Pointer to the \ref list_node under query.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre
+ *      - \p next must not reference a valid \ref list_node instance and must
+ *        be NULL.
+ *      - \p node must reference a valid \ref list_node and must not be NULL.
+ *
+ * \post
+ *      - On success, \p next is set to the next node in this list, or NULL if
+ *        \p node is the tail of the list.
+ *      - On failure, \p next is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+list_node_next(
+    list_node** next, list_node* node);
+
+/**
+ * \brief Given an \ref list_node, return the previous \ref list_node in the
+ * list.
+ *
+ * \param prev          Pointer to the \ref list_node pointer to receive the
+ *                      prev value.
+ * \param node          Pointer to the \ref list_node under query.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre
+ *      - \p prev must not reference a valid \ref list_node instance and must
+ *        be NULL.
+ *      - \p node must reference a valid \ref list_node and must not be NULL.
+ *
+ * \post
+ *      - On success, \p prev is set to the previous node in this list, or NULL
+ *      if \p node is the head of the list.
+ *      - On failure, \p prev is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+list_node_prev(
+    list_node** prev, list_node* node);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
