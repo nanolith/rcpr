@@ -6,7 +6,7 @@
  * The double-linked list is a simple container that holds a number of resources
  * stored in a linear fashion and provides both forward and reverse iteration.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -97,6 +97,72 @@ resource* list_resource_handle(list* l);
  * \returns the \ref resource handle for this \ref list_node instance.
  */
 resource* list_node_resource_handle(list_node* node);
+
+/**
+ * \brief Get the head of a \ref list.
+ *
+ * \param node          Pointer to the \ref list_node pointer to receive this
+ *                      resource on success.
+ * \param l             Pointer to the \ref list under query.
+ *
+ * \note This \ref list_node is owned by the \ref list queried.  To take
+ * ownership of this \ref list_node, the caller must call \ref list_remove to
+ * remove this \ref list_node from the \ref list.  However, it is possible to
+ * change the \ref resource owned by this \ref list_node without first removing
+ * it from the \ref list by calling \ref list_node_child_swap.
+ *
+ * If there is a head node, it is populated in \p node.  However, if this list
+ * is empty, then \p node is set to NULL.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre
+ *      - \p node must not reference a valid \ref list_node instance and must
+ *        not be NULL.
+ *      - \p l must reference a valid \ref list and must not be NULL.
+ *
+ * \post
+ *      - On success, \p node is set to the head of the \ref list, which can be
+ *        NULL if \p l is empty.
+ *      - On failure, \p node is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+list_head(
+    list_node** node, list* l);
+
+/**
+ * \brief Get the tail of a \ref list.
+ *
+ * \param node          Pointer to the \ref list_node pointer to receive this
+ *                      resource on success.
+ * \param l             Pointer to the \ref list under query.
+ *
+ * \note This \ref list_node is owned by the \ref list queried.  To take
+ * ownership of this \ref list_node, the caller must call \ref list_remove to
+ * remove this \ref list_node from the \ref list.  However, it is possible to
+ * change the \ref resource owned by this \ref list_node without first removing
+ * it from the \ref list by calling \ref list_node_child_swap.
+ *
+ * If there is a tail node, it is populated in \p node.  However, if this list
+ * is empty, then \p node is set to NULL.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre
+ *      - \p node must not reference a valid \ref list_node instance and must
+ *        not be NULL.
+ *      - \p l must reference a valid \ref list and must not be NULL.
+ *
+ * \post
+ *      - On success, \p node is set to the head of the \ref list, which can be
+ *        NULL if \p l is empty.
+ *      - On failure, \p node is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+list_tail(
+    list_node** node, list* l);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
