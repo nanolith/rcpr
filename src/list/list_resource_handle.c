@@ -26,7 +26,7 @@
 resource* list_resource_handle(list* l)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_slist_valid(l));
+    MODEL_ASSERT(prop_list_valid(l));
 
     /* return the resource handle for this list. */
     return &l->hdr;
