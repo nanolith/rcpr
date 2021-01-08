@@ -45,7 +45,7 @@ list_append_tail(
     list_node* node;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_slist_valid(l));
+    MODEL_ASSERT(prop_list_valid(l));
     MODEL_ASSERT(prop_resource_valid(r));
 
     /* attempt to create an list_node. */
