@@ -288,6 +288,15 @@ list_tail(
     list_node** node, list* l);
 
 /**
+ * \brief Get the count of nodes in a \ref list.
+ *
+ * \param l             Pointer to the \ref list under query.
+ *
+ * \returns the number of nodes in the given \ref list.
+ */
+size_t list_count(list* l);
+
+/**
  * \brief Get the resource associated with the given of \ref list_node.
  *
  * \param r             Pointer to the \ref resource pointer to receive this
