@@ -6,7 +6,7 @@
  * The single-linked list is a simple container that holds a number of resources
  * stored in a linear fashion.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -365,6 +365,15 @@ slist_head(
 status FN_DECL_MUST_CHECK
 slist_tail(
     slist_node** node, slist* list);
+
+/**
+ * \brief Get the count of nodes in an \ref slist.
+ *
+ * \param l             Pointer to the \ref slist under query.
+ *
+ * \returns the number of nodes in the given \ref slist.
+ */
+size_t slist_count(slist* l);
 
 /**
  * \brief Get the resource associated with the given of \ref slist_node.
