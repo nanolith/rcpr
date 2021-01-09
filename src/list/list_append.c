@@ -1,7 +1,7 @@
 /**
- * \file list/list_append_tail.c
+ * \file list/list_append.c
  *
- * \brief Append a resource to the tail of an \ref list.
+ * \brief Append a resource before a given node in a list.
  *
  * \copyright 2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.

@@ -162,6 +162,39 @@ status FN_DECL_MUST_CHECK
 list_append(
     list_node* node, resource* r);
 
+/**
+ * \brief Insert the given \ref resource before the given \ref list_node.
+ *
+ * If there is already a previous node, then this \ref resource is placed
+ * between the given \ref list_node and its previous node.
+ *
+ * \param node          Pointer to the \ref list_node to which the
+ *                      \ref resource should be inserted.
+ * \param r             Pointer to the \ref resource to insert.
+ *
+ * \note After this operation, a \ref list_node will be created to hold the
+ * given \ref resource, and this node will become the prev node of the provided
+ * \ref list_node. The parent \ref list takes ownership of the \ref resource
+ * pointed to by \p r and will release it when it is released.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p node must be a valid \ref list_node assigned to a \ref list
+ *        instance.
+ *      - \p r must be a valid \ref resource instance.
+ *
+ * \post
+ *      - On success, \p r is inserted before \p node in the \ref list.
+ *      - On failure, \p r remains owned by the caller.
+ */
+status FN_DECL_MUST_CHECK
+list_insert(
+    list_node* node, resource* r);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
