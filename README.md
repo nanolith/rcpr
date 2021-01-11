@@ -12,12 +12,12 @@ Features
 * `resource` - pattern for dealing with memory and external resources
 * `status` - mechanism for registering unique status codes and error codes
 * `abstract_factory` - mechanism for registering and getting factories for
-  specific features
+  specific features (not yet implemented)
 * `bloom_filter` - filter for quickly checking for membership which may have
-  false positives
+  false positives (not yet implemented)
 * `slist` and `list` - single and doubly linked list
-* `dict` (hash map) - hash map dictionary
-* `rbtree` - red / black tree
-* `map` - dictionary based on the red / black tree
-* `set` - set based on the red / black tree
+* `dict` (hash map) - hash map dictionary (not yet implemented)
+* `rbtree` - red / black tree (not yet implemented)
+* `map` - dictionary based on the red / black tree (not yet implemented)
+* `set` - set based on the red / black tree (not yet implemented)
 * `thread` - a threading library including threads, mutexes, and conditionals.
