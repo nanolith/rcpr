@@ -53,7 +53,7 @@ list_pop(
     list* l, resource** r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_list_valid(list));
+    MODEL_ASSERT(prop_list_valid(l));
     MODEL_ASSERT(NULL != r);
     MODEL_ASSERT(NULL == *r);
 
