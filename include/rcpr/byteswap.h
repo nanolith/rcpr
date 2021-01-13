@@ -22,7 +22,7 @@ int32_t byteswap32(int32_t);
 int64_t byteswap64(int64_t);
 
 /* Linux-specific byte swap utilities. */
-#elif defined(__Linux__)
+#elif defined(__linux__)
 #include <byteswap.h>
 #define byteswap16(x) bswap_16((x))
 #define byteswap32(x) bswap_32((x))
