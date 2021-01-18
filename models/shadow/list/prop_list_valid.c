@@ -1,7 +1,7 @@
 /**
- * \file models/shadow/psock/prop_list_valid.c
+ * \file models/shadow/list/prop_list_valid.c
  *
- * \brief Check whether an list instance is valid.
+ * \brief Check whether a list instance is valid.
  *
  * \copyright 2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
