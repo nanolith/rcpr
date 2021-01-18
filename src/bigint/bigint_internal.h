@@ -13,6 +13,7 @@
 #include <rcpr/bigint.h>
 #include <rcpr/model_assert.h>
 #include <rcpr/resource.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "../resource/resource_internal.h"
@@ -34,6 +35,7 @@ struct bigint
     MODEL_STRUCT_TAG(bigint);
 
     allocator* a;
+    bool sign;
     size_t length;
     native_double_int* array;
 };
