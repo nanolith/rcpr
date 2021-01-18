@@ -23,10 +23,8 @@
 extern "C" {
 # endif /*__cplusplus*/
 
-/* TODO - create a platform-agnostic way to handle single and double precision
- * integers. */
-typedef uint64_t native_double_int;
-typedef uint32_t native_single_int;
+/* TODO - create a platform-agnostic way to handle fast integer mults. */
+typedef uint64_t native_int;
 
 struct bigint
 {
@@ -37,7 +35,7 @@ struct bigint
     allocator* a;
     bool sign;
     size_t length;
-    native_double_int* array;
+    native_int* array;
 };
 
 /**

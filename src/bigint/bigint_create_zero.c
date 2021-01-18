@@ -68,10 +68,10 @@ bigint_create_zero(
         ++byte_size;
 
     /* compute the size in single ints based on the byte size. */
-    size_t int_size = byte_size / sizeof(native_single_int);
+    size_t int_size = byte_size / sizeof(native_int);
 
     /* adjust this size to the nearest native int size. */
-    if (byte_size % sizeof(native_single_int) > 0)
+    if (byte_size % sizeof(native_int) > 0)
         ++int_size;
 
     /* attempt to allocate memory for this bigint instance. */
@@ -87,17 +87,17 @@ bigint_create_zero(
     memset(tmp, 0, sizeof(bigint));
 
     /* attempt to allocate memory for the integer array. */
-    native_double_int* int_bytes = NULL;
+    native_int* int_bytes = NULL;
     retval =
         allocator_allocate(
-            a, (void**)&int_bytes, int_size * sizeof(native_double_int));
+            a, (void**)&int_bytes, int_size * sizeof(native_int));
     if (STATUS_SUCCESS != retval)
     {
         goto free_bigint;
     }
 
     /* clear these bytes (assign the value to zero). */
-    memset(int_bytes, 0, int_size * sizeof(native_double_int));
+    memset(int_bytes, 0, int_size * sizeof(native_int));
 
     /* the tag is not set by default. */
     MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
