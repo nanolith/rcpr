@@ -66,6 +66,9 @@ enum rcpr_subcomponents
 
     /** \brief Thread library subcomponent scope. */
     RCPR_SUBCOMPONENT_THREAD                                =             0x05,
+
+    /** \brief Stack library subcomponent scope. */
+    RCPR_SUBCOMPONENT_STACK                                 =             0x06,
 };
 
 /** \brief Global component scope. */
