@@ -3,6 +3,8 @@
 #include <rcpr/resource.h>
 #include <rcpr/stack.h>
 
+extern bool munmap_force_unmap;
+
 void allocator_struct_tag_init();
 void stack_struct_tag_init();
 void stack_node_struct_tag_init();
@@ -38,7 +40,17 @@ int main(int argc, char* argv[])
 
 cleanup_stack:
     /* release the stack. */
-    resource_release(stack_resource_handle(st));
+    retval = resource_release(stack_resource_handle(st));
+    if (STATUS_SUCCESS != retval)
+    {
+        MODEL_ASSERT(ERROR_STACK_UNMAP == retval);
+
+        /* note: this is only to ensure that the model check completes. */
+        /* In application code, if the unmapping fails, the application */
+        /* should terminate gracefully. */
+        munmap_force_unmap = true;
+        resource_release(stack_resource_handle(st));
+    }
 
 cleanup_allocator:
     /* release the allocator. */
