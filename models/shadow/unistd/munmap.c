@@ -1,12 +1,22 @@
 #include <rcpr/model_assert.h>
 
+bool munmap_force_unmap = false;
+
+bool nondet_bool();
+
 int munmap(void *addr, size_t len)
 {
     MODEL_ASSERT(NULL != addr);
     MODEL_ASSERT(len > 0);
 
-    free(addr);
+    if (munmap_force_unmap || nondet_bool())
+    {
+        free(addr);
 
-    /* TODO - we should simulate an unmapping failure here. */
-    return 0;
+        return 0;
+    }
+    else
+    {
+        return -1;
+    }
 }
