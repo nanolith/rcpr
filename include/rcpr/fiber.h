@@ -9,6 +9,10 @@
 
 #pragma once
 
+#include <rcpr/allocator.h>
+#include <rcpr/function_decl.h>
+#include <rcpr/status.h>
+
 /* C++ compatibility. */
 # ifdef    __cplusplus
 extern "C" {
@@ -136,6 +140,134 @@ typedef status (*fiber_scheduler_callback_fn)(
 status FN_DECL_MUST_CHECK
 fiber_create(
     fiber** fib, allocator* a, size_t stack_size, void* context, fiber_fn fn);
+
+/**
+ * \brief Create a \ref fiber instance for the main thread.
+ *
+ * \param fib           Pointer to the \ref fiber pointer to receive this
+ *                      resource on success.
+ * \param a             Pointer to the allocator to use for creating this \ref
+ *                      fiber resource.
+ *
+ * \note This \ref fiber is a \ref resource that must be released by calling
+ * \ref resource_release on its resource handle when it is no longer needed by
+ * the caller.  The resource handle can be accessed by calling
+ * \ref fiber_resource_handle on this \ref fiber instance. The fiber must be in
+ * a terminated state before releasing this resource. If the fiber is
+ * not yet terminated, then the resource release will fail. It
+ * is up to the caller to ensure that the fiber has terminated, such as devising
+ * a termination strategy, prior to releasing this resource.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p fib must not reference a valid \ref fiber instance and must not be
+ *        NULL.
+ *      - \p a must reference a valid \ref allocator and must not be NULL.
+ *
+ * \post
+ *      - On success, \p fib is set to a pointer to a valid \ref fiber instance,
+ *        which is a \ref resource owned by the caller that must be released by
+ *        the caller when no longer needed.
+ *      - On failure, \p fib is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+fiber_create_for_thread(
+    fiber** fib, allocator* a);
+
+/**
+ * \brief Create a \ref fiber_scheduler instance.
+ *
+ * \param sched         Pointer to the \ref fiber_scheduler pointer to receive
+ *                      this resource on success.
+ * \param a             Pointer to the allocator to use for creating this \ref
+ *                      fiber_scheduler resource.
+ * \param context       An opaque pointer to a context structure to use for this
+ *                      \ref fiber_scheduler instance.
+ * \param fn            The scheduling function for this \ref fiber_scheduler.
+ *
+ * \note This \ref fiber_scheduler is a \ref resource that must be released by
+ * calling \ref resource_release on its resource handle when it is no longer
+ * needed by the caller.  The resource handle can be accessed by calling \ref
+ * fiber_scheduler_resource_handle on this \ref fiber_scheduler instance. The
+ * fiber_scheduler must be in a terminated state before releasing this resource.
+ * If the fiber_scheduler is not yet terminated, then undefined behavior can
+ * occur.  It is up to the caller to ensure that the fiber_scheduler has
+ * terminated, such as devising a termination strategy, prior to releasing this
+ * resource.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p sched must not reference a valid \ref fiber_scheduler instance and
+ *        must not be NULL.
+ *      - \p a must reference a valid \ref allocator and must not be NULL.
+ *      - \p fn must be a valid function.
+ *
+ * \post
+ *      - On success, \p sched is set to a pointer to a valid
+ *        \ref fiber_scheduler instance, which is a \ref resource owned by the
+ *        caller that must be released by the caller when no longer needed.
+ *      - On failure, \p sched is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+fiber_scheduler_create(
+    fiber_scheduler** sched, allocator* a, void* context,
+    fiber_scheduler_callback_fn fn);
+
+/******************************************************************************/
+/* Start of accessors.                                                        */
+/******************************************************************************/
+
+/**
+ * \brief Given a \ref fiber instance, return the resource handle for this
+ * \ref fiber instance.
+ *
+ * \param fib           The \ref fiber instance from which the resource handle
+ *                      is returned.
+ *
+ * \returns the \ref resource handle for this \ref fiber instance.
+ */
+resource* fiber_resource_handle(fiber* fib);
+
+/**
+ * \brief Given a \ref fiber_scheduler instance, return the resource handle for
+ * this \ref fiber_scheduler instance.
+ *
+ * \param sched         The \ref fiber_scheduler instance from which the
+ *                      resource handle is returned.
+ *
+ * \returns the \ref resource handle for this \ref fiber_scheduler instance.
+ */
+resource* fiber_scheduler_resource_handle(fiber_scheduler* sched);
+
+/******************************************************************************/
+/* Start of model checking properties.                                        */
+/******************************************************************************/
+
+/**
+ * \brief Valid \ref fiber property.
+ *
+ * \param fib           The \ref fiber instance to be verified.
+ *
+ * \returns true if the \ref fiber instance is valid.
+ */
+bool prop_fiber_valid(const fiber* fib);
+
+/**
+ * \brief Valid \ref fiber_scheduler property.
+ *
+ * \param sched         The \ref fiber_scheduler instance to be verified.
+ *
+ * \returns true if the \ref fiber_scheduler instance is valid.
+ */
+bool prop_fiber_scheduler_valid(const fiber_scheduler* sched);
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
