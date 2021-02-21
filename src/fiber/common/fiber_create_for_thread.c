@@ -12,6 +12,9 @@
 
 #include "fiber_internal.h"
 
+/* forward decls. */
+MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber);
+
 /**
  * \brief Create a \ref fiber instance for the main thread.
  *

@@ -1,21 +1,23 @@
 #include <rcpr/allocator.h>
 #include <rcpr/model_assert.h>
 #include <rcpr/resource.h>
-#include <rcpr/stack.h>
-
-extern bool munmap_force_unmap;
+#include <rcpr/fiber.h>
 
 void allocator_struct_tag_init();
+void fiber_struct_tag_init();
 void stack_struct_tag_init();
 
 int main(int argc, char* argv[])
 {
     allocator* alloc = NULL;
-    stack* st = NULL;
+    fiber* fib = NULL;
     int retval;
 
     /* set up the global allocator tag. */
     allocator_struct_tag_init();
+
+    /* set up the global fiber tag. */
+    fiber_struct_tag_init();
 
     /* set up the global stack tag. */
     stack_struct_tag_init();
@@ -27,8 +29,8 @@ int main(int argc, char* argv[])
         goto done;
     }
 
-    /* create a stack instance. */
-    retval = stack_create(&st, alloc, 1024 * 1024);
+    /* create a fiber instance. */
+    retval = fiber_create_for_thread(&fib, alloc);
     if (STATUS_SUCCESS != retval)
     {
         /* the only reason why it could fail is due to a memory issue. */
@@ -37,19 +39,10 @@ int main(int argc, char* argv[])
         goto cleanup_allocator;
     }
 
-cleanup_stack:
-    /* release the stack. */
-    retval = resource_release(stack_resource_handle(st));
-    if (STATUS_SUCCESS != retval)
-    {
-        MODEL_ASSERT(ERROR_STACK_UNMAP == retval);
-
-        /* note: this is only to ensure that the model check completes. */
-        /* In application code, if the unmapping fails, the application */
-        /* should terminate gracefully. */
-        munmap_force_unmap = true;
-        resource_release(stack_resource_handle(st));
-    }
+cleanup_fiber:
+    /* release the fiber. */
+    retval = resource_release(fiber_resource_handle(fib));
+    MODEL_ASSERT(STATUS_SUCCESS == retval);
 
 cleanup_allocator:
     /* release the allocator. */
