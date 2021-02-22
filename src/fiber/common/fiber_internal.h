@@ -30,6 +30,7 @@ struct fiber
     stack* st;
     void* context;
     fiber_fn fn;
+    void* stack_ptr;
 };
 
 struct fiber_scheduler
