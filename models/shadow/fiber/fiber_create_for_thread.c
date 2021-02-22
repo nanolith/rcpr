@@ -36,6 +36,7 @@ fiber_create_for_thread(
     tmp->st = NULL;
     tmp->context = NULL;
     tmp->fn = NULL;
+    tmp->stack_ptr = NULL;
 
     /* set the return pointer. */
     *fib = tmp;
