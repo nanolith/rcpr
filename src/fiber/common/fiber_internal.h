@@ -32,6 +32,18 @@ struct fiber
     fiber_fn fn;
 };
 
+struct fiber_scheduler
+{
+    resource hdr;
+
+    MODEL_STRUCT_TAG(fiber_scheduler);
+
+    allocator* alloc;
+    fiber* main_fiber;
+    void* context;
+    fiber_scheduler_callback_fn fn;
+};
+
 /**
  * \brief Release a fiber resource.
  *

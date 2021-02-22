@@ -32,6 +32,36 @@ typedef struct fiber fiber;
 typedef struct fiber_scheduler fiber_scheduler;
 
 /**
+ * \brief The default yield events supported by the scheduler.
+ */
+enum fiber_scheduler_yield_events
+{
+    /* Range 0x0000 to 0x0FFF are reserved for the fiber library. */
+    FIBER_SCHEDULER_YIELD_EVENT_RUN                                 = 0x0000,
+    FIBER_SCHEDULER_YIELD_EVENT_MAIN                                = 0x0001,
+    FIBER_SCHEDULER_YIELD_EVENT_ADD_FIBER                           = 0x0002,
+    FIBER_SCHEDULER_YIELD_EVENT_RESOURCE_RELEASE                    = 0x0003,
+
+    /* Range 0x1000 to 0x1FFF are reserved for the psock fiber library. */
+    FIBER_SCHEDULER_YIELD_EVENT_PSOCK_BEGIN_RESERVED                = 0x1000,
+    FIBER_SCHEDULER_YIELD_EVENT_PSOCK_END_RESERVED                  = 0x1FFF,
+};
+
+/**
+ * \brief The default resume events supported by the scheduler.
+ */
+enum fiber_scheduler_resume_events
+{
+    /* Range 0x0000 to 0x0FFF are reserved for the fiber library. */
+    FIBER_SCHEDULER_RESUME_EVENT_MAIN                               = 0x0010,
+    FIBER_SCHEDULER_RESUME_EVENT_RESOURCE_RELEASE                   = 0x0011,
+
+    /* Range 0x1000 to 0x1FFF are reserved for the psock fiber library. */
+    FIBER_SCHEDULER_RESUME_EVENT_PSOCK_BEGIN_RESERVED               = 0x1000,
+    FIBER_SCHEDULER_RESUME_EVENT_PSOCK_END_RESERVED                 = 0x1FFF,
+};
+
+/**
  * \brief A function that can be executed by a \ref fiber.
  *
  * \param context       The user context for this fiber.
@@ -69,6 +99,14 @@ typedef status (*fiber_fn)(void* context);
  * function is a shortcut for performing this action. This function can be
  * called from any fiber.
  *
+ * When the scheduler is released, this callback is called with a yield event
+ * \ref FIBER_SCHEDULER_YIELD_EVENT_RESOURCE_RELEASE.  When this occurs, the
+ * scheduler callback should release all fibers and resources it has added or
+ * acquired as part of its execution cycle.  When completed, it should set the
+ * resume fiber to NULL and return a STATUS_SUCCESS status code. If it fails to
+ * release any resources, it should return a failure code, and this will
+ * be bubbled up to the caller, who should terminate the application.
+ *
  * Another customary yield event is for the main thread to yield with
  * \ref FIBER_SCHEDULER_YIELD_EVENT_RUN, at which point, the fiber scheduler
  * runs all other fibers until a user event instructing it to quiesce.  This is
@@ -91,7 +129,7 @@ typedef status (*fiber_fn)(void* context);
  */
 typedef status (*fiber_scheduler_callback_fn)(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
-    fiber** resume_fib, int resume_event, void* resume_param);
+    fiber** resume_fib, int *resume_event, void** resume_param);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
