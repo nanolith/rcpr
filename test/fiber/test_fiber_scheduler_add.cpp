@@ -129,5 +129,7 @@ TEST(add)
 
     /* clean up. */
     TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(fiber_resource_handle(dummy)));
+    TEST_ASSERT(
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
 }
