@@ -55,7 +55,8 @@ enum fiber_scheduler_resume_events
     /* Range 0x0000 to 0x0FFF are reserved for the fiber library. */
     FIBER_SCHEDULER_RESUME_EVENT_MAIN                               = 0x0010,
     FIBER_SCHEDULER_RESUME_EVENT_ADD_FIBER                          = 0x0011,
-    FIBER_SCHEDULER_RESUME_EVENT_RESOURCE_RELEASE                   = 0x0012,
+    FIBER_SCHEDULER_RESUME_EVENT_RUN                                = 0x0012,
+    FIBER_SCHEDULER_RESUME_EVENT_RESOURCE_RELEASE                   = 0x0013,
 
     /* Range 0x1000 to 0x1FFF are reserved for the psock fiber library. */
     FIBER_SCHEDULER_RESUME_EVENT_PSOCK_BEGIN_RESERVED               = 0x1000,
@@ -292,6 +293,77 @@ fiber_scheduler_create(
 status FN_DECL_MUST_CHECK
 fiber_scheduler_add(
     fiber_scheduler* sched, fiber* fib);
+
+/**
+ * \brief Run the fiber scheduler.
+ *
+ * \param sched         The scheduler to run.
+ *
+ * \note How the run command works is arbitrary and based on how the scheduler
+ * callback operates.  The purpose of this function is to provide a shortcut to
+ * calling the yield command from the current running fiber indicating that the
+ * scheduler should switch into run made.  This is not strictly necessary,
+ * again, depending on how the scheduler callback is written.  However, it makes
+ * good sense to design the scheduler callback so that the scheduler can be
+ * created, N fibers can be added by the main fiber, and then this run function
+ * is called by the main fiber to start the pattern that the scheduler callback
+ * has implemented.  For example, if the scheduler is implementing a reactor
+ * pattern, then it will place all added fibers onto the run queue, and then
+ * when these fibers need to block on async I/O, it will place them on the
+ * appropriate block queues until the I/O descriptor they are blocking on
+ * becomes available again.  If no fibers are available on the run queue, then
+ * it would do the select / poll / epoll / kqueue operation until a descriptor
+ * became available.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *
+ * \post
+ *      - On success, at a pre-determined signal agreed upon by the scheduler
+ *        callback's algorithm, run will return control to the main fiber and
+ *        exit with either a success or failure return code.
+ */
+status FN_DECL_MUST_CHECK
+fiber_scheduler_run(
+    fiber_scheduler* sched);
+
+/**
+ * \brief Yield to the fiber scheduler.
+ *
+ * \param sched         The scheduler.
+ * \param yield_event   The yield event.
+ * \param yield_param   The yield event parameter.
+ * \param resume_event  Pointer to receive the resume event.
+ * \param resume_param  Pointer to receive the resume parameter.
+ *
+ * \note The currently executing fiber can call yield to yield to the scheduler.
+ * The yield event describes the event causing the yield; the yield parameter
+ * can be used to send an optional parameter to the scheduler.  When the fiber
+ * is resumed, the resume event describes why it was resumed, and the resume
+ * parameter holds an optional parameter for the resume.  This can be used to
+ * implement coroutines or to implement a blocking I/O simulation by yielding
+ * when an I/O operation on a non-blocking socket would block.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *
+ * \post
+ *      - On success, the scheduler will suspend this fiber and start another.
+ *        As far as the fiber is concerned, it will restart when the scheduler
+ *        determines that it should restart.
+ */
+status FN_DECL_MUST_CHECK
+fiber_scheduler_yield(
+    fiber_scheduler* sched, int yield_event, void* yield_param,
+    int* resume_event, void** resume_param);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
