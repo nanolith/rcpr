@@ -54,7 +54,8 @@ enum fiber_scheduler_resume_events
 {
     /* Range 0x0000 to 0x0FFF are reserved for the fiber library. */
     FIBER_SCHEDULER_RESUME_EVENT_MAIN                               = 0x0010,
-    FIBER_SCHEDULER_RESUME_EVENT_RESOURCE_RELEASE                   = 0x0011,
+    FIBER_SCHEDULER_RESUME_EVENT_ADD_FIBER                          = 0x0011,
+    FIBER_SCHEDULER_RESUME_EVENT_RESOURCE_RELEASE                   = 0x0012,
 
     /* Range 0x1000 to 0x1FFF are reserved for the psock fiber library. */
     FIBER_SCHEDULER_RESUME_EVENT_PSOCK_BEGIN_RESERVED               = 0x1000,
@@ -258,6 +259,39 @@ status FN_DECL_MUST_CHECK
 fiber_scheduler_create(
     fiber_scheduler** sched, allocator* a, void* context,
     fiber_scheduler_callback_fn fn);
+
+/******************************************************************************/
+/* Start of public methods.                                                   */
+/******************************************************************************/
+
+/**
+ * \brief Add a fiber to the \ref fiber_scheduler.
+ *
+ * \param sched         The scheduler to which this \ref fiber is added.
+ * \param fib           The \ref fiber to add.
+ *
+ * \note The \ref fiber_scheduler takes ownership of this \ref fiber and will
+ * release it by calling \ref resource_release on its \ref fiber_resource_handle
+ * when no longer needed.  Ultimately, it is up to the callback method for this
+ * \ref fiber_scheduler to maintain ownership of this \ref fiber until it is no
+ * longer needed.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *      - \p fib is a pointer to a valid \ref fiber instance.
+ *      - The caller owns \p fib.
+ *
+ * \post
+ *      - On success, \p sched takes ownership of \p fib.
+ */
+status FN_DECL_MUST_CHECK
+fiber_scheduler_add(
+    fiber_scheduler* sched, fiber* fib);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */

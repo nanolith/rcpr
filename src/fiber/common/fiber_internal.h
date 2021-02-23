@@ -40,6 +40,7 @@ struct fiber_scheduler
     MODEL_STRUCT_TAG(fiber_scheduler);
 
     allocator* alloc;
+    fiber* current_fiber;
     fiber* main_fiber;
     void* context;
     fiber_scheduler_callback_fn fn;
