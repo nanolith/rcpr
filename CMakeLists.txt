@@ -89,8 +89,8 @@ TARGET_COMPILE_OPTIONS(rcpr PRIVATE -fPIC -O2 -Wall -Werror -Wextra)
 ADD_EXECUTABLE(testrcpr
     ${RCPR_SOURCES} ${RCPR_TEST_SOURCES})
 
-TARGET_COMPILE_OPTIONS(testrcpr PRIVATE --coverage ${MINUNIT_CFLAGS})
-TARGET_LINK_LIBRARIES(testrcpr PRIVATE --coverage ${MINUNIT_LDFLAGS})
+TARGET_COMPILE_OPTIONS(testrcpr PRIVATE -g -O0 --coverage ${MINUNIT_CFLAGS})
+TARGET_LINK_LIBRARIES(testrcpr PRIVATE -g -O0 --coverage ${MINUNIT_LDFLAGS})
 
 #conditional link for Threads
 if (Threads_FOUND)
