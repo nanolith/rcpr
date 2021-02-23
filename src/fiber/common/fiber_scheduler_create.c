@@ -124,6 +124,9 @@ fiber_scheduler_create(
         goto cleanup_fiber_scheduler;
     }
 
+    /* set the current fiber to the main fiber. */
+    tmp->current_fiber = tmp->main_fiber;
+
     /* set the return pointer. */
     *sched = tmp;
     retval = STATUS_SUCCESS;
