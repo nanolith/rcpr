@@ -2,7 +2,7 @@ Contributed Software Licenses
 =============================
 
 Some of the software in this library was adapted from open source software
-written by others.  This document is meant for calling out these contributions.
+written by others.  This document is a reference of these contributions.
 
 Boost Context Library
 ---------------------
