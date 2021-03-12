@@ -21,3 +21,4 @@ Features
 * `map` - dictionary based on the red / black tree (not yet implemented)
 * `set` - set based on the red / black tree (not yet implemented)
 * `thread` - a threading library including threads, mutexes, and conditionals.
+* `fiber` - a fiber (green threads) library.
