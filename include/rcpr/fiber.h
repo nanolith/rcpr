@@ -40,7 +40,8 @@ enum fiber_scheduler_yield_events
     FIBER_SCHEDULER_YIELD_EVENT_RUN                                 = 0x0000,
     FIBER_SCHEDULER_YIELD_EVENT_MAIN                                = 0x0001,
     FIBER_SCHEDULER_YIELD_EVENT_ADD_FIBER                           = 0x0002,
-    FIBER_SCHEDULER_YIELD_EVENT_RESOURCE_RELEASE                    = 0x0003,
+    FIBER_SCHEDULER_YIELD_EVENT_STOP                                = 0x0003,
+    FIBER_SCHEDULER_YIELD_EVENT_RESOURCE_RELEASE                    = 0x0004,
 
     /* Range 0x1000 to 0x1FFF are reserved for the psock fiber library. */
     FIBER_SCHEDULER_YIELD_EVENT_PSOCK_BEGIN_RESERVED                = 0x1000,
@@ -144,6 +145,7 @@ typedef status (*fiber_scheduler_callback_fn)(
  *                      resource on success.
  * \param a             Pointer to the allocator to use for creating this \ref
  *                      fiber resource.
+ * \param sched         Pointer to the fiber scheduler to use for this instance.
  * \param stack_size    The size of the stack in bytes for this fiber.
  * \param context       An opaque pointer to a context structure to use for this
  *                      \ref fiber instance.
@@ -179,7 +181,8 @@ typedef status (*fiber_scheduler_callback_fn)(
  */
 status FN_DECL_MUST_CHECK
 fiber_create(
-    fiber** fib, allocator* a, size_t stack_size, void* context, fiber_fn fn);
+    fiber** fib, allocator* a, fiber_scheduler* sched, size_t stack_size,
+    void* context, fiber_fn fn);
 
 /**
  * \brief Create a \ref fiber instance for the main thread.
