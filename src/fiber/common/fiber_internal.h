@@ -26,11 +26,13 @@ struct fiber
 
     MODEL_STRUCT_TAG(fiber);
 
+    void* stack_ptr;
     allocator* alloc;
     stack* st;
     void* context;
     fiber_fn fn;
-    void* stack_ptr;
+    uint64_t restore_reason_code;
+    void* restore_param;
 };
 
 struct fiber_scheduler
@@ -56,6 +58,42 @@ struct fiber_scheduler
  *      - a non-zero error code on failure.
  */
 status fiber_resource_release(resource* r);
+
+/**
+ * \brief Entry point for a fiber.
+ *
+ * \param sched     The fiber scheduler.
+ * \param fib       The fiber being entered.
+ *
+ * \note Does not return.
+ */
+status fiber_entry(fiber_scheduler* sched, fiber* fib);
+
+/**
+ * \brief Pointer type for the fiber entry function.
+ */
+typedef
+status (*fiber_entry_fn)(fiber_scheduler*, fiber*);
+
+/**
+ * \brief Assembler routine to switch between two fibers.
+ *
+ * \param prev      The previous (current) fiber.
+ * \param next      The next (switching) fiber.
+ * \param event     The resume event to give to the next fiber.
+ * \param param     The resume parameter to give to the next fiber.
+ */
+void fiber_switch(
+    fiber* prev, fiber* next, int64_t event, void *param);
+
+/**
+ * \brief Assembler routine to set up a fiber for entry.
+ *
+ * \param fib       The fiber instance to set up.
+ * \param sched     The scheduler on which this fiber runs.
+ * \param entry     The fiber entry point.
+ */
+void fiber_make(fiber* fib, fiber_scheduler* sched, fiber_entry_fn entry);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

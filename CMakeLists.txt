@@ -97,9 +97,10 @@ if (Threads_FOUND)
     TARGET_LINK_LIBRARIES(testrcpr PRIVATE Threads::Threads)
 endif()
 
-ADD_CUSTOM_COMMAND(TARGET testrcpr
-    POST_BUILD
-    COMMAND testrcpr)
+ADD_CUSTOM_TARGET(
+    test
+    COMMAND testrcpr
+    DEPENDS testrcpr)
 
 ADD_CUSTOM_TARGET(
     model_checks

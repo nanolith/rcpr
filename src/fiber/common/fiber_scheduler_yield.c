@@ -67,10 +67,18 @@ fiber_scheduler_yield(
     }
 
     /* set the current fiber to the resume fiber. */
-    /* TODO - do a context switch here. */
+    fiber* prev = sched->current_fiber;
+    fiber* next = resume_fib;
     sched->current_fiber = resume_fib;
-    *resume_event = resume_event1;
-    *resume_param = resume_param1;
+
+    /* switch the fibers. */
+    fiber_switch(prev, next, resume_event1, resume_param1);
+
+    /* here's where things get hairy. The fiber_switch returns when this old
+     * fiber has been re-activated.
+     */
+    *resume_event = sched->current_fiber->restore_reason_code;
+    *resume_param = sched->current_fiber->restore_param;
 
     /* success. */
     goto done;
