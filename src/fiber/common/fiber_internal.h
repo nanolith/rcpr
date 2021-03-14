@@ -13,6 +13,7 @@
 #include <rcpr/model_assert.h>
 #include <rcpr/stack.h>
 
+#include "../../stack/stack_internal.h"
 #include "../../resource/resource_internal.h"
 
 /* C++ compatibility. */

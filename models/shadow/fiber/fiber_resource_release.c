@@ -12,8 +12,17 @@ status fiber_resource_release(resource* r)
     /* cache the allocator. */
     allocator* a = fib->alloc;
 
+    if (NULL != fib->st)
+    {
+        retval = resource_release(stack_resource_handle(fib->st));
+    }
+    else
+    {
+        retval = STATUS_SUCCESS;
+    }
+
     /* reclaim the fiber structure. */
     free(fib);
 
-    return STATUS_SUCCESS;
+    return retval;
 }
