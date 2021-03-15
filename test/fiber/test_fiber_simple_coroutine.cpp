@@ -100,6 +100,35 @@ static status test_fiber_scheduler_callback(
     }
 }
 
+static status fiber_write_int(fiber_scheduler* sched, int64_t val)
+{
+    int resume_event = 0;
+    void* resume_param = nullptr;
+
+    return
+        fiber_scheduler_yield(
+            sched, RETURN_COROUTINE, (void*)val,
+            &resume_event, &resume_param);
+}
+
+static status fiber_read_int(fiber_scheduler* sched, int64_t* val)
+{
+    status retval;
+    int resume_event = 0;
+    void* resume_param = nullptr;
+
+    retval =
+        fiber_scheduler_yield(
+            sched, CALL_COROUTINE, nullptr,
+            &resume_event, &resume_param);
+    if (STATUS_SUCCESS == retval)
+    {
+        *val = (int64_t)resume_param;
+    }
+
+    return retval;
+}
+
 static status coroutine_fn(void* context)
 {
     status retval;
@@ -107,12 +136,7 @@ static status coroutine_fn(void* context)
 
     for (int i = 0; i < 10; ++i)
     {
-        int resume_event = 0;
-        void* resume_param = nullptr;
-        retval =
-            fiber_scheduler_yield(
-                ctx->sched, RETURN_COROUTINE, (void*)i,
-                &resume_event, &resume_param);
+        retval = fiber_write_int(ctx->sched, i);
         if (STATUS_SUCCESS != retval)
             return retval;
     }
@@ -169,16 +193,12 @@ TEST(coroutine)
     /* call the coroutine 10 times. */
     for (int i = 0; i < 10; ++i)
     {
-        int resume_event = 0;
-        void* resume_param = nullptr;
+        int64_t val;
         TEST_ASSERT(
             STATUS_SUCCESS ==
-                fiber_scheduler_yield(
-                    sched, CALL_COROUTINE, nullptr,
-                    &resume_event, &resume_param));
+                fiber_read_int(sched, &val));
 
-        TEST_ASSERT(RETURN_COROUTINE == resume_event);
-        TEST_ASSERT((int64_t)resume_param == i);
+        TEST_ASSERT(val == i);
     }
 
     /* we should be able to release the fiber scheduler instance. */
