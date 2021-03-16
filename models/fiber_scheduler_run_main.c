@@ -61,9 +61,6 @@ int main(int argc, char* argv[])
     retval = fiber_scheduler_create(&sched, alloc, ctx, &callback);
     if (STATUS_SUCCESS != retval)
     {
-        /* the only reason why it could fail is due to a memory issue. */
-        MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
-
         goto cleanup_allocator;
     }
 
