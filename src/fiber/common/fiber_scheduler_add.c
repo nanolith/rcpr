@@ -62,8 +62,12 @@ fiber_scheduler_add(
     }
 
     /* set the current fiber to the resume fiber. */
-    /* TODO - do a context switch here. */
+    fiber* prev = sched->current_fiber;
+    fiber* next = resume_fib;
     sched->current_fiber = resume_fib;
+
+    /* switch the fibers. */
+    fiber_switch(prev, next, resume_event, resume_param);
 
     /* success. */
     goto done;

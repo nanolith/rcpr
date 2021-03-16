@@ -14,7 +14,8 @@ status fiber_resource_release(resource* r)
 
     if (NULL != fib->st)
     {
-        retval = resource_release(stack_resource_handle(fib->st));
+        MODEL_ASSERT(false && "stack not yet implemented in shadow.");
+        /* retval = resource_release(stack_resource_handle(fib->st)); */
     }
     else
     {

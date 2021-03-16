@@ -16,6 +16,7 @@ ALL:
 	../models/shadow/fiber/fiber_scheduler_struct_tag_init.c \
 	../models/shadow/fiber/fiber_create_for_thread.c \
 	../models/shadow/fiber/fiber_resource_release.c \
+	../models/shadow/fiber/fiber_switch.c \
 	../models/shadow/resource/prop_resource_valid.c \
 	../models/shadow/resource/resource_struct_tag_init.c \
 	../models/shadow/resource/mock_resource_release.c \
@@ -31,6 +32,7 @@ ALL:
 	../src/fiber/common/fiber_scheduler_run.c \
 	../src/fiber/common/fiber_scheduler_create.c \
 	../src/fiber/common/fiber_scheduler_resource_handle.c \
+	../src/fiber/common/fiber_scheduler_yield.c \
 	../src/resource/resource_release.c \
 	../src/resource/resource_init.c \
 	../src/stack/stack_resource_handle.c \

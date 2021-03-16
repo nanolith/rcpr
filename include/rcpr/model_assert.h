@@ -16,6 +16,7 @@
 #if CBMC
 # define MODEL_ASSERT(x)  __CPROVER_assert((x), #x)
 # define MODEL_ASSUME(x)  __CPROVER_assume((x))
+# define MODEL_EXEMPT(x)
 # ifndef CBMC_NO_MALLOC_OVERRIDE
 # define malloc cbmc_malloc
 # define free cbmc_free
@@ -23,4 +24,5 @@
 #else
 # define MODEL_ASSERT(x)
 # define MODEL_ASSUME(x)
+# define MODEL_EXEMPT(x) (x)
 #endif

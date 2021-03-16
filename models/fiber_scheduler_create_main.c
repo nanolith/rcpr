@@ -8,26 +8,20 @@ void fiber_struct_tag_init();
 void fiber_scheduler_struct_tag_init();
 void stack_struct_tag_init();
 
+bool nondet_bool();
+
 static status callback(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
     fiber** resume_fib, int* resume_event, void** resume_param)
 {
     MODEL_ASSERT(prop_fiber_valid(yield_fib));
 
-    if (FIBER_SCHEDULER_YIELD_EVENT_MAIN == yield_event)
-    {
-        *resume_fib = yield_fib;
-        *resume_event = FIBER_SCHEDULER_RESUME_EVENT_MAIN;
-        *resume_param = NULL;
+    *resume_fib = yield_fib;
+    *resume_event = yield_event;
+    *resume_param = NULL;
 
-        return STATUS_SUCCESS;
-    }
-    else if (FIBER_SCHEDULER_YIELD_EVENT_RESOURCE_RELEASE == yield_event)
+    if (nondet_bool())
     {
-        *resume_fib = NULL;
-        *resume_event = FIBER_SCHEDULER_RESUME_EVENT_RESOURCE_RELEASE;
-        *resume_param = NULL;
-
         return STATUS_SUCCESS;
     }
     else
@@ -66,9 +60,6 @@ int main(int argc, char* argv[])
     retval = fiber_scheduler_create(&sched, alloc, ctx, &callback);
     if (STATUS_SUCCESS != retval)
     {
-        /* the only reason why it could fail is due to a memory issue. */
-        MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
-
         goto cleanup_allocator;
     }
 
