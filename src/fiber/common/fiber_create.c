@@ -121,7 +121,8 @@ fiber_create(
     goto done;
 
 fiber_release:
-    release_retval = resource_release(fiber_resource_handle(tmp));
+    MODEL_EXEMPT(memset(tmp, 0, sizeof(fiber)));
+    release_retval = allocator_reclaim(a, tmp);
     if (STATUS_SUCCESS != release_retval)
     {
         retval = release_retval;

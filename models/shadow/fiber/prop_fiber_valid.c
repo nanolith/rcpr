@@ -26,6 +26,21 @@ bool prop_fiber_valid(const fiber* fib)
     MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
         fib->MODEL_STRUCT_TAG_REF(fiber), fiber);
 
+    MODEL_ASSERT(prop_resource_valid(&fib->hdr));
+    MODEL_ASSERT(prop_allocator_valid(fib->alloc));
+    if (NULL != fib->st)
+    {
+        MODEL_ASSERT(prop_stack_valid(fib->st));
+        MODEL_ASSERT(NULL != fib->fn);
+    }
+    else
+    {
+        MODEL_ASSERT(NULL == fib->fn);
+        MODEL_ASSERT(NULL == fib->context);
+    }
+
+    return true;
+/*
     return
         prop_resource_valid(&fib->hdr)
      && prop_allocator_valid(fib->alloc)
@@ -35,4 +50,5 @@ bool prop_fiber_valid(const fiber* fib)
          ||     (NULL == fib->st
               && NULL == fib->fn
               && NULL == fib->context));
+*/
 }
