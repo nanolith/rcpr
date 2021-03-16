@@ -83,7 +83,7 @@ psock_create_from_descriptor(
 /**
  * \brief Wrap a \ref psock instance with an async \ref psock instance that
  * transforms reads or writes on the underlying \ref psock with yields to the
- * scheduler for the given \ref fiber.
+ * given \ref fiber_scheduler.
  *
  * \param sock          Pointer to the \ref psock pointer to receive this
  *                      resource on success.  This pointer should be set to the
@@ -91,8 +91,8 @@ psock_create_from_descriptor(
  *                      called.
  * \param a             Pointer to the allocator to use for creating this
  *                      wrapping \ref psock resource.
- * \param f             The \ref fiber to yield on a read / write call that
- *                      would block.
+ * \param sched         The \ref fiber_scheduler to yield on a read / write call
+ *                      that would block.
  *
  * \note This \ref psock is a \ref resource that must be released by calling
  * \ref resource_release on its resource handle when it is no longer needed by
@@ -102,17 +102,13 @@ psock_create_from_descriptor(
  * resource is released.
  *
  * It is assumed that the \ref psock wrapper instance created by this call will
- * be accessed from the given \p f \ref fiber.  If a read or write fails because
- * it would block, then this \ref fiber is yielded to the scheduler with a
+ * be accessed from a \ref fiber.  If a read or write fails because
+ * it would block, then this \ref fiber yields to the given scheduler with a
  * message indicating that it is yielding on a read or a write for the
  * underlying descriptor.  The scheduler will then resume this \ref fiber when
  * the OS notifies it that the descriptor is again available for read or write.
  *
- * After this call completes successfully, the \p f \ref fiber can be executed,
- * assuming that somewhere in its context structure, this \ref psock wrapper
- * will be available to it.  The specifics of this mechanism is beyond the scope
- * of this function.  Consult documentation on \ref fiber and \ref
- * fiber_scheduler for more details.
+ * After this call completes successfully, the \ref fiber can be executed.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
@@ -123,7 +119,8 @@ psock_create_from_descriptor(
  *      - \p sock must be a pointer to a pointer to a valid \ref psock instance
  *        and must not be NULL.
  *      - \p a must reference a valid \ref allocator and must not be NULL.
- *      - \p f must reference a valid \ref fiber and must not be NULL.
+ *      - \p sched must reference a valid \ref fiber_scheduler and must not be
+ *        NULL.
  *
  * \post
  *      - On success, \p sock is set to a pointer to a valid \ref psock
@@ -133,7 +130,7 @@ psock_create_from_descriptor(
  */
 status FN_DECL_MUST_CHECK
 psock_create_wrap_async(
-    psock** sock, allocator* a, fiber* f);
+    psock** sock, allocator* a, fiber_scheduler* sched);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */

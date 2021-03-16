@@ -23,6 +23,16 @@ struct fiber;
  */
 typedef struct fiber fiber;
 
+/* forward declaration for fiber_scheduler. */
+struct fiber_scheduler;
+
+/**
+ * \brief The fiber scheduler abstraction provides a way to schedule captured
+ * units of execution (\ref fibers) so that these can be suspended and resumed
+ * based on yielding and scheduling events.
+ */
+typedef struct fiber_scheduler fiber_scheduler;
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 }
