@@ -151,7 +151,7 @@ static status stack_release(resource* r)
     }
 
     /* clear the stack structure. */
-    memset(st, 0, sizeof(stack));
+    MODEL_EXEMPT(memset(st, 0, sizeof(stack)));
 
     /* reclaim the stack structure. */
     return allocator_reclaim(a, st);

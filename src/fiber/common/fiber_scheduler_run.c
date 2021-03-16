@@ -49,32 +49,14 @@ status FN_DECL_MUST_CHECK
 fiber_scheduler_run(
     fiber_scheduler* sched)
 {
-    status retval;
-
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     /* call the callback function to run the scheduler. */
-    fiber* resume_fib;
     int resume_event;
     void* resume_param;
-    retval =
-        sched->fn(
-            sched->context, sched->current_fiber,
-            FIBER_SCHEDULER_YIELD_EVENT_RUN, NULL,
-            &resume_fib, &resume_event, &resume_param);
-    if (STATUS_SUCCESS != retval)
-    {
-        goto done;
-    }
-
-    /* set the current fiber to the resume fiber. */
-    /* TODO - do a context switch here. */
-    sched->current_fiber = resume_fib;
-
-    /* success. */
-    goto done;
-
-done:
-    return retval;
+    return
+        fiber_scheduler_yield(
+            sched, FIBER_SCHEDULER_YIELD_EVENT_RUN, NULL,
+            &resume_event, &resume_param);
 }

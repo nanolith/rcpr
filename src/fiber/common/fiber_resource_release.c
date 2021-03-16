@@ -42,7 +42,7 @@ status fiber_resource_release(resource* r)
     }
 
     /* clear the fiber structure. */
-    memset(fib, 0, sizeof(fiber));
+    MODEL_EXEMPT(memset(fib, 0, sizeof(fiber)));
 
     /* reclaim the fiber structure. */
     retval = allocator_reclaim(a, fib);

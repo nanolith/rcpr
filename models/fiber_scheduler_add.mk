@@ -16,6 +16,7 @@ ALL:
 	../models/shadow/fiber/fiber_scheduler_struct_tag_init.c \
 	../models/shadow/fiber/fiber_create_for_thread.c \
 	../models/shadow/fiber/fiber_resource_release.c \
+	../models/shadow/fiber/fiber_switch.c \
 	../models/shadow/resource/prop_resource_valid.c \
 	../models/shadow/resource/resource_struct_tag_init.c \
 	../models/shadow/resource/mock_resource_release.c \

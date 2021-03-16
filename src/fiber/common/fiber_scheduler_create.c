@@ -190,7 +190,7 @@ static status fiber_scheduler_resource_release(resource* r)
     }
 
     /* clear the scheduler structure. */
-    memset(sched, 0, sizeof(*sched));
+    MODEL_EXEMPT(memset(sched, 0, sizeof(*sched)));
 
     /* reclaim the scheduler structure. */
     retval = allocator_reclaim(a, sched);

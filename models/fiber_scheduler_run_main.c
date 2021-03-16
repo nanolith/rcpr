@@ -14,35 +14,21 @@ static status callback(
 {
     MODEL_ASSERT(prop_fiber_valid(yield_fib));
 
-    if (FIBER_SCHEDULER_YIELD_EVENT_MAIN == yield_event)
-    {
-        *resume_fib = yield_fib;
-        *resume_event = FIBER_SCHEDULER_RESUME_EVENT_MAIN;
-        *resume_param = NULL;
+    *resume_fib = yield_fib;
+    *resume_param = NULL;
 
-        return STATUS_SUCCESS;
-    }
-    else if (FIBER_SCHEDULER_YIELD_EVENT_RUN == yield_event)
+    switch (yield_event)
     {
-        *resume_fib = yield_fib;
-        *resume_event = FIBER_SCHEDULER_RESUME_EVENT_RUN;
-        *resume_param = NULL;
-        fiber* addfib = (fiber*)yield_param;
+        case FIBER_SCHEDULER_YIELD_EVENT_MAIN:
+            *resume_event = FIBER_SCHEDULER_RESUME_EVENT_RUN;
+            break;
 
-        return STATUS_SUCCESS;
+        default:
+            *resume_event = yield_event;
+            break;
     }
-    else if (FIBER_SCHEDULER_YIELD_EVENT_RESOURCE_RELEASE == yield_event)
-    {
-        *resume_fib = NULL;
-        *resume_event = FIBER_SCHEDULER_RESUME_EVENT_RESOURCE_RELEASE;
-        *resume_param = NULL;
 
-        return STATUS_SUCCESS;
-    }
-    else
-    {
-        return -1;
-    }
+    return STATUS_SUCCESS;
 }
 
 int main(int argc, char* argv[])
