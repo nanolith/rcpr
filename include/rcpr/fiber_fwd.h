@@ -33,6 +33,11 @@ struct fiber_scheduler;
  */
 typedef struct fiber_scheduler fiber_scheduler;
 
+/* forward declaration for fiber_scheduler_callback_fn. */
+typedef status (*fiber_scheduler_callback_fn)(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param,
+    fiber** resume_fib, int *resume_event, void** resume_param);
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 }
