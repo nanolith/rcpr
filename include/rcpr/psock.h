@@ -8,7 +8,7 @@
  * authentication, compression, and asynchronous I/O can be layered in as
  * needed.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
