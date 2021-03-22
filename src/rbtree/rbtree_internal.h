@@ -19,6 +19,8 @@
 extern "C" {
 # endif /*__cplusplus*/
 
+typedef struct rbtree_node rbtree_node;
+
 struct rbtree
 {
     resource hdr;
@@ -28,4 +30,24 @@ struct rbtree
     allocator* alloc;
     void* context;
     compare_fn compare;
+    rbtree_node* root;
 };
+
+struct rbtree_node
+{
+    resource hdr;
+
+    MODEL_STRUCT_TAG(rbtree_node);
+
+    allocator* alloc;
+    rbtree_node* parent;
+    rbtree_node* left;
+    rbtree_node* right;
+    resource* value;
+    bool red;
+};
+
+/* C++ compatibility. */
+# ifdef   __cplusplus
+}
+# endif /*__cplusplus*/
