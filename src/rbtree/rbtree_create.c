@@ -23,8 +23,9 @@ static status rbtree_resource_release(resource* r);
  *                      resource on success.
  * \param a             Pointer to the allocator to use for creating this \ref
  *                      rbtree resource.
- * \param compare       The \ref compare_fn to use to compare two resources in
- *                      this \ref rbtree instance.
+ * \param compare       The \ref compare_fn to use to compare two keys in this
+ *                      \ref rbtree instance.
+ * \param key           The function to get a key from a resource.
  * \param context       Pointer to the context to pass to the comparison
  *                      function.
  *
@@ -55,7 +56,9 @@ static status rbtree_resource_release(resource* r);
  *      - On failure, \p tree is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-rbtree_create(rbtree** tree, allocator* a, compare_fn compare, void* context)
+rbtree_create(
+    rbtree** tree, allocator* a, compare_fn compare, compare_key_fn key,
+    void* context)
 {
     rbtree* tmp;
     status retval;
@@ -90,6 +93,7 @@ rbtree_create(rbtree** tree, allocator* a, compare_fn compare, void* context)
     tmp->alloc = a;
     tmp->context = context;
     tmp->compare = compare;
+    tmp->key = key;
 
     /* set the return pointer. */
     *tree = tmp;

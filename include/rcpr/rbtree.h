@@ -35,8 +35,9 @@ typedef struct rbtree rbtree;
  *                      resource on success.
  * \param a             Pointer to the allocator to use for creating this \ref
  *                      rbtree resource.
- * \param compare       The \ref compare_fn to use to compare two resources in
- *                      this \ref rbtree instance.
+ * \param compare       The \ref compare_fn to use to compare two keys in this
+ *                      \ref rbtree instance.
+ * \param key           The function to get a key from a resource.
  * \param context       Pointer to the context to pass to the comparison
  *                      function.
  *
@@ -67,7 +68,43 @@ typedef struct rbtree rbtree;
  *      - On failure, \p tree is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-rbtree_create(rbtree** tree, allocator* a, compare_fn compare, void* context);
+rbtree_create(
+    rbtree** tree, allocator* a, compare_fn compare, compare_key_fn key,
+    void* context);
+
+/******************************************************************************/
+/* Start of public methods.                                                   */
+/******************************************************************************/
+
+/**
+ * \brief Insert the given \ref resource into the \ref rbtree.
+ *
+ * \param tree          Pointer to the \ref rbtree for the insert operation.
+ * \param r             Pointer to the \ref resource to insert.
+ *
+ * \note After a successful insert, a \ref rbtree_node will be created to hold
+ * the given \ref resource, and this node will be placed in the tree. The \ref
+ * rbtree takes ownership of the \ref resource pointed to by \p r and will
+ * release it when it is released.  If the insert fails, then the caller retains
+ * ownership of \p r and must release it when no longer needed.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *      - ERROR_RBTREE_DUPLICATE if a duplicate item already exists in the
+ *        \ref rbtree.
+ *
+ * \pre
+ *      - \p tree must be a valid \ref rbtree instance.
+ *      - \p r must be a valid \ref resource instance.
+ *
+ * \post
+ *      - On success, \p r is inserted into \p tree.
+ *      - On failure, \p r remains owned by the caller.
+ */
+status FN_DECL_MUST_CHECK
+rbtree_insert(rbtree* tree, resource* r);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
