@@ -38,13 +38,21 @@ typedef enum rcpr_comparison_result
  *      - RCPR_COMPARE_LT if \p lhs &lt; \p rhs.
  *      - RCPR_COMPARE_EQ if \p lhs == \p rhs.
  *      - RCPR_COMPARE_GT if \p lhs &gt; \p rhs.
- *
- * \pre
- *      - \p lhs and \p rhs should be valid resource handles.
  */
 typedef rcpr_comparison_result (*compare_fn)(
-    void* context, const resource* lhs, const resource* rhs);
+    void* context, const void* lhs, const void* rhs);
  
+/**
+ * \brief Given a resource, return the key for a resource.
+ *
+ * \param context       Context data to be passed to the accessor function.
+ * \param r             The resource.
+ *
+ * \returns the key for the resource.
+ */
+typedef const void* (*compare_key_fn)(
+    void* context, const resource* r);
+
 /* C++ compatibility. */
 # ifdef    __cplusplus
 }

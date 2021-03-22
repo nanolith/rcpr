@@ -12,9 +12,15 @@ TEST_SUITE(rbtree_create);
 
 /* dummy comparison. */
 static rcpr_comparison_result dummy_compare(
-    void* context, const resource* lhs, const resource* rhs)
+    void* context, const void* lhs, const void* rhs)
 {
     return RCPR_COMPARE_LT;
+}
+
+/* dummy key function. */
+static const void* dummy_key(void* context, const resource* r)
+{
+    return r;
 }
 
 /**
@@ -31,7 +37,8 @@ TEST(create)
 
     /* we should be able to create an rbtree instance. */
     TEST_ASSERT(
-        STATUS_SUCCESS == rbtree_create(&tree, alloc, &dummy_compare, nullptr));
+        STATUS_SUCCESS ==
+            rbtree_create(&tree, alloc, &dummy_compare, &dummy_key, nullptr));
 
     /* we should be able to release the rbtree instance. */
     TEST_ASSERT(

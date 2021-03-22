@@ -30,6 +30,7 @@ struct rbtree
     allocator* alloc;
     void* context;
     compare_fn compare;
+    compare_key_fn key;
     rbtree_node* root;
 };
 

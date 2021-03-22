@@ -8,9 +8,15 @@ void rbtree_struct_tag_init();
 
 /* dummy comparison. */
 static rcpr_comparison_result dummy_compare(
-    void* context, const resource* lhs, const resource* rhs)
+    void* context, const void* lhs, const void* rhs)
 {
     return RCPR_COMPARE_LT;
+}
+
+static const void* dummy_key(
+    void* context, const resource* r)
+{
+    return r;
 }
 
 int main(int argc, char* argv[])
@@ -33,7 +39,7 @@ int main(int argc, char* argv[])
     }
 
     /* create an rbtree instance. */
-    retval = rbtree_create(&tree, alloc, &dummy_compare, NULL);
+    retval = rbtree_create(&tree, alloc, &dummy_compare, &dummy_key, NULL);
     if (STATUS_SUCCESS != retval)
     {
         /* the only reason why it could fail is due to a memory issue. */
