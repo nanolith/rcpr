@@ -106,6 +106,69 @@ rbtree_create(
 status FN_DECL_MUST_CHECK
 rbtree_insert(rbtree* tree, resource* r);
 
+/**
+ * \brief Find the given key in the \ref rbtree.
+ *
+ * \param r             Pointer to the pointer to the resource to be populated
+ *                      after a successful find operation.
+ * \param tree          Pointer to the \ref rbtree for the find operation.
+ * \param key           Pointer to the key to find.
+ *
+ * \note After a successful find, the resource associated with the given key
+ * will be populated in \p r. The resource ownership remains with the
+ * \ref rbtree. If the key is not found, then \p r is set to NULL.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_RBTREE_NOT_FOUND if the key could not be found.
+ *
+ * \pre
+ *      - \p tree must be a valid \ref rbtree instance.
+ *      - \p r must be a valid pointer.
+ *      - \p key must be a valid key for this \ref rbtree instance.
+ *
+ * \post
+ *      - On success, \p r is set to the value in the tree associated with \p
+ *        key.
+ *      - On failure, \p r is set to NULL.
+ */
+status FN_DECL_MUST_CHECK
+rbtree_find(resource** r, rbtree* tree, const void* key);
+
+/**
+ * \brief Delete the given key from the \ref rbtree, optionally releasing the
+ * resource.
+ *
+ * \param r             Pointer to the pointer to the resource to be populated
+ *                      after a successful delete operation. If this pointer
+ *                      pointer is NULL, then the resource is released.
+ * \param tree          Pointer to the \ref rbtree for the delete operation.
+ * \param key           Pointer to the key to delete.
+ *
+ * \note After a successful delete, the resource associated with the given key
+ * will be populated in \p r, if \p r is not NULL.  Otherwise, the resource is
+ * released.  If \p r is populated, then ownership of this \ref resource
+ * transfers to the owner, and the owner must release this \ref resource by
+ * calling \ref resource_release on it when it is no longer needed.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_RBTREE_NOT_FOUND if the key could not be found.
+ *
+ * \pre
+ *      - \p tree must be a valid \ref rbtree instance.
+ *      - \p r is optional, and can be NULL if the caller wishes to just release
+ *        the resource.
+ *      - \p key must be a valid key for this \ref rbtree instance.
+ *
+ * \post
+ *      - On success, \p r is set to the value in the tree associated with \p
+ *        key.
+ *      - On failure, \p r is set to NULL.
+ */
+status FN_DECL_MUST_CHECK
+rbtree_delete(resource** r, rbtree* tree, const void* key);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
