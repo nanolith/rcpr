@@ -15,4 +15,4 @@
  * \brief Stack unmapping error.
  */
 #define ERROR_STACK_UNMAP \
-    STATUS_CODE(1, RCPR_COMPONENT_THREAD, 0x0000)
+    STATUS_CODE(1, RCPR_COMPONENT_STACK, 0x0000)
