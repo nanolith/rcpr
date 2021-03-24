@@ -21,19 +21,6 @@ extern "C" {
 
 typedef struct rbtree_node rbtree_node;
 
-struct rbtree
-{
-    resource hdr;
-
-    MODEL_STRUCT_TAG(rbtree);
-
-    allocator* alloc;
-    void* context;
-    compare_fn compare;
-    compare_key_fn key;
-    rbtree_node* root;
-};
-
 struct rbtree_node
 {
     resource hdr;
@@ -47,6 +34,32 @@ struct rbtree_node
     resource* value;
     bool red;
 };
+
+struct rbtree
+{
+    resource hdr;
+
+    MODEL_STRUCT_TAG(rbtree);
+
+    allocator* alloc;
+    void* context;
+    compare_fn compare;
+    compare_key_fn key;
+    rbtree_node* root;
+    rbtree_node nil_impl;
+    rbtree_node* nil;
+};
+
+/**
+ * \brief Given a \ref rbtree_node instance, return the resource handle for this
+ * \ref rbtree_node instance.
+ *
+ * \param node          The \ref rbtree_node instance from which the resource
+ *                      handle is returned.
+ *
+ * \returns the \ref resource handle for this \ref rbtree_node instance.
+ */
+resource* rbtree_node_resource_handle(rbtree_node* node);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

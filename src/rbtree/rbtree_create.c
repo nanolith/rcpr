@@ -15,6 +15,7 @@
 /* forward decls. */
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree);
 static status rbtree_resource_release(resource* r);
+static status rbtree_nil_node_resource_release(resource* r);
 
 /**
  * \brief Create an \ref rbtree instance.
@@ -94,6 +95,13 @@ rbtree_create(
     tmp->context = context;
     tmp->compare = compare;
     tmp->key = key;
+    resource_init(&tmp->nil_impl.hdr, &rbtree_nil_node_resource_release);
+    tmp->nil = &tmp->nil_impl;
+    tmp->nil->parent = tmp->nil;
+    tmp->nil->left = tmp->nil;
+    tmp->nil->right = tmp->nil;
+    tmp->nil->value = rbtree_node_resource_handle(tmp->nil);
+    tmp->root = tmp->nil;
 
     /* set the return pointer. */
     *tree = tmp;
@@ -133,4 +141,19 @@ static status rbtree_resource_release(resource* r)
     /* reclaim the rbtree structure. */
     return
         allocator_reclaim(a, tree);
+}
+
+/**
+ * \brief Dummy resource release for the nil node.
+ *
+ * \param r         The rbtree_node nil node.
+ *
+ * \returns a failure code.
+ *      - ERROR_RBTREE_NIL_NODE_CANNOT_BE_RELEASED on failure.
+ */
+static status rbtree_nil_node_resource_release(resource* r)
+{
+    (void)r;
+
+    return ERROR_RBTREE_NIL_NODE_CANNOT_BE_RELEASED;
 }
