@@ -15,4 +15,4 @@
  * \brief The fiber scheduler callback state is invalid.
  */
 #define ERROR_FIBER_SCHEDULER_CALLBACK_STATE \
-    STATUS_CODE(1, RCPR_SUBCOMPONENT_FIBER, 0x0000)
+    STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0000)
