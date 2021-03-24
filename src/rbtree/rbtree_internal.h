@@ -51,6 +51,15 @@ struct rbtree
 };
 
 /**
+ * \brief Perform a left rotation on a subtree in the given tree.
+ *
+ * \param tree          The \ref rbtree on which this operation is being
+ *                      performed.
+ * \param x             The pivot point node for this left rotation.
+ */
+void rbtree_left_rotate(rbtree* tree, rbtree_node* x);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *
