@@ -13,6 +13,7 @@
 #include <rcpr/status/fiber.h>
 #include <rcpr/status/general.h>
 #include <rcpr/status/psock.h>
+#include <rcpr/status/rbtree.h>
 #include <rcpr/status/socket_utilities.h>
 #include <rcpr/status/stack.h>
 #include <rcpr/status/thread.h>
