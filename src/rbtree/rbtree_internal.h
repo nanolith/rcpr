@@ -79,6 +79,17 @@ void rbtree_right_rotate(rbtree* tree, rbtree_node* y);
  */
 resource* rbtree_node_resource_handle(rbtree_node* node);
 
+/**
+ * \brief Valid \ref rbtree_node property.
+ *
+ * \param tree          The \ref rbtree instance to which this \ref rbtree_node
+ *                      belongs.
+ * \param node          The \ref rbtree_node instance to be verified.
+ *
+ * \returns true if the \ref rbtree instance is valid.
+ */
+bool prop_rbtree_node_valid(const rbtree* tree, const rbtree_node* node);
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 }

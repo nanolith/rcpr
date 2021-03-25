@@ -26,9 +26,10 @@ bool prop_rbtree_valid(const rbtree* tree)
     MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
         tree->MODEL_STRUCT_TAG_REF(rbtree), rbtree);
 
-    /* TODO - add node checks. */
     return
         prop_resource_valid(&tree->hdr)
+     && (tree->root == tree->nil || prop_rbtree_node_valid(tree, tree->root))
      && prop_allocator_valid(tree->alloc)
-     && (tree->compare != NULL);
+     && (tree->compare != NULL)
+     && (tree->key != NULL);
 }
