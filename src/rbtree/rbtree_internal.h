@@ -60,6 +60,15 @@ struct rbtree
 void rbtree_left_rotate(rbtree* tree, rbtree_node* x);
 
 /**
+ * \brief Perform a right rotation on a subtree in the given tree.
+ *
+ * \param tree          The \ref rbtree on which this operation is being
+ *                      performed.
+ * \param y             The pivot point node for this right rotation.
+ */
+void rbtree_right_rotate(rbtree* tree, rbtree_node* y);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *
