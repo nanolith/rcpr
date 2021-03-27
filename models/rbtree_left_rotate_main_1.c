@@ -61,6 +61,9 @@ int main(int argc, char* argv[])
 
     rbtree_node x;
     rbtree_node y;
+    rbtree_node alpha;
+    rbtree_node beta;
+    rbtree_node gamma;
 
     /* PRECONDITIONS, as per Cormen et al figure 13.2... */
     tree->root = &x;
@@ -76,6 +79,21 @@ int main(int argc, char* argv[])
     y.left = tree->nil;
     y.right = tree->nil;
     y.value = &tree->hdr;
+    MODEL_STRUCT_TAG_INIT(alpha.MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    alpha.parent = &x;
+    alpha.left = tree->nil;
+    alpha.right = tree->nil;
+    alpha.value= &tree->hdr;
+    MODEL_STRUCT_TAG_INIT(beta.MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    beta.parent = &y;
+    beta.left = tree->nil;
+    beta.right = tree->nil;
+    beta.value = &tree->hdr;
+    MODEL_STRUCT_TAG_INIT(gamma.MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    gamma.parent = &y;
+    gamma.left = tree->nil;
+    gamma.right = tree->nil;
+    gamma.value = &tree->hdr;
 
     rbtree_left_rotate(tree, &x);
 
