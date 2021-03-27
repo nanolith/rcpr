@@ -22,7 +22,7 @@
 void rbtree_left_rotate(rbtree* tree, rbtree_node* x)
 {
     MODEL_ASSERT(prop_rbtree_valid(tree));
-    MODEL_ASSERT(prop_rbtree_node_valid(x));
+    MODEL_ASSERT(prop_rbtree_node_valid(tree, x));
 
     /* from Cormen et al, 13.2. */
 
