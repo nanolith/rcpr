@@ -5,8 +5,10 @@
 
 #include "../src/rbtree/rbtree_internal.h"
 
+MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree_node);
 void allocator_struct_tag_init();
 void rbtree_struct_tag_init();
+void rbtree_node_struct_tag_init();
 
 /* dummy comparison. */
 static rcpr_comparison_result dummy_compare(
@@ -21,6 +23,10 @@ static const void* dummy_key(
     return r;
 }
 
+static const dummy_rbtree_node_resource_release(resource* r)
+{
+}
+
 int main(int argc, char* argv[])
 {
     allocator* alloc = NULL;
@@ -32,6 +38,9 @@ int main(int argc, char* argv[])
 
     /* set up the global rbtree tag. */
     rbtree_struct_tag_init();
+
+    /* set up the global rbtree_node tag. */
+    rbtree_node_struct_tag_init();
 
     /* try to create a malloc allocator. */
     retval = malloc_allocator_create(&alloc); 
@@ -52,27 +61,21 @@ int main(int argc, char* argv[])
 
     rbtree_node x;
     rbtree_node y;
-    rbtree_node alpha;
-    rbtree_node beta;
-    rbtree_node gamma;
 
     /* PRECONDITIONS, as per Cormen et al figure 13.2... */
     tree->root = &x;
+    resource_init(&x.hdr, &dummy_rbtree_node_resource_release);
+    MODEL_STRUCT_TAG_INIT(x.MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
     x.parent = tree->nil;
-    x.left = &alpha;
+    x.left = tree->nil;
     x.right = &y;
+    x.value = &tree->hdr;
+    resource_init(&y.hdr, &dummy_rbtree_node_resource_release);
+    MODEL_STRUCT_TAG_INIT(y.MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
     y.parent = &x;
-    y.left = &beta;
-    y.right = &gamma;
-    alpha.parent = &x;
-    alpha.left = tree->nil;
-    alpha.right = tree->nil;
-    beta.parent = &y;
-    beta.left = tree->nil;
-    beta.right = tree->nil;
-    gamma.parent = &y;
-    gamma.left = tree->nil;
-    gamma.right = tree->nil;
+    y.left = tree->nil;
+    y.right = tree->nil;
+    y.value = &tree->hdr;
 
     rbtree_left_rotate(tree, &x);
 
