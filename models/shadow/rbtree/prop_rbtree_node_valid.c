@@ -24,17 +24,16 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree_node);
  */
 bool prop_rbtree_node_valid(const rbtree* tree, const rbtree_node* node)
 {
-    MODEL_ASSERT(prop_rbtree_valid(tree));
     MODEL_ASSERT(NULL != node);
     MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
         node->MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
 
-    if (tree->nil != node->left)
+    if (node->left != tree->nil)
     {
         MODEL_ASSERT(prop_rbtree_node_valid(tree, node->left));
     }
 
-    if (tree->nil != node->right)
+    if (node->right != tree->nil)
     {
         MODEL_ASSERT(prop_rbtree_node_valid(tree, node->right));
     }

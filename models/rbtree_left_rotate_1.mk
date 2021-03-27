@@ -5,7 +5,7 @@ ALL:
 	--div-by-zero-check --pointer-overflow-check --trace --stop-on-fail -DCBMC \
 	--drop-unused-functions \
 	--unwind 10 --unwinding-assertions \
-    --unwindset list_release.0:1,list_release:1,prop_rbtree_node_valid:4 \
+    --unwindset list_release.0:1,list_release:1,prop_rbtree_node_valid:3 \
 	-I ../include \
 	../models/shadow/allocator/allocator.c \
 	../models/shadow/allocator/allocator_struct_tag_init.c \
@@ -13,6 +13,7 @@ ALL:
 	../models/shadow/rbtree/prop_rbtree_valid.c \
 	../models/shadow/rbtree/prop_rbtree_node_valid.c \
 	../models/shadow/rbtree/rbtree_struct_tag_init.c \
+	../models/shadow/rbtree/rbtree_node_struct_tag_init.c \
 	../models/shadow/resource/prop_resource_valid.c \
 	../models/shadow/resource/resource_struct_tag_init.c \
 	../models/shadow/resource/mock_resource_release.c \
