@@ -69,6 +69,14 @@ void rbtree_left_rotate(rbtree* tree, rbtree_node* x);
 void rbtree_right_rotate(rbtree* tree, rbtree_node* y);
 
 /**
+ * \brief Perform a post-insert fixup of the given \ref rbtree instance.
+ *
+ * \param tree          The \ref rbtree instance to fix up.
+ * \param z             The inserted node where the fixup starts.
+ */
+void rbtree_insert_fixup(rbtree* tree, rbtree_node* z);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *
