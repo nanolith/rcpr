@@ -19,6 +19,9 @@
 extern "C" {
 # endif /*__cplusplus*/
 
+#define RBTREE_RED true
+#define RBTREE_BLACK false
+
 typedef struct rbtree_node rbtree_node;
 
 struct rbtree_node
@@ -32,7 +35,7 @@ struct rbtree_node
     rbtree_node* left;
     rbtree_node* right;
     resource* value;
-    bool red;
+    bool color;
 };
 
 struct rbtree
