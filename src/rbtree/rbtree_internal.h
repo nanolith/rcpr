@@ -111,6 +111,16 @@ rbtree_node* rbtree_minimum_node(rbtree* tree, rbtree_node* x);
 rbtree_node* rbtree_maximum_node(rbtree* tree, rbtree_node* x);
 
 /**
+ * \brief Return the in-order successor node of the given node.
+ *
+ * \param tree          The \ref rbtree instance.
+ * \param x             The \ref rbtree_node from which a successor is found.
+ *
+ * \returns the successor node of this node, or tree->nil if none is found.
+ */
+rbtree_node* rbtree_successor_node(rbtree* tree, rbtree_node* x);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *
