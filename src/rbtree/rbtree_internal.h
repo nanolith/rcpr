@@ -131,6 +131,14 @@ rbtree_node* rbtree_successor_node(rbtree* tree, rbtree_node* x);
 rbtree_node* rbtree_predecessor_node(rbtree* tree, rbtree_node* x);
 
 /**
+ * \brief Perform a post-delete fixup of the given \ref rbtree instance.
+ *
+ * \param tree          The \ref rbtree instance to fix up.
+ * \param x             The node now occupying the deleted node's position.
+ */
+void rbtree_delete_fixup(rbtree* tree, rbtree_node* x);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *
