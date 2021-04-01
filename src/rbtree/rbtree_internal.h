@@ -101,6 +101,16 @@ void rbtree_transplant(rbtree* tree, rbtree_node* u, rbtree_node* v);
 rbtree_node* rbtree_minimum_node(rbtree* tree, rbtree_node* x);
 
 /**
+ * \brief Return the maximum node in an rbtree subtree.
+ *
+ * \param tree          The \ref rbtree instance.
+ * \param x             The \ref rbtree_node from which the search should start.
+ *
+ * \returns the maximum node in this subtree.
+ */
+rbtree_node* rbtree_maximum_node(rbtree* tree, rbtree_node* x);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *
