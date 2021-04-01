@@ -80,6 +80,17 @@ void rbtree_right_rotate(rbtree* tree, rbtree_node* y);
 void rbtree_insert_fixup(rbtree* tree, rbtree_node* z);
 
 /**
+ * \brief Transplant moves subtrees around when a node with two children is
+ * deleted.
+ *
+ * \param tree          The \ref rbtree instance on which the transplant is
+ *                      occurring.
+ * \param u             One node that is part of the transplant operation.
+ * \param v             The other node that is part of the transplant operation.
+ */
+void rbtree_transplant(rbtree* tree, rbtree_node* u, rbtree_node* v);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *
