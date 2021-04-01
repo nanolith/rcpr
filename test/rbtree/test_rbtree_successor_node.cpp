@@ -123,6 +123,7 @@ TEST(basics)
     TEST_ASSERT(&node13 == rbtree_successor_node(tree, &node12));
     TEST_ASSERT(&node14 == rbtree_successor_node(tree, &node13));
     TEST_ASSERT(&node15 == rbtree_successor_node(tree, &node14));
+    TEST_ASSERT(tree->nil == rbtree_successor_node(tree, &node15));
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
