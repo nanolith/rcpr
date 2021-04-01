@@ -121,6 +121,16 @@ rbtree_node* rbtree_maximum_node(rbtree* tree, rbtree_node* x);
 rbtree_node* rbtree_successor_node(rbtree* tree, rbtree_node* x);
 
 /**
+ * \brief Return the in-order predecessor node of the given node.
+ *
+ * \param tree          The \ref rbtree instance.
+ * \param x             The \ref rbtree_node from which a predecessor is found.
+ *
+ * \returns the predecessor node of this node, or tree->nil if none is found.
+ */
+rbtree_node* rbtree_predecessor_node(rbtree* tree, rbtree_node* x);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *
