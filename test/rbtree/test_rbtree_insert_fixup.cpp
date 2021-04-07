@@ -1,7 +1,7 @@
 /**
- * \file test/rbtree/test_rbtree_left_rotate.cpp
+ * \file test/rbtree/test_rbtree_insert_fixup.cpp
  *
- * \brief Unit tests for rbtree_left_rotate.
+ * \brief Unit tests for rbtree_insert_fixup.
  */
 
 #include <minunit/minunit.h>
