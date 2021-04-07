@@ -139,6 +139,19 @@ rbtree_node* rbtree_predecessor_node(rbtree* tree, rbtree_node* x);
 void rbtree_delete_fixup(rbtree* tree, rbtree_node* x);
 
 /**
+ * \brief Delete the given \ref rbtree_node from the \ref rbtree.
+ *
+ * \param tree          The \ref rbtree instance from which the node is deleted.
+ * \param z             The \ref rbtree_node to delete from the tree.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero failure code on failure.
+ */
+status FN_DECL_MUST_CHECK
+rbtree_delete_node(rbtree* tree, rbtree_node* z);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *
