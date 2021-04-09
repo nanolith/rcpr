@@ -1,7 +1,7 @@
 /**
- * \file rbtree/rbtree_delete_node.c
+ * \file rbtree/rbtree_remove_node.c
  *
- * \brief Delete a node from a red-black tree.
+ * \brief Remove a node from a red-black tree.
  *
  * \copyright 2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
@@ -13,17 +13,15 @@
 #include "rbtree_internal.h"
 
 /**
- * \brief Delete the given \ref rbtree_node from the \ref rbtree.
+ * \brief Remove the given \ref rbtree_node from the \ref rbtree.
  *
- * \param tree          The \ref rbtree instance from which the node is deleted.
+ * The resource pointed to by \p z is owned by the caller and must be released
+ * when no longer needed.
+ *
+ * \param tree          The \ref rbtree instance from which the node is removed.
  * \param z             The \ref rbtree_node to delete from the tree.
- *
- * \returns a status code indicating success or failure.
- *      - STATUS_SUCCESS on success.
- *      - a non-zero failure code on failure.
  */
-status FN_DECL_MUST_CHECK
-rbtree_delete_node(rbtree* tree, rbtree_node* z)
+void rbtree_remove_node(rbtree* tree, rbtree_node* z)
 {
     rbtree_node* x;
     rbtree_node* y;
@@ -74,6 +72,4 @@ rbtree_delete_node(rbtree* tree, rbtree_node* z)
     tree->nil->left = tree->nil;
     tree->nil->right = tree->nil;
     tree->nil->color = RBTREE_BLACK;
-
-    return resource_release(rbtree_node_resource_handle(z));
 }

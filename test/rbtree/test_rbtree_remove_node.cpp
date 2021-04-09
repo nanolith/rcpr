@@ -1,7 +1,7 @@
 /**
- * \file test/rbtree/test_rbtree_delete.cpp
+ * \file test/rbtree/test_rbtree_remove_node.cpp
  *
- * \brief Unit tests for rbtree_delete_node.
+ * \brief Unit tests for rbtree_remove_node.
  */
 
 #include <minunit/minunit.h>
@@ -9,7 +9,7 @@
 
 #include "../../src/rbtree/rbtree_internal.h"
 
-TEST_SUITE(rbtree_delete);
+TEST_SUITE(rbtree_remove_node);
 
 /* dummy comparison. */
 static rcpr_comparison_result dummy_compare(
@@ -24,16 +24,10 @@ static const void* dummy_key(void* context, const resource* r)
     return r;
 }
 
-/* dummy resource release function. */
-static status dummy_release(resource* r)
-{
-    return STATUS_SUCCESS;
-}
-
 /**
- * Delete the only node in a tree.
+ * Remove the only node in a tree.
  */
-TEST(delete_root)
+TEST(remove_root)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -55,10 +49,9 @@ TEST(delete_root)
     z.left = tree->nil;
     z.right = tree->nil;
     z.color = RBTREE_BLACK;
-    z.hdr.release = &dummy_release;
 
-    /* Delete this node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &z));
+    /* Remove this node. */
+    rbtree_remove_node(tree, &z);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->nil == tree->root);
@@ -74,9 +67,9 @@ TEST(delete_root)
 }
 
 /**
- * Delete the child of a two node tree.
+ * Remove the child of a two node tree.
  */
-TEST(delete_child_two_nodes)
+TEST(remove_child_two_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -99,15 +92,13 @@ TEST(delete_child_two_nodes)
     p.left = &z;
     p.right = tree->nil;
     p.color = RBTREE_BLACK;
-    p.hdr.release = &dummy_release;
     z.parent = &p;
     z.left = tree->nil;
     z.right = tree->nil;
     z.color = RBTREE_RED;
-    z.hdr.release = &dummy_release;
 
-    /* Delete the child node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &z));
+    /* Remove the child node. */
+    rbtree_remove_node(tree, &z);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(&p == tree->root);
@@ -127,9 +118,9 @@ TEST(delete_child_two_nodes)
 }
 
 /**
- * Delete the root of a two node tree.
+ * Remove the root of a two node tree.
  */
-TEST(delete_root_two_nodes)
+TEST(remove_root_two_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -152,15 +143,13 @@ TEST(delete_root_two_nodes)
     p.left = &z;
     p.right = tree->nil;
     p.color = RBTREE_BLACK;
-    p.hdr.release = &dummy_release;
     z.parent = &p;
     z.left = tree->nil;
     z.right = tree->nil;
     z.color = RBTREE_RED;
-    z.hdr.release = &dummy_release;
 
-    /* Delete the child node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &p));
+    /* Remove the child node. */
+    rbtree_remove_node(tree, &p);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(&z == tree->root);
@@ -180,9 +169,9 @@ TEST(delete_root_two_nodes)
 }
 
 /**
- * Delete the left child of a three node tree.
+ * Remove the left child of a three node tree.
  */
-TEST(delete_left_three_nodes)
+TEST(remove_left_three_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -206,20 +195,17 @@ TEST(delete_left_three_nodes)
     p.left = &z;
     p.right = &y;
     p.color = RBTREE_BLACK;
-    p.hdr.release = &dummy_release;
     z.parent = &p;
     z.left = tree->nil;
     z.right = tree->nil;
     z.color = RBTREE_RED;
-    z.hdr.release = &dummy_release;
     y.parent = &p;
     y.left = tree->nil;
     y.right = tree->nil;
     y.color = RBTREE_RED;
-    y.hdr.release = &dummy_release;
 
-    /* Delete the child node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &z));
+    /* Remove the child node. */
+    rbtree_remove_node(tree, &z);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(&p == tree->root);
@@ -243,9 +229,9 @@ TEST(delete_left_three_nodes)
 }
 
 /**
- * Delete the right child of a three node tree.
+ * Remove the right child of a three node tree.
  */
-TEST(delete_right_three_nodes)
+TEST(remove_right_three_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -269,20 +255,17 @@ TEST(delete_right_three_nodes)
     p.left = &z;
     p.right = &y;
     p.color = RBTREE_BLACK;
-    p.hdr.release = &dummy_release;
     z.parent = &p;
     z.left = tree->nil;
     z.right = tree->nil;
     z.color = RBTREE_RED;
-    z.hdr.release = &dummy_release;
     y.parent = &p;
     y.left = tree->nil;
     y.right = tree->nil;
     y.color = RBTREE_RED;
-    y.hdr.release = &dummy_release;
 
-    /* Delete the child node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &y));
+    /* Remove the child node. */
+    rbtree_remove_node(tree, &y);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(&p == tree->root);
@@ -306,9 +289,9 @@ TEST(delete_right_three_nodes)
 }
 
 /**
- * Delete the root of a three node tree.
+ * Remove the root of a three node tree.
  */
-TEST(delete_root_three_nodes)
+TEST(remove_root_three_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -332,20 +315,17 @@ TEST(delete_root_three_nodes)
     p.left = &z;
     p.right = &y;
     p.color = RBTREE_BLACK;
-    p.hdr.release = &dummy_release;
     z.parent = &p;
     z.left = tree->nil;
     z.right = tree->nil;
     z.color = RBTREE_RED;
-    z.hdr.release = &dummy_release;
     y.parent = &p;
     y.left = tree->nil;
     y.right = tree->nil;
     y.color = RBTREE_RED;
-    y.hdr.release = &dummy_release;
 
-    /* Delete the child node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &p));
+    /* Remove the child node. */
+    rbtree_remove_node(tree, &p);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(&y == tree->root);
@@ -369,9 +349,9 @@ TEST(delete_root_three_nodes)
 }
 
 /**
- * Delete leaf 15 of a 15 node tree.
+ * Remove leaf 15 of a 15 node tree.
  */
-TEST(delete_leaf15_fifteen_nodes)
+TEST(remove_leaf15_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -407,80 +387,65 @@ TEST(delete_leaf15_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n15));
+    /* Remove a leaf node. */
+    rbtree_remove_node(tree, &n15);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -552,9 +517,9 @@ TEST(delete_leaf15_fifteen_nodes)
 }
 
 /**
- * Delete leaf 13 of a 15 node tree.
+ * Remove leaf 13 of a 15 node tree.
  */
-TEST(delete_leaf13_fifteen_nodes)
+TEST(remove_leaf13_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -590,80 +555,65 @@ TEST(delete_leaf13_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n13));
+    /* Remove a leaf node. */
+    rbtree_remove_node(tree, &n13);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -735,9 +685,9 @@ TEST(delete_leaf13_fifteen_nodes)
 }
 
 /**
- * Delete leaf 11 of a 15 node tree.
+ * Remove leaf 11 of a 15 node tree.
  */
-TEST(delete_leaf11_fifteen_nodes)
+TEST(remove_leaf11_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -773,80 +723,65 @@ TEST(delete_leaf11_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n11));
+    /* Remove a leaf node. */
+    rbtree_remove_node(tree, &n11);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -918,9 +853,9 @@ TEST(delete_leaf11_fifteen_nodes)
 }
 
 /**
- * Delete leaf 9 of a 15 node tree.
+ * Remove leaf 9 of a 15 node tree.
  */
-TEST(delete_leaf9_fifteen_nodes)
+TEST(remove_leaf9_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -956,80 +891,65 @@ TEST(delete_leaf9_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n9));
+    /* Remove a leaf node. */
+    rbtree_remove_node(tree, &n9);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -1101,9 +1021,9 @@ TEST(delete_leaf9_fifteen_nodes)
 }
 
 /**
- * Delete leaf 7 of a 15 node tree.
+ * Remove leaf 7 of a 15 node tree.
  */
-TEST(delete_leaf7_fifteen_nodes)
+TEST(remove_leaf7_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -1139,80 +1059,65 @@ TEST(delete_leaf7_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n7));
+    /* Remove a leaf node. */
+    rbtree_remove_node(tree, &n7);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -1284,9 +1189,9 @@ TEST(delete_leaf7_fifteen_nodes)
 }
 
 /**
- * Delete leaf 5 of a 15 node tree.
+ * Remove leaf 5 of a 15 node tree.
  */
-TEST(delete_leaf5_fifteen_nodes)
+TEST(remove_leaf5_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -1322,80 +1227,65 @@ TEST(delete_leaf5_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n5));
+    /* Remove a leaf node. */
+    rbtree_remove_node(tree, &n5);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -1467,9 +1357,9 @@ TEST(delete_leaf5_fifteen_nodes)
 }
 
 /**
- * Delete leaf 3 of a 15 node tree.
+ * Remove leaf 3 of a 15 node tree.
  */
-TEST(delete_leaf3_fifteen_nodes)
+TEST(remove_leaf3_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -1505,80 +1395,65 @@ TEST(delete_leaf3_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n3));
+    /* Remove a leaf node. */
+    rbtree_remove_node(tree, &n3);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -1650,9 +1525,9 @@ TEST(delete_leaf3_fifteen_nodes)
 }
 
 /**
- * Delete leaf 1 of a 15 node tree.
+ * Remove leaf 1 of a 15 node tree.
  */
-TEST(delete_leaf1_fifteen_nodes)
+TEST(remove_leaf1_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -1688,80 +1563,65 @@ TEST(delete_leaf1_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n1));
+    /* Remove a leaf node. */
+    rbtree_remove_node(tree, &n1);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -1834,9 +1694,9 @@ TEST(delete_leaf1_fifteen_nodes)
 }
 
 /**
- * Delete branch 2 of a 15 node tree.
+ * Remove branch 2 of a 15 node tree.
  */
-TEST(delete_branch2_fifteen_nodes)
+TEST(remove_branch2_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -1872,80 +1732,65 @@ TEST(delete_branch2_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n2));
+    /* Remove a branch node. */
+    rbtree_remove_node(tree, &n2);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -2017,9 +1862,9 @@ TEST(delete_branch2_fifteen_nodes)
 }
 
 /**
- * Delete branch 6 of a 15 node tree.
+ * Remove branch 6 of a 15 node tree.
  */
-TEST(delete_branch6_fifteen_nodes)
+TEST(remove_branch6_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -2055,80 +1900,65 @@ TEST(delete_branch6_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n6));
+    /* Remove a branch node. */
+    rbtree_remove_node(tree, &n6);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -2200,9 +2030,9 @@ TEST(delete_branch6_fifteen_nodes)
 }
 
 /**
- * Delete branch 10 of a 15 node tree.
+ * Remove branch 10 of a 15 node tree.
  */
-TEST(delete_branch10_fifteen_nodes)
+TEST(remove_branch10_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -2238,80 +2068,65 @@ TEST(delete_branch10_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n10));
+    /* Remove a branch node. */
+    rbtree_remove_node(tree, &n10);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -2383,9 +2198,9 @@ TEST(delete_branch10_fifteen_nodes)
 }
 
 /**
- * Delete branch 14 of a 15 node tree.
+ * Remove branch 14 of a 15 node tree.
  */
-TEST(delete_branch14_fifteen_nodes)
+TEST(remove_branch14_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -2421,80 +2236,65 @@ TEST(delete_branch14_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n14));
+    /* Remove a branch node. */
+    rbtree_remove_node(tree, &n14);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -2566,9 +2366,9 @@ TEST(delete_branch14_fifteen_nodes)
 }
 
 /**
- * Delete branch 4 of a 15 node tree.
+ * Remove branch 4 of a 15 node tree.
  */
-TEST(delete_branch4_fifteen_nodes)
+TEST(remove_branch4_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -2604,80 +2404,65 @@ TEST(delete_branch4_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n4));
+    /* Remove a branch node. */
+    rbtree_remove_node(tree, &n4);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -2749,9 +2534,9 @@ TEST(delete_branch4_fifteen_nodes)
 }
 
 /**
- * Delete branch 12 of a 15 node tree.
+ * Remove branch 12 of a 15 node tree.
  */
-TEST(delete_branch12_fifteen_nodes)
+TEST(remove_branch12_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -2787,80 +2572,65 @@ TEST(delete_branch12_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n12));
+    /* Remove a branch node. */
+    rbtree_remove_node(tree, &n12);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n8);
@@ -2932,9 +2702,9 @@ TEST(delete_branch12_fifteen_nodes)
 }
 
 /**
- * Delete branch 8 of a 15 node tree.
+ * Remove branch 8 of a 15 node tree.
  */
-TEST(delete_branch8_fifteen_nodes)
+TEST(remove_branch8_fifteen_nodes)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -2970,80 +2740,65 @@ TEST(delete_branch8_fifteen_nodes)
     n8.left = &n4;
     n8.right = &n12;
     n8.color = RBTREE_BLACK;
-    n8.hdr.release = &dummy_release;
     n4.parent = &n8;
     n4.left = &n2;
     n4.right = &n6;
     n4.color = RBTREE_RED;
-    n4.hdr.release = &dummy_release;
     n2.parent = &n4;
     n2.left = &n1;
     n2.right = &n3;
     n2.color = RBTREE_BLACK;
-    n2.hdr.release = &dummy_release;
     n1.parent = &n2;
     n1.left = tree->nil;
     n1.right = tree->nil;
     n1.color = RBTREE_RED;
-    n1.hdr.release = &dummy_release;
     n3.parent = &n2;
     n3.left = tree->nil;
     n3.right = tree->nil;
     n3.color = RBTREE_RED;
-    n3.hdr.release = &dummy_release;
     n6.parent = &n4;
     n6.left = &n5;
     n6.right = &n7;
     n6.color = RBTREE_BLACK;
-    n6.hdr.release = &dummy_release;
     n5.parent = &n6;
     n5.left = tree->nil;
     n5.right = tree->nil;
     n5.color = RBTREE_RED;
-    n5.hdr.release = &dummy_release;
     n7.parent = &n6;
     n7.left = tree->nil;
     n7.right = tree->nil;
     n7.color = RBTREE_RED;
-    n7.hdr.release = &dummy_release;
     n12.parent = &n8;
     n12.left = &n10;
     n12.right = &n14;
     n12.color = RBTREE_RED;
-    n12.hdr.release = &dummy_release;
     n10.parent = &n12;
     n10.left = &n9;
     n10.right = &n11;
     n10.color = RBTREE_BLACK;
-    n10.hdr.release = &dummy_release;
     n9.parent = &n10;
     n9.left = tree->nil;
     n9.right = tree->nil;
     n9.color = RBTREE_RED;
-    n9.hdr.release = &dummy_release;
     n11.parent = &n10;
     n11.left = tree->nil;
     n11.right = tree->nil;
     n11.color = RBTREE_RED;
-    n11.hdr.release = &dummy_release;
     n14.parent = &n12;
     n14.left = &n13;
     n14.right = &n15;
     n14.color = RBTREE_BLACK;
-    n14.hdr.release = &dummy_release;
     n13.parent = &n14;
     n13.left = tree->nil;
     n13.right = tree->nil;
     n13.color = RBTREE_RED;
-    n13.hdr.release = &dummy_release;
     n15.parent = &n14;
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
-    n15.hdr.release = &dummy_release;
 
-    /* Delete a leaf node. */
-    TEST_ASSERT(STATUS_SUCCESS == rbtree_delete_node(tree, &n8));
+    /* Remove the root node. */
+    rbtree_remove_node(tree, &n8);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->root == &n9);
