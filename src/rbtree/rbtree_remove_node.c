@@ -15,8 +15,8 @@
 /**
  * \brief Remove the given \ref rbtree_node from the \ref rbtree.
  *
- * The resource pointed to by \p z is owned by the caller and must be released
- * when no longer needed.
+ * After the completion of this call, the resource pointed to by \p z is owned
+ * by the caller and must be released when no longer needed.
  *
  * \param tree          The \ref rbtree instance from which the node is removed.
  * \param z             The \ref rbtree_node to delete from the tree.
