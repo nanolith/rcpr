@@ -161,6 +161,25 @@ void rbtree_remove_node(rbtree* tree, rbtree_node* z);
 void rbtree_insert_node(rbtree* tree, rbtree_node* z);
 
 /**
+ * \brief Find a \ref rbtree_node matching the given key in an \ref rbtree
+ * instance.
+ *
+ * On success, the \ref rbtree_node pointer pointer is updated with the pointer
+ * to the found \ref rbtree_node.  On failure, an error code is returned.
+ *
+ * \param tree          The \ref rbtree instance to search.
+ * \param key           The key to search for.
+ * \param node          Pointer to the pointer to receive the \ref rbtree_node
+ *                      on search success.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_RBTREE_NOT_FOUND if a matching node was not found.
+ */
+status FN_DECL_MUST_CHECK
+rbtree_find_node(rbtree* tree, const void* key, rbtree_node** node);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *

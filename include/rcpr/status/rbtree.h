@@ -16,3 +16,9 @@
  */
 #define ERROR_RBTREE_NIL_NODE_CANNOT_BE_RELEASED \
     STATUS_CODE(1, RCPR_COMPONENT_RBTREE, 0x0000)
+
+/**
+ * \brief A matching node could not be found.
+ */
+#define ERROR_RBTREE_NOT_FOUND \
+    STATUS_CODE(1, RCPR_COMPONENT_RBTREE, 0x0001)
