@@ -148,7 +148,7 @@ rbtree_find(resource** r, rbtree* tree, const void* key);
  * \note After a successful delete, the resource associated with the given key
  * will be populated in \p r, if \p r is not NULL.  Otherwise, the resource is
  * released.  If \p r is populated, then ownership of this \ref resource
- * transfers to the owner, and the owner must release this \ref resource by
+ * transfers to the caller, and the caller must release this \ref resource by
  * calling \ref resource_release on it when it is no longer needed.
  *
  * \returns a status code indicating success or failure.
