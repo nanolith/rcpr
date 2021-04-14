@@ -16,6 +16,7 @@
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree);
 static status rbtree_resource_release(resource* r);
 static status rbtree_nil_node_resource_release(resource* r);
+static status rbtree_delete_nodes(rbtree* tree, rbtree_node* n);
 
 /**
  * \brief Create an \ref rbtree instance.
@@ -128,19 +129,76 @@ done:
  */
 static status rbtree_resource_release(resource* r)
 {
+    status delete_nodes_retval = STATUS_SUCCESS;
     rbtree* tree = (rbtree*)r;
 
     /* cache the allocator. */
     allocator* a = tree->alloc;
 
-    /* TODO - recursively release the nodes of the tree. */
+    /* clean up all nodes. */
+    if (tree->root != tree->nil)
+    {
+        delete_nodes_retval = rbtree_delete_nodes(tree, tree->root);
+    }
 
     /* clear the rbtree structure. */
     MODEL_EXEMPT(memset(tree, 0, sizeof(*tree)));
 
     /* reclaim the rbtree structure. */
-    return
-        allocator_reclaim(a, tree);
+    status reclaim_retval = allocator_reclaim(a, tree);
+
+    /* if any operation failed, return a failure code. */
+    if (STATUS_SUCCESS != delete_nodes_retval)
+    {
+        return delete_nodes_retval;
+    }
+    else if (STATUS_SUCCESS != reclaim_retval)
+    {
+        return reclaim_retval;
+    }
+
+    return STATUS_SUCCESS;
+}
+
+/**
+ * \brief Delete all nodes in this subtree, including this node.
+ *
+ * \param tree      The tree to which this subtree belongs.
+ * \param n         The subtree to delete.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ */
+static status rbtree_delete_nodes(rbtree* tree, rbtree_node* n)
+{
+    status retval_left = STATUS_SUCCESS;
+    status retval_right = STATUS_SUCCESS;
+
+    /* recursively delete the left branch. */
+    if (tree->nil != n->left)
+    {
+        retval_left = rbtree_delete_nodes(tree, n->left);
+    }
+
+    /* recursively delete the right branch. */
+    if (tree->nil != n->right)
+    {
+        retval_right = rbtree_delete_nodes(tree, n->right);
+    }
+
+    /* release this node. */
+    status retval_node = resource_release(rbtree_node_resource_handle(n));
+
+    /* if any operation failed, return a failure code. */
+    if (STATUS_SUCCESS != retval_left)
+        return retval_left;
+    else if (STATUS_SUCCESS != retval_right)
+        return retval_right;
+    else if (STATUS_SUCCESS != retval_node)
+        return retval_node;
+
+    return STATUS_SUCCESS;
 }
 
 /**
