@@ -51,6 +51,7 @@ struct rbtree
     rbtree_node* root;
     rbtree_node nil_impl;
     rbtree_node* nil;
+    size_t count;
 };
 
 /**

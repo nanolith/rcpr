@@ -69,6 +69,10 @@ void rbtree_insert_node(rbtree* tree, rbtree_node* z)
 
     rbtree_insert_fixup(tree, z);
 
+    /* increment the count. */
+    ++(tree->count);
+
+    /* make sure that nil is correct. */
     tree->nil->parent = tree->nil;
     tree->nil->left = tree->nil;
     tree->nil->right = tree->nil;

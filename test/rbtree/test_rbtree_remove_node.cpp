@@ -49,12 +49,14 @@ TEST(remove_root)
     z.left = tree->nil;
     z.right = tree->nil;
     z.color = RBTREE_BLACK;
+    tree->count = 1;
 
     /* Remove this node. */
     rbtree_remove_node(tree, &z);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(tree->nil == tree->root);
+    TEST_EXPECT(tree->count == 0);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -96,6 +98,7 @@ TEST(remove_child_two_nodes)
     z.left = tree->nil;
     z.right = tree->nil;
     z.color = RBTREE_RED;
+    tree->count = 2;
 
     /* Remove the child node. */
     rbtree_remove_node(tree, &z);
@@ -106,6 +109,7 @@ TEST(remove_child_two_nodes)
     TEST_EXPECT(p.left == tree->nil);
     TEST_EXPECT(p.right == tree->nil);
     TEST_EXPECT(p.parent == tree->nil);
+    TEST_EXPECT(tree->count == 1);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -147,6 +151,7 @@ TEST(remove_root_two_nodes)
     z.left = tree->nil;
     z.right = tree->nil;
     z.color = RBTREE_RED;
+    tree->count = 2;
 
     /* Remove the child node. */
     rbtree_remove_node(tree, &p);
@@ -157,6 +162,7 @@ TEST(remove_root_two_nodes)
     TEST_EXPECT(z.left == tree->nil);
     TEST_EXPECT(z.right == tree->nil);
     TEST_EXPECT(z.parent == tree->nil);
+    TEST_EXPECT(tree->count == 1);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -203,6 +209,7 @@ TEST(remove_left_three_nodes)
     y.left = tree->nil;
     y.right = tree->nil;
     y.color = RBTREE_RED;
+    tree->count = 3;
 
     /* Remove the child node. */
     rbtree_remove_node(tree, &z);
@@ -217,6 +224,7 @@ TEST(remove_left_three_nodes)
     TEST_EXPECT(y.color == RBTREE_RED);
     TEST_EXPECT(y.left == tree->nil);
     TEST_EXPECT(y.right == tree->nil);
+    TEST_EXPECT(tree->count == 2);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -263,6 +271,7 @@ TEST(remove_right_three_nodes)
     y.left = tree->nil;
     y.right = tree->nil;
     y.color = RBTREE_RED;
+    tree->count = 3;
 
     /* Remove the child node. */
     rbtree_remove_node(tree, &y);
@@ -277,6 +286,7 @@ TEST(remove_right_three_nodes)
     TEST_EXPECT(z.color == RBTREE_RED);
     TEST_EXPECT(z.left == tree->nil);
     TEST_EXPECT(z.right == tree->nil);
+    TEST_EXPECT(tree->count == 2);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -323,6 +333,7 @@ TEST(remove_root_three_nodes)
     y.left = tree->nil;
     y.right = tree->nil;
     y.color = RBTREE_RED;
+    tree->count = 3;
 
     /* Remove the child node. */
     rbtree_remove_node(tree, &p);
@@ -337,6 +348,7 @@ TEST(remove_root_three_nodes)
     TEST_EXPECT(z.color == RBTREE_RED);
     TEST_EXPECT(z.left == tree->nil);
     TEST_EXPECT(z.right == tree->nil);
+    TEST_EXPECT(tree->count == 2);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -443,6 +455,7 @@ TEST(remove_leaf15_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a leaf node. */
     rbtree_remove_node(tree, &n15);
@@ -505,6 +518,7 @@ TEST(remove_leaf15_fifteen_nodes)
     TEST_EXPECT(n13.left == tree->nil);
     TEST_EXPECT(n13.right == tree->nil);
     TEST_EXPECT(n13.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -611,6 +625,7 @@ TEST(remove_leaf13_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a leaf node. */
     rbtree_remove_node(tree, &n13);
@@ -673,6 +688,7 @@ TEST(remove_leaf13_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -779,6 +795,7 @@ TEST(remove_leaf11_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a leaf node. */
     rbtree_remove_node(tree, &n11);
@@ -841,6 +858,7 @@ TEST(remove_leaf11_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -947,6 +965,7 @@ TEST(remove_leaf9_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a leaf node. */
     rbtree_remove_node(tree, &n9);
@@ -1009,6 +1028,7 @@ TEST(remove_leaf9_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -1115,6 +1135,7 @@ TEST(remove_leaf7_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a leaf node. */
     rbtree_remove_node(tree, &n7);
@@ -1177,6 +1198,7 @@ TEST(remove_leaf7_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -1283,6 +1305,7 @@ TEST(remove_leaf5_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a leaf node. */
     rbtree_remove_node(tree, &n5);
@@ -1345,6 +1368,7 @@ TEST(remove_leaf5_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -1451,6 +1475,7 @@ TEST(remove_leaf3_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a leaf node. */
     rbtree_remove_node(tree, &n3);
@@ -1513,6 +1538,7 @@ TEST(remove_leaf3_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -1619,6 +1645,7 @@ TEST(remove_leaf1_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a leaf node. */
     rbtree_remove_node(tree, &n1);
@@ -1682,6 +1709,7 @@ TEST(remove_leaf1_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -1788,6 +1816,7 @@ TEST(remove_branch2_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a branch node. */
     rbtree_remove_node(tree, &n2);
@@ -1850,6 +1879,7 @@ TEST(remove_branch2_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -1956,6 +1986,7 @@ TEST(remove_branch6_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a branch node. */
     rbtree_remove_node(tree, &n6);
@@ -2018,6 +2049,7 @@ TEST(remove_branch6_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -2124,6 +2156,7 @@ TEST(remove_branch10_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a branch node. */
     rbtree_remove_node(tree, &n10);
@@ -2186,6 +2219,7 @@ TEST(remove_branch10_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -2292,6 +2326,7 @@ TEST(remove_branch14_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a branch node. */
     rbtree_remove_node(tree, &n14);
@@ -2354,6 +2389,7 @@ TEST(remove_branch14_fifteen_nodes)
     TEST_EXPECT(n13.left == tree->nil);
     TEST_EXPECT(n13.right == tree->nil);
     TEST_EXPECT(n13.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -2460,6 +2496,7 @@ TEST(remove_branch4_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a branch node. */
     rbtree_remove_node(tree, &n4);
@@ -2522,6 +2559,7 @@ TEST(remove_branch4_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -2628,6 +2666,7 @@ TEST(remove_branch12_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove a branch node. */
     rbtree_remove_node(tree, &n12);
@@ -2690,6 +2729,7 @@ TEST(remove_branch12_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -2796,6 +2836,7 @@ TEST(remove_branch8_fifteen_nodes)
     n15.left = tree->nil;
     n15.right = tree->nil;
     n15.color = RBTREE_RED;
+    tree->count = 15;
 
     /* Remove the root node. */
     rbtree_remove_node(tree, &n8);
@@ -2858,6 +2899,7 @@ TEST(remove_branch8_fifteen_nodes)
     TEST_EXPECT(n15.left == tree->nil);
     TEST_EXPECT(n15.right == tree->nil);
     TEST_EXPECT(n15.color == RBTREE_RED);
+    TEST_EXPECT(tree->count == 14);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;

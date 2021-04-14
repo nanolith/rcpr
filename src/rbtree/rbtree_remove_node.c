@@ -67,6 +67,9 @@ void rbtree_remove_node(rbtree* tree, rbtree_node* z)
         rbtree_delete_fixup(tree, x);
     }
 
+    /* decrement the count. */
+    --(tree->count);
+
     /* finally, make sure that nil is correct. */
     tree->nil->parent = tree->nil;
     tree->nil->left = tree->nil;
