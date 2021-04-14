@@ -60,12 +60,14 @@ TEST(insert_empty)
     /* PRECONDITIONS. */
     memset(&z, 0, sizeof(rbtree_node));
     z.value = (resource*)1;
+    TEST_ASSERT(tree->count == 0);
 
     /* Insert this node into the tree. */
     rbtree_insert_node(tree, &z);
 
     /* POSTCONDITIONS. */
     TEST_EXPECT(&z == tree->root);
+    TEST_EXPECT(tree->count == 1);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -106,6 +108,7 @@ TEST(insert_left)
     parent.value = (resource*)10;
     memset(&z, 0, sizeof(rbtree_node));
     z.value = (resource*)1;
+    tree->count = 1;
 
     /* Insert this node into the tree. */
     rbtree_insert_node(tree, &z);
@@ -119,6 +122,7 @@ TEST(insert_left)
     TEST_EXPECT(tree->nil == z.left);
     TEST_EXPECT(tree->nil == z.right);
     TEST_EXPECT(RBTREE_RED == z.color);
+    TEST_EXPECT(tree->count == 2);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
@@ -159,6 +163,7 @@ TEST(insert_right)
     parent.value = (resource*)10;
     memset(&z, 0, sizeof(rbtree_node));
     z.value = (resource*)20;
+    tree->count = 1;
 
     /* Insert this node into the tree. */
     rbtree_insert_node(tree, &z);
@@ -172,6 +177,7 @@ TEST(insert_right)
     TEST_EXPECT(tree->nil == z.left);
     TEST_EXPECT(tree->nil == z.right);
     TEST_EXPECT(RBTREE_RED == z.color);
+    TEST_EXPECT(tree->count == 2);
 
     /* before cleaning up rbtree, set the root to nil. */
     tree->root = tree->nil;
