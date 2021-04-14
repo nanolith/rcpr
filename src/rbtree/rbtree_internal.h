@@ -181,6 +181,27 @@ status FN_DECL_MUST_CHECK
 rbtree_find_node(rbtree* tree, const void* key, rbtree_node** node);
 
 /**
+ * \brief Create a \ref rbtree_node instance from a tree and a resource.
+ *
+ * \param node          The pointer to pointer to receive the \ref rbtree_node
+ *                      on success.
+ * \param tree          The tree to which this \ref rbtree_node will belong.
+ * \param r             The \ref resource to assign this node.
+ *
+ * \note On success, this function creates a new \ref rbtree_node, which is
+ * owned by the caller until it is assigned to the \ref rbtree. If this
+ * assignment should fail, it is the caller's responsibility to release this
+ * resource.  On success, this node takes ownership of the resource and will
+ * release it when it is released.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero failure code on failure.
+ */
+status FN_DECL_MUST_CHECK
+rbtree_node_create(rbtree_node** node, rbtree* tree, resource* r);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *
