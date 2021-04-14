@@ -1,7 +1,7 @@
 /**
- * \file test/rbtree/test_rbtree_insert.cpp
+ * \file test/rbtree/test_rbtree_delete.cpp
  *
- * \brief Unit tests for rbtree_insert.
+ * \brief Unit tests for rbtree_delete.
  */
 
 #include <minunit/minunit.h>
@@ -11,7 +11,7 @@
 
 #include "../../src/resource/resource_internal.h"
 
-TEST_SUITE(rbtree_insert);
+TEST_SUITE(rbtree_delete);
 
 /* integer resource. */
 typedef struct integer integer;
@@ -112,9 +112,9 @@ static const void* integer_key(void* context, const resource* r)
 }
 
 /**
- * Insert an integer into an empty tree.
+ * Insert an integer into an empty tree and then delete it.
  */
-TEST(insert_empty)
+TEST(insert_delete_empty)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
@@ -151,6 +151,14 @@ TEST(insert_empty)
     /* POSTCONDITION: this found value is our value. */
     TEST_EXPECT(&value->hdr == x);
 
+    /* delete the value. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == rbtree_delete(nullptr, tree, &key));
+
+    /* POSTCONDITION: finding an integer returns ERROR_RBTREE_NOT_FOUND. */
+    TEST_ASSERT(
+        ERROR_RBTREE_NOT_FOUND == rbtree_find(&x, tree, &key));
+
     /* clean up. */
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(rbtree_resource_handle(tree)));
@@ -159,16 +167,14 @@ TEST(insert_empty)
 }
 
 /**
- * Insert two integers into a list.
+ * Insert an integer into an empty tree and then remove it.
  */
-TEST(insert_double)
+TEST(insert_remove_empty)
 {
     allocator* alloc = nullptr;
     rbtree* tree = nullptr;
-    integer* value1 = nullptr;
-    integer* value2 = nullptr;
-    const int key1 = 15;
-    const int key2 = 7;
+    integer* value = nullptr;
+    const int key = 15;
 
     /* we should be able to create a malloc allocator. */
     TEST_ASSERT(
@@ -180,46 +186,40 @@ TEST(insert_double)
             rbtree_create(
                 &tree, alloc, &integer_compare, &integer_key, nullptr));
 
-    /* we should be able to create the first integer. */
+    /* we should be able to create an integer value. */
     TEST_ASSERT(
-        STATUS_SUCCESS == integer_create(&value1, key1));
+        STATUS_SUCCESS == integer_create(&value, key));
 
-    /* we should be able to create the second integer. */
-    TEST_ASSERT(
-        STATUS_SUCCESS == integer_create(&value2, key2));
-
-    /* PRECONDITION: finding first integer returns ERROR_RBTREE_NOT_FOUND. */
+    /* PRECONDITION: finding an integer returns ERROR_RBTREE_NOT_FOUND. */
     resource* x = nullptr;
     TEST_ASSERT(
-        ERROR_RBTREE_NOT_FOUND == rbtree_find(&x, tree, &key1));
+        ERROR_RBTREE_NOT_FOUND == rbtree_find(&x, tree, &key));
 
-    /* PRECONDITION: finding second integer returns ERROR_RBTREE_NOT_FOUND. */
+    /* insert the value. */
     TEST_ASSERT(
-        ERROR_RBTREE_NOT_FOUND == rbtree_find(&x, tree, &key2));
+        STATUS_SUCCESS == rbtree_insert(tree, &value->hdr));
 
-    /* insert the first integer. */
+    /* POSTCONDITION: we can find the integer resource. */
     TEST_ASSERT(
-        STATUS_SUCCESS == rbtree_insert(tree, &value1->hdr));
+        STATUS_SUCCESS == rbtree_find(&x, tree, &key));
 
-    /* insert the second integer. */
+    /* POSTCONDITION: this found value is our value. */
+    TEST_EXPECT(&value->hdr == x);
+
+    /* delete the value. */
     TEST_ASSERT(
-        STATUS_SUCCESS == rbtree_insert(tree, &value2->hdr));
+        STATUS_SUCCESS == rbtree_delete(&x, tree, &key));
 
-    /* POSTCONDITION: we can find the first integer resource. */
+    /* POSTCONDITION: the deleted resource is our resource. */
+    TEST_EXPECT(&value->hdr == x);
+
+    /* POSTCONDITION: finding an integer returns ERROR_RBTREE_NOT_FOUND. */
     TEST_ASSERT(
-        STATUS_SUCCESS == rbtree_find(&x, tree, &key1));
-
-    /* POSTCONDITION: this found value is our first value. */
-    TEST_EXPECT(&value1->hdr == x);
-
-    /* POSTCONDITION: we can find the second integer resource. */
-    TEST_ASSERT(
-        STATUS_SUCCESS == rbtree_find(&x, tree, &key2));
-
-    /* POSTCONDITION: this found value is our second value. */
-    TEST_EXPECT(&value2->hdr == x);
+        ERROR_RBTREE_NOT_FOUND == rbtree_find(&x, tree, &key));
 
     /* clean up. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(&value->hdr));
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(rbtree_resource_handle(tree)));
     TEST_ASSERT(
