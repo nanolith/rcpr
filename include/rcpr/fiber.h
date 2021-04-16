@@ -264,6 +264,62 @@ fiber_scheduler_create(
     fiber_scheduler** sched, allocator* a, void* context,
     fiber_scheduler_callback_fn fn);
 
+/**
+ * \brief Create a disciplined \ref fiber_scheduler instance.
+ *
+ * \param sched         Pointer to the \ref fiber_scheduler pointer to receive
+ *                      this resource on success.
+ * \param a             Pointer to the allocator to use for creating this \ref
+ *                      fiber_scheduler resource.
+ *
+ * \note This \ref fiber_scheduler is a \ref resource that must be released by
+ * calling \ref resource_release on its resource handle when it is no longer
+ * needed by the caller.  The resource handle can be accessed by calling \ref
+ * fiber_scheduler_resource_handle on this \ref fiber_scheduler instance. The
+ * fiber scheduler must be in a terminated state before releasing this resource.
+ * If the fiber scheduler is not yet terminated, then undefined behavior can
+ * occur, the least of which being that any resources owned by fibers managed by
+ * this scheduler will not be released.  It is up to the caller to ensure that
+ * the fiber scheduler has terminated, in this case, by making use of the
+ * management discipline of the fiber scheduler.
+ *
+ * This is the preferred way to use the fiber library, as it is the most
+ * flexible.  The \ref fiber_scheduler_create_ex method should be used for
+ * specialized fiber use cases, such as simple coroutines and testing.
+ *
+ * This call creates a disciplined fiber scheduler, which incorporates
+ * discipline domains such as I/O scheduling, fiber management, or message
+ * passing. These domains can be added to a disciplined fiber scheduler
+ * instance. By default, fiber management is always added to a new disciplined
+ * fiber scheduler by this create function.  A new discipline should be added to
+ * the fiber scheduler before using any of its methods.  This discipline should
+ * be passed to the context of any fiber wishing to make use of it.  Internally,
+ * the disciplined fiber scheduler will add callback vectors for each possible
+ * discipline callback to its internal event router.  Only the discipline
+ * instance associated with this fiber scheduler should be used to initiate
+ * calls, since event codes are dynamically allocated, in order to provide a
+ * flexible vectored dispatch that can accommodate user defined disciplines.
+ * 
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p sched must not reference a valid \ref fiber_scheduler instance and
+ *        must not be NULL.
+ *      - \p a must reference a valid \ref allocator and must not be NULL.
+ *
+ * \post
+ *      - On success, \p sched is set to a pointer to a valid disciplined \ref
+ *        fiber_scheduler instance, which is a \ref resource owned by the caller
+ *        that must be released when no longer needed.
+ *      - On failure, \p sched is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+fiber_scheduler_create_with_disciplines(
+    fiber_scheduler** sched, allocator* a);
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
