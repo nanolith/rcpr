@@ -101,6 +101,19 @@ status FN_DECL_MUST_CHECK
 rcpr_uuid_parse_string(
     rcpr_uuid* uuid, const char* str);
 
+/******************************************************************************/
+/* Start of model checking properties.                                        */
+/******************************************************************************/
+
+/**
+ * \brief Valid \ref rcpr_uuid property.
+ *
+ * \param id            The \ref rcpr_uuid instance to be verified.
+ *
+ * \returns true if the \ref rcpr_uuid instance is valid.
+ */
+bool prop_uuid_valid(const rcpr_uuid* id);
+
 /* C++ compatibility. */
 # ifdef    __cplusplus
 }
