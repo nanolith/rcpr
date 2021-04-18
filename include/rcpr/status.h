@@ -17,6 +17,7 @@
 #include <rcpr/status/socket_utilities.h>
 #include <rcpr/status/stack.h>
 #include <rcpr/status/thread.h>
+#include <rcpr/status/uuid.h>
 #include <stdint.h>
 
 /* C++ compatibility. */

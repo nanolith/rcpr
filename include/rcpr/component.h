@@ -75,6 +75,9 @@ enum rcpr_subcomponents
 
     /** \brief rbtree library subcomponent scope. */
     RCPR_SUBCOMPONENT_RBTREE                                =             0x08,
+
+    /** \brief uuid library subcomponent scope. */
+    RCPR_SUBCOMPONENT_UUID                                  =             0x09,
 };
 
 /** \brief Global component scope. */
@@ -112,6 +115,10 @@ enum rcpr_subcomponents
 /** \brief rbtree library component scope. */
 #define RCPR_COMPONENT_RBTREE \
     COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_RBTREE)
+
+/** \brief uuid library component scope. */
+#define RCPR_COMPONENT_UUID \
+    COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_UUID)
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
