@@ -1,7 +1,7 @@
 #include <rcpr/allocator.h>
 #include <rcpr/model_assert.h>
 #include <rcpr/resource.h>
-#include <rcpr/fiber.h>
+#include <rcpr/uuid.h>
 
 void allocator_struct_tag_init();
 
