@@ -11,7 +11,9 @@
 
 #include <rcpr/fiber.h>
 #include <rcpr/model_assert.h>
+#include <rcpr/rbtree.h>
 #include <rcpr/stack.h>
+#include <rcpr/uuid.h>
 
 #include "../../stack/stack_internal.h"
 #include "../../resource/resource_internal.h"
@@ -47,6 +49,37 @@ struct fiber_scheduler
     fiber* main_fiber;
     void* context;
     fiber_scheduler_callback_fn fn;
+    bool disciplined;
+};
+
+typedef struct fiber_scheduler_disciplined_context
+fiber_scheduler_disciplined_context;
+
+struct fiber_scheduler_disciplined_context
+{
+    resource hdr;
+
+    MODEL_STRUCT_TAG(fiber_scheduler_disciplined_context);
+
+    fiber_scheduler* sched;
+    rbtree* fibers_by_pointer;
+    rbtree* disciplines_by_uuid;
+
+    size_t callback_vector_size;
+    fiber_scheduler_callback_fn* callback_vector;
+};
+
+struct fiber_scheduler_discipline
+{
+    resource hdr;
+
+    MODEL_STRUCT_TAG(fiber_scheduler_discipline);
+
+    rcpr_uuid id;
+    fiber_scheduler* sched;
+    size_t callback_vector_size;
+    fiber_scheduler_callback_fn callback_vector;
+    uint32_t* fiber_scheduler_callback_codes;
 };
 
 /**
