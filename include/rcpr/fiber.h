@@ -12,6 +12,7 @@
 #include <rcpr/allocator.h>
 #include <rcpr/function_decl.h>
 #include <rcpr/status.h>
+#include <rcpr/uuid.h>
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
@@ -30,6 +31,12 @@ typedef struct fiber fiber;
  * instances.
  */
 typedef struct fiber_scheduler fiber_scheduler;
+
+/**
+ * \brief A fiber scheduler discipline manages an API subset for both fibers and
+ * the scheduler.
+ */
+typedef struct fiber_scheduler_discipline fiber_scheduler_discipline;
 
 /**
  * \brief The default yield events supported by the scheduler.
@@ -319,6 +326,50 @@ fiber_scheduler_create(
 status FN_DECL_MUST_CHECK
 fiber_scheduler_create_with_disciplines(
     fiber_scheduler** sched, allocator* a);
+
+/**
+ * \brief Create a custom fiber scheduler discipline.
+ *
+ * \param disc              The pointer to the pointer to receive the created
+ *                          discipline on success.
+ * \param id                The id for this discipline.
+ * \param alloc             The allocator to use to create this discipline.
+ * \param callbacks         The number of callbacks supported in this
+ *                          discipline.
+ * \param callback_vector   The array of callbacks for this discipline.
+ *
+ * \note On success, this creates a new discipline instance which is owned by
+ * the caller. When no longer needed, the caller should release the resource
+ * associated with this discipline via \ref resource_release. The resource can
+ * be obtained by calling \ref fiber_scheduler_discipline_resource_handle on
+ * this instance.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p disc must not reference a valid \ref fiber_scheduler_discipline
+ *        instance and must not be NULL.
+ *      - \p id must be an id unique to this discipline family (e.g. unique for
+ *        all fiber I/O discipline instances, or unique for all messaging
+ *        discipline instances).
+ *      - \p alloc must reference a valid \ref allocator and must not be NULL.
+ *      - \p callbacks must be greater than zero.
+ *      - \p callback_vector must have a number of entries matching \p
+ *        callbacks.
+ *
+ * \post
+ *      - On success, \p disc is set to a pointer to a valid discipline
+ *        instance, which is a \ref resource owned by the caller that must be
+ *        released when no longer needed.
+ *      - On failure, \p sched is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+fiber_scheduler_discipline_create(
+    fiber_scheduler_discipline** disc, const rcpr_uuid* id, allocator* alloc,
+    size_t callbacks, fiber_scheduler_callback_fn callback_vector);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
