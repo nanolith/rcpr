@@ -61,6 +61,7 @@ struct fiber_scheduler_disciplined_context
 
     MODEL_STRUCT_TAG(fiber_scheduler_disciplined_context);
 
+    allocator* alloc;
     fiber_scheduler* sched;
     rbtree* fibers_by_pointer;
     rbtree* disciplines_by_uuid;
@@ -75,6 +76,7 @@ struct fiber_scheduler_discipline
 
     MODEL_STRUCT_TAG(fiber_scheduler_discipline);
 
+    allocator* alloc;
     rcpr_uuid id;
     fiber_scheduler* sched;
     size_t callback_vector_size;
