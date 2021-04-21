@@ -475,6 +475,114 @@ fiber_scheduler_yield(
     fiber_scheduler* sched, int yield_event, void* yield_param,
     int* resume_event, void** resume_param);
 
+/**
+ * \brief Mark the given \ref fiber as runnable.
+ *
+ * \param sched         The scheduler.
+ * \param fib           The fiber to mark as runnable.
+ * \param resume_event  The resume event for this fiber.
+ * \param resume_param  The resume parameter for this fiber.
+ *
+ * \note It is expected that the given fiber has already been added to the
+ * scheduler previously. It is an error to add an unassociated fiber to the
+ * scheduler in this way.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *      - \p fib is a pointer to a valid \ref fiber instance, previously added
+ *        to the given scheduler via \ref fiber_scheduler_add.
+ *
+ * \post
+ *      - On success, the scheduler will add the given fiber to its run queue.
+ */
+status FN_DECL_MUST_CHECK
+disciplined_fiber_scheduler_add_fiber_to_run_queue(
+    fiber_scheduler* sched, fiber* fib, int resume_event, void* resume_param);
+
+/**
+ * \brief Set the following fiber as the idle fiber.
+ *
+ * \param sched         The scheduler.
+ * \param fib           The fiber to set as the yield fiber.
+ *
+ * \note It is expected that the given fiber has already been added to the
+ * scheduler previously. It is an error to add an unassociated fiber to the
+ * scheduler in this way.  This fiber will be resumed with an idle event when
+ * the run queue is empty.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *      - \p fib is a pointer to a valid \ref fiber instance, previously added
+ *        to the given scheduler via \ref fiber_scheduler_add.
+ *
+ * \post
+ *      - On success, the scheduler will set the given fiber as its idle fiber.
+ */
+status FN_DECL_MUST_CHECK
+disciplined_fiber_scheduler_set_idle_fiber(
+    fiber_scheduler* sched, fiber* fib);
+
+/**
+ * \brief Suspend this fiber until a management event is received from the
+ *        disciplined fiber scheduler, and then resume this fiber with that
+ *        event.
+ *
+ * \param sched         The scheduler.
+ * \param resume_event  Pointer to receive the resume event for this fiber.
+ * \param resume_param  Pointer to receive the resume parameter for this fiber.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *      - \p resume_event is a valid pointer to an integer value.
+ *      - \p resume_param is a valid pointer to a void pointer.
+ *
+ * \post
+ *      - On success, the fiber has been resumed with a management event.
+ *      - \p resume_event is set to the management event value.
+ *      - \p resume_param is set to the management event parameter.
+ */
+status FN_DECL_MUST_CHECK
+disciplined_fiber_scheduler_receive_management_event(
+    fiber_scheduler* sched, int* resume_event, void** resume_param);
+
+/**
+ * \brief Remove the given fiber pointer from the disciplined fiber scheduler,
+ *        transferring ownership to the caller.
+ *
+ * \param sched         The scheduler.
+ * \param fib           Pointer to fiber to be removed from the scheduler.
+ *
+ * \note On success, the fiber's ownership is transferred to the caller, and the
+ * caller is responsible for releasing the resource associated with this fiber.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *      - \p fib is a pointer to a valid \ref fiber instance currently owned by
+ *        this scheduler.
+ *
+ * \post
+ *      - On success, the fiber's ownership is transferred to the caller.
+ */
+status FN_DECL_MUST_CHECK
+disciplined_fiber_scheduler_remove_fiber(
+    fiber_scheduler* sched, fiber* fib);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
@@ -488,7 +596,8 @@ fiber_scheduler_yield(
  *
  * \returns the \ref resource handle for this \ref fiber instance.
  */
-resource* fiber_resource_handle(fiber* fib);
+resource*
+fiber_resource_handle(fiber* fib);
 
 /**
  * \brief Given a \ref fiber_scheduler instance, return the resource handle for
@@ -499,7 +608,8 @@ resource* fiber_resource_handle(fiber* fib);
  *
  * \returns the \ref resource handle for this \ref fiber_scheduler instance.
  */
-resource* fiber_scheduler_resource_handle(fiber_scheduler* sched);
+resource*
+fiber_scheduler_resource_handle(fiber_scheduler* sched);
 
 /**
  * \brief Given a \ref fiber_scheduler_discipline instance, return the resource
@@ -511,7 +621,8 @@ resource* fiber_scheduler_resource_handle(fiber_scheduler* sched);
  * \returns the \ref resource handle for this \ref fiber_scheduler_discipline
  *          instance.
  */
-resource* fiber_scheduler_discipline_resource_handle(
+resource*
+fiber_scheduler_discipline_resource_handle(
     fiber_scheduler_discipline* disc);
 
 /******************************************************************************/
