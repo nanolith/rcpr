@@ -141,6 +141,27 @@ typedef status (*fiber_scheduler_callback_fn)(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
     fiber** resume_fib, int *resume_event, void** resume_param);
 
+/**
+ * \brief A disciplined fiber scheduler callback function.
+ *
+ * This function is part of a vector of callbacks for a given fiber scheduler
+ * discipline.  The status codes received will depend on the particular
+ * discipline.
+ *
+ * \param context       The user context for this
+ *                      \ref fiber_scheduler_discipline.
+ * \param yield_fib     The yielding fiber.
+ * \param yield_event   The event causing the fiber to yield.
+ * \param yield_param   Pointer to the yield parameter.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS is returned when this discipline callback succeeded.
+ *      - any other non-zero status code will result in thread termination and
+ *        the process aborting.
+ */
+typedef status (*fiber_scheduler_discipline_callback_fn)(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+
 /******************************************************************************/
 /* Start of constructors.                                                     */
 /******************************************************************************/
@@ -369,7 +390,7 @@ fiber_scheduler_create_with_disciplines(
 status FN_DECL_MUST_CHECK
 fiber_scheduler_discipline_create(
     fiber_scheduler_discipline** disc, const rcpr_uuid* id, allocator* alloc,
-    size_t callbacks, fiber_scheduler_callback_fn* callback_vector);
+    size_t callbacks, fiber_scheduler_discipline_callback_fn* callback_vector);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */

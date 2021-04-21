@@ -59,7 +59,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_discipline);
 status FN_DECL_MUST_CHECK
 fiber_scheduler_discipline_create(
     fiber_scheduler_discipline** disc, const rcpr_uuid* id, allocator* alloc,
-    size_t callbacks, fiber_scheduler_callback_fn* callback_vector)
+    size_t callbacks, fiber_scheduler_discipline_callback_fn* callback_vector)
 {
     fiber_scheduler_discipline* tmp;
     status retval, release_retval;
@@ -70,7 +70,8 @@ fiber_scheduler_discipline_create(
     MODEL_ASSERT(prop_allocator_valid(alloc));
     MODEL_ASSERT(
         prop_valid_range(
-            callback_vector, callbacks * sizeof(fiber_scheduler_callback_fn)));
+            callback_vector,
+            callbacks * sizeof(fiber_scheduler_discipline_callback_fn)));
 
     /* attempt to allocate memory for this fiber scheduler discipline. */
     retval =
@@ -102,7 +103,7 @@ fiber_scheduler_discipline_create(
     retval =
         allocator_allocate(
             alloc, (void**)&tmp->callback_vector,
-            callbacks * sizeof(fiber_scheduler_discipline));
+            callbacks * sizeof(fiber_scheduler_discipline_callback_fn));
     if (STATUS_SUCCESS != retval)
     {
         retval = ERROR_GENERAL_OUT_OF_MEMORY;
@@ -112,8 +113,19 @@ fiber_scheduler_discipline_create(
     /* copy the vectors. */
     memcpy(
         tmp->callback_vector, callback_vector,
-        callbacks * sizeof(fiber_scheduler_discipline));
+        callbacks * sizeof(fiber_scheduler_discipline_callback_fn));
     tmp->callback_vector_size = callbacks;
+
+    /* attempt to allocate memory for the fiber scheduler callback codes. */
+    retval =
+        allocator_allocate(
+            alloc, (void**)&tmp->callback_codes,
+            callbacks * sizeof(uint32_t));
+    if (STATUS_SUCCESS != retval)
+    {
+        retval = ERROR_GENERAL_OUT_OF_MEMORY;
+        goto reclaim_fiber_scheduler_vector;
+    }
 
     /* save the init values. */
     tmp->alloc = alloc;
@@ -129,6 +141,13 @@ fiber_scheduler_discipline_create(
 
     /* success. */
     goto done;
+
+reclaim_fiber_scheduler_vector:
+    release_retval = allocator_reclaim(alloc, tmp->callback_vector);
+    if (STATUS_SUCCESS != release_retval)
+    {
+        return release_retval;
+    }
 
 reclaim_fiber_scheduler_discipline:
     release_retval = allocator_reclaim(alloc, tmp);
@@ -152,7 +171,7 @@ done:
  */
 static status fiber_scheduler_discipline_resource_release(resource* r)
 {
-    status vector_retval, disc_retval;
+    status vector_retval, codes_retval, disc_retval;
     fiber_scheduler_discipline* disc = (fiber_scheduler_discipline*)r;
     MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
 
@@ -162,6 +181,9 @@ static status fiber_scheduler_discipline_resource_release(resource* r)
     /* reclaim up the vector. */
     vector_retval = allocator_reclaim(a, disc->callback_vector);
 
+    /* reclaim the codes. */
+    codes_retval = allocator_reclaim(a, disc->callback_codes);
+
     /* reclaim the discipline. */
     disc_retval = allocator_reclaim(a, disc);
 
@@ -169,6 +191,10 @@ static status fiber_scheduler_discipline_resource_release(resource* r)
     if (STATUS_SUCCESS != vector_retval)
     {
         return vector_retval;
+    }
+    else if (STATUS_SUCCESS != codes_retval)
+    {
+        return codes_retval;
     }
     else if (STATUS_SUCCESS != disc_retval)
     {

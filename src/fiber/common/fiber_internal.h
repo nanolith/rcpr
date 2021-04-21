@@ -70,7 +70,7 @@ struct fiber_scheduler_disciplined_context
     queue* run_queue;
 
     size_t callback_vector_size;
-    fiber_scheduler_callback_fn* callback_vector;
+    fiber_scheduler_discipline_callback_fn* callback_vector;
 };
 
 struct fiber_scheduler_discipline
@@ -83,8 +83,8 @@ struct fiber_scheduler_discipline
     rcpr_uuid id;
     fiber_scheduler* sched;
     size_t callback_vector_size;
-    fiber_scheduler_callback_fn callback_vector;
-    uint32_t* fiber_scheduler_callback_codes;
+    fiber_scheduler_discipline_callback_fn* callback_vector;
+    uint32_t* callback_codes;
 };
 
 /**
