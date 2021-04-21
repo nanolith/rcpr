@@ -21,7 +21,7 @@ TEST(create)
     rcpr_uuid id = { .data = {
         0x0e, 0x2c, 0xfc, 0x92, 0x89, 0xfa, 0x46, 0x54,
         0xb9, 0x69, 0xd7, 0x1b, 0x18, 0x46, 0x9b, 0x4c } };
-    fiber_scheduler_callback_fn emptyvec[0];
+    fiber_scheduler_discipline_callback_fn emptyvec[0];
 
     /* we should be able to create a malloc allocator. */
     TEST_ASSERT(
