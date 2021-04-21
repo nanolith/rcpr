@@ -134,6 +134,17 @@ void fiber_switch(
  */
 void fiber_make(fiber* fib, fiber_scheduler* sched, fiber_entry_fn entry);
 
+/**
+ * \brief Release a fiber scheduler resource.
+ *
+ * \param r         The fiber scheduler resource to release.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ */
+status fiber_scheduler_resource_release(resource* r);
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 }
