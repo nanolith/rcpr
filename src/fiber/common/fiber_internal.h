@@ -11,6 +11,7 @@
 
 #include <rcpr/fiber.h>
 #include <rcpr/model_assert.h>
+#include <rcpr/queue.h>
 #include <rcpr/rbtree.h>
 #include <rcpr/stack.h>
 #include <rcpr/uuid.h>
@@ -63,8 +64,10 @@ struct fiber_scheduler_disciplined_context
 
     allocator* alloc;
     fiber_scheduler* sched;
+    fiber* idle_fiber;
     rbtree* fibers_by_pointer;
     rbtree* disciplines_by_uuid;
+    queue* run_queue;
 
     size_t callback_vector_size;
     fiber_scheduler_callback_fn* callback_vector;
