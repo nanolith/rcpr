@@ -64,6 +64,7 @@ struct fiber_scheduler_disciplined_context
 
     allocator* alloc;
     fiber_scheduler* sched;
+    resource cached_scheduler_resource_handler;
     fiber* idle_fiber;
     rbtree* fibers_by_pointer;
     rbtree* disciplines_by_uuid;
