@@ -426,6 +426,36 @@ fiber_scheduler_add(
     fiber_scheduler* sched, fiber* fib);
 
 /**
+ * \brief Add a fiber scheduler discipline to the \ref fiber_scheduler.
+ *
+ * \param sched         The scheduler to which this discipline is added.
+ * \param disc          The \ref fiber_scheduler_discipline to add.
+ *
+ * \note The \ref fiber_scheduler takes ownership of this discipline and will
+ * release it by calling \ref resource_release on its
+ * \ref fiber_scheduler_discipline_resource_handle when no longer needed.
+ * Ultimately, it is up to the callback method for this \ref fiber_scheduler to
+ * maintain ownership of this disciplineuntil it is no longer needed.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *      - \p disc is a pointer to a valid \ref fiber_scheduler_discipline
+ *        instance.
+ *      - The caller owns \p disc.
+ *
+ * \post
+ *      - On success, \p sched takes ownership of \p disc.
+ */
+status FN_DECL_MUST_CHECK
+fiber_scheduler_discipline_add(
+    fiber_scheduler* sched, fiber_scheduler_discipline* disc);
+
+/**
  * \brief Run the fiber scheduler.
  *
  * \param sched         The scheduler to run.
@@ -494,6 +524,42 @@ fiber_scheduler_run(
 status FN_DECL_MUST_CHECK
 fiber_scheduler_yield(
     fiber_scheduler* sched, int yield_event, void* yield_param,
+    int* resume_event, void** resume_param);
+
+/**
+ * \brief Yield to the fiber scheduler through the discipline.
+ *
+ * \param disc          The discipline.
+ * \param yield_event   The discipline yield event.
+ * \param yield_param   The yield event parameter.
+ * \param resume_event  Pointer to receive the discipline resume event.
+ * \param resume_param  Pointer to receive the resume parameter.
+ *
+ * \note The currently executing fiber can call yield to yield to the scheduler
+ * through the \ref fiber_scheduler_discipline.  The discipline yield event
+ * describes the event causing the yield; this is translated to a unique yield
+ * event in the scheduler.  The yield parameter can be used to send an optional
+ * parameter to the scheduler.  When the fiber is resumed, the resume event
+ * describes why it was resumed, and the resume parameter holds an optional
+ * parameter for the resume.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p disc is a pointer to a valid \ref fiber_scheduler_discipline
+ *        instance.
+ *
+ * \post
+ *      - On success, the scheduler will suspend this fiber and start another.
+ *        As far as the fiber is concerned, it will restart when the scheduler
+ *        determines that it should restart, which will appear as a return from
+ *        this function.
+ */
+status FN_DECL_MUST_CHECK
+fiber_discipline_yield(
+    fiber_scheduler_discipline* disc, int yield_event, void* yield_param,
     int* resume_event, void** resume_param);
 
 /**
