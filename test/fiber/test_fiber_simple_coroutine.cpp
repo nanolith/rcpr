@@ -37,7 +37,8 @@ struct test_coroutine_context
 
 static status test_fiber_scheduler_callback(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
-    fiber** resume_fib, int* resume_event, void** resume_param)
+    fiber** resume_fib, const rcpr_uuid** resume_id, int* resume_event,
+    void** resume_param)
 {
     test_fiber_scheduler_context* ctx = (test_fiber_scheduler_context*)context;
 
@@ -102,25 +103,27 @@ static status test_fiber_scheduler_callback(
 
 static status fiber_write_int(fiber_scheduler* sched, int64_t val)
 {
+    const rcpr_uuid* resume_id = nullptr;
     int resume_event = 0;
     void* resume_param = nullptr;
 
     return
         fiber_scheduler_yield(
             sched, RETURN_COROUTINE, (void*)val,
-            &resume_event, &resume_param);
+            &resume_id, &resume_event, &resume_param);
 }
 
 static status fiber_read_int(fiber_scheduler* sched, int64_t* val)
 {
     status retval;
+    const rcpr_uuid* resume_id = nullptr;
     int resume_event = 0;
     void* resume_param = nullptr;
 
     retval =
         fiber_scheduler_yield(
             sched, CALL_COROUTINE, nullptr,
-            &resume_event, &resume_param);
+            &resume_id, &resume_event, &resume_param);
     if (STATUS_SUCCESS == retval)
     {
         *val = (int64_t)resume_param;

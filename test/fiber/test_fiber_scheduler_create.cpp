@@ -23,7 +23,8 @@ struct test_fiber_scheduler_context
 
 static status test_fiber_scheduler_callback(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
-    fiber** resume_fib, int* resume_event, void** resume_param)
+    fiber** resume_fib, const rcpr_uuid** resume_id, int* resume_event,
+    void** resume_param)
 {
     test_fiber_scheduler_context* ctx = (test_fiber_scheduler_context*)context;
 

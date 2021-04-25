@@ -35,6 +35,7 @@ struct fiber
     stack* st;
     void* context;
     fiber_fn fn;
+    const rcpr_uuid* restore_discipline_id;
     uint64_t restore_reason_code;
     void* restore_param;
 };
@@ -88,6 +89,8 @@ struct fiber_scheduler_discipline
     uint32_t* callback_codes;
 };
 
+extern const rcpr_uuid FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
+
 /**
  * \brief Release a fiber resource.
  *
@@ -120,11 +123,13 @@ status (*fiber_entry_fn)(fiber_scheduler*, fiber*);
  *
  * \param prev      The previous (current) fiber.
  * \param next      The next (switching) fiber.
+ * \param disc      The restore discipline id.
  * \param event     The resume event to give to the next fiber.
  * \param param     The resume parameter to give to the next fiber.
  */
 void fiber_switch(
-    fiber* prev, fiber* next, int64_t event, void *param);
+    fiber* prev, fiber* next, const rcpr_uuid* disc, int64_t event,
+    void *param);
 
 /**
  * \brief Assembler routine to set up a fiber for entry.

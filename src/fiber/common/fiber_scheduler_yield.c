@@ -15,11 +15,15 @@
 /**
  * \brief Yield to the fiber scheduler.
  *
- * \param sched         The scheduler.
- * \param yield_event   The yield event.
- * \param yield_param   The yield event parameter.
- * \param resume_event  Pointer to receive the resume event.
- * \param resume_param  Pointer to receive the resume parameter.
+ * \param sched             The scheduler.
+ * \param yield_event       The yield event.
+ * \param yield_param       The yield event parameter.
+ * \param resume_disc_id    Pointer to receive the pointer to the discipline id
+ *                          for this restore event. Note: the stored pointer
+ *                          should be GUARANTEED to outlive the life of the
+ *                          fiber.
+ * \param resume_event      Pointer to receive the resume event.
+ * \param resume_param      Pointer to receive the resume parameter.
  *
  * \note The currently executing fiber can call yield to yield to the scheduler.
  * The yield event describes the event causing the yield; the yield parameter
@@ -44,7 +48,7 @@
 status FN_DECL_MUST_CHECK
 fiber_scheduler_yield(
     fiber_scheduler* sched, int yield_event, void* yield_param,
-    int* resume_event, void** resume_param)
+    const rcpr_uuid** resume_disc_id, int* resume_event, void** resume_param)
 {
     status retval;
 
@@ -55,12 +59,13 @@ fiber_scheduler_yield(
 
     /* call the callback function to yield to the scheduler. */
     fiber* resume_fib;
+    const rcpr_uuid* resume_id = &FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
     int resume_event1;
     void* resume_param1;
     retval =
         sched->fn(
             sched->context, sched->current_fiber, yield_event, yield_param,
-            &resume_fib, &resume_event1, &resume_param1);
+            &resume_fib, &resume_id, &resume_event1, &resume_param1);
     if (STATUS_SUCCESS != retval)
     {
         goto done;
@@ -72,11 +77,12 @@ fiber_scheduler_yield(
     sched->current_fiber = resume_fib;
 
     /* switch the fibers. */
-    fiber_switch(prev, next, resume_event1, resume_param1);
+    fiber_switch(prev, next, resume_id, resume_event1, resume_param1);
 
     /* here's where things get hairy. The fiber_switch returns when this old
      * fiber has been re-activated.
      */
+    *resume_disc_id = sched->current_fiber->restore_discipline_id;
     *resume_event = sched->current_fiber->restore_reason_code;
     *resume_param = sched->current_fiber->restore_param;
 
