@@ -35,6 +35,7 @@ struct fiber
     stack* st;
     void* context;
     fiber_fn fn;
+    fiber_unexpected_event_callback_fn unexpected_fn;
     const rcpr_uuid* restore_discipline_id;
     uint64_t restore_reason_code;
     void* restore_param;
