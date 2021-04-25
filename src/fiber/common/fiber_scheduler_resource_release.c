@@ -35,13 +35,14 @@ status fiber_scheduler_resource_release(resource* r)
     {
         /* instruct the callback to release any resources. */
         fiber* resume_fib;
+        const rcpr_uuid* resume_id = &FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
         int resume_event;
         void* resume_param;
         sched_retval =
             sched->fn(
                 sched->context, sched->main_fiber,
                 FIBER_SCHEDULER_YIELD_EVENT_RESOURCE_RELEASE, NULL, &resume_fib,
-                &resume_event, &resume_param);
+                &resume_id, &resume_event, &resume_param);
 
         /* release it. */
         fiber_retval =

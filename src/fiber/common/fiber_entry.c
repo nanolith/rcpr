@@ -26,10 +26,11 @@ status fiber_entry(fiber_scheduler* sched, fiber* fib)
     status retval = fib->fn(fib->context);
 
     /* notify the scheduler that this fiber has completed. */
+    const rcpr_uuid* resume_id = &FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
     int resume_event;
     void* resume_param;
     return
         fiber_scheduler_yield(
             sched, FIBER_SCHEDULER_YIELD_EVENT_STOP, &retval,
-            &resume_event, &resume_param);
+            &resume_id, &resume_event, &resume_param);
 }

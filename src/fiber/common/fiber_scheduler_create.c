@@ -103,12 +103,13 @@ fiber_scheduler_create(
 
     /* call the callback function to add this main fiber. */
     fiber* resume_fib;
+    const rcpr_uuid* resume_id = &FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
     int resume_event;
     void* resume_param;
     retval =
         tmp->fn(
             tmp->context, tmp->main_fiber, FIBER_SCHEDULER_YIELD_EVENT_MAIN,
-            NULL, &resume_fib, &resume_event, &resume_param);
+            NULL, &resume_fib, &resume_id, &resume_event, &resume_param);
     if (STATUS_SUCCESS != retval)
     {
         goto cleanup_fiber_scheduler;

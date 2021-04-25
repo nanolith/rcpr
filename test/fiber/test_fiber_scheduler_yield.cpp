@@ -24,7 +24,8 @@ struct test_fiber_scheduler_context
 
 static status test_fiber_scheduler_callback(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
-    fiber** resume_fib, int* resume_event, void** resume_param)
+    fiber** resume_fib, const rcpr_uuid** resume_id, int* resume_event,
+    void** resume_param)
 {
     test_fiber_scheduler_context* ctx = (test_fiber_scheduler_context*)context;
 
@@ -103,18 +104,21 @@ TEST(yield)
     /* Run PRECONDITIONS: zero out the calls. */
     ctx.calls = 0;
 
+    const rcpr_uuid* resume_disc = nullptr;
     int resume_event = 0;
     void* resume_param = nullptr;
     TEST_ASSERT(
         STATUS_SUCCESS ==
             fiber_scheduler_yield(
-                sched, 0x8215, NULL, &resume_event, &resume_param));
+                sched, 0x8215, NULL, &resume_disc, &resume_event,
+                &resume_param));
 
     /* Run POSTCONDITIONS: the scheduler should have been called. */
     TEST_EXPECT(1 == ctx.calls);
     TEST_EXPECT(nullptr != ctx.yield_fiber1);
     TEST_EXPECT(0x8215 == ctx.yield_event1);
     TEST_EXPECT(nullptr == ctx.yield_param1);
+    TEST_EXPECT(nullptr != resume_disc);
     TEST_EXPECT(0x9215 == resume_event);
     TEST_EXPECT(nullptr == resume_param);
 

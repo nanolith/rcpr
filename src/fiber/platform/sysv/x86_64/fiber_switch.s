@@ -38,8 +38,8 @@
 # |      R15      |      RBX      |      RBP      |      RIP      |
 # -----------------------------------------------------------------
 
-#switch takes four arguments: the previous fiber, the new fiber, the restore
-#reason code, and the restore parameter pointer.
+#switch takes five arguments: the previous fiber, the new fiber, the restore
+#discipline id, the restore reason code, and the restore parameter pointer.
 
 .text
 .align 16
@@ -73,7 +73,7 @@ fiber_switch:
     movq fiber_stack_ptr(%rsi), %rsp
 
     # get the return address
-    movq 0x38(%rsp), %r8
+    movq 0x38(%rsp), %r9
 
     #restore the MMX control register
     ldmxcsr  (%rsp)
@@ -93,16 +93,18 @@ fiber_switch:
     #restore RBP.
     movq  0x30(%rsp), %rbp
 
-    #set the restore reason code (parameter 3).
-    movq %rdx, fiber_restore_reason_code(%rsi)
-    #set the restore parameter pointer (parameter 4).
-    movq %rcx, fiber_restore_param(%rsi)
+    #set the restore discipline id pointer (parameter 3).
+    movq %rdx, fiber_restore_discipline_id(%rsi)
+    #set the restore reason code (parameter 4).
+    movq %rcx, fiber_restore_reason_code(%rsi)
+    #set the restore parameter pointer (parameter 5).
+    movq %r8, fiber_restore_param(%rsi)
 
     #prepare the stack.
     leaq 0x40(%rsp), %rsp
 
     #indirect jump to context
-    jmp *%r8
+    jmp *%r9
 
 .size fiber_switch,.-fiber_switch
 

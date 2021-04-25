@@ -18,7 +18,8 @@ static status fiber_scheduler_disciplined_resource_release(resource*);
 static status fiber_scheduler_disciplined_context_resource_release(resource*);
 static status fiber_scheduler_disciplined_callback(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
-    fiber** resume_fib, int* resume_event, void** resume_param);
+    fiber** resume_fib, const rcpr_uuid** resume_id, int* resume_event,
+    void** resume_param);
 static rcpr_comparison_result fiber_by_pointer_compare(
     void* context, const void* lhs, const void* rhs);
 static const void* fiber_by_pointer_key(void* context, const resource* r);
@@ -457,6 +458,7 @@ static status fiber_scheduler_disciplined_resource_release(resource* r)
  * \param yield_event   The event causing the fiber to yield.
  * \param yield_param   Pointer to the yield parameter.
  * \param resume_fib    Pointer to receive the fiber to be resumed.
+ * \param resume_id     Pointer to receive the fiber resume event discipline id.
  * \param resume_event  The event causing the fiber to be resumed.
  * \param resume_param  Pointer to the resume parameter.
  *
@@ -467,7 +469,8 @@ static status fiber_scheduler_disciplined_resource_release(resource* r)
  */
 static status fiber_scheduler_disciplined_callback(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
-    fiber** resume_fib, int* resume_event, void** resume_param)
+    fiber** resume_fib, const rcpr_uuid** resume_id, int* resume_event,
+    void** resume_param)
 {
     fiber_scheduler_disciplined_context* ctx =
         (fiber_scheduler_disciplined_context*)context;
@@ -476,6 +479,7 @@ static status fiber_scheduler_disciplined_callback(
     if (FIBER_SCHEDULER_YIELD_EVENT_MAIN == yield_event)
     {
         *resume_fib = yield_fib;
+        *resume_id = &FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
         *resume_event = FIBER_SCHEDULER_RESUME_EVENT_MAIN;
         *resume_param = NULL;
 
@@ -486,6 +490,7 @@ static status fiber_scheduler_disciplined_callback(
     else if (FIBER_SCHEDULER_YIELD_EVENT_RESOURCE_RELEASE == yield_event)
     {
         *resume_fib = NULL;
+        *resume_id = &FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
         *resume_event = FIBER_SCHEDULER_RESUME_EVENT_RESOURCE_RELEASE;
         *resume_param = NULL;
 

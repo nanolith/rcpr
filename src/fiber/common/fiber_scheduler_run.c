@@ -53,10 +53,11 @@ fiber_scheduler_run(
     MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     /* call the callback function to run the scheduler. */
+    const rcpr_uuid* resume_id = &FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
     int resume_event;
     void* resume_param;
     return
         fiber_scheduler_yield(
             sched, FIBER_SCHEDULER_YIELD_EVENT_RUN, NULL,
-            &resume_event, &resume_param);
+            &resume_id, &resume_event, &resume_param);
 }

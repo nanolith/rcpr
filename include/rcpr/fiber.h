@@ -124,13 +124,17 @@ typedef status (*fiber_fn)(void* context);
  * \ref fiber_scheduler_run function is a shortcut for entering this particular
  * yield event. This function should only be called from the main fiber.
  *
- * \param context       The user context for this \ref fiber_scheduler.
- * \param yield_fib     The yielding fiber.
- * \param yield_event   The event causing the fiber to yield.
- * \param yield_param   Pointer to the yield parameter.
- * \param resume_fib    Pointer to receive the fiber to be resumed.
- * \param resume_event  The event causing the fiber to be resumed.
- * \param resume_param  Pointer to the resume parameter.
+ * \param context           The user context for this \ref fiber_scheduler.
+ * \param yield_fib         The yielding fiber.
+ * \param yield_event       The event causing the fiber to yield.
+ * \param yield_param       Pointer to the yield parameter.
+ * \param resume_fib        Pointer to receive the fiber to be resumed.
+ * \param resume_disc_id    Pointer to receive the pointer to the discipline id
+ *                          for this restore event. Note: the stored pointer
+ *                          should be GUARANTEED to outlive the life of the
+ *                          fiber.
+ * \param resume_event      The event causing the fiber to be resumed.
+ * \param resume_param      Pointer to the resume parameter.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS is returned when a new fiber is to be resumed.
@@ -139,7 +143,8 @@ typedef status (*fiber_fn)(void* context);
  */
 typedef status (*fiber_scheduler_callback_fn)(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
-    fiber** resume_fib, int *resume_event, void** resume_param);
+    fiber** resume_fib, const rcpr_uuid** restore_disc_id, int *resume_event,
+    void** resume_param);
 
 /**
  * \brief A disciplined fiber scheduler callback function.
@@ -526,11 +531,15 @@ fiber_scheduler_run(
 /**
  * \brief Yield to the fiber scheduler.
  *
- * \param sched         The scheduler.
- * \param yield_event   The yield event.
- * \param yield_param   The yield event parameter.
- * \param resume_event  Pointer to receive the resume event.
- * \param resume_param  Pointer to receive the resume parameter.
+ * \param sched             The scheduler.
+ * \param yield_event       The yield event.
+ * \param yield_param       The yield event parameter.
+ * \param resume_disc_id    Pointer to receive the pointer to the discipline id
+ *                          for this restore event. Note: the stored pointer
+ *                          should be GUARANTEED to outlive the life of the
+ *                          fiber.
+ * \param resume_event      Pointer to receive the resume event.
+ * \param resume_param      Pointer to receive the resume parameter.
  *
  * \note The currently executing fiber can call yield to yield to the scheduler.
  * The yield event describes the event causing the yield; the yield parameter
@@ -555,7 +564,7 @@ fiber_scheduler_run(
 status FN_DECL_MUST_CHECK
 fiber_scheduler_yield(
     fiber_scheduler* sched, int yield_event, void* yield_param,
-    int* resume_event, void** resume_param);
+    const rcpr_uuid** resume_disc_id, int* resume_event, void** resume_param);
 
 /**
  * \brief Yield to the fiber scheduler through the discipline.

@@ -49,13 +49,14 @@ fiber_scheduler_add(
 
     /* call the callback function to add this fiber. */
     fiber* resume_fib;
+    const rcpr_uuid* resume_id = &FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
     int resume_event;
     void* resume_param;
     retval =
         sched->fn(
             sched->context, sched->current_fiber,
             FIBER_SCHEDULER_YIELD_EVENT_ADD_FIBER, fib,
-            &resume_fib, &resume_event, &resume_param);
+            &resume_fib, &resume_id, &resume_event, &resume_param);
     if (STATUS_SUCCESS != retval)
     {
         goto done;
@@ -67,7 +68,7 @@ fiber_scheduler_add(
     sched->current_fiber = resume_fib;
 
     /* switch the fibers. */
-    fiber_switch(prev, next, resume_event, resume_param);
+    fiber_switch(prev, next, resume_id, resume_event, resume_param);
 
     /* success. */
     goto done;
