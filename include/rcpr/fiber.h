@@ -652,7 +652,7 @@ fiber_discipline_yield(
  */
 status FN_DECL_MUST_CHECK
 fiber_unexpected_event_callback_add(
-    fiber* fib, fiber_unexpected_event_callback_fn* fn);
+    fiber* fib, fiber_unexpected_event_callback_fn fn);
 
 /**
  * \brief Mark the given \ref fiber as runnable.
