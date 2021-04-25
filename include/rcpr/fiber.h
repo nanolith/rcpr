@@ -167,6 +167,35 @@ typedef status (*fiber_scheduler_callback_fn)(
 typedef status (*fiber_scheduler_discipline_callback_fn)(
     void* context, fiber* yield_fib, int yield_event, void* yield_param);
 
+/**
+ * \brief An unexpected event fiber callback function.
+ *
+ * An unexpected event callback can be set for a fiber. Any yielding function
+ * that supports tracking unexpected events will call this callback if set to
+ * notify the fiber that an unexpected or out-of-band event was encountered
+ * during normal operation. If this callback returns STATUS_SUCCESS, then the
+ * yielding function will retry its yield callback until it receives a valid
+ * response.  If the callback returns an error code, then the yielding function
+ * will return this error code to the caller.
+ *
+ * This functionality allows user code to handle out-of-band or unexpected
+ * events in a centralized way.
+ *
+ * \param context           The user context for this \ref fiber.
+ * \param resume_disc_id    The discipline id that originated this event.
+ * \param resume_event      The unexpected event code.
+ * \param resume_param      An optional parameter for this unexpected event
+ *                          code.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS is returned when the yielding function should retry.
+ *      - any other non-zero status code will be passed to the caller as an
+ *        error code from the yielding function.
+ */
+typedef status (*fiber_unexpected_event_callback_fn)(
+    void* context, const rcpr_uuid* resume_disc_id, int resume_event,
+    void* resume_param);
+
 /******************************************************************************/
 /* Start of constructors.                                                     */
 /******************************************************************************/
@@ -601,6 +630,29 @@ status FN_DECL_MUST_CHECK
 fiber_discipline_yield(
     fiber_scheduler_discipline* disc, int yield_event, void* yield_param,
     int* resume_event, void** resume_param);
+
+/**
+ * \brief Add an unexpected event handler to a given fiber instance.
+ *
+ * \param fib           The fiber to which this event handler should be added.
+ * \param fn            The unexpected event handler callback function.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p fib is a pointer to a valid \ref fiber instance.
+ *      - \p fn is a pointer to a valid \ref fiber_unexpected_event_callback_fn
+ *        callback function.
+ *
+ * \post
+ *      - On success, \p fib is updated to use \p fn during an unexpected event
+ *        received by participating yielding functions.
+ */
+status FN_DECL_MUST_CHECK
+fiber_unexpected_event_callback_add(
+    fiber* fib, fiber_unexpected_event_callback_fn* fn);
 
 /**
  * \brief Mark the given \ref fiber as runnable.
