@@ -456,6 +456,37 @@ fiber_scheduler_discipline_add(
     fiber_scheduler* sched, fiber_scheduler_discipline* disc);
 
 /**
+ * \brief Find a fiber scheduler discipline in the \ref fiber_scheduler.
+ *
+ * \param disc          Pointer to the \ref fiber_scheduler_discipline pointer
+ *                      to hold the result if found.
+ * \param sched         The scheduler to search.
+ * \param id            The discipline uuid to search for.
+ *
+ * \note The ownership of this \ref fiber_scheduler_discipline remains with the
+ * scheduler, and is only valid for the lifetime of the scheduler.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_FIBER_SCHEDULER_DISCIPLINE_NOT_FOUND if the discipline wasn't
+ *        found in the scheduler.
+ *
+ * \pre
+ *      - \p disc is a valid pointer to a \ref fiber_scheduler_discipline
+ *        pointer.
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *      - \p id is a pointer to a valid \ref rcpr_uuid.
+ *
+ * \post
+ *      - On success, \p disc is updated to point to a valid \ref
+ *        fiber_scheduler_discipline instance owned by the scheduler.
+ */
+status FN_DECL_MUST_CHECK
+fiber_scheduler_discipline_find(
+    fiber_scheduler_discipline** disc, fiber_scheduler* sched,
+    const rcpr_uuid* id);
+
+/**
  * \brief Run the fiber scheduler.
  *
  * \param sched         The scheduler to run.
