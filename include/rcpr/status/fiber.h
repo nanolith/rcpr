@@ -16,3 +16,9 @@
  */
 #define ERROR_FIBER_SCHEDULER_CALLBACK_STATE \
     STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0000)
+
+/**
+ * \brief The fiber scheduler could not find a requested discipline.
+ */
+#define ERROR_FIBER_SCHEDULER_DISCIPLINE_NOT_FOUND \
+    STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0001)
