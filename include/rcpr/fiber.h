@@ -475,6 +475,10 @@ fiber_scheduler_add(
  *      - STATUS_SUCCESS on success.
  *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
  *        out-of-memory condition.
+ *      - ERROR_FIBER_SCHEDULER_DUPLICATE_DISCIPLINE_ID if an attempt is made to
+ *        add a discipline with the same ID twice.
+ *      - ERROR_FIBER_SCHEDULER_NOT_DISCIPLINED if an attempt is made to add a
+ *        disciplined to an undisciplined fiber scheduler.
  *
  * \pre
  *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
