@@ -167,6 +167,9 @@ fiber_scheduler_create_with_disciplines(
     /* override the resource release method for this scheduler with our own. */
     resource_init(&tmp->hdr, &fiber_scheduler_disciplined_resource_release);
 
+    /* mark this fiber scheduler as disciplined. */
+    tmp->disciplined = true;
+
     /* success. */
     *sched = tmp;
     retval = STATUS_SUCCESS;
