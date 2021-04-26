@@ -52,10 +52,19 @@ fiber_scheduler_discipline_add(
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
     MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
+    MODEL_ASSERT(sched->disciplined);
+    MODEL_ASSERT(NULL == disc->sched);
 
+    /* if the scheduler is not disciplined, this call is in error. */
     if (!sched->disciplined)
     {
         return ERROR_FIBER_SCHEDULER_NOT_DISCIPLINED;
+    }
+
+    /* if the discipline is already owned, this call is in error. */
+    if (NULL != disc->sched)
+    {
+        return ERROR_FIBER_SCHEDULER_DISCIPLINE_ALREADY_OWNED;
     }
 
     /* get the fiber scheduler discipline context. */

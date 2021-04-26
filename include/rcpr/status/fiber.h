@@ -36,3 +36,10 @@
  */
 #define ERROR_FIBER_SCHEDULER_DUPLICATE_DISCIPLINE_ID \
     STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0003)
+
+/**
+ * \brief An attempt was made to add a discipline that is already owned to a
+ * fiber scheduler.
+ */
+#define ERROR_FIBER_SCHEDULER_DISCIPLINE_ALREADY_OWNED \
+    STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0004)
