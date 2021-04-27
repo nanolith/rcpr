@@ -42,7 +42,6 @@ disciplined_fiber_scheduler_add_fiber_to_run_queue(
     fiber_scheduler* sched, fiber* fib, const rcpr_uuid* resume_id,
     int resume_event, void* resume_param)
 {
-    status retval;
     fiber_scheduler_disciplined_context* ctx = NULL;
 
     /* parameter sanity checks. */
