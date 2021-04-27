@@ -350,14 +350,14 @@ static status fiber_scheduler_disciplined_context_resource_release(resource* r)
 
     /* remove all entries from the run queue. */
     resource* run_fiber = NULL;
-    do
+    while (queue_count(ctx->run_queue) > 0)
     {
         run_queue_tmp_retval = queue_pop(ctx->run_queue, &run_fiber); 
         if (STATUS_SUCCESS != run_queue_tmp_retval)
         {
             run_queue_retval = run_queue_tmp_retval;
         }
-    } while (NULL != run_fiber);
+    }
 
     /* release the run queue. */
     run_queue_tmp_retval =
