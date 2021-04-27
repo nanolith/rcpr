@@ -658,11 +658,18 @@ status FN_DECL_MUST_CHECK
 fiber_unexpected_event_callback_add(
     fiber* fib, fiber_unexpected_event_callback_fn fn);
 
+/******************************************************************************/
+/* Start of protected methods.                                                */
+/*                                                                            */
+/* These methods are to be used by fiber scheduler discipline handlers.       */
+/******************************************************************************/
+
 /**
  * \brief Mark the given \ref fiber as runnable.
  *
  * \param sched         The scheduler.
  * \param fib           The fiber to mark as runnable.
+ * \param resume_id     The resume event's discipline id.
  * \param resume_event  The resume event for this fiber.
  * \param resume_param  The resume parameter for this fiber.
  *
@@ -684,7 +691,8 @@ fiber_unexpected_event_callback_add(
  */
 status FN_DECL_MUST_CHECK
 disciplined_fiber_scheduler_add_fiber_to_run_queue(
-    fiber_scheduler* sched, fiber* fib, int resume_event, void* resume_param);
+    fiber_scheduler* sched, fiber* fib, const rcpr_uuid* resume_id,
+    int resume_event, void* resume_param);
 
 /**
  * \brief Set the following fiber as the idle fiber.
