@@ -10,6 +10,7 @@
 #pragma once
 
 #include <rcpr/allocator.h>
+#include <rcpr/fiber/disciplines/management.h>
 #include <rcpr/function_decl.h>
 #include <rcpr/status.h>
 #include <rcpr/uuid.h>
