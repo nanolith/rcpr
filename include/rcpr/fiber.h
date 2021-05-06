@@ -51,6 +51,9 @@ enum fiber_scheduler_yield_events
     FIBER_SCHEDULER_YIELD_EVENT_STOP                                = 0x0003,
     FIBER_SCHEDULER_YIELD_EVENT_RESOURCE_RELEASE                    = 0x0004,
 
+    /* number of internal yield events. */
+    FIBER_SCHEDULER_YIELD_EVENT_INTERNAL_COUNT,
+
     /* Range 0x1000 to 0x1FFF are reserved for the psock fiber library. */
     FIBER_SCHEDULER_YIELD_EVENT_PSOCK_BEGIN_RESERVED                = 0x1000,
     FIBER_SCHEDULER_YIELD_EVENT_PSOCK_END_RESERVED                  = 0x1FFF,
@@ -692,6 +695,37 @@ fiber_unexpected_event_callback_add(
  */
 status FN_DECL_MUST_CHECK
 disciplined_fiber_scheduler_add_fiber_to_run_queue(
+    fiber_scheduler* sched, fiber* fib, const rcpr_uuid* resume_id,
+    int resume_event, void* resume_param);
+
+/**
+ * \brief Mark the given \ref fiber as runnable, making it the next fiber to
+ * run.
+ *
+ * \param sched         The scheduler.
+ * \param fib           The fiber to mark as runnable.
+ * \param resume_id     The resume event's discipline id.
+ * \param resume_event  The resume event for this fiber.
+ * \param resume_param  The resume parameter for this fiber.
+ *
+ * \note It is expected that the given fiber has already been added to the
+ * scheduler previously. It is an error to add an unassociated fiber to the
+ * scheduler in this way.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *      - \p fib is a pointer to a valid \ref fiber instance, previously added
+ *        to the given scheduler via \ref fiber_scheduler_add.
+ *
+ * \post
+ *      - On success, the scheduler will add the given fiber to its run queue.
+ */
+status FN_DECL_MUST_CHECK
+disciplined_fiber_scheduler_set_next_fiber_to_run(
     fiber_scheduler* sched, fiber* fib, const rcpr_uuid* resume_id,
     int resume_event, void* resume_param);
 
