@@ -43,3 +43,15 @@
  */
 #define ERROR_FIBER_SCHEDULER_DISCIPLINE_ALREADY_OWNED \
     STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0004)
+
+/**
+ * \brief A bad yield event was encountered.
+ */
+#define ERROR_FIBER_SCHEDULER_BAD_YIELD_EVENT \
+    STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0005)
+
+/**
+ * \brief The run queue is exhausted, and no idle fiber has been set.
+ */
+#define ERROR_FIBER_SCHEDULER_EXHAUSTED \
+    STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0006)

@@ -70,6 +70,9 @@ enum fiber_scheduler_resume_events
     FIBER_SCHEDULER_RESUME_EVENT_RUN                                = 0x0012,
     FIBER_SCHEDULER_RESUME_EVENT_RESOURCE_RELEASE                   = 0x0013,
 
+    /* idle resume event. */
+    FIBER_SCHEDULER_RESUME_EVENT_IDLE                               = 0x0020,
+
     /* Range 0x1000 to 0x1FFF are reserved for the psock fiber library. */
     FIBER_SCHEDULER_RESUME_EVENT_PSOCK_BEGIN_RESERVED               = 0x1000,
     FIBER_SCHEDULER_RESUME_EVENT_PSOCK_END_RESERVED                 = 0x1FFF,
