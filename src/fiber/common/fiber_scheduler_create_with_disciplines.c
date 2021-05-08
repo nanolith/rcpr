@@ -231,46 +231,64 @@ fiber_scheduler_create_with_disciplines(
 
 cleanup_context_vector:
     release_retval = allocator_reclaim(a, ctx->context_vector);
+    /* this should always succeed. */
+    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != release_retval)
     {
-        return release_retval;
+        retval = release_retval;
     }
 
 cleanup_callback_vector:
     release_retval = allocator_reclaim(a, ctx->callback_vector);
+    /* this should always succeed. */
+    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != release_retval)
     {
-        return release_retval;
+        retval = release_retval;
     }
 
 cleanup_run_queue:
     release_retval = resource_release(queue_resource_handle(ctx->run_queue));
+    /* this should always succeed. */
+    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != release_retval)
     {
-        return release_retval;
+        retval = release_retval;
     }
 
 cleanup_disciplines_by_uuid:
     release_retval =
         resource_release(rbtree_resource_handle(ctx->disciplines_by_uuid));
+    /* this should always succeed. */
+    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != retval)
     {
-        return release_retval;
+        retval = release_retval;
     }
 
 cleanup_fibers_by_pointer:
     release_retval =
         resource_release(rbtree_resource_handle(ctx->fibers_by_pointer));
+    /* this should always succeed. */
+    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != release_retval)
     {
-        return release_retval;
+        retval = release_retval;
     }
 
 reclaim_ctx_memory:
     release_retval = allocator_reclaim(a, ctx);
+    /* this should always succeed. */
+    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != release_retval)
     {
-        return release_retval;
+        retval = release_retval;
     }
 
 done:
