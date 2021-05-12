@@ -36,14 +36,11 @@ enum fiber_scheduler_management_discipline_yield_events
  */
 enum fiber_scheduler_management_discipline_resume_events
 {
-    /** \brief This event occurs when the main fiber is added. */
-    FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_MAIN                    = 0x0000,
-
     /** \brief This event occurs when a new fiber is added. */
-    FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_FIBER_ADD               = 0x0001,
+    FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_FIBER_ADD               = 0x0000,
 
     /** \brief This event occurs when a fiber stops. */
-    FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_FIBER_STOP              = 0x0002,
+    FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_FIBER_STOP              = 0x0001,
 };
 
 /* C++ compatibility. */
