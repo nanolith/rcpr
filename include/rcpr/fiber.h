@@ -814,6 +814,31 @@ status FN_DECL_MUST_CHECK
 disciplined_fiber_scheduler_remove_fiber(
     fiber_scheduler* sched, fiber* fib);
 
+/**
+ * \brief Get the main fiber from the disciplined scheduler.
+ *
+ * \param fib           Pointer to the pointer to hold the main fiber.
+ * \param sched         The scheduler.
+ *
+ * \note On success, the fiber's ownership remains with the scheduler. The main
+ * fiber's lifetime matches the lifetime of the scheduler.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p fib is a pointer to pointer to receive the main fiber. It must not
+ *        be NULL.
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *
+ * \post
+ *      - On success, \p fib is updated to point to the main fiber.
+ */
+status FN_DECL_MUST_CHECK
+disciplined_fiber_scheduler_main_fiber_get(
+    fiber** fib, fiber_scheduler* sched);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
