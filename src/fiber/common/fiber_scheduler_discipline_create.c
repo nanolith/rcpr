@@ -24,6 +24,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_discipline);
  *                          discipline on success.
  * \param id                The id for this discipline.
  * \param alloc             The allocator to use to create this discipline.
+ * \param context           User context for discipline callbacks.
  * \param callbacks         The number of callbacks supported in this
  *                          discipline.
  * \param callback_vector   The array of callbacks for this discipline.
@@ -59,7 +60,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_discipline);
 status FN_DECL_MUST_CHECK
 fiber_scheduler_discipline_create(
     fiber_scheduler_discipline** disc, const rcpr_uuid* id, allocator* alloc,
-    size_t callbacks, fiber_scheduler_discipline_callback_fn* callback_vector)
+    void* context, size_t callbacks,
+    fiber_scheduler_discipline_callback_fn* callback_vector)
 {
     fiber_scheduler_discipline* tmp;
     status retval, release_retval;
@@ -131,6 +133,7 @@ fiber_scheduler_discipline_create(
     tmp->alloc = alloc;
     memcpy(&tmp->id, id, sizeof(tmp->id));
     tmp->sched = NULL;
+    tmp->context = context;
 
     /* set the return pointer. */
     *disc = tmp;

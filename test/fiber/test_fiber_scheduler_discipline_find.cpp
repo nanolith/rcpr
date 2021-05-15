@@ -102,7 +102,7 @@ TEST(found)
     TEST_ASSERT(
         STATUS_SUCCESS ==
             fiber_scheduler_discipline_create(
-                &disc, &id, alloc, 0, emptyvec));
+                &disc, &id, alloc, NULL, 0, emptyvec));
 
     /* we should be able to add the discipline to our fiber scheduler. */
     TEST_ASSERT(STATUS_SUCCESS == fiber_scheduler_discipline_add(sched, disc));

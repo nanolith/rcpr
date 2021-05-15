@@ -67,7 +67,7 @@ TEST(add)
     TEST_ASSERT(
         STATUS_SUCCESS ==
             fiber_scheduler_discipline_create(
-                &disc, &id, alloc, 0, emptyvec));
+                &disc, &id, alloc, NULL, 0, emptyvec));
 
     /* we should be able to add the discipline to our fiber scheduler. */
     TEST_ASSERT(STATUS_SUCCESS == fiber_scheduler_discipline_add(sched, disc));
@@ -107,7 +107,7 @@ TEST(add_undisciplined)
     TEST_ASSERT(
         STATUS_SUCCESS ==
             fiber_scheduler_discipline_create(
-                &disc, &id, alloc, 0, emptyvec));
+                &disc, &id, alloc, NULL, 0, emptyvec));
 
     /* adding to an undisciplined fiber scheduler should fail. */
     TEST_ASSERT(
@@ -151,7 +151,7 @@ TEST(double_add)
     TEST_ASSERT(
         STATUS_SUCCESS ==
             fiber_scheduler_discipline_create(
-                &disc, &id, alloc, 0, emptyvec));
+                &disc, &id, alloc, NULL, 0, emptyvec));
 
     /* we should be able to add the discipline to our fiber scheduler. */
     TEST_ASSERT(
@@ -201,7 +201,7 @@ TEST(already_owned)
     TEST_ASSERT(
         STATUS_SUCCESS ==
             fiber_scheduler_discipline_create(
-                &disc, &id, alloc, 0, emptyvec));
+                &disc, &id, alloc, NULL, 0, emptyvec));
 
     /* force the discipline to be owned before calling. */
     disc->sched = sched;

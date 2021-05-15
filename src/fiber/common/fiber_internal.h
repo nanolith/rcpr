@@ -87,6 +87,7 @@ struct fiber_scheduler_discipline
     allocator* alloc;
     rcpr_uuid id;
     fiber_scheduler* sched;
+    void* context;
     size_t callback_vector_size;
     fiber_scheduler_discipline_callback_fn* callback_vector;
     uint32_t* callback_codes;
