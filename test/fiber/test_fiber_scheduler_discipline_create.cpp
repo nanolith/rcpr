@@ -31,7 +31,7 @@ TEST(create)
     TEST_ASSERT(
         STATUS_SUCCESS ==
             fiber_scheduler_discipline_create(
-                &disc, &id, alloc, 0, emptyvec));
+                &disc, &id, alloc, NULL, 0, emptyvec));
 
     /* we should be able to release the fiber scheduler discipline instance. */
     TEST_ASSERT(
