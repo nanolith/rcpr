@@ -115,6 +115,28 @@ fiber_scheduler_discipline_add(
         return retval;
     }
 
+    /* create or reallocate the callback context vector to hold the context. */
+    if (NULL == ctx->context_vector)
+    {
+        retval =
+            allocator_allocate(
+                ctx->alloc, (void**)&ctx->context_vector,
+                (disc->callback_vector_size * sizeof(void*)));
+    }
+    else
+    {
+        retval =
+            allocator_reallocate(
+                ctx->alloc, (void**)&ctx->context_vector,
+                (callback_offset + disc->callback_vector_size) * sizeof(void*));
+    }
+
+    /* did the (re)allocation fail? */
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
+
     /* update the callback vector size. */
     ctx->callback_vector_size += disc->callback_vector_size;
 
@@ -122,6 +144,7 @@ fiber_scheduler_discipline_add(
     for (size_t i = 0; i < disc->callback_vector_size; ++i)
     {
         ctx->callback_vector[i + callback_offset] = disc->callback_vector[i];
+        ctx->context_vector[i + callback_offset] = disc->context;
         disc->callback_codes[i] = i + callback_offset;
     }
 
