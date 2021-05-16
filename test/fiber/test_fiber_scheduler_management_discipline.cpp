@@ -83,7 +83,7 @@ static status dummy_main(void* context)
  * Create a disciplined fiber scheduler with a management fiber. Verify that it
  * receives add and stop events.
  */
-TEST(ragequit)
+TEST(basics)
 {
     allocator* alloc = nullptr;
     fiber_scheduler* sched = nullptr;
