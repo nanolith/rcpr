@@ -69,9 +69,11 @@ struct fiber_scheduler_disciplined_context
     resource cached_scheduler_resource_handler;
     fiber* main_fiber;
     fiber* idle_fiber;
+    fiber* management_fiber;
     rbtree* fibers_by_pointer;
     rbtree* disciplines_by_uuid;
     queue* run_queue;
+    fiber_scheduler_discipline* management_discipline;
 
     size_t callback_vector_size;
     fiber_scheduler_discipline_callback_fn* callback_vector;
