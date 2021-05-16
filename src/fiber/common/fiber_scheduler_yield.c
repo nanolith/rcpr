@@ -54,6 +54,7 @@ fiber_scheduler_yield(
 
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    MODEL_ASSERT(NULL != resume_disc_id);
     MODEL_ASSERT(NULL != resume_event);
     MODEL_ASSERT(NULL != resume_param);
 

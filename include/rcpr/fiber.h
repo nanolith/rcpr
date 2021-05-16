@@ -614,6 +614,7 @@ fiber_scheduler_yield(
  * \param disc          The discipline.
  * \param yield_event   The discipline yield event.
  * \param yield_param   The yield event parameter.
+ * \param resume_id     Pointer to receive the discipline resume id.
  * \param resume_event  Pointer to receive the discipline resume event.
  * \param resume_param  Pointer to receive the resume parameter.
  *
@@ -642,7 +643,7 @@ fiber_scheduler_yield(
 status FN_DECL_MUST_CHECK
 fiber_discipline_yield(
     fiber_scheduler_discipline* disc, int yield_event, void* yield_param,
-    int* resume_event, void** resume_param);
+    const rcpr_uuid** resume_id, int* resume_event, void** resume_param);
 
 /**
  * \brief Add an unexpected event handler to a given fiber instance.
@@ -767,7 +768,7 @@ disciplined_fiber_scheduler_set_idle_fiber(
  *        event.
  *
  * \param sched         The scheduler.
- * \param resume_id     Pointer to the event's discipline id.
+ * \param resume_id     Pointer to receive the event's discipline id.
  * \param resume_event  Pointer to receive the resume event for this fiber.
  * \param resume_param  Pointer to receive the resume parameter for this fiber.
  *
@@ -787,7 +788,7 @@ disciplined_fiber_scheduler_set_idle_fiber(
  */
 status FN_DECL_MUST_CHECK
 disciplined_fiber_scheduler_receive_management_event(
-    fiber_scheduler* sched, const rcpr_uuid* resume_id,
+    fiber_scheduler* sched, const rcpr_uuid** resume_id,
     int* resume_event, void** resume_param);
 
 /**
