@@ -33,6 +33,15 @@ struct fiber_scheduler;
  */
 typedef struct fiber_scheduler fiber_scheduler;
 
+/* forward declaration for fiber_scheduler_discipline. */
+struct fiber_scheduler_discipline;
+
+/**
+ * \brief The fiber scheduler discipline abstraction provides a way to manage a
+ * subset of fiber messages as a protocol for the overall fiber messaging API.
+ */
+typedef struct fiber_scheduler_discipline fiber_scheduler_discipline;
+
 /* forward declaration for fiber_scheduler_callback_fn. */
 typedef status (*fiber_scheduler_callback_fn)(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
