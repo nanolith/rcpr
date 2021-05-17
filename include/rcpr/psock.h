@@ -18,6 +18,7 @@
 #include <rcpr/fiber_fwd.h>
 #include <rcpr/function_decl.h>
 #include <rcpr/status.h>
+#include <rcpr/uuid.h>
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
@@ -42,6 +43,7 @@ typedef struct psock psock;
  * \param context       The context pointer for this handler.
  * \param write         This flag is set to true on a write, and is false on a
  *                      read.
+ * \param resume_id     The resume discipline id.
  * \param resume_event  The resume event that was received.
  * \param resume_param  The resume parameter that was received.
  *
@@ -63,7 +65,7 @@ typedef struct psock psock;
  */
 typedef status (*psock_unexpected_handler_callback_fn)(
     psock* sock, fiber* f, void* context, bool write,
-    int resume_event, void* resume_param);
+    const rcpr_uuid* resume_id, int resume_event, void* resume_param);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
