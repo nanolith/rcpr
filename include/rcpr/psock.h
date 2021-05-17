@@ -170,20 +170,20 @@ psock_fiber_scheduler_create(
  * given \ref fiber_scheduler.
  *
  * \param sock          Pointer to the \ref psock pointer to receive this
- *                      resource on success.  This pointer should be set to the
- *                      \ref psock instance to wrap when this function is
- *                      called.
+ *                      resource on success.
  * \param a             Pointer to the allocator to use for creating this
  *                      wrapping \ref psock resource.
  * \param sched         The \ref fiber_scheduler to yield on a read / write call
  *                      that would block.
+ * \param child         The child \ref psock instance that this \ref psock
+ *                      instance wraps.
  *
  * \note This \ref psock is a \ref resource that must be released by calling
  * \ref resource_release on its resource handle when it is no longer needed by
  * the caller.  The resource handle can be accessed by calling
  * \ref psock_resource_handle on this \ref psock instance.  The \ref psock
- * instance owns the wrapped \ref psock, which will be released when this
- * resource is released.
+ * instance owns the wrapped \p child \ref psock, which will be released when
+ * this resource is released.
  *
  * It is assumed that the \ref psock wrapper instance created by this call will
  * be accessed from a \ref fiber.  If a read or write fails because
@@ -200,10 +200,12 @@ psock_fiber_scheduler_create(
  *        out-of-memory condition.
  *
  * \pre
- *      - \p sock must be a pointer to a pointer to a valid \ref psock instance
+ *      - \p sock must be a pointer to a pointer to a \ref psock instance
  *        and must not be NULL.
  *      - \p a must reference a valid \ref allocator and must not be NULL.
  *      - \p sched must reference a valid \ref fiber_scheduler and must not be
+ *        NULL.
+ *      - \p child must reference a valid \ref psock instance and must not be
  *        NULL.
  *
  * \post
@@ -214,7 +216,7 @@ psock_fiber_scheduler_create(
  */
 status FN_DECL_MUST_CHECK
 psock_create_wrap_async(
-    psock** sock, allocator* a, fiber_scheduler* sched);
+    psock** sock, allocator* a, fiber_scheduler* sched, psock* child);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
