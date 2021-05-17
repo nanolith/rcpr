@@ -42,6 +42,18 @@ struct psock_from_descriptor
     int descriptor;
 };
 
+/* forward decls for psock_wrap_async. */
+struct psock_wrap_async;
+typedef struct psock_wrap_async psock_wrap_async;
+
+struct psock_wrap_async
+{
+    psock hdr;
+    fiber_scheduler* sched;
+    fiber_scheduler_discipline* psock_discipline;
+    psock_unexpected_handler_callback_fn unexpected;
+};
+
 /**
  * \brief Read data from the given \ref psock instance.
  *
@@ -68,6 +80,33 @@ status psock_from_descriptor_read(psock* sock, void* data, size_t* size);
  *      - an error code indicating a specific failure condition.
  */
 status psock_from_descriptor_write(psock* sock, const void* data, size_t* size);
+
+/**
+ * \brief Read data from the given async \ref psock instance.
+ *
+ * \param sock          The \ref psock instance from which to read.
+ * \param data          Pointer to the buffer into which data should be read.
+ * \param size          Pointer to the size to read, updated with the size read.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status psock_wrap_async_read(psock* sock, void* data, size_t* size);
+
+/**
+ * \brief Write data to the given async \ref psock instance.
+ *
+ * \param sock          The \ref psock instance to which to write.
+ * \param data          Pointer to the buffer from which data should be written.
+ * \param size          Pointer to the size to write, updated with the size
+ *                      written.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status psock_wrap_async_write(psock* sock, const void* data, size_t* size);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
