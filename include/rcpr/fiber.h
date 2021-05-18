@@ -11,6 +11,7 @@
 
 #include <rcpr/allocator.h>
 #include <rcpr/fiber/disciplines/management.h>
+#include <rcpr/fiber/disciplines/psock_io.h>
 #include <rcpr/function_decl.h>
 #include <rcpr/status.h>
 #include <rcpr/uuid.h>
