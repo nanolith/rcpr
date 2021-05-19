@@ -108,6 +108,65 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size);
  */
 status psock_wrap_async_write(psock* sock, const void* data, size_t* size);
 
+/**
+ * \brief Create a psock I/O discipline instance.
+ *
+ * \param disc          Pointer to a pointer that will hold the discipline
+ *                      instance on success.
+ * \param alloc         The allocator to use to create this instance.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status psock_fiber_scheduler_discipline_create(
+    fiber_scheduler_discipline** disc, allocator* alloc);
+
+/**
+ * \brief Callback for read wait events.
+ *
+ * \param context       The user context for this callback.
+ * \param yield_fib     The yielding fiber for this event.
+ * \param yield_event   The event causing the fiber to yield.
+ * \param yield_param   The yield parameter.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS is returned when this discipline callback succeeded.
+ *      - any other non-zero status code will result in thread termination and
+ *        the process aborting.
+ */
+status psock_fiber_scheduler_disciplined_read_wait_callback_handler(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+
+/**
+ * \brief Callback for write wait events.
+ *
+ * \param context       The user context for this callback.
+ * \param yield_fib     The yielding fiber for this event.
+ * \param yield_event   The event causing the fiber to yield.
+ * \param yield_param   The yield parameter.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS is returned when this discipline callback succeeded.
+ *      - any other non-zero status code will result in thread termination and
+ *        the process aborting.
+ */
+status psock_fiber_scheduler_disciplined_write_wait_callback_handler(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+
+/**
+ * \brief The entry point for the psock idle fiber.
+ *
+ * This idle fiber handles the platform-specific event loop for I/O events, and
+ * will sleep until a descriptor is available for a requested read or write.
+ *
+ * \param context       The user context for this fiber.
+ *
+ * \returns a status code indicating success or failure when this fiber
+ * terminates.
+ */
+status psock_idle_fiber_entry(void* context);
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 }
