@@ -167,6 +167,30 @@ status psock_fiber_scheduler_disciplined_write_wait_callback_handler(
  */
 status psock_idle_fiber_entry(void* context);
 
+/**
+ * \brief Create a platform-specific fiber scheduler discipline context for
+ * psock I/O.
+ *
+ * \param context       Pointer to receive the context pointer on success.
+ * \param alloc         The allocator to use to create this resource.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ */
+status psock_fiber_scheduler_discipline_context_create(
+    resource** context, allocator* alloc);
+
+/**
+ * \brief Hook the fiber discipline resource release method in order to ensure
+ * that the psock fiber discipline context resource is release as part of the
+ * release of this fiber discipline resource.
+ * 
+ * \param disc          The discipline to override.
+ */
+void psock_fiber_scheduler_discipline_set_resource_release(
+    fiber_scheduler_discipline* disc);
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 }
