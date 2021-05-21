@@ -3,6 +3,11 @@ check_symbol_exists(kqueue "sys/types.h;sys/event.h" HAS_PSOCK_ASYNC_KQUEUE)
 check_symbol_exists(epoll_wait "sys/epoll.h" HAS_PSOCK_ASYNC_EPOLL)
 check_symbol_exists(select "sys/select.h" HAS_PSOCK_ASYNC_SELECT)
 
+if (PSOCK_ASYNC_USE_SELECT)
+    SET(HAS_PSOCK_ASYNC_KQUEUE FALSE)
+    SET(HAS_PSOCK_ASYNC_EPOLL FALSE)
+endif()
+
 #prefer kqueue first
 if (HAS_PSOCK_ASYNC_KQUEUE)
     SET(HAS_PSOCK_ASYNC TRUE)
