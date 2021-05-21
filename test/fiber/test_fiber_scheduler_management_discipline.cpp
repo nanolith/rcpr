@@ -71,11 +71,6 @@ static status manager_main(void* context)
 
 static status dummy_main(void* context)
 {
-    for (int i = 0; i < 20; ++i)
-    {
-        printf("%d\n", i);
-    }
-
     return STATUS_SUCCESS;
 }
 
