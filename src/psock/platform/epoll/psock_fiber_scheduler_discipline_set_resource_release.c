@@ -17,10 +17,12 @@
  * release of this fiber discipline resource.
  * 
  * \param disc          The discipline to override.
+ * \param context       The discipline user context.
  */
 void psock_fiber_scheduler_discipline_set_resource_release(
-    fiber_scheduler_discipline* disc)
+    fiber_scheduler_discipline* disc, resource* context)
 {
     /* TODO - fill out stub. */
     (void)disc;
+    (void)context;
 }
