@@ -8,8 +8,12 @@
  */
 
 #include <rcpr/model_assert.h>
+#include <string.h>
 
-#include "../../psock_internal.h"
+#include "psock_kqueue_internal.h"
+
+/* forward decls. */
+static status psock_io_kqueue_context_resource_release(resource* r);
 
 /**
  * \brief Create a platform-specific fiber scheduler discipline context for
@@ -25,9 +29,74 @@
 status psock_fiber_scheduler_discipline_context_create(
     resource** context, allocator* alloc)
 {
-    /* TODO - fill out stub. */
-    (void)context;
-    (void)alloc;
+    /* parameter sanity checks. */
+    MODEL_ASSERT(NULL != context);
+    MODEL_ASSERT(prop_allocator_valid(alloc));
 
-    return -1;
+    /* attempt to allocate memory for this context. */
+    psock_io_kqueue_context* ctx = NULL;
+    int retval =
+        allocator_allocate(
+            alloc, (void**)&ctx, sizeof(psock_io_kqueue_context));
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
+
+    /* clear out the structure. */
+    memset(ctx, 0, sizeof(psock_io_kqueue_context));
+
+    /* the tag is not set by default. */
+    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        ctx->hdr.MODEL_STRUCT_TAG_REF(psock_io_kqueue_context),
+        psock_io_kqueue_context);
+
+    /* set the tag. */
+    MODEL_STRUCT_TAG_INIT(
+        ctx->hdr.MODEL_STRUCT_TAG_REF(psock_io_kqueue_context),
+        psock_io_kqueue_context)
+
+    /* set the release method. */
+    resource_init(&ctx->hdr, &psock_io_kqueue_context_resource_release);
+
+    /* set the init fields. */
+    ctx->alloc = alloc;
+    ctx->inputs = 0;
+    ctx->outputs = 0;
+
+    /* set the context. */
+    *context = &ctx->hdr;
+
+    /* verify that this structure is now valid. */
+    MODEL_ASSERT(prop_kqueue_io_struct_valid(*context));
+
+    /* success. */
+    return STATUS_SUCCESS;
+}
+
+/**
+ * \brief Release a psock kqueue io context.
+ *
+ * \param r         The resource to release.
+ *
+ * \returns a status code on success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ */
+static status psock_io_kqueue_context_resource_release(resource* r)
+{
+    psock_io_kqueue_context* ctx = (psock_io_kqueue_context*)r;
+
+    /* parameter sanity checks. */
+    MODEL_ASSERT(prop_kqueue_io_struct_valid(ctx));
+
+    /* get the allocator. */
+    allocator* a = ctx->alloc;
+
+    /* clear the structure. */
+    memset(ctx, 0, sizeof(psock_io_kqueue_context));
+
+    /* reclaim the structure. */
+    return
+        allocator_reclaim(a, ctx);
 }

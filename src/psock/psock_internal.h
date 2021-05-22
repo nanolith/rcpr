@@ -3,7 +3,7 @@
  *
  * \brief Internal data types and functions for psock.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -187,9 +187,10 @@ status psock_fiber_scheduler_discipline_context_create(
  * release of this fiber discipline resource.
  * 
  * \param disc          The discipline to override.
+ * \param context       The discipline user context.
  */
 void psock_fiber_scheduler_discipline_set_resource_release(
-    fiber_scheduler_discipline* disc);
+    fiber_scheduler_discipline* disc, resource* context);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

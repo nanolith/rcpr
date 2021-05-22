@@ -59,7 +59,7 @@ status psock_fiber_scheduler_discipline_create(
 
     /* call special function to override the resource release for this
      * discipline. */
-    psock_fiber_scheduler_discipline_set_resource_release(*disc);
+    psock_fiber_scheduler_discipline_set_resource_release(*disc, ctx);
 
     /* success. */
     retval = STATUS_SUCCESS;
