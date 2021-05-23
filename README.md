@@ -23,3 +23,4 @@ Features
 * `thread` - a threading library including threads, mutexes, and conditionals.
 * `fiber` - a fiber (green threads) library.
 * `uuid` - a simple uuid type and library.
+* `psock` - a socket abstraction library.
