@@ -58,9 +58,10 @@ status psock_fiber_scheduler_disciplined_read_wait_callback_handler(
         ctx->inputs = 0;
 
         /* add the inputs to kevent. */
-        int nev = kevent(
-            ctx->kq, ctx->kevent_inputs, MAX_KEVENT_INPUTS,
-            ctx->kevent_outputs, 0, NULL);
+        int nev =
+            kevent(
+                ctx->kq, ctx->kevent_inputs, MAX_KEVENT_INPUTS,
+                ctx->kevent_outputs, 0, NULL);
         if (0 != nev)
         {
             return ERROR_PSOCK_KEVENT_FAILED;

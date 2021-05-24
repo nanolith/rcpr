@@ -710,11 +710,19 @@ static status fiber_scheduler_disciplined_run_callback_handler(
     (void)yield_event;
     (void)yield_param;
 
-    /* add the yield fiber to the back of the queue. */
-    return
-        disciplined_fiber_scheduler_add_fiber_to_run_queue(
-            ctx->sched, yield_fib, &FIBER_SCHEDULER_INTERNAL_DISCIPLINE,
-            FIBER_SCHEDULER_RESUME_EVENT_RUN, NULL);
+    /* if this is the idle fiber, let it go back to idling. */
+    if (yield_fib == ctx->idle_fiber)
+    {
+        return STATUS_SUCCESS;
+    }
+    /* otherwise, add the yield fiber to the back of the queue. */
+    else
+    {
+        return
+            disciplined_fiber_scheduler_add_fiber_to_run_queue(
+                ctx->sched, yield_fib, &FIBER_SCHEDULER_INTERNAL_DISCIPLINE,
+                FIBER_SCHEDULER_RESUME_EVENT_RUN, NULL);
+    }
 }
 
 /**

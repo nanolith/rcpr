@@ -45,6 +45,19 @@ enum fiber_scheduler_psock_io_discipline_resume_events
     FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_AVAILABLE_WRITE           = 0x0001,
 };
 
+/**
+ * \brief The psock I/O discipline resume flags.
+ */
+enum fiber_scheduler_psock_io_discipline_resume_flags
+{
+    /** \brief An error occurred on the socket. */
+    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_ERROR                = 0x0001,
+
+    /** \brief An EOF occurred on the socket. */
+    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_EOF                  = 0x0002,
+};
+
+
 /* C++ compatibility. */
 # ifdef    __cplusplus
 }
