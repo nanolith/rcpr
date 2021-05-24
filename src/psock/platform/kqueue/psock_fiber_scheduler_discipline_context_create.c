@@ -9,6 +9,7 @@
 
 #include <rcpr/model_assert.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "psock_kqueue_internal.h"
 
@@ -31,6 +32,8 @@ static status psock_io_kqueue_context_resource_release(resource* r);
 status psock_fiber_scheduler_discipline_context_create(
     resource** context, fiber_scheduler* sched, allocator* alloc)
 {
+    status retval, release_retval;
+
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != context);
     MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
@@ -38,12 +41,12 @@ status psock_fiber_scheduler_discipline_context_create(
 
     /* attempt to allocate memory for this context. */
     psock_io_kqueue_context* ctx = NULL;
-    int retval =
+    retval =
         allocator_allocate(
             alloc, (void**)&ctx, sizeof(psock_io_kqueue_context));
     if (STATUS_SUCCESS != retval)
     {
-        return retval;
+        goto done;
     }
 
     /* clear out the structure. */
@@ -68,6 +71,13 @@ status psock_fiber_scheduler_discipline_context_create(
     ctx->inputs = 0;
     ctx->outputs = 0;
 
+    /* create the kqueue instance for this discipline context. */
+    ctx->kq = kqueue();
+    if (ctx->kq < 0)
+    {
+        goto cleanup_ctx;
+    }
+
     /* set the context. */
     *context = &ctx->hdr;
 
@@ -75,7 +85,18 @@ status psock_fiber_scheduler_discipline_context_create(
     MODEL_ASSERT(prop_kqueue_io_struct_valid(*context));
 
     /* success. */
-    return STATUS_SUCCESS;
+    retval = STATUS_SUCCESS;
+    goto done;
+
+cleanup_ctx:
+    release_retval = allocator_reclaim(alloc, ctx);
+    if (STATUS_SUCCESS != release_retval)
+    {
+        retval = release_retval;
+    }
+
+done:
+    return retval;
 }
 
 /**
@@ -96,6 +117,9 @@ static status psock_io_kqueue_context_resource_release(resource* r)
 
     /* get the allocator. */
     allocator* a = ctx->alloc;
+
+    /* close the kqueue. */
+    close(ctx->kq);
 
     /* clear the structure. */
     memset(ctx, 0, sizeof(psock_io_kqueue_context));
