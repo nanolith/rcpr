@@ -113,14 +113,18 @@ status psock_wrap_async_write(psock* sock, const void* data, size_t* size);
  *
  * \param disc          Pointer to a pointer that will hold the discipline
  *                      instance on success.
+ * \param sched         The scheduler to be used for this discipline.
  * \param alloc         The allocator to use to create this instance.
+ *
+ * \note This only creates the discipline, it does not add it to the scheduler.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
 status psock_fiber_scheduler_discipline_create(
-    fiber_scheduler_discipline** disc, allocator* alloc);
+    fiber_scheduler_discipline** disc, fiber_scheduler* sched,
+    allocator* alloc);
 
 /**
  * \brief Callback for read wait events.
@@ -172,6 +176,8 @@ status psock_idle_fiber_entry(void* context);
  * psock I/O.
  *
  * \param context       Pointer to receive the context pointer on success.
+ * \param sched         The fiber scheduler to which this discipline will
+ *                      belong.
  * \param alloc         The allocator to use to create this resource.
  *
  * \returns a status code indicating success or failure.
@@ -179,7 +185,7 @@ status psock_idle_fiber_entry(void* context);
  *      - a non-zero error code on failure.
  */
 status psock_fiber_scheduler_discipline_context_create(
-    resource** context, allocator* alloc);
+    resource** context, fiber_scheduler* sched, allocator* alloc);
 
 /**
  * \brief Hook the fiber discipline resource release method in order to ensure

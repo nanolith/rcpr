@@ -764,6 +764,27 @@ disciplined_fiber_scheduler_set_idle_fiber(
     fiber_scheduler* sched, fiber* fib);
 
 /**
+ * \brief Suspend this idle fiber until the scheduler idles again.
+ *
+ * \param sched         The scheduler.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *
+ * \post
+ *      - On success, the fiber has been resumed normally.
+ *      - On failure, either the yield failed or the fiber has been resumed due
+ *        to an out-of-bound event.
+ */
+status FN_DECL_MUST_CHECK
+disciplined_fiber_scheduler_idle_fiber_yield(
+    fiber_scheduler* sched);
+
+/**
  * \brief Suspend this fiber until a management event is received from the
  *        disciplined fiber scheduler, and then resume this fiber with that
  *        event.

@@ -19,20 +19,25 @@
  *
  * \param disc          Pointer to a pointer that will hold the discipline
  *                      instance on success.
+ * \param sched         The scheduler to be used for this discipline.
  * \param alloc         The allocator to use to create this instance.
+ *
+ * \note This only creates the discipline, it does not add it to the scheduler.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
 status psock_fiber_scheduler_discipline_create(
-    fiber_scheduler_discipline** disc, allocator* alloc)
+    fiber_scheduler_discipline** disc, fiber_scheduler* sched,
+    allocator* alloc)
 {
     status retval, release_retval;
     resource* ctx;
 
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != disc);
+    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
     MODEL_ASSERT(prop_allocator_valid(alloc));
 
     /* create the fiber I/O discipline callback structure. */
@@ -41,7 +46,8 @@ status psock_fiber_scheduler_discipline_create(
         &psock_fiber_scheduler_disciplined_write_wait_callback_handler };
 
     /* create the context to use for this discipline. */
-    retval = psock_fiber_scheduler_discipline_context_create(&ctx, alloc);
+    retval =
+        psock_fiber_scheduler_discipline_context_create(&ctx, sched, alloc);
     if (STATUS_SUCCESS != retval)
     {
         goto done;

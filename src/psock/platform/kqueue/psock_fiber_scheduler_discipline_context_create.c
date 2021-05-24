@@ -20,6 +20,8 @@ static status psock_io_kqueue_context_resource_release(resource* r);
  * psock I/O.
  *
  * \param context       Pointer to receive the context pointer on success.
+ * \param sched         The fiber scheduler to which this discipline will
+ *                      belong.
  * \param alloc         The allocator to use to create this resource.
  *
  * \returns a status code indicating success or failure.
@@ -27,10 +29,11 @@ static status psock_io_kqueue_context_resource_release(resource* r);
  *      - a non-zero error code on failure.
  */
 status psock_fiber_scheduler_discipline_context_create(
-    resource** context, allocator* alloc)
+    resource** context, fiber_scheduler* sched, allocator* alloc)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != context);
+    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
     MODEL_ASSERT(prop_allocator_valid(alloc));
 
     /* attempt to allocate memory for this context. */
@@ -60,6 +63,7 @@ status psock_fiber_scheduler_discipline_context_create(
     resource_init(&ctx->hdr, &psock_io_kqueue_context_resource_release);
 
     /* set the init fields. */
+    ctx->sched = sched;
     ctx->alloc = alloc;
     ctx->inputs = 0;
     ctx->outputs = 0;

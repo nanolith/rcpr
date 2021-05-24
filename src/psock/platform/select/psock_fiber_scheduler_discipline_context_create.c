@@ -16,6 +16,8 @@
  * psock I/O.
  *
  * \param context       Pointer to receive the context pointer on success.
+ * \param sched         The fiber scheduler to which this discipline will
+ *                      belong.
  * \param alloc         The allocator to use to create this resource.
  *
  * \returns a status code indicating success or failure.
@@ -23,10 +25,11 @@
  *      - a non-zero error code on failure.
  */
 status psock_fiber_scheduler_discipline_context_create(
-    resource** context, allocator* alloc)
+    resource** context, fiber_scheduler* sched, allocator* alloc)
 {
     /* TODO - fill out stub. */
     (void)context;
+    (void)sched;
     (void)alloc;
 
     return -1;
