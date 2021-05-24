@@ -36,6 +36,7 @@ struct psock_io_kqueue_context
 
     allocator* alloc;
     resource discipline_cache;
+    int kq;
     int inputs;
     struct kevent kevent_inputs[MAX_KEVENT_INPUTS];
     int outputs;

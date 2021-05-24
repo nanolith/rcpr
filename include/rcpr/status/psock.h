@@ -60,3 +60,15 @@
  */
 #define ERROR_PSOCK_READ_BOXED_INVALID_SIZE \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0007)
+
+/**
+ * \brief psock kqueue / kevent call failed.
+ */
+#define ERROR_PSOCK_KEVENT_FAILED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0008)
+
+/**
+ * \brief psock kqueue init failed.
+ */
+#define ERROR_PSOCK_KQUEUE_FAILED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0009)
