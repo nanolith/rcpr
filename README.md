@@ -17,7 +17,7 @@ Features
   false positives (not yet implemented)
 * `slist` and `list` - single and doubly linked list
 * `dict` (hash map) - hash map dictionary (not yet implemented)
-* `rbtree` - red / black tree (in progress)
+* `rbtree` - red / black tree.
 * `map` - dictionary based on the red / black tree (not yet implemented)
 * `set` - set based on the red / black tree (not yet implemented)
 * `thread` - a threading library including threads, mutexes, and conditionals.
