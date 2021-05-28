@@ -3,7 +3,7 @@
  *
  * \brief Create a \ref psock instance from a descriptor.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -90,6 +90,9 @@ psock_create_from_descriptor(
 
     /* set the descriptor. */
     ps->descriptor = descriptor;
+
+    /* set the type. */
+    ps->hdr.type = PSOCK_TYPE_DESCRIPTOR;
 
     /* set the allocator. */
     ps->hdr.alloc = a;
