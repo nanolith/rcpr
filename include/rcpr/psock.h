@@ -114,57 +114,6 @@ psock_create_from_descriptor(
     psock** sock, allocator* a, int descriptor);
 
 /**
- * \brief Create a \ref fiber_scheduler instance that provides asynchronous I/O
- * for wrapped \ref psock instances.
- *
- * \param sched         Pointer to the \ref fiber_scheduler pointer to receive
- *                      this resource on success.
- * \param a             The allocator instance to use for creating this
- *                      instance.
- * \param context       The context to pass to the callback function.
- * \param fn            The callback function to use for handling non-I/O
- *                      related yield events. This function provides a way to
- *                      chain functionality in the scheduler.
- *
- * \note This \ref fiber_scheduler is a \ref resource that must be released by
- * calling \ref resource_release on its resource handle when it is no longer
- * needed by the caller.  The resource handle can be accessed by calling \ref
- * fiber_scheduler_resource_handle on this \ref fiber_scheduler instance.  The
- * \ref fiber_scheduler must be in a terminated state before releasing this
- * resource.  If the scheduler is not yet terminated, then undefined behavior
- * can occur.  It is up to the caller to ensure that the fiber scheduler has
- * terminated, such as devising a termination strategy, prior to releasing this
- * resource.  Furthermore, for the I/O scheduler, the scheduler takes ownership
- * of any fiber instance that is added to it.  When the fiber instance
- * terminates, its resource handle will automatically be released.  If the fiber
- * needs to manage its own resources, these should be passed to it through its
- * context structure, and it should either take ownership of these resources or
- * the main thread should clean up these resources after the fiber instance is
- * terminated.
- *
- * \returns a status code indicating success or failure.
- *      - STATUS_SUCCESS on success.
- *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
- *        out-of-memory condition.
- *
- * \pre
- *      - \p sched must not reference a valid \ref fiber_scheduler instance and
- *        must not be NULL.
- *      - \p a must reference a valid \ref allocator and must not be NULL.
- *      - \p fn must be a valid function.
- *
- * \post
- *      - On success, \p sched is set to a pointer to a valid
- *        \ref fiber_scheduler instance, which is a \ref resource owned by the
- *        caller that must be released by the caller when no longer needed.
- *      - On failure, \p sched is set to NULL and an error status is returned.
- */
-status FN_DECL_MUST_CHECK
-psock_fiber_scheduler_create(
-    fiber_scheduler** sched, allocator* a, void* context,
-    fiber_scheduler_callback_fn fn);
-
-/**
  * \brief Wrap a \ref psock instance with an async \ref psock instance that
  * transforms reads or writes on the underlying \ref psock with yields to the
  * given \ref fiber_scheduler.
@@ -174,7 +123,8 @@ psock_fiber_scheduler_create(
  * \param a             Pointer to the allocator to use for creating this
  *                      wrapping \ref psock resource.
  * \param sched         The \ref fiber_scheduler to yield on a read / write call
- *                      that would block.
+ *                      that would block.  This must be a disciplined fiber
+ *                      scheduler.
  * \param child         The child \ref psock instance that this \ref psock
  *                      instance wraps.
  *
@@ -192,12 +142,18 @@ psock_fiber_scheduler_create(
  * underlying descriptor.  The scheduler will then resume this \ref fiber when
  * the OS notifies it that the descriptor is again available for read or write.
  *
- * After this call completes successfully, the \ref fiber can be executed.
+ * After this call completes successfully, calls to \ref psock utility functions
+ * will block the calling fiber if the I/O would normally block.  If multiple
+ * fibers are scheduled to run, the scheduler will switch to the next available
+ * fiber.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
  *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
  *        out-of-memory condition.
+ *      - ERROR_PSOCK_UNSUPPORTED_TYPE if the type of psock pointed to by
+ *        \p child is not supported for async wrappering. Currently, only
+ *        descriptor children are supported.
  *
  * \pre
  *      - \p sock must be a pointer to a pointer to a \ref psock instance
