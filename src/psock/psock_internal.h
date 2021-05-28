@@ -21,11 +21,18 @@
 extern "C" {
 # endif /*__cplusplus*/
 
+enum psock_type
+{
+    PSOCK_TYPE_DESCRIPTOR               = 0x0001,
+    PSOCK_TYPE_WRAP_ASYNC               = 0x0002,
+};
+
 struct psock
 {
     resource hdr;
 
     MODEL_STRUCT_TAG(psock);
+    int type;
 
     allocator* alloc;
     status (*read_fn)(psock* sock, void* data, size_t* size);
@@ -52,6 +59,7 @@ struct psock_wrap_async
     fiber_scheduler* sched;
     fiber_scheduler_discipline* psock_discipline;
     psock_unexpected_handler_callback_fn unexpected;
+    void* context;
 };
 
 /**
