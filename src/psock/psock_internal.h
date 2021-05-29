@@ -56,6 +56,7 @@ typedef struct psock_wrap_async psock_wrap_async;
 struct psock_wrap_async
 {
     psock hdr;
+    psock* wrapped;
     fiber_scheduler* sched;
     fiber_scheduler_discipline* psock_discipline;
     psock_unexpected_handler_callback_fn unexpected;
