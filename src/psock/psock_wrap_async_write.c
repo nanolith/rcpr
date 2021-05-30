@@ -1,7 +1,7 @@
 /**
- * \file psock/psock_wrap_async_read.c
+ * \file psock/psock_wrap_async_write.c
  *
- * \brief Read data from the given async \ref psock instance.
+ * \brief Write data to the given async \ref psock instance.
  *
  * \copyright 2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
@@ -16,17 +16,18 @@
 #include "psock_internal.h"
 
 /**
- * \brief Read data from the given async \ref psock instance.
+ * \brief Write data to the given async \ref psock instance.
  *
- * \param sock          The \ref psock instance from which to read.
- * \param data          Pointer to the buffer into which data should be read.
- * \param size          Pointer to the size to read, updated with the size read.
+ * \param sock          The \ref psock instance to which to write.
+ * \param data          Pointer to the buffer from which data should be written.
+ * \param size          Pointer to the size to write, updated with the size
+ *                      written.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_wrap_async_read(psock* sock, void* data, size_t* size)
+status psock_wrap_async_write(psock* sock, const void* data, size_t* size)
 {
     status retval;
 
@@ -44,14 +45,14 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size)
     /* get the underlying descriptor psock instance. */
     psock_from_descriptor* desc = (psock_from_descriptor*)s->wrapped;
 
-    /* loop through until all bytes are read. */
-    size_t read_size = *size;
-    uint8_t* dptr = (uint8_t*)data;
-    while (read_size > 0)
+    /* loop through until all bytes are written. */
+    size_t write_size = *size;
+    const uint8_t* dptr = (uint8_t*)data;
+    while (write_size > 0)
     {
-        size_t tmp_size = read_size;
-        retval = s->wrapped->read_fn(s->wrapped, dptr, &tmp_size);
-        if (ERROR_PSOCK_READ_WOULD_BLOCK == retval)
+        size_t tmp_size = write_size;
+        retval = s->wrapped->write_fn(s->wrapped, dptr, &tmp_size);
+        if (ERROR_PSOCK_WRITE_WOULD_BLOCK == retval)
         {
             /* reset tmp_size. */
             tmp_size = 0;
@@ -63,7 +64,7 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size)
             retval =
                 fiber_discipline_yield(
                     s->psock_discipline,
-                    FIBER_SCHEDULER_PSOCK_IO_YIELD_EVENT_WAIT_READ,
+                    FIBER_SCHEDULER_PSOCK_IO_YIELD_EVENT_WAIT_WRITE,
                     (void*)((ptrdiff_t)desc->descriptor),
                     &resume_id, &resume_event, &resume_param);
             if (STATUS_SUCCESS != retval)
@@ -83,7 +84,7 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size)
                 {
                     retval =
                         s->unexpected(
-                            &s->hdr, NULL, s->context, false,
+                            &s->hdr, NULL, s->context, true,
                             resume_id, resume_event, resume_param);
                 }
                 /* otherwise, fail with an unexpected event error. */
@@ -100,17 +101,18 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size)
             }
 
         }
-        /* if a different error occurred in the read, return it.*/
+        /* if a different error occurred in the write, return it.*/
         else if (STATUS_SUCCESS != retval)
         {
-            *size -= read_size;
+            *size -= write_size;
             return retval;
         }
 
         /* update size and offset. */
-        read_size -= tmp_size;
+        write_size -= tmp_size;
         dptr += tmp_size;
     }
 
     return STATUS_SUCCESS;
+
 }
