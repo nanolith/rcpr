@@ -78,3 +78,9 @@
  */
 #define ERROR_PSOCK_UNEXPECTED_EVENT \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000a)
+
+/**
+ * \brief An unsupported psock type was encountered.
+ */
+#define ERROR_PSOCK_UNSUPPORTED_TYPE \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000b)

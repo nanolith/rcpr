@@ -19,6 +19,8 @@
  *
  * \param disc          Pointer to a pointer that will hold the discipline
  *                      instance on success.
+ * \param context       Pointer to a pointer to receive the context to send to
+ *                      the idle fiber.
  * \param sched         The scheduler to be used for this discipline.
  * \param alloc         The allocator to use to create this instance.
  *
@@ -29,8 +31,8 @@
  *      - an error code indicating a specific failure condition.
  */
 status psock_fiber_scheduler_discipline_create(
-    fiber_scheduler_discipline** disc, fiber_scheduler* sched,
-    allocator* alloc)
+    fiber_scheduler_discipline** disc, resource** context,
+    fiber_scheduler* sched, allocator* alloc)
 {
     status retval, release_retval;
     resource* ctx;
@@ -66,6 +68,9 @@ status psock_fiber_scheduler_discipline_create(
     /* call special function to override the resource release for this
      * discipline. */
     psock_fiber_scheduler_discipline_set_resource_release(*disc, ctx);
+
+    /* set the context pointer. */
+    *context = ctx;
 
     /* success. */
     retval = STATUS_SUCCESS;

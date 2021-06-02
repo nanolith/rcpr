@@ -122,6 +122,8 @@ status psock_wrap_async_write(psock* sock, const void* data, size_t* size);
  *
  * \param disc          Pointer to a pointer that will hold the discipline
  *                      instance on success.
+ * \param context       Pointer to a pointer to receive the context to send to
+ *                      the idle fiber.
  * \param sched         The scheduler to be used for this discipline.
  * \param alloc         The allocator to use to create this instance.
  *
@@ -132,8 +134,8 @@ status psock_wrap_async_write(psock* sock, const void* data, size_t* size);
  *      - an error code indicating a specific failure condition.
  */
 status psock_fiber_scheduler_discipline_create(
-    fiber_scheduler_discipline** disc, fiber_scheduler* sched,
-    allocator* alloc);
+    fiber_scheduler_discipline** disc, resource** context,
+    fiber_scheduler* sched, allocator* alloc);
 
 /**
  * \brief Callback for read wait events.
