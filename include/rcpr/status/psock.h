@@ -84,3 +84,16 @@
  */
 #define ERROR_PSOCK_UNSUPPORTED_TYPE \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000b)
+
+/**
+ * \brief This accept returned because it would block and the socket is
+ * non-blocking.
+ */
+#define ERROR_PSOCK_ACCEPT_WOULD_BLOCK \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000c)
+
+/**
+ * \brief This accept returned because of an unspecified error.
+ */
+#define ERROR_PSOCK_ACCEPT_GENERAL \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000d)

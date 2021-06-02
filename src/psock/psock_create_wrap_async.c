@@ -163,6 +163,7 @@ psock_create_wrap_async(
     /* set the callbacks. */
     ps->hdr.read_fn = &psock_wrap_async_read;
     ps->hdr.write_fn = &psock_wrap_async_write;
+    ps->hdr.accept_fn = &psock_wrap_async_accept;
 
     /* set the descriptor to non-blocking. */
     retval = socket_utility_set_nonblock(pchild->descriptor);
