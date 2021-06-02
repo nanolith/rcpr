@@ -3,7 +3,7 @@
  *
  * \brief Some utility functions to make working with sockets easier.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -38,6 +38,18 @@ extern "C" {
 status FN_DECL_MUST_CHECK
 socket_utility_socketpair(
     int domain, int type, int protocol, int* left, int* right);
+
+/**
+ * \brief Set a descriptor to non-blocking.
+ *
+ * \param desc              The descriptor to set to non-blocking.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a failure code on failure.
+ */
+status FN_DECL_MUST_CHECK
+socket_utility_set_nonblock(int desc);
 
 /**
  * \brief Convert a 64-bit integer value from host to network byte order.
