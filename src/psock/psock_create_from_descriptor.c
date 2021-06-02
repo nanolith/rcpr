@@ -100,6 +100,7 @@ psock_create_from_descriptor(
     /* set the callbacks. */
     ps->hdr.read_fn = &psock_from_descriptor_read;
     ps->hdr.write_fn = &psock_from_descriptor_write;
+    ps->hdr.accept_fn = &psock_from_descriptor_accept;
 
     /* set the socket. */
     *sock = &ps->hdr;

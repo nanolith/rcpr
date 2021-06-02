@@ -13,6 +13,7 @@
 #include <rcpr/model_assert.h>
 #include <rcpr/psock.h>
 #include <rcpr/resource.h>
+#include <sys/socket.h>
 
 #include "../resource/resource_internal.h"
 
@@ -37,6 +38,8 @@ struct psock
     allocator* alloc;
     status (*read_fn)(psock* sock, void* data, size_t* size);
     status (*write_fn)(psock* sock, const void* data, size_t* size);
+    status (*accept_fn)(
+        psock* sock, int* desc, struct sockaddr* addr, socklen_t* addrlen);
 };
 
 /* forward decls for psock_from_descriptor. */
@@ -91,6 +94,23 @@ status psock_from_descriptor_read(psock* sock, void* data, size_t* size);
 status psock_from_descriptor_write(psock* sock, const void* data, size_t* size);
 
 /**
+ * \brief Accept a socket from a \ref psock listen socket instance.
+ *
+ * \param sock          The \ref psock instance to which to accept a socket.
+ * \param desc          Pointer to the integer field to hold the accepted
+ *                      descriptor.
+ * \param addr          The address of the accepted socket.
+ * \param addrlen       On input, the max size of the address field; on output,
+ *                      the size of the address field.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status psock_from_descriptor_accept(
+    psock* sock, int* desc, struct sockaddr* addr, socklen_t* addrlen);
+
+/**
  * \brief Read data from the given async \ref psock instance.
  *
  * \param sock          The \ref psock instance from which to read.
@@ -116,6 +136,23 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size);
  *      - an error code indicating a specific failure condition.
  */
 status psock_wrap_async_write(psock* sock, const void* data, size_t* size);
+
+/**
+ * \brief Accept a socket from a \ref psock listen socket instance.
+ *
+ * \param sock          The \ref psock instance to which to accept a socket.
+ * \param idesc         Pointer to the integer field to hold the accepted
+ *                      descriptor.
+ * \param addr          The address of the accepted socket.
+ * \param addrlen       On input, the max size of the address field; on output,
+ *                      the size of the address field.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status psock_wrap_async_accept(
+    psock* sock, int* idesc, struct sockaddr* addr, socklen_t* addrlen);
 
 /**
  * \brief Create a psock I/O discipline instance.
