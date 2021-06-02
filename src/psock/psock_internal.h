@@ -111,6 +111,18 @@ status psock_from_descriptor_accept(
     psock* sock, int* desc, struct sockaddr* addr, socklen_t* addrlen);
 
 /**
+ * \brief Release a psock_from_descriptor resource.
+ *
+ * \param r             Pointer to the psock_from_descriptor resource to be
+ *                      released.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code on failure.
+ */
+status psock_from_descriptor_release(resource* r);
+
+/**
  * \brief Read data from the given async \ref psock instance.
  *
  * \param sock          The \ref psock instance from which to read.

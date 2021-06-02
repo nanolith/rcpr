@@ -97,3 +97,27 @@
  */
 #define ERROR_PSOCK_ACCEPT_GENERAL \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000d)
+
+/**
+ * \brief Couldn't create a socket.
+ */
+#define ERROR_PSOCK_CREATE_FROM_ADDRESS_SOCKET_CREATE \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000e)
+
+/**
+ * \brief Couldn't bind the socket to an address.
+ */
+#define ERROR_PSOCK_CREATE_FROM_ADDRESS_BIND \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000f)
+
+/**
+ * \brief Couldn't start listening to the socket.
+ */
+#define ERROR_PSOCK_CREATE_FROM_ADDRESS_LISTEN \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0010)
+
+/**
+ * \brief Couldn't close a socket.
+ */
+#define ERROR_PSOCK_CREATE_FROM_ADDRESS_CLOSE \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0011)

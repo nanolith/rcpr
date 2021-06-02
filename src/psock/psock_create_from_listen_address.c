@@ -1,9 +1,9 @@
 /**
- * \file psock/psock_create_from_descriptor.c
+ * \file psock/psock_create_from_listen_address.c
  *
- * \brief Create a \ref psock instance from a descriptor.
+ * \brief Create a \ref psock instance from a listen address.
  *
- * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -18,13 +18,15 @@
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
 
 /**
- * \brief Create a \ref psock instance backed by the given file descriptor.
+ * \brief Create a \ref psock instance backed by a listen socket bound to the
+ * given address.
  *
  * \param sock          Pointer to the \ref psock pointer to receive this
  *                      resource on success.
  * \param a             Pointer to the allocator to use for creating this \ref
  *                      psock resource.
- * \param descriptor    The file descriptor backing this \ref psock instance.
+ * \param name          The name to which this socket should be bound.
+ * \param namelen       The length of the name address field.
  *
  * \note This \ref psock is a \ref resource that must be released by calling
  * \ref resource_release on its resource handle when it is no longer needed by
@@ -56,56 +58,60 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
  *      - On failure, \p sock is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_create_from_descriptor(
-    psock** sock, allocator* a, int descriptor)
+psock_create_from_listen_address(
+    psock** sock, allocator* a, const struct sockaddr* name, socklen_t namelen)
 {
+    status retval;
+    int res;
+
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != sock);
     MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(descriptor >= 0);
+    MODEL_ASSERT(NULL != name);
+    MODEL_ASSERT(prop_valid_range(name, namelen));
 
-    /* attempt to allocate memory for this descriptor psock. */
-    psock_from_descriptor* ps = NULL;
-    int retval =
-        allocator_allocate(a, (void**)&ps, sizeof(psock_from_descriptor));
-    if (STATUS_SUCCESS != retval)
+    /* Create a socket for this address. */
+    int desc = socket(AF_INET, SOCK_STREAM, 0);
+    if (desc < 0)
     {
-        return retval;
+        retval = ERROR_PSOCK_CREATE_FROM_ADDRESS_SOCKET_CREATE;
+        goto done;
     }
 
-    /* clear out the structure. */
-    memset(ps, 0, sizeof(psock_from_descriptor));
+    /* bind this to the given address. */
+    res = bind(desc, name, namelen);
+    if (res < 0)
+    {
+        retval = ERROR_PSOCK_CREATE_FROM_ADDRESS_BIND;
+        goto cleanup_socket;
+    }
 
-    /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        ps->hdr.MODEL_STRUCT_TAG_REF(psock), psock);
+    /* start listening on this socket. */
+    res = listen(desc, 32);
+    if (res < 0)
+    {
+        retval = ERROR_PSOCK_CREATE_FROM_ADDRESS_LISTEN;
+        goto cleanup_socket;
+    }
 
-    /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(ps->hdr.MODEL_STRUCT_TAG_REF(psock), psock);
-
-    /* set the release method. */
-    resource_init(&ps->hdr.hdr, &psock_from_descriptor_release);
-
-    /* set the descriptor. */
-    ps->descriptor = descriptor;
-
-    /* set the type. */
-    ps->hdr.type = PSOCK_TYPE_DESCRIPTOR;
-
-    /* set the allocator. */
-    ps->hdr.alloc = a;
-
-    /* set the callbacks. */
-    ps->hdr.read_fn = &psock_from_descriptor_read;
-    ps->hdr.write_fn = &psock_from_descriptor_write;
-    ps->hdr.accept_fn = &psock_from_descriptor_accept;
-
-    /* set the socket. */
-    *sock = &ps->hdr;
-
-    /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_psock_valid(*sock));
+    /* create the psock instance. */
+    retval = psock_create_from_descriptor(sock, a, desc);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto cleanup_socket;
+    }
 
     /* success. */
-    return STATUS_SUCCESS;
+    retval = STATUS_SUCCESS;
+    goto done;
+
+cleanup_socket:
+    res = close(desc);
+    if (res < 0)
+    {
+        retval = ERROR_PSOCK_CREATE_FROM_ADDRESS_CLOSE;
+    }
+
+done:
+    return retval;
 }
