@@ -106,6 +106,11 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size)
             *size -= read_size;
             return retval;
         }
+        /* if no data was read, then the peer closed the socket. */
+        else if (0 == tmp_size)
+        {
+            return ERROR_PSOCK_READ_EOF;
+        }
 
         /* update size and offset. */
         read_size -= tmp_size;

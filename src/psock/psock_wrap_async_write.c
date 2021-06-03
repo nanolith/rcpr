@@ -107,6 +107,11 @@ status psock_wrap_async_write(psock* sock, const void* data, size_t* size)
             *size -= write_size;
             return retval;
         }
+        /* if no data was written, then the peer closed the socket. */
+        else if (0 == tmp_size)
+        {
+            return ERROR_PSOCK_WRITE_EOF;
+        }
 
         /* update size and offset. */
         write_size -= tmp_size;
