@@ -121,3 +121,15 @@
  */
 #define ERROR_PSOCK_CREATE_FROM_ADDRESS_CLOSE \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0011)
+
+/**
+ * \brief EOF encountered on read.
+ */
+#define ERROR_PSOCK_READ_EOF \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0012)
+
+/**
+ * \brief EOF encountered on write.
+ */
+#define ERROR_PSOCK_WRITE_EOF \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0013)
