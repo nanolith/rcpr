@@ -133,3 +133,21 @@
  */
 #define ERROR_PSOCK_WRITE_EOF \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0013)
+
+/**
+ * \brief psock epoll_create init failed.
+ */
+#define ERROR_PSOCK_EPOLL_CREATE_FAILED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0014)
+
+/**
+ * \brief psock epoll_ctl call failed.
+ */
+#define ERROR_PSOCK_EPOLL_CTL_FAILED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0015)
+
+/**
+ * \brief psock epoll_wait call failed.
+ */
+#define ERROR_PSOCK_EPOLL_WAIT_FAILED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0016)

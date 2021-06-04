@@ -75,6 +75,7 @@ status psock_fiber_scheduler_discipline_context_create(
     ctx->kq = kqueue();
     if (ctx->kq < 0)
     {
+        retval = ERROR_PSOCK_KQUEUE_FAILED;
         goto cleanup_ctx;
     }
 

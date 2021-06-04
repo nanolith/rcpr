@@ -11,7 +11,7 @@
 #include <rcpr/model_assert.h>
 #include <sys/types.h>
 
-#include "../../psock_internal.h"
+#include "psock_epoll_internal.h"
 
 /**
  * \brief The entry point for the psock idle fiber.
@@ -26,8 +26,77 @@
  */
 status psock_idle_fiber_entry(void* context)
 {
-    /* TODO - fill out stub. */
-    (void)context;
+    status retval;
+    bool run_state = true;
+    psock_io_epoll_context* ctx = (psock_io_epoll_context*)context;
 
-    return -1;
+    /* parameter sanity checks. */
+    MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
+
+    /* loop until termination is requested. */
+    while (run_state)
+    {
+        /* wait on an epoll event. */
+        int nev =
+            epoll_wait(
+                ctx->ep, ctx->epoll_outputs, MAX_EPOLL_OUTPUTS, -1);
+        if (nev < 0)
+        {
+            return ERROR_PSOCK_EPOLL_WAIT_FAILED;
+        }
+
+        /* loop through all outputs. */
+        for (int i = 0; i < nev; ++i)
+        {
+            fiber* fib = (fiber*)ctx->epoll_outputs[i].data.ptr;
+            uint32_t filter = ctx->epoll_outputs[i].events;
+            int resume_event;
+            ptrdiff_t resume_param = 0;
+
+            /* encode resume event. */
+            if (filter & EPOLLIN)
+            {
+                resume_event =
+                    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_AVAILABLE_READ;
+            }
+            else
+            {
+                resume_event =
+                    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_AVAILABLE_WRITE;
+            }
+
+            /* encode resume param value. */
+            if (filter & EPOLLERR)
+            {
+                resume_param |=
+                    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_ERROR;
+            }
+            if (filter & EPOLLHUP)
+            {
+                resume_param |=
+                    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_EOF;
+            }
+
+            /* add the fiber back to the run queue; it can now read / write. */
+            retval =
+                disciplined_fiber_scheduler_add_fiber_to_run_queue(
+                    ctx->sched, fib, &FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE,
+                    resume_event, (void*)resume_param);
+            if (STATUS_SUCCESS != retval)
+            {
+                return retval;
+            }
+        }
+
+        /* finally, instruct the management discipline to idle this fiber. */
+        retval = disciplined_fiber_scheduler_idle_fiber_yield(ctx->sched);
+        if (STATUS_SUCCESS != retval)
+        {
+            run_state = false;
+        }
+    }
+
+    /* terminate this fiber. */
+    return STATUS_SUCCESS;
+
 }

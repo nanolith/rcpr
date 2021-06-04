@@ -1,7 +1,7 @@
 /**
- * \file psock/platform/kqueue/psock_kqueue_internal.h
+ * \file psock/platform/epoll/psock_epoll_internal.h
  *
- * \brief Internal data types and functions for psock's async kqueue impl.
+ * \brief Internal data types and functions for psock's async epoll impl.
  *
  * \copyright 2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
@@ -13,8 +13,7 @@
 #include <rcpr/model_assert.h>
 #include <rcpr/psock.h>
 #include <rcpr/resource.h>
-#include <sys/types.h>
-#include <sys/event.h>
+#include <sys/epoll.h>
 
 #include "../../psock_internal.h"
 
@@ -23,25 +22,22 @@
 extern "C" {
 # endif /*__cplusplus*/
 
-#define MAX_KEVENT_INPUTS       1024
-#define MAX_KEVENT_OUTPUTS      1024
+#define MAX_EPOLL_OUTPUTS      1024
 
-typedef struct psock_io_kqueue_context psock_io_kqueue_context;
+typedef struct psock_io_epoll_context psock_io_epoll_context;
 
-struct psock_io_kqueue_context
+struct psock_io_epoll_context
 {
     resource hdr;
 
-    MODEL_STRUCT_TAG(psock_io_kqueue_context);
+    MODEL_STRUCT_TAG(psock_io_epoll_context);
 
     allocator* alloc;
     resource discipline_cache;
     fiber_scheduler* sched;
-    int kq;
-    int inputs;
-    struct kevent kevent_inputs[MAX_KEVENT_INPUTS];
+    int ep;
     int outputs;
-    struct kevent kevent_outputs[MAX_KEVENT_OUTPUTS];
+    struct epoll_event epoll_outputs[MAX_EPOLL_OUTPUTS];
 };
 
 /* C++ compatibility. */

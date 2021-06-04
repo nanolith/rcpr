@@ -64,6 +64,7 @@ struct psock_wrap_async
     fiber_scheduler_discipline* psock_discipline;
     psock_unexpected_handler_callback_fn unexpected;
     void* context;
+    int flags;
 };
 
 /**
