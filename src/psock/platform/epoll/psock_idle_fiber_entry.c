@@ -10,7 +10,6 @@
 #include <rcpr/fiber/disciplines/psock_io.h>
 #include <rcpr/model_assert.h>
 #include <sys/types.h>
-#include <sys/event.h>
 
 #include "../../psock_internal.h"
 
