@@ -96,6 +96,7 @@ int main(int argc, char* argv[])
     retval = management_fiber_add(alloc, sched);
     if (STATUS_SUCCESS != retval)
     {
+        printf("Error creating management fiber.\n");
         goto cleanup_scheduler;
     }
 
@@ -103,6 +104,7 @@ int main(int argc, char* argv[])
     retval = psock_create_wrap_async(&listen_async, alloc, sched, listen);
     if (STATUS_SUCCESS != retval)
     {
+        printf("Error creating async socket from listen socket.\n");
         goto cleanup_scheduler;
     }
 
