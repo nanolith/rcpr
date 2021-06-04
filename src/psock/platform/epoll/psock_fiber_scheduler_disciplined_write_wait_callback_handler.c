@@ -7,9 +7,10 @@
  * distribution for the license terms under which this software is distributed.
  */
 
+#include <errno.h>
 #include <rcpr/model_assert.h>
 
-#include "../../psock_internal.h"
+#include "psock_epoll_internal.h"
 
 /**
  * \brief Callback for write wait events.
@@ -27,11 +28,33 @@
 status psock_fiber_scheduler_disciplined_write_wait_callback_handler(
     void* context, fiber* yield_fib, int yield_event, void* yield_param)
 {
-    /* TODO - fill out stub. */
-    (void)context;
-    (void)yield_fib;
-    (void)yield_event;
-    (void)yield_param;
+    status retval;
+    struct epoll_event event;
 
-    return -1;
+    /* unused parameter. */
+    (void)yield_event;
+
+    psock_io_epoll_context* ctx = (psock_io_epoll_context*)context;
+    int fd = (int)((ptrdiff_t)yield_param);
+
+    /* parameter sanity checks. */
+    MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
+    MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    MODEL_ASSERT(fd >= 0);
+
+    /* set the epoll control for this yield event. */
+    event.events = EPOLLOUT | EPOLLONESHOT;
+    event.data.ptr = yield_fib;
+    retval = epoll_ctl(ctx->ep, EPOLL_CTL_MOD, fd, &event);
+    if (retval < 0 && errno == ENOENT)
+    {
+        retval = epoll_ctl(ctx->ep, EPOLL_CTL_ADD, fd, &event);
+    }
+    if (retval < 0)
+    {
+        return ERROR_PSOCK_EPOLL_CTL_FAILED;
+    }
+
+    /* success. */
+    return STATUS_SUCCESS;
 }

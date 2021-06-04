@@ -38,7 +38,7 @@ status psock_fiber_scheduler_disciplined_read_wait_callback_handler(
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_kqueue_io_struct_valid(ctx));
     MODEL_ASSERT(prop_fiber_valid(yield_fib));
-    MODEL_ASSERT(yield_param >= 0);
+    MODEL_ASSERT(fd >= 0);
 
     /* event structure invariant. */
     MODEL_ASSERT(ctx->inputs < MAX_KEVENT_INPUTS);
