@@ -7,7 +7,7 @@ INCLUDE(CheckSymbolExists)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
 option(MODELCHECK_REQUIRED "Require Model Checking")
-option(PSOCK_ASYNC_USE_SELECT "Use select() for psock async I/O.")
+option(PSOCK_ASYNC_USE_POLL "Use poll() for psock async I/O.")
 
 #minunit package
 find_package(minunit REQUIRED)
