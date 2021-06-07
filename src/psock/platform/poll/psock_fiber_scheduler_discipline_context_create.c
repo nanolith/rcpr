@@ -8,8 +8,12 @@
  */
 
 #include <rcpr/model_assert.h>
+#include <string.h>
 
-#include "../../psock_internal.h"
+#include "psock_poll_internal.h"
+
+/* forward decls. */
+static status psock_io_poll_context_resource_release(resource* r);
 
 /**
  * \brief Create a platform-specific fiber scheduler discipline context for
@@ -27,10 +31,155 @@
 status psock_fiber_scheduler_discipline_context_create(
     resource** context, fiber_scheduler* sched, allocator* alloc)
 {
-    /* TODO - fill out stub. */
-    (void)context;
-    (void)sched;
-    (void)alloc;
+    status retval, release_retval;
 
-    return -1;
+    /* parameter sanity checks. */
+    MODEL_ASSERT(NULL != context);
+    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    MODEL_ASSERT(prop_allocator_valid(alloc));
+
+    /* attempt to allocate memory for this context. */
+    psock_io_poll_context* ctx = NULL;
+    retval =
+        allocator_allocate(
+            alloc, (void**)&ctx, sizeof(psock_io_poll_context));
+    if (STATUS_SUCCESS != retval)
+    {
+        goto done;
+    }
+
+    /* clear out the structure. */
+    memset(ctx, 0, sizeof(psock_io_poll_context));
+
+    /* attempt to allocate memory for the poll event array. */
+    ctx->poll_max = POLL_EVENT_SIZE_INCREMENT;
+    retval =
+        allocator_allocate(
+            alloc, (void**)&ctx->poll_events,
+            ctx->poll_max * sizeof(struct pollfd));
+    if (STATUS_SUCCESS != retval)
+    {
+        goto release_ctx;
+    }
+
+    /* clear out the poll structure. */
+    for (size_t i = 0; i < ctx->poll_max; ++i)
+    {
+        ctx->poll_events[i].fd = -1;
+        ctx->poll_events[i].events = ctx->poll_events[i].revents = 0;
+    }
+
+    /* attempt to allocate memory for the fiber array. */
+    retval =
+        allocator_allocate(
+            alloc, (void**)&ctx->poll_fibers,
+            ctx->poll_max * sizeof(fiber*));
+    if (STATUS_SUCCESS != retval)
+    {
+        goto release_poll_events;
+    }
+
+    /* clear out the fiber array. */
+    memset(ctx->poll_fibers, 0, ctx->poll_max * sizeof(fiber*));
+
+    /* the tag is not set by default. */
+    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        ctx->hdr.MODEL_STRUCT_TAG_REF(psock_io_poll_context),
+        psock_io_poll_context);
+
+    /* set the tag. */
+    MODEL_STRUCT_TAG_INIT(
+        ctx->hdr.MODEL_STRUCT_TAG_REF(psock_io_poll_context),
+        psock_io_poll_context);
+
+    /* set the release method. */
+    resource_init(&ctx->hdr, &psock_io_poll_context_resource_release);
+
+    /* set the init fields. */
+    ctx->sched = sched;
+    ctx->alloc = alloc;
+    ctx->poll_curr = 0;
+
+    /* set the context. */
+    *context = &ctx->hdr;
+
+    /* verify that this structure is now valid. */
+    MODEL_ASSERT(prop_poll_io_struct_valid(ctx));
+
+    /* success. */
+    retval = STATUS_SUCCESS;
+    goto done;
+
+release_poll_events:
+    release_retval = allocator_reclaim(alloc, ctx->poll_events);
+    if (STATUS_SUCCESS != release_retval)
+    {
+        retval = release_retval;
+    }
+
+release_ctx:
+    release_retval = allocator_reclaim(alloc, ctx);
+    if (STATUS_SUCCESS != release_retval)
+    {
+        retval = release_retval;
+    }
+
+done:
+    return retval;
+}
+
+/**
+ * \brief Release a psock poll io context.
+ *
+ * \param r         The resource to release.
+ *
+ * \returns a status code on success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ */
+static status psock_io_poll_context_resource_release(resource* r)
+{
+    psock_io_poll_context* ctx = (psock_io_poll_context*)r;
+
+    /* parameter sanity checks. */
+    MODEL_ASSERT(prop_poll_io_struct_valid(ctx));
+
+    /* get the allocator. */
+    allocator* alloc = ctx->alloc;
+
+    /* clear the event array. */
+    memset(ctx->poll_events, 0, ctx->poll_max * sizeof(struct pollfd));
+
+    /* release the event array. */
+    status event_array_retval = allocator_reclaim(alloc, ctx->poll_events);
+
+    /* clear the fiber array. */
+    memset(ctx->poll_fibers, 0, ctx->poll_max * sizeof(fiber*));
+
+    /* release the fiber array. */
+    status fiber_array_retval = allocator_reclaim(alloc, ctx->poll_fibers);
+
+    /* clear the structure. */
+    memset(ctx, 0, sizeof(psock_io_poll_context));
+
+    /* reclaim the structure. */
+    status ctx_retval = allocator_reclaim(alloc, ctx);
+
+    /* return a valid return code. */
+    if (STATUS_SUCCESS != event_array_retval)
+    {
+        return event_array_retval;
+    }
+    else if (STATUS_SUCCESS != fiber_array_retval)
+    {
+        return fiber_array_retval;
+    }
+    else if (STATUS_SUCCESS != ctx_retval)
+    {
+        return ctx_retval;
+    }
+    else
+    {
+        return STATUS_SUCCESS;
+    }
 }

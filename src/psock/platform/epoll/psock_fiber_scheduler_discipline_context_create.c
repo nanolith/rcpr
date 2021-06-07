@@ -59,7 +59,7 @@ status psock_fiber_scheduler_discipline_context_create(
 
     /* set the tag. */
     MODEL_STRUCT_TAG_INIT(
-        ctx->hdr.MODEL_STRUCT_TAG_INIT(psock_io_epoll_context),
+        ctx->hdr.MODEL_STRUCT_TAG_REF(psock_io_epoll_context),
         psock_io_epoll_context);
 
     /* set the release method. */
@@ -82,7 +82,7 @@ status psock_fiber_scheduler_discipline_context_create(
     *context = &ctx->hdr;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_epoll_io_struct_valid(*context));
+    MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
 
     /* success. */
     retval = STATUS_SUCCESS;

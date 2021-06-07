@@ -151,3 +151,9 @@
  */
 #define ERROR_PSOCK_EPOLL_WAIT_FAILED \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0016)
+
+/**
+ * \brief psock poll call failed.
+ */
+#define ERROR_PSOCK_POLL_FAILED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0017)

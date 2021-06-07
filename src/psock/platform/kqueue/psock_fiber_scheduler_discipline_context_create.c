@@ -83,7 +83,7 @@ status psock_fiber_scheduler_discipline_context_create(
     *context = &ctx->hdr;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_kqueue_io_struct_valid(*context));
+    MODEL_ASSERT(prop_kqueue_io_struct_valid(ctx));
 
     /* success. */
     retval = STATUS_SUCCESS;
