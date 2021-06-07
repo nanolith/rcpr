@@ -9,10 +9,11 @@
 
 #include <rcpr/fiber/disciplines/psock_io.h>
 #include <rcpr/model_assert.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/event.h>
 
-#include "../../psock_internal.h"
+#include "psock_poll_internal.h"
 
 /**
  * \brief The entry point for the psock idle fiber.
@@ -27,8 +28,109 @@
  */
 status psock_idle_fiber_entry(void* context)
 {
-    /* TODO - fill out stub. */
-    (void)context;
+    status retval;
+    bool run_state = true;
+    psock_io_poll_context* ctx = (psock_io_poll_context*)context;
 
-    return -1;
+    /* parameter sanity checks. */
+    MODEL_ASSERT(prop_poll_io_struct_valid(ctx));
+
+    /* loop until termination is requested. */
+    while (run_state)
+    {
+        /* wait on a poll event. */
+        int nev = poll(ctx->poll_events, ctx->poll_curr, INFTIM);
+        if (nev < 0)
+        {
+            return ERROR_PSOCK_POLL_FAILED;
+        }
+
+        /* loop through all outputs. */
+        size_t new_curr = 0;
+        for (size_t i = 0; i < ctx->poll_curr; ++i)
+        {
+            fiber* fib = ctx->poll_fibers[i];
+            short events = ctx->poll_events[i].events;
+            short revents = ctx->poll_events[i].revents;
+            int resume_event = -1;
+            ptrdiff_t resume_param = 0;
+
+            /* encode a resume event. */
+            if (revents & POLLIN)
+            {
+                resume_event =
+                    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_AVAILABLE_READ;
+            }
+            else if (revents & POLLOUT)
+            {
+                resume_event =
+                    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_AVAILABLE_WRITE;
+            }
+            else if (revents & POLLHUP)
+            {
+                if (events & POLLIN)
+                {
+                    resume_event =
+                        FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_AVAILABLE_READ;
+                }
+                else
+                {
+                    resume_event =
+                        FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_AVAILABLE_WRITE;
+                }
+            }
+
+            /* encode resume param value. */
+            if (revents & POLLERR)
+            {
+                resume_param |=
+                    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_ERROR;
+            }
+            if (revents & POLLHUP)
+            {
+                resume_param |=
+                    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_EOF;
+            }
+
+            /* was an event recorded? */
+            if (-1 != resume_event)
+            {
+                /* add the fiber back to the run queue. */
+                retval =
+                    disciplined_fiber_scheduler_add_fiber_to_run_queue(
+                        ctx->sched, fib, &FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE,
+                        resume_event, (void*)resume_param);
+                if (STATUS_SUCCESS != retval)
+                {
+                    return retval;
+                }
+            }
+            else
+            {
+                /* otherwise, move this event to the next available slot. */
+                if (i != new_curr)
+                {
+                    ctx->poll_fibers[new_curr] = ctx->poll_fibers[i];
+                    memcpy(
+                        &ctx->poll_events[new_curr], &ctx->poll_events[i],
+                        sizeof(struct pollfd));
+                }
+
+                ++new_curr;
+            }
+        }
+
+        /* update the number of currently active events. */
+        ctx->poll_curr = new_curr;
+
+        /* finally, instruct the management discipline to idle this fiber. */
+        retval = disciplined_fiber_scheduler_idle_fiber_yield(ctx->sched);
+        if (STATUS_SUCCESS != retval)
+        {
+            run_state = false;
+        }
+    }
+
+    /* terminate this fiber. */
+    return STATUS_SUCCESS;
 }
