@@ -10,8 +10,6 @@
 #include <rcpr/fiber/disciplines/psock_io.h>
 #include <rcpr/model_assert.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/event.h>
 
 #include "psock_poll_internal.h"
 
@@ -39,7 +37,7 @@ status psock_idle_fiber_entry(void* context)
     while (run_state)
     {
         /* wait on a poll event. */
-        int nev = poll(ctx->poll_events, ctx->poll_curr, INFTIM);
+        int nev = poll(ctx->poll_events, ctx->poll_curr, -1);
         if (nev < 0)
         {
             return ERROR_PSOCK_POLL_FAILED;
