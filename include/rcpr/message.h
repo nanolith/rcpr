@@ -11,7 +11,7 @@
 
 #include <rcpr/allocator.h>
 #include <rcpr/fiber.h>
-#include <rcpr/fiber/disciplines/messaging.h>
+/*#include <rcpr/fiber/disciplines/messaging.h>*/
 #include <rcpr/function_decl.h>
 #include <rcpr/status.h>
 #include <rcpr/uuid.h>
@@ -93,6 +93,7 @@ mailbox_create(mailbox_address* addr, fiber_scheduler_discipline* msgdisc);
  *
  * \param msg           Pointer to the \ref message pointer to receive this
  *                      resource.
+ * \param alloc         The allocator to use to create this resource.
  * \param returnaddr    The return address for this message, or
  *                      MESSAGE_ADDRESS_NONE if there is no return address.
  * \param payload       The payload \ref resource for this message.
@@ -110,7 +111,9 @@ mailbox_create(mailbox_address* addr, fiber_scheduler_discipline* msgdisc);
  *      - a non-zero error code on failure.
  */
 status FN_DECL_MUST_CHECK
-message_create(message** msg, mailbox_address returnaddr, resource* payload);
+message_create(
+    message** msg, allocator* alloc, mailbox_address returnaddr,
+    resource* payload);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -130,7 +133,7 @@ message_create(message** msg, mailbox_address returnaddr, resource* payload);
  *      - a non-zero error code on failure.
  */
 status FN_DECL_MUST_CHECK
-mailbox_create(mailbox_address* addr, fiber_scheduler_discipline* msgdisc);
+mailbox_close(mailbox_address addr, fiber_scheduler_discipline* msgdisc);
 
 /**
  * \brief Send a \ref message to the given mailbox.
