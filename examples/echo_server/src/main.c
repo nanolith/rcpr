@@ -460,6 +460,18 @@ static status fiber_manager_entry(void* vsched)
                 case FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_FIBER_STOP:
                     printf("Fiber terminated.\n");
                     stopped_fiber = (fiber*)resume_param;
+
+                    /* instruct the fiber scheduler to remove the fiber
+                     * reference. */
+                    retval =
+                        disciplined_fiber_scheduler_remove_fiber(
+                            sched, stopped_fiber);
+                    if (STATUS_SUCCESS != retval)
+                    {
+                        printf("Error: can't remove fiber from scheduler.\n");
+                    }
+
+                    /* release the fiber. */
                     retval =
                         resource_release(fiber_resource_handle(stopped_fiber));
                     if (STATUS_SUCCESS != retval)
