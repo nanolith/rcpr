@@ -27,7 +27,7 @@
  */
 status psock_idle_fiber_entry(void* context)
 {
-    status retval;
+    status retval, set_retval;
     bool run_state = true;
     psock_io_kqueue_context* ctx = (psock_io_kqueue_context*)context;
 
@@ -44,7 +44,8 @@ status psock_idle_fiber_entry(void* context)
                 ctx->kevent_outputs, MAX_KEVENT_OUTPUTS, NULL);
         if (nev < 0)
         {
-            return ERROR_PSOCK_KEVENT_FAILED;
+            retval = ERROR_PSOCK_KEVENT_FAILED;
+            goto done;
         }
 
         /* all inputs have been consumed. */
@@ -90,7 +91,7 @@ status psock_idle_fiber_entry(void* context)
                     resume_event, (void*)resume_param);
             if (STATUS_SUCCESS != retval)
             {
-                return retval;
+                goto done;
             }
         }
 
@@ -103,5 +104,14 @@ status psock_idle_fiber_entry(void* context)
     }
 
     /* terminate this fiber. */
-    return STATUS_SUCCESS;
+    retval = STATUS_SUCCESS;
+
+done:
+    set_retval = disciplined_fiber_scheduler_set_idle_fiber(ctx->sched, NULL);
+    if (STATUS_SUCCESS != set_retval)
+    {
+        retval = set_retval;
+    }
+
+    return retval;
 }
