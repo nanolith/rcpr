@@ -12,6 +12,7 @@
 #include <rcpr/component.h>
 #include <rcpr/status/fiber.h>
 #include <rcpr/status/general.h>
+#include <rcpr/status/message.h>
 #include <rcpr/status/psock.h>
 #include <rcpr/status/rbtree.h>
 #include <rcpr/status/socket_utilities.h>

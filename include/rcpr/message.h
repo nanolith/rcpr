@@ -11,7 +11,7 @@
 
 #include <rcpr/allocator.h>
 #include <rcpr/fiber.h>
-/*#include <rcpr/fiber/disciplines/messaging.h>*/
+#include <rcpr/fiber/disciplines/message.h>
 #include <rcpr/function_decl.h>
 #include <rcpr/status.h>
 #include <rcpr/uuid.h>
@@ -114,6 +114,30 @@ status FN_DECL_MUST_CHECK
 message_create(
     message** msg, allocator* alloc, mailbox_address returnaddr,
     resource* payload);
+
+/**
+ * \brief Create or get the \ref fiber_scheduler_discipline for messaging.
+ *
+ * \param msgdisc       Pointer to the \ref fiber_scheduler_discipline pointer
+ *                      to receive the messaging discipline.
+ * \param alloc         The \ref allocator instance to use to create this
+ *                      discipline if it does not already exist.
+ * \param sched         The \ref fiber_scheduler from which this discipline is
+ *                      either looked up or to which it is added.
+ *
+ * \note If the discipline does not already exist in the provided
+ * \ref fiber_scheduler, it is created and added.  The discipline is owned by
+ * the \p sched instance and NOT by the caller.  The lifetime for this
+ * discipline is the lifetime of the \p sched instance.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ */
+status FN_DECL_MUST_CHECK
+message_discipline_get_or_create(
+    fiber_scheduler_discipline** msgdisc, allocator* alloc,
+    fiber_scheduler* sched);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
