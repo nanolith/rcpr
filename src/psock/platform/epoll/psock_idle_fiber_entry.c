@@ -26,7 +26,7 @@
  */
 status psock_idle_fiber_entry(void* context)
 {
-    status retval;
+    status retval, set_retval;
     bool run_state = true;
     psock_io_epoll_context* ctx = (psock_io_epoll_context*)context;
 
@@ -42,7 +42,8 @@ status psock_idle_fiber_entry(void* context)
                 ctx->ep, ctx->epoll_outputs, MAX_EPOLL_OUTPUTS, -1);
         if (nev < 0)
         {
-            return ERROR_PSOCK_EPOLL_WAIT_FAILED;
+            retval = ERROR_PSOCK_EPOLL_WAIT_FAILED;
+            goto done;
         }
 
         /* loop through all outputs. */
@@ -84,7 +85,7 @@ status psock_idle_fiber_entry(void* context)
                     resume_event, (void*)resume_param);
             if (STATUS_SUCCESS != retval)
             {
-                return retval;
+                goto done;
             }
         }
 
@@ -97,6 +98,14 @@ status psock_idle_fiber_entry(void* context)
     }
 
     /* terminate this fiber. */
-    return STATUS_SUCCESS;
+    retval = STATUS_SUCCESS;
 
+done:
+    set_retval = disciplined_fiber_scheduler_set_idle_fiber(ctx->sched, NULL);
+    if (STATUS_SUCCESS != set_retval)
+    {
+        retval = set_retval;
+    }
+
+    return retval;
 }

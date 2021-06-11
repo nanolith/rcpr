@@ -449,7 +449,6 @@ static const void* disciplines_by_uuid_key(void* context, const resource* r)
  */
 static status fiber_scheduler_disciplined_context_resource_release(resource* r)
 {
-    status idle_fiber_retval = STATUS_SUCCESS;
     status fibers_by_pointer_retval = STATUS_SUCCESS;
     status disciplines_by_uuid_retval = STATUS_SUCCESS;
     status run_queue_tmp_retval = STATUS_SUCCESS;
@@ -466,13 +465,6 @@ static status fiber_scheduler_disciplined_context_resource_release(resource* r)
 
     /* cache the allocator. */
     allocator* alloc = ctx->alloc;
-
-    /* release the idle fiber, if set. */
-    if (NULL != ctx->idle_fiber)
-    {
-        idle_fiber_retval =
-            resource_release(fiber_resource_handle(ctx->idle_fiber));
-    }
 
     /* release the fibers by pointer tree, releasing all fibers still associated
      * with it. */
@@ -517,11 +509,7 @@ static status fiber_scheduler_disciplined_context_resource_release(resource* r)
     /* check the error codes from each of the release / reclaim operations,
      * bubbling up the first error to the caller, or STATUS_SUCCESS if
      * everything succeeded. */
-    if (STATUS_SUCCESS != idle_fiber_retval)
-    {
-        return idle_fiber_retval;
-    }
-    else if (STATUS_SUCCESS != fibers_by_pointer_retval)
+    if (STATUS_SUCCESS != fibers_by_pointer_retval)
     {
         return fibers_by_pointer_retval;
     }
