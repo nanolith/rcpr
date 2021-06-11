@@ -65,7 +65,7 @@ message_create(
     MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
         tmp->MODEL_STRUCT_TAG_REF(message), message);
 
-    /* set the tage. */
+    /* set the tag. */
     MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(message), message);
 
     /* set the release method. */

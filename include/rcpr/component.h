@@ -78,6 +78,9 @@ enum rcpr_subcomponents
 
     /** \brief uuid library subcomponent scope. */
     RCPR_SUBCOMPONENT_UUID                                  =             0x09,
+
+    /** \brief message discipline subcomponent scope. */
+    RCPR_SUBCOMPONENT_MESSAGE                               =             0x0a,
 };
 
 /** \brief Global component scope. */
@@ -119,6 +122,10 @@ enum rcpr_subcomponents
 /** \brief uuid library component scope. */
 #define RCPR_COMPONENT_UUID \
     COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_UUID)
+
+/** \brief message discipline component scope. */
+#define RCPR_COMPONENT_MESSAGE \
+    COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_MESSAGE)
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
