@@ -957,6 +957,68 @@ psock_write_boxed_data(
     psock* sock, const void* data, size_t data_size);
 
 /**
+ * \brief Attempt to read up to \p data_size bytes from the psock instance. This
+ * function will return fewer bytes (updating \p data_size accordingly) if no
+ * more bytes are currently available.  In this case, this function will return
+ * \ref ERROR_PSOCK_READ_WOULD_BLOCK, and it's up to the caller to decide
+ * whether to block on more bytes by calling \ref psock_read_block.
+ *
+ * \param sock          Pointer to the \ref psock pointer on which this
+ *                      operation occurs.
+ * \param data          Pointer to a buffer that can accept up to \p data_size
+ *                      bytes.  This must be a valid buffer.
+ * \param data_size     Size of the data to read. Set to the number of bytes to
+ *                      read by the caller, and updated to the number of bytes
+ *                      actually read by the successful execution of this
+ *                      function.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_PSOCK_READ_WOULD_BLOCK if reading more data would block.
+ *      - an error code indicating a specific failure condition.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *      - \p data must be a pointer to a valid buffer that is at least
+ *        \p data_size bytes in length.
+ *      - \p data_size must be a pointer to a valid size argument, set to the
+ *        size of the \p data buffer.
+ *
+ * \post
+ *      - On success, \p data contains the bytes written, and \p data_size is
+ *        set to the number of bytes written.
+ *      - On failure, \p data is unchanged and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+psock_read_raw(
+    psock* sock, void* data, size_t* data_size);
+
+/**
+ * \brief Block until a read is available.  This is used in conjunction with
+ * \ref psock_read_raw in order to read arbitrary length data from a \ref psock
+ * instance.
+ *
+ * \param sock          Pointer to the \ref psock pointer on which to block.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_PSOCK_UNSUPPORTED_TYPE if this \ref psock instance is not a
+ *        non-blocking instance.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *
+ * \post
+ *      - On success, data is available to read on this \ref psock instance, or
+ *        the peer has closed this \ref psock instance, or a connection error on
+ *        this \ref psock instance has occurred.
+ */
+status FN_DECL_MUST_CHECK
+psock_block(psock* sock);
+
+/**
  * \brief Read a raw value from the given \ref psock instance that was
  * written to the remote end of this socket by the peer calling \ref
  * psock_write_raw_int64.
