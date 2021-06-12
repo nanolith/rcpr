@@ -1,2 +1,3 @@
 ADD_SUBDIRECTORY(mandelbrot)
 ADD_SUBDIRECTORY(echo_server)
+ADD_SUBDIRECTORY(http_server)
