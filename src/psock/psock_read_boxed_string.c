@@ -111,7 +111,7 @@ psock_read_boxed_string(
 
     /* read data to the buffer. */
     size_t read_size = size;
-    retval = sock->read_fn(sock, buffer, &read_size);
+    retval = sock->read_fn(sock, buffer, &read_size, true);
     if (STATUS_SUCCESS != retval)
     {
         goto cleanup_buffer;

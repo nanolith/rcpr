@@ -36,7 +36,7 @@ struct psock
     int type;
 
     allocator* alloc;
-    status (*read_fn)(psock* sock, void* data, size_t* size);
+    status (*read_fn)(psock* sock, void* data, size_t* size, bool block);
     status (*write_fn)(psock* sock, const void* data, size_t* size);
     status (*accept_fn)(
         psock* sock, int* desc, struct sockaddr* addr, socklen_t* addrlen);
@@ -73,12 +73,14 @@ struct psock_wrap_async
  * \param sock          The \ref psock instance from which to read.
  * \param data          Pointer to the buffer into which data should be read.
  * \param size          Pointer to the size to read, updated with the size read.
+ * \param block         Ignored for raw descriptor reads.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_from_descriptor_read(psock* sock, void* data, size_t* size);
+status psock_from_descriptor_read(
+    psock* sock, void* data, size_t* size, bool block);
 
 /**
  * \brief Write data to the given \ref psock instance.
@@ -129,12 +131,14 @@ status psock_from_descriptor_release(resource* r);
  * \param sock          The \ref psock instance from which to read.
  * \param data          Pointer to the buffer into which data should be read.
  * \param size          Pointer to the size to read, updated with the size read.
+ * \param block         Set to true if the read should block until all bytes are
+ *                      read.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_wrap_async_read(psock* sock, void* data, size_t* size);
+status psock_wrap_async_read(psock* sock, void* data, size_t* size, bool block);
 
 /**
  * \brief Write data to the given async \ref psock instance.

@@ -59,7 +59,7 @@ psock_read_raw_bool(
 
     /* attempt to read from the socket. */
     int retval =
-        sock->read_fn(sock, &data, &size);
+        sock->read_fn(sock, &data, &size, true);
     if (STATUS_SUCCESS != retval)
     {
         return retval;
