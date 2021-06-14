@@ -21,12 +21,14 @@
  * \param sock          The \ref psock instance from which to read.
  * \param data          Pointer to the buffer into which data should be read.
  * \param size          Pointer to the size to read, updated with the size read.
+ * \param block         Set to true if the read should block until all bytes are
+ *                      read.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_wrap_async_read(psock* sock, void* data, size_t* size)
+status psock_wrap_async_read(psock* sock, void* data, size_t* size, bool block)
 {
     status retval;
 
@@ -46,12 +48,13 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size)
 
     /* loop through until all bytes are read. */
     size_t read_size = *size;
+    *size = 0;
     uint8_t* dptr = (uint8_t*)data;
     while (read_size > 0)
     {
         size_t tmp_size = read_size;
-        retval = s->wrapped->read_fn(s->wrapped, dptr, &tmp_size);
-        if (ERROR_PSOCK_READ_WOULD_BLOCK == retval)
+        retval = s->wrapped->read_fn(s->wrapped, dptr, &tmp_size, block);
+        if (ERROR_PSOCK_READ_WOULD_BLOCK == retval && block)
         {
             /* reset tmp_size. */
             tmp_size = 0;
@@ -98,12 +101,16 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size)
                     return retval;
                 }
             }
-
+        }
+        /* if we shouldn't block until the read has completed, then return the
+         * read size. */
+        else if (ERROR_PSOCK_READ_WOULD_BLOCK && !block)
+        {
+            return retval;
         }
         /* if a different error occurred in the read, return it.*/
         else if (STATUS_SUCCESS != retval)
         {
-            *size -= read_size;
             return retval;
         }
         /* if no data was read, then the peer closed the socket. */
@@ -113,6 +120,7 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size)
         }
 
         /* update size and offset. */
+        *size += tmp_size;
         read_size -= tmp_size;
         dptr += tmp_size;
     }

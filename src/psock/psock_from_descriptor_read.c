@@ -19,13 +19,17 @@
  * \param sock          The \ref psock instance from which to read.
  * \param data          Pointer to the buffer into which data should be read.
  * \param size          Pointer to the size to read, updated with the size read.
+ * \param block         Ignored for raw descriptor reads.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_from_descriptor_read(psock* sock, void* data, size_t* size)
+status psock_from_descriptor_read(
+    psock* sock, void* data, size_t* size, bool block)
 {
+    (void)block;
+
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_psock_valid(sock));
     MODEL_ASSERT(NULL != data);
