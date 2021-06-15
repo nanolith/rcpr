@@ -53,21 +53,25 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size, bool block)
         retval = s->wrapped->read_fn(s->wrapped, dptr, &tmp_size, block);
         if (ERROR_PSOCK_READ_WOULD_BLOCK == retval && block)
         {
-            /* reset tmp_size. */
-            tmp_size = 0;
-
             /* yield to the psock I/O discipline. */
             retval = psock_read_block(sock);
             if (STATUS_SUCCESS != retval)
             {
                 return retval;
             }
+            continue;
         }
-        /* if we shouldn't block until the read has completed, then return the
-         * read size. */
-        else if (ERROR_PSOCK_READ_WOULD_BLOCK && !block)
+        /* if we shouldn't block until the read has completed, then return. */
+        else if (ERROR_PSOCK_READ_WOULD_BLOCK == retval && !block)
         {
-            return retval;
+            if (*size > 0)
+            {
+                return STATUS_SUCCESS;
+            }
+            else
+            {
+                return retval;
+            }
         }
         /* if a different error occurred in the read, return it.*/
         else if (STATUS_SUCCESS != retval)
