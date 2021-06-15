@@ -1016,7 +1016,7 @@ psock_read_raw(
  *        this \ref psock instance has occurred.
  */
 status FN_DECL_MUST_CHECK
-psock_block(psock* sock);
+psock_read_block(psock* sock);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was
