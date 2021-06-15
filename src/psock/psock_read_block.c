@@ -15,8 +15,6 @@
 
 #include "psock_internal.h"
 
-#include <stdio.h>
-
 /**
  * \brief Block until a read is available.  This is used in conjunction with
  * \ref psock_read_raw in order to read arbitrary length data from a \ref psock
@@ -51,7 +49,6 @@ psock_read_block(psock* sock)
     /* this has to be an async psock instance. */
     if (PSOCK_TYPE_WRAP_ASYNC != sock->type)
     {
-        printf("%s:%d\n", __FILE__, __LINE__);
         return ERROR_PSOCK_UNSUPPORTED_TYPE;
     }
 
@@ -76,7 +73,6 @@ psock_read_block(psock* sock)
                 &resume_id, &resume_event, &resume_param);
         if (STATUS_SUCCESS != retval)
         {
-            printf("%s:%d\n", __FILE__, __LINE__);
             return retval;
         }
 
@@ -98,14 +94,12 @@ psock_read_block(psock* sock)
             /* otherwise, fail with an unexpected event error. */
             else
             {
-                printf("%s:%d\n", __FILE__, __LINE__);
                 retval = ERROR_PSOCK_UNEXPECTED_EVENT;
             }
 
             /* handle an error condition. */
             if (STATUS_SUCCESS != retval)
             {
-                printf("%s:%d\n", __FILE__, __LINE__);
                 return retval;
             }
         }
