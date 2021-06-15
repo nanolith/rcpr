@@ -509,19 +509,31 @@ static status echo_entry(void* context)
 {
     status retval, release_retval;
     dispatch_context* ctx = (dispatch_context*)context;
-    uint8_t data;
+    uint8_t data[1024];
+    size_t data_size;
 
     for (;;)
     {
         /* read a byte from the peer. */
-        retval = psock_read_raw_uint8(ctx->sock, &data);
-        if (STATUS_SUCCESS != retval)
+        data_size = sizeof(data);
+        retval = psock_read_raw(ctx->sock, data, &data_size);
+        if (ERROR_PSOCK_READ_WOULD_BLOCK == retval)
+        {
+            retval = psock_read_block(ctx->sock);
+            if (STATUS_SUCCESS != retval)
+            {
+                goto cleanup_context;
+            }
+
+            continue;
+        }
+        else if (STATUS_SUCCESS != retval)
         {
             goto cleanup_context;
         }
 
         /* write this byte back to the peer. */
-        retval = psock_write_raw_uint8(ctx->sock, data);
+        retval = psock_write_raw_data(ctx->sock, data, data_size);
         if (STATUS_SUCCESS != retval)
         {
             goto cleanup_context;
