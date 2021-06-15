@@ -43,9 +43,6 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size, bool block)
     psock_wrap_async* s = (psock_wrap_async*)sock;
     MODEL_ASSERT(prop_psock_valid(s->wrapped));
 
-    /* get the underlying descriptor psock instance. */
-    psock_from_descriptor* desc = (psock_from_descriptor*)s->wrapped;
-
     /* loop through until all bytes are read. */
     size_t read_size = *size;
     *size = 0;
@@ -60,46 +57,10 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size, bool block)
             tmp_size = 0;
 
             /* yield to the psock I/O discipline. */
-            const rcpr_uuid* resume_id;
-            int resume_event;
-            void* resume_param;
-            retval =
-                fiber_discipline_yield(
-                    s->psock_discipline,
-                    FIBER_SCHEDULER_PSOCK_IO_YIELD_EVENT_WAIT_READ,
-                    (void*)((ptrdiff_t)desc->descriptor),
-                    &resume_id, &resume_event, &resume_param);
+            retval = psock_read_block(sock);
             if (STATUS_SUCCESS != retval)
             {
                 return retval;
-            }
-
-            /* if the resume discipline doesn't match, maybe call the unexpected
-             * handler. */
-            if (
-                memcmp(
-                    resume_id, &FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE,
-                    sizeof(rcpr_uuid)))
-            {
-                /* if the unexpected handler is set, call it. */
-                if (NULL != s->unexpected)
-                {
-                    retval =
-                        s->unexpected(
-                            &s->hdr, NULL, s->context, false,
-                            resume_id, resume_event, resume_param);
-                }
-                /* otherwise, fail with an unexpected event error. */
-                else
-                {
-                    retval = ERROR_PSOCK_UNEXPECTED_EVENT;
-                }
-
-                /* handle an error condition. */
-                if (STATUS_SUCCESS != retval)
-                {
-                    return retval;
-                }
             }
         }
         /* if we shouldn't block until the read has completed, then return the

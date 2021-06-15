@@ -155,7 +155,7 @@ psock_create_wrap_async(
     ps->psock_discipline = disc;
 
     /* set the type. */
-    ps->hdr.type = PSOCK_TYPE_DESCRIPTOR;
+    ps->hdr.type = PSOCK_TYPE_WRAP_ASYNC;
 
     /* set the allocator. */
     ps->hdr.alloc = a;
