@@ -65,10 +65,10 @@ psock_read_raw(
 
     /* read data to the buffer. */
     size_t read_size = *data_size;
-    retval = sock->read_fn(sock, data, &read_size, true);
+    retval = sock->read_fn(sock, data, &read_size, false);
     if (ERROR_PSOCK_READ_WOULD_BLOCK == retval)
     {
-        retval = STATUS_SUCCESS;
+        retval = ERROR_PSOCK_READ_WOULD_BLOCK;
     }
     else if (STATUS_SUCCESS != retval)
     {
