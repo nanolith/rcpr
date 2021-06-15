@@ -30,8 +30,8 @@
  * \post the memory region referenced by \p ptr is reclaimed and must not be
  * used by the caller.
  */
-status
-RCPR_DECL(allocator_reclaim)(
+status FN_DECL_MUST_CHECK
+RCPR_SYM(allocator_reclaim)(
     RCPR_SYM(allocator)* alloc, void* ptr)
 {
     /* parameter sanity checks. */

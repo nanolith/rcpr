@@ -43,9 +43,3 @@
  * The RCPR_SYM macro elevates a given symbol to the RCPR namespace.
  */
 #define RCPR_SYM(sym) RCPR_SYM_COMBINE1(RCPR_UNIQUE_NAME, RCPR_VERSION_SYM, sym)
-
-/*
- * The RCPR_DECL macro expands into the declaration properties for an RCPR C
- * function.
- */
-#define RCPR_DECL(name) FN_DECL_MUST_CHECK RCPR_SYM(name)

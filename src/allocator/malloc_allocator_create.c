@@ -45,8 +45,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(RCPR_SYM(allocator));
  * \post On success, \p alloc is set to a pointer to a valid \ref allocator
  * instance.  On failure, \p alloc is set to NULL.
  */
-status
-RCPR_DECL(malloc_allocator_create)(
+status FN_DECL_MUST_CHECK
+RCPR_SYM(malloc_allocator_create)(
     RCPR_SYM(allocator)** alloc)
 {
     /* parameter sanity checks. */

@@ -55,8 +55,8 @@ typedef struct RCPR_SYM(allocator) RCPR_SYM(allocator);
  * \post On success, \p alloc is set to a pointer to a valid \ref allocator
  * instance.  On failure, \p alloc is set to NULL.
  */
-status
-RCPR_DECL(malloc_allocator_create)(
+status FN_DECL_MUST_CHECK
+RCPR_SYM(malloc_allocator_create)(
     RCPR_SYM(allocator)** alloc);
 
 /**
@@ -88,8 +88,8 @@ RCPR_DECL(malloc_allocator_create)(
  * \post On success, \p alloc is set to a pointer to a valid \ref allocator
  * instance.  On failure, \p alloc is set to NULL.
  */
-status
-RCPR_DECL(bump_allocator_create)(
+status FN_DECL_MUST_CHECK
+RCPR_SYM(bump_allocator_create)(
     RCPR_SYM(allocator)** alloc, void* region, size_t region_size);
 
 /******************************************************************************/
@@ -119,8 +119,8 @@ RCPR_DECL(bump_allocator_create)(
  * \post On success, \p ptr is set to a pointer to a memory region that is
  * \p size bytes in size.  On failure, \p ptr is set to NULL.
  */
-status
-RCPR_DECL(allocator_allocate)(
+status FN_DECL_MUST_CHECK
+RCPR_SYM(allocator_allocate)(
     RCPR_SYM(allocator)* alloc, void** ptr, size_t size);
 
 /**
@@ -144,8 +144,8 @@ RCPR_DECL(allocator_allocate)(
  * \post the memory region referenced by \p ptr is reclaimed and must not be
  * used by the caller.
  */
-status
-RCPR_DECL(allocator_reclaim)(
+status FN_DECL_MUST_CHECK
+RCPR_SYM(allocator_reclaim)(
     RCPR_SYM(allocator)* alloc, void* ptr);
 
 /**
@@ -177,8 +177,8 @@ RCPR_DECL(allocator_reclaim)(
  * \post On success, \p ptr is set to a pointer to a memory region that is
  * \p size bytes in size.  On failure, \p ptr is unchanged.
  */
-status
-RCPR_DECL(allocator_reallocate)(
+status FN_DECL_MUST_CHECK
+RCPR_SYM(allocator_reallocate)(
     RCPR_SYM(allocator)* alloc, void** ptr, size_t size);
 
 /**

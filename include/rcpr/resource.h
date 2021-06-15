@@ -64,8 +64,8 @@ typedef struct RCPR_SYM(resource) RCPR_SYM(resource);
  * \post on success, \p is released to the system or API from which it was
  * acquired.  This resource can no longer be used.
  */
-status
-RCPR_DECL(resource_release)(
+status FN_DECL_MUST_CHECK
+RCPR_SYM(resource_release)(
     RCPR_SYM(resource)* r);
 
 /******************************************************************************/
