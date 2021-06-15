@@ -1,4 +1,10 @@
-PROJECT(rcpr)
+cmake_policy(SET CMP0048 NEW)
+PROJECT(rcpr VERSION 0.2.1)
+
+string(REPLACE "." ";" RCPR_VERSION_LIST "${CMAKE_PROJECT_VERSION}")
+list(GET RCPR_VERSION_LIST 0 RCPR_VERSION_MAJOR)
+list(GET RCPR_VERSION_LIST 1 RCPR_VERSION_MINOR)
+list(GET RCPR_VERSION_LIST 2 RCPR_VERSION_REL)
 
 cmake_minimum_required(VERSION 3.10)
 
@@ -20,6 +26,9 @@ include ("cmake/fibers.cmake")
 
 #detect psock async
 include ("cmake/psock.cmake")
+
+#Build config.h
+configure_file(config.h.cmake include/rcpr/config.h)
 
 #includes
 INCLUDE_DIRECTORIES(include)
@@ -140,7 +149,7 @@ endif()
 SET(RCPR_PC "${CMAKE_BINARY_DIR}/rcpr.pc")
 FILE(WRITE  ${RCPR_PC} "Name: rcpr")
 FILE(APPEND ${RCPR_PC} "\nDescription: Reliable C Portable Runtime")
-FILE(APPEND ${RCPR_PC} "\nVersion: 0.2-snapshot")
+FILE(APPEND ${RCPR_PC} "\nVersion: ${CMAKE_PROJECT_VERSION}")
 FILE(APPEND ${RCPR_PC} "\nURL: https://github.com/nanolith/rcpr")
 FILE(APPEND ${RCPR_PC} "\nprefix=${CMAKE_INSTALL_PREFIX}")
 FILE(APPEND ${RCPR_PC} "\nlibdir=\${prefix}/lib")
@@ -152,6 +161,7 @@ INSTALL(FILES ${RCPR_PC} DESTINATION lib/pkgconfig)
 #Install headers
 FILE(GLOB RCPR_INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/include/rcpr/*.h")
 INSTALL(FILES ${RCPR_INCLUDES} DESTINATION include/rcpr)
+INSTALL(FILES ${CMAKE_BINARY_DIR}/include/rcpr/config.h DESTINATION include/rcpr)
 
 #Install library
 INSTALL(TARGETS rcpr
