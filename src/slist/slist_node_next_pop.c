@@ -14,6 +14,8 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Pop the next value of the given node, setting the given resource
  * pointer to the resource previously held by the next node.
@@ -51,7 +53,7 @@
  */
 status FN_DECL_MUST_CHECK
 slist_node_next_pop(
-    slist_node* node, resource** r)
+    slist_node* node, RCPR_SYM(resource)** r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_slist_node_valid(node));

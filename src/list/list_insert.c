@@ -45,7 +45,7 @@
  */
 status FN_DECL_MUST_CHECK
 list_insert(
-    list_node* node, resource* r)
+    list_node* node, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_list_node_valid(node));

@@ -14,6 +14,9 @@
 
 #include "list_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /**
  * \brief Release a list_node resource.
  *
@@ -23,7 +26,7 @@
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status list_node_release(resource* r)
+status list_node_release(RCPR_SYM(resource)* r)
 {
     list_node* n = (list_node*)r;
 

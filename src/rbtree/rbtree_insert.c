@@ -40,7 +40,7 @@
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-rbtree_insert(rbtree* tree, resource* r)
+rbtree_insert(rbtree* tree, RCPR_SYM(resource)* r)
 {
     status retval;
     rbtree_node* new_node = NULL;

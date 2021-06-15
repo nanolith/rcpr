@@ -23,11 +23,11 @@ extern "C" {
 
 struct slist
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(slist);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     slist_node* head;
     slist_node* tail;
     size_t count;
@@ -35,14 +35,14 @@ struct slist
 
 struct slist_node
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(slist_node);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     slist* parent;
     slist_node* next;
-    resource* child;
+    RCPR_SYM(resource)* child;
 };
 
 /**
@@ -78,7 +78,7 @@ struct slist_node
  */
 status FN_DECL_MUST_CHECK
 slist_node_create(
-    slist_node** node, slist* list, resource* r);
+    slist_node** node, slist* list, RCPR_SYM(resource)* r);
 
 /**
  * \brief Clean up an slist node.
@@ -90,7 +90,7 @@ slist_node_create(
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status slist_node_cleanup(allocator* a, slist_node* node);
+status slist_node_cleanup(RCPR_SYM(allocator)* a, slist_node* node);
 
 /**
  * \brief Release an slist_node resource.
@@ -101,7 +101,7 @@ status slist_node_cleanup(allocator* a, slist_node* node);
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status slist_node_release(resource* r);
+status slist_node_release(RCPR_SYM(resource)* r);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

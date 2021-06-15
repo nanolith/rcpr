@@ -13,6 +13,9 @@
 
 #include "bigint_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /**
  * \brief Release a \ref bigint instance.
  *
@@ -20,7 +23,7 @@
  *
  * \returns a status code indicating success or failure.
  */
-status bigint_release(resource* r)
+status bigint_release(RCPR_SYM(resource)* r)
 {
     status retval, reclaim_retval;
     bigint* i = (bigint*)r;

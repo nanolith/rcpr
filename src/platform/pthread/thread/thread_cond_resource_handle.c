@@ -23,7 +23,7 @@
  *
  * \returns the \ref resource handle for this \ref thread_cond instance.
  */
-resource* thread_cond_resource_handle(thread_cond* cond)
+RCPR_SYM(resource)* thread_cond_resource_handle(thread_cond* cond)
 {
     MODEL_ASSERT(prop_thread_cond_valid(cond));
 

@@ -30,12 +30,12 @@ typedef struct psock_io_kqueue_context psock_io_kqueue_context;
 
 struct psock_io_kqueue_context
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(psock_io_kqueue_context);
 
-    allocator* alloc;
-    resource discipline_cache;
+    RCPR_SYM(allocator)* alloc;
+    RCPR_SYM(resource) discipline_cache;
     fiber_scheduler* sched;
     int kq;
     int inputs;

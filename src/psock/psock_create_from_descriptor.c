@@ -17,6 +17,9 @@
 /* forward decls. */
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /**
  * \brief Create a \ref psock instance backed by the given file descriptor.
  *
@@ -57,7 +60,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
  */
 status FN_DECL_MUST_CHECK
 psock_create_from_descriptor(
-    psock** sock, allocator* a, int descriptor)
+    psock** sock, RCPR_SYM(allocator)* a, int descriptor)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != sock);

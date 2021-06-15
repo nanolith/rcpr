@@ -26,12 +26,12 @@ extern "C" {
 
 struct fiber
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(fiber);
 
     void* stack_ptr;
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     stack* st;
     void* context;
     fiber_fn fn;
@@ -43,11 +43,11 @@ struct fiber
 
 struct fiber_scheduler
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(fiber_scheduler);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     fiber* current_fiber;
     fiber* main_fiber;
     void* context;
@@ -60,13 +60,13 @@ fiber_scheduler_disciplined_context;
 
 struct fiber_scheduler_disciplined_context
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(fiber_scheduler_disciplined_context);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     fiber_scheduler* sched;
-    resource cached_scheduler_resource_handler;
+    RCPR_SYM(resource) cached_scheduler_resource_handler;
     fiber* main_fiber;
     fiber* idle_fiber;
     fiber* management_fiber;
@@ -82,11 +82,11 @@ struct fiber_scheduler_disciplined_context
 
 struct fiber_scheduler_discipline
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(fiber_scheduler_discipline);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     rcpr_uuid id;
     fiber_scheduler* sched;
     void* context;
@@ -106,7 +106,7 @@ extern const rcpr_uuid FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status fiber_resource_release(resource* r);
+status fiber_resource_release(RCPR_SYM(resource)* r);
 
 /**
  * \brief Entry point for a fiber.
@@ -155,7 +155,7 @@ void fiber_make(fiber* fib, fiber_scheduler* sched, fiber_entry_fn entry);
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status fiber_scheduler_resource_release(resource* r);
+status fiber_scheduler_resource_release(RCPR_SYM(resource)* r);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

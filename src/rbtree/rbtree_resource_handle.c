@@ -20,7 +20,7 @@
  *
  * \returns the \ref resource handle for this \ref rbtree instance.
  */
-resource* rbtree_resource_handle(rbtree* tree)
+RCPR_SYM(resource)* rbtree_resource_handle(rbtree* tree)
 {
     MODEL_ASSERT(prop_rbtree_valid(tree));
 

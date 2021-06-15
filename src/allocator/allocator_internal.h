@@ -20,15 +20,18 @@
 extern "C" {
 # endif /*__cplusplus*/
 
-struct allocator
+struct RCPR_SYM(allocator)
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(allocator);
+    MODEL_STRUCT_TAG(RCPR_SYM(allocator));
 
-    status (*allocate_fn)(allocator* alloc, void** ptr, size_t size);
-    status (*reclaim_fn)(allocator* alloc, void* ptr);
-    status (*reallocate_fn)(allocator* alloc, void** ptr, size_t size);
+    status (*allocate_fn)(
+        RCPR_SYM(allocator* alloc), void** ptr, size_t size);
+    status (*reclaim_fn)(
+        RCPR_SYM(allocator* alloc), void* ptr);
+    status (*reallocate_fn)(
+        RCPR_SYM(allocator* alloc), void** ptr, size_t size);
 };
 
 /* C++ compatibility. */

@@ -14,6 +14,9 @@
 
 #include "thread_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status thread_mutex_release(resource*);
 static status thread_mutex_lock_release(resource*);
@@ -52,7 +55,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex_lock);
  */
 status FN_DECL_MUST_CHECK
 thread_mutex_create(
-    thread_mutex** mut, allocator* a)
+    thread_mutex** mut, RCPR_SYM(allocator)* a)
 {
     int retval, reclaim_retval;
     thread_mutex* tmp;

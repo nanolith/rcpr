@@ -15,6 +15,8 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Swap the \ref resource owned by this \ref slist_node with the given
  * resource, replacing it with the value currently owned by this node.
@@ -48,7 +50,7 @@
  */
 status FN_DECL_MUST_CHECK
 slist_node_child_swap(
-    slist_node* node, resource** r)
+    slist_node* node, RCPR_SYM(resource)** r)
 {
     resource* old;
 

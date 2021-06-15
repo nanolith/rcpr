@@ -25,7 +25,7 @@ extern "C" {
 struct config
 {
     /** \brief this is a resource. */
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     /** \brief the zoom X coordinate. */
     long double x;

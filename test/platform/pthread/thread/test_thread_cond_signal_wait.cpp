@@ -10,6 +10,9 @@
 #include <string.h>
 #include <unistd.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(thread_cond_signal_wait);
 
 /* simple thread context. */

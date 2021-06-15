@@ -59,7 +59,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
  */
 status FN_DECL_MUST_CHECK
 psock_create_from_listen_address(
-    psock** sock, allocator* a, const struct sockaddr* name, socklen_t namelen)
+    psock** sock, RCPR_SYM(allocator)* a, const struct sockaddr* name,
+    socklen_t namelen)
 {
     status retval;
     int res;

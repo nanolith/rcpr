@@ -21,6 +21,9 @@
 
 #include "../../../src/resource/resource_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 typedef struct dispatch_context dispatch_context;
 static status FN_DECL_MUST_CHECK

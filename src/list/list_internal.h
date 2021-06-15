@@ -23,11 +23,11 @@ extern "C" {
 
 struct list
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(list);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     list_node* head;
     list_node* tail;
     size_t count;
@@ -35,15 +35,15 @@ struct list
 
 struct list_node
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(list_node);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     list* parent;
     list_node* prev;
     list_node* next;
-    resource* child;
+    RCPR_SYM(resource)* child;
 };
 
 /**
@@ -79,7 +79,7 @@ struct list_node
  */
 status FN_DECL_MUST_CHECK
 list_node_create(
-    list_node** node, list* l, resource* r);
+    list_node** node, list* l, RCPR_SYM(resource)* r);
 
 /**
  * \brief Clean up a list node.
@@ -91,7 +91,7 @@ list_node_create(
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status list_node_cleanup(allocator* a, list_node* node);
+status list_node_cleanup(RCPR_SYM(allocator)* a, list_node* node);
 
 /**
  * \brief Release an list_node resource.
@@ -102,7 +102,7 @@ status list_node_cleanup(allocator* a, list_node* node);
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status list_node_release(resource* r);
+status list_node_release(RCPR_SYM(resource)* r);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

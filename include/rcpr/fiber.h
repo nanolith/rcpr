@@ -251,8 +251,8 @@ typedef status (*fiber_unexpected_event_callback_fn)(
  */
 status FN_DECL_MUST_CHECK
 fiber_create(
-    fiber** fib, allocator* a, fiber_scheduler* sched, size_t stack_size,
-    void* context, fiber_fn fn);
+    fiber** fib, RCPR_SYM(allocator)* a, fiber_scheduler* sched,
+    size_t stack_size, void* context, fiber_fn fn);
 
 /**
  * \brief Create a \ref fiber instance for the main thread.
@@ -289,7 +289,7 @@ fiber_create(
  */
 status FN_DECL_MUST_CHECK
 fiber_create_for_thread(
-    fiber** fib, allocator* a);
+    fiber** fib, RCPR_SYM(allocator)* a);
 
 /**
  * \brief Create a \ref fiber_scheduler instance.
@@ -331,7 +331,7 @@ fiber_create_for_thread(
  */
 status FN_DECL_MUST_CHECK
 fiber_scheduler_create(
-    fiber_scheduler** sched, allocator* a, void* context,
+    fiber_scheduler** sched, RCPR_SYM(allocator)* a, void* context,
     fiber_scheduler_callback_fn fn);
 
 /**
@@ -388,7 +388,7 @@ fiber_scheduler_create(
  */
 status FN_DECL_MUST_CHECK
 fiber_scheduler_create_with_disciplines(
-    fiber_scheduler** sched, allocator* a);
+    fiber_scheduler** sched, RCPR_SYM(allocator)* a);
 
 /**
  * \brief Create a custom fiber scheduler discipline.
@@ -432,8 +432,8 @@ fiber_scheduler_create_with_disciplines(
  */
 status FN_DECL_MUST_CHECK
 fiber_scheduler_discipline_create(
-    fiber_scheduler_discipline** disc, const rcpr_uuid* id, allocator* alloc,
-    void* context, size_t callbacks,
+    fiber_scheduler_discipline** disc, const rcpr_uuid* id,
+    RCPR_SYM(allocator)* alloc, void* context, size_t callbacks,
     fiber_scheduler_discipline_callback_fn* callback_vector);
 
 /******************************************************************************/
@@ -877,7 +877,7 @@ disciplined_fiber_scheduler_main_fiber_get(
  *
  * \returns the \ref resource handle for this \ref fiber instance.
  */
-resource*
+RCPR_SYM(resource)*
 fiber_resource_handle(fiber* fib);
 
 /**
@@ -889,7 +889,7 @@ fiber_resource_handle(fiber* fib);
  *
  * \returns the \ref resource handle for this \ref fiber_scheduler instance.
  */
-resource*
+RCPR_SYM(resource)*
 fiber_scheduler_resource_handle(fiber_scheduler* sched);
 
 /**
@@ -902,7 +902,7 @@ fiber_scheduler_resource_handle(fiber_scheduler* sched);
  * \returns the \ref resource handle for this \ref fiber_scheduler_discipline
  *          instance.
  */
-resource*
+RCPR_SYM(resource)*
 fiber_scheduler_discipline_resource_handle(
     fiber_scheduler_discipline* disc);
 

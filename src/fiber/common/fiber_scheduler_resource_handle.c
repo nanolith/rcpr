@@ -20,7 +20,7 @@
  *
  * \returns the \ref resource handle for this \ref fiber_scheduler instance.
  */
-resource* fiber_scheduler_resource_handle(fiber_scheduler* sched)
+RCPR_SYM(resource)* fiber_scheduler_resource_handle(fiber_scheduler* sched)
 {
     MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 

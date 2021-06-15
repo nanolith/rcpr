@@ -8,6 +8,9 @@
 #include <rcpr/allocator.h>
 #include <rcpr/queue.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(queue_create);
 
 /**

@@ -11,6 +11,9 @@
 
 #include "../../src/resource/resource_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(rbtree_delete);
 
 /* integer resource. */

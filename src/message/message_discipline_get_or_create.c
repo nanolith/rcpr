@@ -13,6 +13,8 @@
 
 #include "message_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Create or get the \ref fiber_scheduler_discipline for messaging.
  *
@@ -34,7 +36,7 @@
  */
 status FN_DECL_MUST_CHECK
 message_discipline_get_or_create(
-    fiber_scheduler_discipline** msgdisc, allocator* alloc,
+    fiber_scheduler_discipline** msgdisc, RCPR_SYM(allocator)* alloc,
     fiber_scheduler* sched)
 {
     status retval, release_retval;

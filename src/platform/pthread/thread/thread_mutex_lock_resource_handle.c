@@ -23,7 +23,7 @@
  *
  * \returns the \ref resource handle for this \ref thread_mutex_lock instance.
  */
-resource* thread_mutex_lock_resource_handle(thread_mutex_lock* lock)
+RCPR_SYM(resource)* thread_mutex_lock_resource_handle(thread_mutex_lock* lock)
 {
     MODEL_ASSERT(prop_thread_mutex_lock_valid(lock));
 

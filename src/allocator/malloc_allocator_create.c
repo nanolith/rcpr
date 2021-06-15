@@ -13,13 +13,16 @@
 
 #include "allocator_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status malloc_allocator_release(resource*);
 static status malloc_allocator_allocate(allocator*, void**, size_t);
 static status malloc_allocator_reclaim(allocator*, void*);
 static status malloc_allocator_reallocate(allocator*, void**, size_t);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(allocator);
+MODEL_STRUCT_TAG_GLOBAL_EXTERN(RCPR_SYM(allocator));
 
 /**
  * \brief Create an allocator backed by malloc / free.
@@ -42,8 +45,9 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(allocator);
  * \post On success, \p alloc is set to a pointer to a valid \ref allocator
  * instance.  On failure, \p alloc is set to NULL.
  */
-status FN_DECL_MUST_CHECK
-malloc_allocator_create(allocator** alloc)
+status
+RCPR_DECL(malloc_allocator_create)(
+    RCPR_SYM(allocator)** alloc)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != alloc);

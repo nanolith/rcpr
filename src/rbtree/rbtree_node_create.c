@@ -14,6 +14,9 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree_node);
 static status rbtree_node_release(resource* r);
@@ -37,7 +40,7 @@ static status rbtree_node_release(resource* r);
  *      - a non-zero failure code on failure.
  */
 status FN_DECL_MUST_CHECK
-rbtree_node_create(rbtree_node** node, rbtree* tree, resource* r)
+rbtree_node_create(rbtree_node** node, rbtree* tree, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != node);

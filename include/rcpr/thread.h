@@ -95,7 +95,8 @@ typedef status (*thread_fn)(void* context);
  */
 status FN_DECL_MUST_CHECK
 thread_create(
-    thread** th, allocator* a, size_t stack_size, void* context, thread_fn fn);
+    thread** th, RCPR_SYM(allocator)* a, size_t stack_size, void* context,
+    thread_fn fn);
 
 /**
  * \brief Create a \ref thread_mutex instance.
@@ -128,7 +129,7 @@ thread_create(
  */
 status FN_DECL_MUST_CHECK
 thread_mutex_create(
-    thread_mutex** mut, allocator* a);
+    thread_mutex** mut, RCPR_SYM(allocator)* a);
 
 /**
  * \brief Create a \ref thread_cond instance.
@@ -161,7 +162,7 @@ thread_mutex_create(
  */
 status FN_DECL_MUST_CHECK
 thread_cond_create(
-    thread_cond** cond, allocator* a);
+    thread_cond** cond, RCPR_SYM(allocator)* a);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -297,7 +298,7 @@ thread_cond_signal_all(
  *
  * \returns the \ref resource handle for this \ref thread instance.
  */
-resource* thread_resource_handle(thread* th);
+RCPR_SYM(resource)* thread_resource_handle(thread* th);
 
 /**
  * \brief Given a \ref thread_mutex instance, return the resource handle for
@@ -308,7 +309,7 @@ resource* thread_resource_handle(thread* th);
  *
  * \returns the \ref resource handle for this \ref thread_mutex instance.
  */
-resource* thread_mutex_resource_handle(thread_mutex* mut);
+RCPR_SYM(resource)* thread_mutex_resource_handle(thread_mutex* mut);
 
 /**
  * \brief Given a \ref thread_cond instance, return the resource handle for
@@ -319,7 +320,7 @@ resource* thread_mutex_resource_handle(thread_mutex* mut);
  *
  * \returns the \ref resource handle for this \ref thread_cond instance.
  */
-resource* thread_cond_resource_handle(thread_cond* cond);
+RCPR_SYM(resource)* thread_cond_resource_handle(thread_cond* cond);
 
 /**
  * \brief Given a \ref thread_mutex_lock instance, return the resource handle
@@ -330,7 +331,7 @@ resource* thread_cond_resource_handle(thread_cond* cond);
  *
  * \returns the \ref resource handle for this \ref thread_mutex_lock instance.
  */
-resource* thread_mutex_lock_resource_handle(thread_mutex_lock* lock);
+RCPR_SYM(resource)* thread_mutex_lock_resource_handle(thread_mutex_lock* lock);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */

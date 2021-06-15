@@ -38,8 +38,9 @@
  * \post On success, \p ptr is set to a pointer to a memory region that is
  * \p size bytes in size.  On failure, \p ptr is unchanged.
  */
-status FN_DECL_MUST_CHECK
-allocator_reallocate(allocator* alloc, void** ptr, size_t size)
+status
+RCPR_DECL(allocator_reallocate)(
+    RCPR_SYM(allocator)* alloc, void** ptr, size_t size)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_allocator_valid(alloc));

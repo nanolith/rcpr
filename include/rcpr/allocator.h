@@ -22,13 +22,13 @@ extern "C" {
 # endif /*__cplusplus*/
 
 /* forward decls */
-struct allocator;
+struct RCPR_SYM(allocator);
 
 /**
  * \brief The allocator type is a \ref resource reference to an allocator
  * instance.
  */
-typedef struct allocator allocator;
+typedef struct RCPR_SYM(allocator) RCPR_SYM(allocator);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
@@ -55,8 +55,9 @@ typedef struct allocator allocator;
  * \post On success, \p alloc is set to a pointer to a valid \ref allocator
  * instance.  On failure, \p alloc is set to NULL.
  */
-status FN_DECL_MUST_CHECK
-malloc_allocator_create(allocator** alloc);
+status
+RCPR_DECL(malloc_allocator_create)(
+    RCPR_SYM(allocator)** alloc);
 
 /**
  * \brief Create a bump allocator, backed by the given memory region.
@@ -87,8 +88,9 @@ malloc_allocator_create(allocator** alloc);
  * \post On success, \p alloc is set to a pointer to a valid \ref allocator
  * instance.  On failure, \p alloc is set to NULL.
  */
-status FN_DECL_MUST_CHECK
-bump_allocator_create(allocator** alloc, void* region, size_t region_size);
+status
+RCPR_DECL(bump_allocator_create)(
+    RCPR_SYM(allocator)** alloc, void* region, size_t region_size);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -117,8 +119,9 @@ bump_allocator_create(allocator** alloc, void* region, size_t region_size);
  * \post On success, \p ptr is set to a pointer to a memory region that is
  * \p size bytes in size.  On failure, \p ptr is set to NULL.
  */
-status FN_DECL_MUST_CHECK
-allocator_allocate(allocator* alloc, void** ptr, size_t size);
+status
+RCPR_DECL(allocator_allocate)(
+    RCPR_SYM(allocator)* alloc, void** ptr, size_t size);
 
 /**
  * \brief Instruct the allocator instance to reclaim the given memory region.
@@ -141,8 +144,9 @@ allocator_allocate(allocator* alloc, void** ptr, size_t size);
  * \post the memory region referenced by \p ptr is reclaimed and must not be
  * used by the caller.
  */
-status FN_DECL_MUST_CHECK
-allocator_reclaim(allocator* alloc, void* ptr);
+status
+RCPR_DECL(allocator_reclaim)(
+    RCPR_SYM(allocator)* alloc, void* ptr);
 
 /**
  * \brief Attempt to resize a previously allocated memory region, either growing
@@ -173,8 +177,9 @@ allocator_reclaim(allocator* alloc, void* ptr);
  * \post On success, \p ptr is set to a pointer to a memory region that is
  * \p size bytes in size.  On failure, \p ptr is unchanged.
  */
-status FN_DECL_MUST_CHECK
-allocator_reallocate(allocator* alloc, void** ptr, size_t size);
+status
+RCPR_DECL(allocator_reallocate)(
+    RCPR_SYM(allocator)* alloc, void** ptr, size_t size);
 
 /**
  * \brief Given an allocator instance, return the resource handle for this
@@ -185,7 +190,9 @@ allocator_reallocate(allocator* alloc, void** ptr, size_t size);
  *
  * \returns the resource handle for this allocator instance.
  */
-resource* allocator_resource_handle(allocator* alloc);
+RCPR_SYM(resource)*
+RCPR_SYM(allocator_resource_handle)(
+    RCPR_SYM(allocator)* alloc);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
@@ -198,7 +205,61 @@ resource* allocator_resource_handle(allocator* alloc);
  *
  * \returns true if the allocator instance is valid.
  */
-bool prop_allocator_valid(const allocator* alloc);
+bool
+RCPR_SYM(prop_allocator_valid)(
+    const RCPR_SYM(allocator)* alloc);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_allocator_as(sym) \
+    typedef RCPR_SYM(allocator) sym ## _ ## allocator; \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## malloc_allocator_create( \
+        sym ## _ ## allocator** x) { \
+            return RCPR_SYM(malloc_allocator_create)(x); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## bump_allocator_create( \
+        sym ## _ ## allocator** x, void* y, size_t z) { \
+            return RCPR_SYM(bump_allocator_create)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## allocator_allocate( \
+        sym ## _ ## allocator* x, void** y, size_t z) { \
+            return RCPR_SYM(allocator_allocate)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## allocator_reclaim( \
+        sym ## _ ## allocator* x, void* y) { \
+            return RCPR_SYM(allocator_reclaim)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## allocator_reallocate( \
+        sym ## _ ## allocator* x, void** y, size_t z) { \
+            return RCPR_SYM(allocator_reallocate)(x,y,z); } \
+    static inline RCPR_SYM(resource)* sym ## _ ## allocator_resource_handle( \
+        sym ## _ ## allocator* x) { \
+            return RCPR_SYM(allocator_resource_handle)(x); } \
+    static inline bool sym ## _ ## prop_allocator_valid( \
+        const sym ## _ ## allocator* x) { \
+            return RCPR_SYM(prop_allocator_valid)(x); }
+
+#define RCPR_IMPORT_allocator \
+    typedef RCPR_SYM(allocator) allocator; \
+    static inline status FN_DECL_MUST_CHECK malloc_allocator_create( \
+        allocator** x) { \
+            return RCPR_SYM(malloc_allocator_create)(x); } \
+    static inline status FN_DECL_MUST_CHECK bump_allocator_create( \
+        allocator** x, void* y, size_t z) { \
+            return RCPR_SYM(bump_allocator_create)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK allocator_allocate( \
+        allocator* x, void** y, size_t z) { \
+            return RCPR_SYM(allocator_allocate)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK allocator_reclaim( \
+        allocator* x, void* y) { \
+            return RCPR_SYM(allocator_reclaim)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK allocator_reallocate( \
+        allocator* x, void** y, size_t z) { \
+            return RCPR_SYM(allocator_reallocate)(x,y,z); } \
+    static inline RCPR_SYM(resource)* allocator_resource_handle( \
+        allocator* x) { \
+            return RCPR_SYM(allocator_resource_handle)(x); } \
+    static inline bool prop_allocator_valid( \
+        const allocator* x) { \
+            return prop_allocator_valid(x); }
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

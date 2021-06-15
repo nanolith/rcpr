@@ -15,6 +15,9 @@
 
 #include "stack_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status stack_release(resource*);
 
@@ -57,7 +60,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(stack);
  */
 status FN_DECL_MUST_CHECK
 stack_create(
-    stack** st, allocator* a, size_t stack_size)
+    stack** st, RCPR_SYM(allocator)* a, size_t stack_size)
 {
     status retval, reclaim_retval;
     void* mem;

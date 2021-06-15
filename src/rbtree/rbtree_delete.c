@@ -13,6 +13,8 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Delete the given key from the \ref rbtree, optionally releasing the
  * resource.
@@ -45,7 +47,7 @@
  *      - On failure, \p r is set to NULL.
  */
 status FN_DECL_MUST_CHECK
-rbtree_delete(resource** r, rbtree* tree, const void* key)
+rbtree_delete(RCPR_SYM(resource)** r, rbtree* tree, const void* key)
 {
     status retval;
     rbtree_node* node = NULL;

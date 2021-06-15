@@ -21,13 +21,13 @@ extern "C" {
 # endif /*__cplusplus*/
 
 /* forward decls */
-struct resource;
+struct RCPR_SYM(resource);
 
 /**
  * \brief The resource interface describes an object that can be released by
  * calling \ref resource_release.
  */
-typedef struct resource resource;
+typedef struct RCPR_SYM(resource) RCPR_SYM(resource);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -64,8 +64,9 @@ typedef struct resource resource;
  * \post on success, \p is released to the system or API from which it was
  * acquired.  This resource can no longer be used.
  */
-status FN_DECL_MUST_CHECK
-resource_release(resource* r);
+status
+RCPR_DECL(resource_release)(
+    RCPR_SYM(resource)* r);
 
 /******************************************************************************/
 /* Start of public types.                                                     */
@@ -94,7 +95,7 @@ resource_release(resource* r);
  *        resource would be futile, and this may indicate that the process
  *        should be restarted or terminated.
  */
-typedef status (*resource_release_fn)(resource* r);
+typedef status (*RCPR_SYM(resource_release_fn))(RCPR_SYM(resource)* r);
 
 /******************************************************************************/
 /* Start of protected methods.                                                */
@@ -107,7 +108,8 @@ typedef status (*resource_release_fn)(resource* r);
  * \param release   The release method to use to release this resource.
  */
 void
-resource_init(resource* r, resource_release_fn release);
+RCPR_SYM(resource_init)(
+    RCPR_SYM(resource)* r, RCPR_SYM(resource_release_fn) release);
 
 
 /******************************************************************************/
@@ -121,7 +123,39 @@ resource_init(resource* r, resource_release_fn release);
  *
  * \returns true if the resource instance is valid.
  */
-bool prop_resource_valid(const resource* r);
+bool
+RCPR_SYM(prop_resource_valid)(
+    const RCPR_SYM(resource)* r);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_resource_as(sym) \
+    typedef RCPR_SYM(resource) sym ## _ ## resource; \
+    typedef RCPR_SYM(resource_release_fn) sym ## _ ## resource_release_fn; \
+    static inline status sym ## _ ## resource_release(\
+        sym ## _ ## resource* x) { \
+            return RCPR_SYM(resource_release)(x); } \
+    static inline void sym ## _ ## resource_init(\
+        sym ## _ ## resource* x, sym ## _ ## resource_release_fn y) { \
+            return RCPR_SYM(resource_init)(x, y); } \
+    static inline bool sym _ ## _ ## prop_resource_valid(\
+        const sym ## _ ## resource* x) { \
+            return RCPR_SYM(prop_resource_valid)(x); }
+
+#define RCPR_IMPORT_resource \
+    typedef RCPR_SYM(resource) resource; \
+    typedef RCPR_SYM(resource_release_fn) resource_release_fn; \
+    static inline status resource_release(\
+        resource* x) { \
+            return RCPR_SYM(resource_release)(x); } \
+    static inline void resource_init(\
+        resource* x, resource_release_fn y) { \
+            return RCPR_SYM(resource_init)(x, y); } \
+    static inline bool prop_resource_valid(\
+        const resource* x) { \
+            return RCPR_SYM(prop_resource_valid)(x); }
+        
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

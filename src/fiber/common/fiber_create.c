@@ -12,6 +12,9 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber);
 
@@ -58,8 +61,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber);
  */
 status FN_DECL_MUST_CHECK
 fiber_create(
-    fiber** fib, allocator* a, fiber_scheduler* sched, size_t stack_size,
-    void* context, fiber_fn fn)
+    fiber** fib, RCPR_SYM(allocator)* a, fiber_scheduler* sched,
+    size_t stack_size, void* context, fiber_fn fn)
 {
     fiber* tmp;
     status retval, release_retval;

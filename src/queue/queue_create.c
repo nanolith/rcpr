@@ -14,6 +14,9 @@
 
 #include "queue_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status queue_release(resource*);
 
@@ -50,7 +53,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(queue);
  */
 status FN_DECL_MUST_CHECK
 queue_create(
-    queue** q, allocator* a)
+    queue** q, RCPR_SYM(allocator)* a)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != q);

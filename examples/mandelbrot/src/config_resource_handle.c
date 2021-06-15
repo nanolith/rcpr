@@ -9,6 +9,8 @@
 
 #include "config_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Get the resource handle for this config instance.
  *

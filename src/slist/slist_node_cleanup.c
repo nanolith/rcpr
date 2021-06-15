@@ -14,6 +14,8 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Clean up an slist node.
  *
@@ -24,7 +26,7 @@
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status slist_node_cleanup(allocator* a, slist_node* node)
+status slist_node_cleanup(RCPR_SYM(allocator)* a, slist_node* node)
 {
     (void)a;
 

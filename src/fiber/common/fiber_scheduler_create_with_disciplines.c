@@ -13,6 +13,9 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status fiber_scheduler_disciplined_resource_release(resource*);
 static status fiber_scheduler_disciplined_context_resource_release(resource*);
@@ -96,7 +99,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_disciplined_context);
  */
 status FN_DECL_MUST_CHECK
 fiber_scheduler_create_with_disciplines(
-    fiber_scheduler** sched, allocator* a)
+    fiber_scheduler** sched, RCPR_SYM(allocator)* a)
 {
     fiber_scheduler_disciplined_context* ctx;
     fiber_scheduler* tmp;

@@ -21,7 +21,7 @@ extern "C" {
 
 struct queue
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
     slist* list;
 
     MODEL_STRUCT_TAG(queue);

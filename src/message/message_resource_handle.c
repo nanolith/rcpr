@@ -20,7 +20,7 @@
  *
  * \returns the \ref resource handle for this \ref message instance.
  */
-resource*
+RCPR_SYM(resource)*
 message_resource_handle(message* msg)
 {
     /* parameter sanity checks. */

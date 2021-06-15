@@ -14,6 +14,9 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status slist_release(resource*);
 
@@ -49,7 +52,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(slist);
  */
 status FN_DECL_MUST_CHECK
 slist_create(
-    slist** list, allocator* a)
+    slist** list, RCPR_SYM(allocator)* a)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != list);

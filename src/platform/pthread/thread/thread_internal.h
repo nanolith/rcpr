@@ -23,11 +23,11 @@ extern "C" {
 
 struct thread
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(thread);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     pthread_t thread;
     void* context;
     thread_fn fn;
@@ -37,7 +37,7 @@ struct thread
 
 struct thread_mutex_lock
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(thread_mutex_lock);
 
@@ -46,22 +46,22 @@ struct thread_mutex_lock
 
 struct thread_mutex
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(thread_mutex);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     pthread_mutex_t mutex;
     thread_mutex_lock child;
 };
 
 struct thread_cond
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(thread_cond);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     pthread_cond_t cond;
 };
 

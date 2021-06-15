@@ -23,25 +23,25 @@ extern "C" {
 
 struct message
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(message);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     mailbox_address returnaddr;
     mailbox_address sendaddr;
-    resource* payload;
+    RCPR_SYM(resource)* payload;
 };
 
 typedef struct mailbox mailbox;
 
 struct mailbox
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(mailbox);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     mailbox_address address;
     fiber* blocked_fiber;
     queue* message_queue;
@@ -51,12 +51,12 @@ typedef struct message_discipline_context message_discipline_context;
 
 struct message_discipline_context
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(message_discipline_context);
 
-    allocator* alloc;
-    resource discipline_cache;
+    RCPR_SYM(allocator)* alloc;
+    RCPR_SYM(resource) discipline_cache;
     fiber_scheduler* sched;
     rbtree* mailboxes;
     uint64_t index;
@@ -74,7 +74,7 @@ struct message_discipline_context
  *      - a non-zero error code on failure.
  */
 status mailbox_resource_create(
-    mailbox** mbox, allocator* alloc, mailbox_address addr);
+    mailbox** mbox, RCPR_SYM(allocator)* alloc, mailbox_address addr);
 
 /**
  * \brief Create the message discipline context.
@@ -88,7 +88,8 @@ status mailbox_resource_create(
  *      - a non-zero error code on failure.
  */
 status message_discipline_context_create(
-    resource** ctx, allocator* alloc, fiber_scheduler* sched);
+    RCPR_SYM(resource)** ctx, RCPR_SYM(allocator)* alloc,
+    fiber_scheduler* sched);
 
 /**
  * \brief Override the resource release method for a message discipline.
@@ -102,7 +103,7 @@ status message_discipline_context_create(
  *      - a non-zero error code on failure.
  */
 status message_discipline_set_resource_release(
-    fiber_scheduler_discipline* msgdisc, resource* context);
+    fiber_scheduler_discipline* msgdisc, RCPR_SYM(resource)* context);
 
 /**
  * \brief The callback handler for a create mailbox request.

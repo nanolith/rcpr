@@ -46,7 +46,7 @@
  */
 status FN_DECL_MUST_CHECK
 list_append(
-    list_node* node, resource* r)
+    list_node* node, RCPR_SYM(resource)* r)
 {
     list_node* new_node;
 

@@ -40,7 +40,7 @@
  */
 status FN_DECL_MUST_CHECK
 list_append_tail(
-    list* l, resource* r)
+    list* l, RCPR_SYM(resource)* r)
 {
     list_node* node;
 

@@ -40,7 +40,7 @@
  */
 status FN_DECL_MUST_CHECK
 queue_insert(
-    queue* q, resource* r)
+    queue* q, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_queue_valid(q));

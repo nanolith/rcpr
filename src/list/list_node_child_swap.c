@@ -15,6 +15,8 @@
 
 #include "list_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Swap the \ref resource owned by this \ref list_node with the given
  * resource, replacing it with the value currently owned by this node.
@@ -48,7 +50,7 @@
  */
 status FN_DECL_MUST_CHECK
 list_node_child_swap(
-    list_node* node, resource** r)
+    list_node* node, RCPR_SYM(resource)** r)
 {
     resource* old;
 

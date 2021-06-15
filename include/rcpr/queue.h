@@ -56,7 +56,7 @@ typedef struct queue queue;
  */
 status FN_DECL_MUST_CHECK
 queue_create(
-    queue** q, allocator* a);
+    queue** q, RCPR_SYM(allocator)* a);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -88,7 +88,7 @@ queue_create(
  */
 status FN_DECL_MUST_CHECK
 queue_append(
-    queue* q, resource* r);
+    queue* q, RCPR_SYM(resource)* r);
 
 /**
  * \brief Pop the head value of the \ref queue, setting the given resource
@@ -126,7 +126,7 @@ queue_append(
  */
 status FN_DECL_MUST_CHECK
 queue_pop(
-    queue* q, resource** r);
+    queue* q, RCPR_SYM(resource)** r);
 
 /**
  * \brief Place the given \ref resource at the front of the \ref queue.
@@ -154,7 +154,7 @@ queue_pop(
  */
 status FN_DECL_MUST_CHECK
 queue_insert(
-    queue* q, resource* r);
+    queue* q, RCPR_SYM(resource)* r);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -178,7 +178,7 @@ size_t queue_count(queue* q);
  *
  * \returns the \ref resource handle for this \ref queue instance.
  */
-resource* queue_resource_handle(queue* q);
+RCPR_SYM(resource)* queue_resource_handle(queue* q);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */

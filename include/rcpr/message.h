@@ -112,8 +112,8 @@ mailbox_create(mailbox_address* addr, fiber_scheduler_discipline* msgdisc);
  */
 status FN_DECL_MUST_CHECK
 message_create(
-    message** msg, allocator* alloc, mailbox_address returnaddr,
-    resource* payload);
+    message** msg, RCPR_SYM(allocator)* alloc, mailbox_address returnaddr,
+    RCPR_SYM(resource)* payload);
 
 /**
  * \brief Create or get the \ref fiber_scheduler_discipline for messaging.
@@ -136,7 +136,7 @@ message_create(
  */
 status FN_DECL_MUST_CHECK
 message_discipline_get_or_create(
-    fiber_scheduler_discipline** msgdisc, allocator* alloc,
+    fiber_scheduler_discipline** msgdisc, RCPR_SYM(allocator)* alloc,
     fiber_scheduler* sched);
 
 /******************************************************************************/
@@ -212,7 +212,7 @@ message_receive(mailbox_address recvaddr, message** msg);
  *
  * \returns the \ref resource handle for this \ref message instance.
  */
-resource*
+RCPR_SYM(resource)*
 message_resource_handle(message* msg);
 
 /**
@@ -244,7 +244,7 @@ message_return_address(const message* msg);
  * \returns the return payload \ref resource, or NULL if the payload \ref
  * resource is not set.
  */
-resource*
+RCPR_SYM(resource)*
 message_payload(message* msg, bool xfer);
 
 /******************************************************************************/

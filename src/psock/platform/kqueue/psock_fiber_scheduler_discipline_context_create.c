@@ -13,6 +13,9 @@
 
 #include "psock_kqueue_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status psock_io_kqueue_context_resource_release(resource* r);
 
@@ -30,7 +33,8 @@ static status psock_io_kqueue_context_resource_release(resource* r);
  *      - a non-zero error code on failure.
  */
 status psock_fiber_scheduler_discipline_context_create(
-    resource** context, fiber_scheduler* sched, allocator* alloc)
+    RCPR_SYM(resource)** context, fiber_scheduler* sched,
+    RCPR_SYM(allocator)* alloc)
 {
     status retval, release_retval;
 

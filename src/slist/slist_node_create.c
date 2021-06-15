@@ -14,6 +14,9 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(slist_node);
 
 /**
@@ -49,7 +52,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(slist_node);
  */
 status FN_DECL_MUST_CHECK
 slist_node_create(
-    slist_node** node, slist* list, resource* r)
+    slist_node** node, slist* list, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != node);

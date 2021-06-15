@@ -20,7 +20,7 @@
  *
  * \returns the \ref resource handle for this \ref fiber instance.
  */
-resource* fiber_resource_handle(fiber* fib)
+RCPR_SYM(resource)* fiber_resource_handle(fiber* fib)
 {
     MODEL_ASSERT(prop_fiber_valid(fib));
 
