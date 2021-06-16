@@ -14,6 +14,8 @@
 #include "message_internal.h"
 
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_message;
+RCPR_IMPORT_message_internal;
 RCPR_IMPORT_resource;
 
 /**
@@ -36,7 +38,7 @@ RCPR_IMPORT_resource;
  *      - a non-zero error code on failure.
  */
 status FN_DECL_MUST_CHECK
-message_discipline_get_or_create(
+RCPR_SYM(message_discipline_get_or_create)(
     RCPR_SYM(fiber_scheduler_discipline)** msgdisc, RCPR_SYM(allocator)* alloc,
     RCPR_SYM(fiber_scheduler)* sched)
 {

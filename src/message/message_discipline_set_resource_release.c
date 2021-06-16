@@ -15,6 +15,8 @@
 #include "message_internal.h"
 
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_message;
+RCPR_IMPORT_message_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -31,7 +33,7 @@ static status message_discipline_context_chained_release(resource* r);
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status message_discipline_set_resource_release(
+status RCPR_SYM(message_discipline_set_resource_release)(
     RCPR_SYM(fiber_scheduler_discipline)* msgdisc, RCPR_SYM(resource)* context)
 {
     message_discipline_context* ctx = (message_discipline_context*)context;

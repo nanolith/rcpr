@@ -11,6 +11,8 @@
 
 #include "message_internal.h"
 
+RCPR_IMPORT_message;
+RCPR_IMPORT_message_internal;
 RCPR_IMPORT_resource;
 
 /**
@@ -30,7 +32,7 @@ RCPR_IMPORT_resource;
  * resource is not set.
  */
 RCPR_SYM(resource)*
-message_payload(message* msg, bool xfer)
+RCPR_SYM(message_payload)(RCPR_SYM(message)* msg, bool xfer)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_message_valid(msg));

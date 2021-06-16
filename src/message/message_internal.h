@@ -21,35 +21,36 @@
 extern "C" {
 # endif /*__cplusplus*/
 
-struct message
+struct RCPR_SYM(message)
 {
     RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(message);
 
     RCPR_SYM(allocator)* alloc;
-    mailbox_address returnaddr;
-    mailbox_address sendaddr;
+    RCPR_SYM(mailbox_address) returnaddr;
+    RCPR_SYM(mailbox_address) sendaddr;
     RCPR_SYM(resource)* payload;
 };
 
-typedef struct mailbox mailbox;
+typedef struct RCPR_SYM(mailbox) RCPR_SYM(mailbox);
 
-struct mailbox
+struct RCPR_SYM(mailbox)
 {
     RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(mailbox);
 
     RCPR_SYM(allocator)* alloc;
-    mailbox_address address;
+    RCPR_SYM(mailbox_address) address;
     RCPR_SYM(fiber)* blocked_fiber;
     queue* message_queue;
 };
 
-typedef struct message_discipline_context message_discipline_context;
+typedef struct RCPR_SYM(message_discipline_context)
+RCPR_SYM(message_discipline_context);
 
-struct message_discipline_context
+struct RCPR_SYM(message_discipline_context)
 {
     RCPR_SYM(resource) hdr;
 
@@ -73,8 +74,9 @@ struct message_discipline_context
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status mailbox_resource_create(
-    mailbox** mbox, RCPR_SYM(allocator)* alloc, mailbox_address addr);
+status RCPR_SYM(mailbox_resource_create)(
+    RCPR_SYM(mailbox)** mbox, RCPR_SYM(allocator)* alloc,
+    RCPR_SYM(mailbox_address) addr);
 
 /**
  * \brief Create the message discipline context.
@@ -87,7 +89,7 @@ status mailbox_resource_create(
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status message_discipline_context_create(
+status RCPR_SYM(message_discipline_context_create)(
     RCPR_SYM(resource)** ctx, RCPR_SYM(allocator)* alloc,
     RCPR_SYM(fiber_scheduler)* sched);
 
@@ -102,7 +104,7 @@ status message_discipline_context_create(
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status message_discipline_set_resource_release(
+status RCPR_SYM(message_discipline_set_resource_release)(
     RCPR_SYM(fiber_scheduler_discipline)* msgdisc, RCPR_SYM(resource)* context);
 
 /**
@@ -117,7 +119,7 @@ status message_discipline_set_resource_release(
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status message_discipline_mailbox_create_callback_handler(
+status RCPR_SYM(message_discipline_mailbox_create_callback_handler)(
     void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
     void* yield_param);
 
@@ -133,7 +135,7 @@ status message_discipline_mailbox_create_callback_handler(
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status message_discipline_mailbox_close_callback_handler(
+status RCPR_SYM(message_discipline_mailbox_close_callback_handler)(
     void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
     void* yield_param);
 
@@ -149,7 +151,7 @@ status message_discipline_mailbox_close_callback_handler(
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status message_discipline_message_send_callback_handler(
+status RCPR_SYM(message_discipline_message_send_callback_handler)(
     void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
     void* yield_param);
 
@@ -165,9 +167,47 @@ status message_discipline_message_send_callback_handler(
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status message_discipline_message_receive_callback_handler(
+status RCPR_SYM(message_discipline_message_receive_callback_handler)(
     void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
     void* yield_param);
+
+/******************************************************************************/
+/* Start of private exports.                                                  */
+/******************************************************************************/
+#define RCPR_IMPORT_message_internal \
+    typedef RCPR_SYM(mailbox) mailbox; \
+    typedef RCPR_SYM(message_discipline_context) message_discipline_context; \
+    static inline status mailbox_resource_create( \
+        RCPR_SYM(mailbox)** x, RCPR_SYM(allocator)* y, \
+        RCPR_SYM(mailbox_address) z) { \
+            return RCPR_SYM(mailbox_resource_create)(x,y,z); } \
+    static inline status message_discipline_context_create( \
+        RCPR_SYM(resource)** x, RCPR_SYM(allocator)* y, \
+        RCPR_SYM(fiber_scheduler)* z) { \
+            return RCPR_SYM(message_discipline_context_create)(x,y,z); } \
+    static inline status message_discipline_set_resource_release( \
+        RCPR_SYM(fiber_scheduler_discipline)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(message_discipline_set_resource_release)(x,y); } \
+    static inline status message_discipline_mailbox_create_callback_handler( \
+        void* w, RCPR_SYM(fiber)* x, int y, void* z) { \
+            return \
+                RCPR_SYM(message_discipline_mailbox_create_callback_handler)( \
+                    w,x,y,z); } \
+    static inline status message_discipline_mailbox_close_callback_handler( \
+        void* w, RCPR_SYM(fiber)* x, int y, void* z) { \
+            return \
+                RCPR_SYM(message_discipline_mailbox_close_callback_handler)( \
+                    w,x,y,z); } \
+    static inline status message_discipline_message_send_callback_handler( \
+        void* w, RCPR_SYM(fiber)* x, int y, void* z) { \
+            return \
+                RCPR_SYM(message_discipline_message_send_callback_handler)( \
+                    w,x,y,z); } \
+    static inline status message_discipline_message_receive_callback_handler( \
+        void* w, RCPR_SYM(fiber)* x, int y, void* z) { \
+            return \
+                RCPR_SYM(message_discipline_message_receive_callback_handler)( \
+                    w,x,y,z); }
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

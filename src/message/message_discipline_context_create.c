@@ -14,6 +14,8 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_compare;
+RCPR_IMPORT_message;
+RCPR_IMPORT_message_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -36,7 +38,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(message_discipline_context);
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status message_discipline_context_create(
+status RCPR_SYM(message_discipline_context_create)(
     RCPR_SYM(resource)** ctx, RCPR_SYM(allocator)* alloc,
     RCPR_SYM(fiber_scheduler)* sched)
 {

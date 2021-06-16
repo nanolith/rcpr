@@ -11,6 +11,9 @@
 
 #include "message_internal.h"
 
+RCPR_IMPORT_message;
+RCPR_IMPORT_message_internal;
+
 /**
  * \brief Given a \ref message instance, return the resource handle for this
  * \ref message instance.
@@ -21,7 +24,8 @@
  * \returns the \ref resource handle for this \ref message instance.
  */
 RCPR_SYM(resource)*
-message_resource_handle(message* msg)
+RCPR_SYM(message_resource_handle)(
+    RCPR_SYM(message)* msg)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_message_valid(msg));
