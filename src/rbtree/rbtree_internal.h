@@ -46,8 +46,8 @@ struct rbtree
 
     RCPR_SYM(allocator)* alloc;
     void* context;
-    compare_fn compare;
-    compare_key_fn key;
+    RCPR_SYM(compare_fn) compare;
+    RCPR_SYM(compare_key_fn) key;
     rbtree_node* root;
     rbtree_node nil_impl;
     rbtree_node* nil;

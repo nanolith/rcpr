@@ -20,12 +20,12 @@ extern "C" {
 /**
  * \brief Comparison results.
  */
-typedef enum rcpr_comparison_result
+typedef enum RCPR_SYM(rcpr_comparison_result)
 {
     RCPR_COMPARE_LT = -1,
     RCPR_COMPARE_EQ =  0,
     RCPR_COMPARE_GT =  1,
-} rcpr_comparison_result;
+} RCPR_SYM(rcpr_comparison_result);
 
 /**
  * \brief Comparison function type for comparing two resources.
@@ -39,7 +39,7 @@ typedef enum rcpr_comparison_result
  *      - RCPR_COMPARE_EQ if \p lhs == \p rhs.
  *      - RCPR_COMPARE_GT if \p lhs &gt; \p rhs.
  */
-typedef rcpr_comparison_result (*compare_fn)(
+typedef RCPR_SYM(rcpr_comparison_result) (*RCPR_SYM(compare_fn))(
     void* context, const void* lhs, const void* rhs);
  
 /**
@@ -50,8 +50,22 @@ typedef rcpr_comparison_result (*compare_fn)(
  *
  * \returns the key for the resource.
  */
-typedef const void* (*compare_key_fn)(
+typedef const void* (*RCPR_SYM(compare_key_fn))(
     void* context, const RCPR_SYM(resource)* r);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_compare_as(sym) \
+    typedef RCPR_SYM(rcpr_comparison_result) \
+        sym ## _ ## rcpr_comparison_result; \
+    typedef RCPR_SYM(compare_fn) sym ## _ ## compare_fn; \
+    typedef RCPR_SYM(compare_key_fn) sym ## _ ## compare_key_fn;
+
+#define RCPR_IMPORT_compare \
+    typedef RCPR_SYM(rcpr_comparison_result) rcpr_comparison_result; \
+    typedef RCPR_SYM(compare_fn) compare_fn; \
+    typedef RCPR_SYM(compare_key_fn) compare_key_fn;
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
