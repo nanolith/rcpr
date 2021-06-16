@@ -25,12 +25,12 @@ extern "C" {
 /**
  * \brief The list container holds zero or more resources in a linear fashion.
  */
-typedef struct list list;
+typedef struct RCPR_SYM(list) RCPR_SYM(list);
 
 /**
  * \brief The list_node is a single node in an list container.
  */
-typedef struct list_node list_node;
+typedef struct RCPR_SYM(list_node) RCPR_SYM(list_node);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
@@ -65,8 +65,8 @@ typedef struct list_node list_node;
  *      - On failure, \p l is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_create(
-    list** l, RCPR_SYM(allocator)* a);
+RCPR_SYM(list_create)(
+    RCPR_SYM(list)** l, RCPR_SYM(allocator)* a);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -97,8 +97,8 @@ list_create(
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-list_insert_head(
-    list* l, RCPR_SYM(resource)* r);
+RCPR_SYM(list_insert_head)(
+    RCPR_SYM(list)* l, RCPR_SYM(resource)* r);
 
 /**
  * \brief Append the given \ref resource to the back of the \ref list.
@@ -125,8 +125,8 @@ list_insert_head(
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-list_append_tail(
-    list* l, RCPR_SYM(resource)* r);
+RCPR_SYM(list_append_tail)(
+    RCPR_SYM(list)* l, RCPR_SYM(resource)* r);
 
 /**
  * \brief Append the given \ref resource to the next value of the given \ref
@@ -159,8 +159,8 @@ list_append_tail(
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-list_append(
-    list_node* node, RCPR_SYM(resource)* r);
+RCPR_SYM(list_append)(
+    RCPR_SYM(list_node)* node, RCPR_SYM(resource)* r);
 
 /**
  * \brief Insert the given \ref resource before the given \ref list_node.
@@ -192,8 +192,8 @@ list_append(
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-list_insert(
-    list_node* node, RCPR_SYM(resource)* r);
+RCPR_SYM(list_insert)(
+    RCPR_SYM(list_node)* node, RCPR_SYM(resource)* r);
 
 /**
  * \brief Swap the \ref resource owned by this \ref list_node with the given
@@ -227,8 +227,8 @@ list_insert(
  *      - On failure, \p r is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_node_child_swap(
-    list_node* node, RCPR_SYM(resource)** r);
+RCPR_SYM(list_node_child_swap)(
+    RCPR_SYM(list_node)* node, RCPR_SYM(resource)** r);
 
 /**
  * \brief Pop the head value of the list, setting the given resource pointer to
@@ -265,8 +265,8 @@ list_node_child_swap(
  *      - On failure, the pointer that \p r points to remains unchanged (NULL).
  */
 status FN_DECL_MUST_CHECK
-list_pop(
-    list* l, RCPR_SYM(resource)** r);
+RCPR_SYM(list_pop)(
+    RCPR_SYM(list)* l, RCPR_SYM(resource)** r);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -281,7 +281,9 @@ list_pop(
  *
  * \returns the \ref resource handle for this \ref list instance.
  */
-RCPR_SYM(resource)* list_resource_handle(list* l);
+RCPR_SYM(resource)*
+RCPR_SYM(list_resource_handle)(
+    RCPR_SYM(list)* l);
 
 /**
  * \brief Given a \ref list_node instance, return the resource handle for this
@@ -292,7 +294,9 @@ RCPR_SYM(resource)* list_resource_handle(list* l);
  *
  * \returns the \ref resource handle for this \ref list_node instance.
  */
-RCPR_SYM(resource)* list_node_resource_handle(list_node* node);
+RCPR_SYM(resource)*
+RCPR_SYM(list_node_resource_handle)(
+    RCPR_SYM(list_node)* node);
 
 /**
  * \brief Get the head of a \ref list.
@@ -324,8 +328,8 @@ RCPR_SYM(resource)* list_node_resource_handle(list_node* node);
  *      - On failure, \p node is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_head(
-    list_node** node, list* l);
+RCPR_SYM(list_head)(
+    RCPR_SYM(list_node)** node, RCPR_SYM(list)* l);
 
 /**
  * \brief Get the tail of a \ref list.
@@ -357,8 +361,8 @@ list_head(
  *      - On failure, \p node is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_tail(
-    list_node** node, list* l);
+RCPR_SYM(list_tail)(
+    RCPR_SYM(list_node)** node, RCPR_SYM(list)* l);
 
 /**
  * \brief Get the count of nodes in a \ref list.
@@ -367,7 +371,7 @@ list_tail(
  *
  * \returns the number of nodes in the given \ref list.
  */
-size_t list_count(list* l);
+size_t RCPR_SYM(list_count)(RCPR_SYM(list)* l);
 
 /**
  * \brief Get the resource associated with the given of \ref list_node.
@@ -393,8 +397,8 @@ size_t list_count(list* l);
  *      - On failure, \p r is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_node_child(
-    RCPR_SYM(resource)** r, list_node* node);
+RCPR_SYM(list_node_child)(
+    RCPR_SYM(resource)** r, RCPR_SYM(list_node)* node);
 
 /**
  * \brief Given an \ref list_node, return the next \ref list_node in the list.
@@ -417,8 +421,8 @@ list_node_child(
  *      - On failure, \p next is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_node_next(
-    list_node** next, list_node* node);
+RCPR_SYM(list_node_next)(
+    RCPR_SYM(list_node)** next, RCPR_SYM(list_node)* node);
 
 /**
  * \brief Given an \ref list_node, return the previous \ref list_node in the
@@ -442,8 +446,8 @@ list_node_next(
  *      - On failure, \p prev is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_node_prev(
-    list_node** prev, list_node* node);
+RCPR_SYM(list_node_prev)(
+    RCPR_SYM(list_node)** prev, RCPR_SYM(list_node)* node);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
@@ -456,7 +460,7 @@ list_node_prev(
  *
  * \returns true if the \ref list instance is valid.
  */
-bool prop_list_valid(const list* l);
+bool RCPR_SYM(prop_list_valid)(const RCPR_SYM(list)* l);
 
 /**
  * \brief Valid \ref list_node property.
@@ -465,7 +469,120 @@ bool prop_list_valid(const list* l);
  *
  * \returns true if the \ref list_node instance is valid.
  */
-bool prop_list_node_valid(const list_node* node);
+bool RCPR_SYM(prop_list_node_valid)(const RCPR_SYM(list_node)* node);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_list_as(sym) \
+    typedef RCPR_SYM(list) sym ## _ ## list; \
+    typedef RCPR_SYM(list_node) sym ## _ ## list_node; \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_create( \
+        RCPR_SYM(list)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(list_create)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_insert_head( \
+        RCPR_SYM(list)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_insert_head)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_append_tail( \
+        RCPR_SYM(list)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_append_tail)(x, y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_append( \
+        RCPR_SYM(list_node)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_append)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_insert( \
+        RCPR_SYM(list_node)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_insert)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_node_child_swap( \
+        RCPR_SYM(list_node)* x, RCPR_SYM(resource)** y) { \
+            return RCPR_SYM(list_node_child_swap)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_pop( \
+        RCPR_SYM(list)* x, RCPR_SYM(resource)** y) { \
+            return RCPR_SYM(list_pop)(x,y); } \
+    static inline RCPR_SYM(resource)* sym ## _ ## list_resource_handle( \
+        RCPR_SYM(list)* x) { \
+            return RCPR_SYM(list_resource_handle)(x); } \
+    static inline RCPR_SYM(resource)* sym ## _ ## list_node_resource_handle( \
+        RCPR_SYM(list_node)* x) { \
+            return RCPR_SYM(list_node_resource_handle)(x); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_head( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list)* y) { \
+            return RCPR_SYM(list_head)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_tail( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list)* y) { \
+            return RCPR_SYM(list_tail)(x,y); } \
+    static inline size_t sym ## _ ## list_count( \
+        RCPR_SYM(list)* x) { \
+            return  RCPR_SYM(list_count)(x); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_node_child( \
+        RCPR_SYM(resource)** x, RCPR_SYM(list_node)* y) { \
+            return RCPR_SYM(list_node_child)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_node_next( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list_node)* y) { \
+            return RCPR_SYM(list_node_next)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_node_prev( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list_node)* y) { \
+            return RCPR_SYM(list_node_prev)(x,y); } \
+    static inline bool sym ## _ ## prop_list_valid( \
+        const RCPR_SYM(list)* x) { \
+            return RCPR_SYM(prop_list_valid)(x); } \
+    static inline bool sym ## _ ## prop_list_node_valid( \
+        const RCPR_SYM(list_node)* x) { \
+            return RCPR_SYM(prop_list_node_valid)(x); }
+
+#define RCPR_IMPORT_list \
+    typedef RCPR_SYM(list) list; \
+    typedef RCPR_SYM(list_node) list_node; \
+    static inline status FN_DECL_MUST_CHECK list_create( \
+        RCPR_SYM(list)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(list_create)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK list_insert_head( \
+        RCPR_SYM(list)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_insert_head)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK list_append_tail( \
+        RCPR_SYM(list)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_append_tail)(x, y); } \
+    static inline status FN_DECL_MUST_CHECK list_append( \
+        RCPR_SYM(list_node)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_append)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK list_insert( \
+        RCPR_SYM(list_node)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_insert)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK list_node_child_swap( \
+        RCPR_SYM(list_node)* x, RCPR_SYM(resource)** y) { \
+            return RCPR_SYM(list_node_child_swap)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK list_pop( \
+        RCPR_SYM(list)* x, RCPR_SYM(resource)** y) { \
+            return RCPR_SYM(list_pop)(x,y); } \
+    static inline RCPR_SYM(resource)* list_resource_handle( \
+        RCPR_SYM(list)* x) { \
+            return RCPR_SYM(list_resource_handle)(x); } \
+    static inline RCPR_SYM(resource)* list_node_resource_handle( \
+        RCPR_SYM(list_node)* x) { \
+            return RCPR_SYM(list_node_resource_handle)(x); } \
+    static inline status FN_DECL_MUST_CHECK list_head( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list)* y) { \
+            return RCPR_SYM(list_head)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK list_tail( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list)* y) { \
+            return RCPR_SYM(list_tail)(x,y); } \
+    static inline size_t list_count( \
+        RCPR_SYM(list)* x) { \
+            return  RCPR_SYM(list_count)(x); } \
+    static inline status FN_DECL_MUST_CHECK list_node_child( \
+        RCPR_SYM(resource)** x, RCPR_SYM(list_node)* y) { \
+            return RCPR_SYM(list_node_child)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK list_node_next( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list_node)* y) { \
+            return RCPR_SYM(list_node_next)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK list_node_prev( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list_node)* y) { \
+            return RCPR_SYM(list_node_prev)(x,y); } \
+    static inline bool prop_list_valid( \
+        const RCPR_SYM(list)* x) { \
+            return RCPR_SYM(prop_list_valid)(x); } \
+    static inline bool prop_list_node_valid( \
+        const RCPR_SYM(list_node)* x) { \
+            return RCPR_SYM(prop_list_node_valid)(x); }
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

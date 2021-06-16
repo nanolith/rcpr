@@ -36,8 +36,8 @@
  *      - On failure, \p prev is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_node_prev(
-    list_node** prev, list_node* node)
+RCPR_SYM(list_node_prev)(
+    RCPR_SYM(list_node)** prev, RCPR_SYM(list_node)* node)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != prev);

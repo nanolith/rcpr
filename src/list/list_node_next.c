@@ -35,8 +35,8 @@
  *      - On failure, \p next is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_node_next(
-    list_node** next, list_node* node)
+RCPR_SYM(list_node_next)(
+    RCPR_SYM(list_node)** next, RCPR_SYM(list_node)* node)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != next);

@@ -23,7 +23,9 @@
  *
  * \returns the \ref resource handle for this \ref list instance.
  */
-RCPR_SYM(resource)* list_resource_handle(list* l)
+RCPR_SYM(resource)*
+RCPR_SYM(list_resource_handle)(
+    RCPR_SYM(list)* l)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_list_valid(l));

@@ -21,7 +21,9 @@
  *
  * \returns the number of nodes in the given \ref list.
  */
-size_t list_count(list* l)
+size_t
+RCPR_SYM(list_count)(
+    RCPR_SYM(list)* l)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_list_valid(l));
