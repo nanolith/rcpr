@@ -13,6 +13,7 @@
 
 #include "message_internal.h"
 
+RCPR_IMPORT_fiber;
 RCPR_IMPORT_resource;
 
 /**
@@ -36,8 +37,8 @@ RCPR_IMPORT_resource;
  */
 status FN_DECL_MUST_CHECK
 message_discipline_get_or_create(
-    fiber_scheduler_discipline** msgdisc, RCPR_SYM(allocator)* alloc,
-    fiber_scheduler* sched)
+    RCPR_SYM(fiber_scheduler_discipline)** msgdisc, RCPR_SYM(allocator)* alloc,
+    RCPR_SYM(fiber_scheduler)* sched)
 {
     status retval, release_retval;
     resource* ctx;

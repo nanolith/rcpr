@@ -43,7 +43,7 @@ struct mailbox
 
     RCPR_SYM(allocator)* alloc;
     mailbox_address address;
-    fiber* blocked_fiber;
+    RCPR_SYM(fiber)* blocked_fiber;
     queue* message_queue;
 };
 
@@ -57,7 +57,7 @@ struct message_discipline_context
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(resource) discipline_cache;
-    fiber_scheduler* sched;
+    RCPR_SYM(fiber_scheduler)* sched;
     rbtree* mailboxes;
     uint64_t index;
 };
@@ -89,7 +89,7 @@ status mailbox_resource_create(
  */
 status message_discipline_context_create(
     RCPR_SYM(resource)** ctx, RCPR_SYM(allocator)* alloc,
-    fiber_scheduler* sched);
+    RCPR_SYM(fiber_scheduler)* sched);
 
 /**
  * \brief Override the resource release method for a message discipline.
@@ -103,7 +103,7 @@ status message_discipline_context_create(
  *      - a non-zero error code on failure.
  */
 status message_discipline_set_resource_release(
-    fiber_scheduler_discipline* msgdisc, RCPR_SYM(resource)* context);
+    RCPR_SYM(fiber_scheduler_discipline)* msgdisc, RCPR_SYM(resource)* context);
 
 /**
  * \brief The callback handler for a create mailbox request.
@@ -118,7 +118,8 @@ status message_discipline_set_resource_release(
  *      - a non-zero error code on failure.
  */
 status message_discipline_mailbox_create_callback_handler(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+    void* yield_param);
 
 /**
  * \brief The callback handler for a close mailbox request.
@@ -133,7 +134,8 @@ status message_discipline_mailbox_create_callback_handler(
  *      - a non-zero error code on failure.
  */
 status message_discipline_mailbox_close_callback_handler(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+    void* yield_param);
 
 /**
  * \brief The callback handler for a send message request.
@@ -148,7 +150,8 @@ status message_discipline_mailbox_close_callback_handler(
  *      - a non-zero error code on failure.
  */
 status message_discipline_message_send_callback_handler(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+    void* yield_param);
 
 /**
  * \brief The callback handler for a receive message request.
@@ -163,7 +166,8 @@ status message_discipline_message_send_callback_handler(
  *      - a non-zero error code on failure.
  */
 status message_discipline_message_receive_callback_handler(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+    void* yield_param);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

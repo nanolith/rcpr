@@ -7,10 +7,15 @@
  * distribution for the license terms under which this software is distributed.
  */
 
+#include <rcpr/fiber.h>
 #include <rcpr/model_assert.h>
 #include <string.h>
 
 #include "psock_poll_internal.h"
+
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_resource;
 
 /* forward decls. */
 static status psock_io_poll_context_resource_release(resource* r);
@@ -29,7 +34,8 @@ static status psock_io_poll_context_resource_release(resource* r);
  *      - a non-zero error code on failure.
  */
 status psock_fiber_scheduler_discipline_context_create(
-    resource** context, fiber_scheduler* sched, allocator* alloc)
+    RCPR_SYM(resource)** context, RCPR_SYM(fiber_scheduler)* sched,
+    RCPR_SYM(allocator)* alloc)
 {
     status retval, release_retval;
 

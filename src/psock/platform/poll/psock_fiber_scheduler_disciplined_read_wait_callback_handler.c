@@ -7,9 +7,13 @@
  * distribution for the license terms under which this software is distributed.
  */
 
+#include <rcpr/fiber.h>
 #include <rcpr/model_assert.h>
 
 #include "psock_poll_internal.h"
+
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
 
 /**
  * \brief Callback for read wait events.
@@ -25,7 +29,8 @@
  *        the process aborting.
  */
 status psock_fiber_scheduler_disciplined_read_wait_callback_handler(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param)
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+     void* yield_param)
 {
     status retval;
 

@@ -38,7 +38,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(message_discipline_context);
  */
 status message_discipline_context_create(
     RCPR_SYM(resource)** ctx, RCPR_SYM(allocator)* alloc,
-    fiber_scheduler* sched)
+    RCPR_SYM(fiber_scheduler)* sched)
 {
     message_discipline_context* tmp;
     status retval, release_retval;

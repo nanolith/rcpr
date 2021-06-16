@@ -15,6 +15,8 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_fiber;
+
 /**
  * \brief Block until a read is available.  This is used in conjunction with
  * \ref psock_read_raw in order to read arbitrary length data from a \ref psock

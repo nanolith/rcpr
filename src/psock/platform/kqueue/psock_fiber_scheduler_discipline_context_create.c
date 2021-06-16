@@ -33,7 +33,7 @@ static status psock_io_kqueue_context_resource_release(resource* r);
  *      - a non-zero error code on failure.
  */
 status psock_fiber_scheduler_discipline_context_create(
-    RCPR_SYM(resource)** context, fiber_scheduler* sched,
+    RCPR_SYM(resource)** context, RCPR_SYM(fiber_scheduler)* sched,
     RCPR_SYM(allocator)* alloc)
 {
     status retval, release_retval;

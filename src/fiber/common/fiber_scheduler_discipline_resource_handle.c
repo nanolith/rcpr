@@ -22,8 +22,8 @@
  * \returns the \ref resource handle for this \ref fiber_scheduler_discipline
  *          instance.
  */
-RCPR_SYM(resource)* fiber_scheduler_discipline_resource_handle(
-    fiber_scheduler_discipline* disc)
+RCPR_SYM(resource)* RCPR_SYM(fiber_scheduler_discipline_resource_handle)(
+    RCPR_SYM(fiber_scheduler_discipline)* disc)
 {
     MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
 

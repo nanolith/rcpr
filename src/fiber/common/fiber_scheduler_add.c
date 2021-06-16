@@ -12,6 +12,9 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
+
 /**
  * \brief Add a fiber to the \ref fiber_scheduler.
  *
@@ -38,8 +41,8 @@
  *      - On success, \p sched takes ownership of \p fib.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_add(
-    fiber_scheduler* sched, fiber* fib)
+RCPR_SYM(fiber_scheduler_add)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib)
 {
     status retval;
 

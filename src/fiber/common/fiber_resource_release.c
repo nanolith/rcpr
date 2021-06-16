@@ -13,6 +13,7 @@
 #include "fiber_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
 RCPR_IMPORT_resource;
 
 /**
@@ -24,7 +25,7 @@ RCPR_IMPORT_resource;
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status fiber_resource_release(RCPR_SYM(resource)* r)
+status RCPR_SYM(fiber_resource_release)(RCPR_SYM(resource)* r)
 {
     status stack_retval, retval;
     fiber* fib = (fiber*)r;

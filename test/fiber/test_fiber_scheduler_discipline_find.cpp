@@ -10,6 +10,7 @@
 #include <string.h>
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
 RCPR_IMPORT_resource;
 
 TEST_SUITE(fiber_scheduler_discipline_find);

@@ -36,7 +36,7 @@ struct psock_io_kqueue_context
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(resource) discipline_cache;
-    fiber_scheduler* sched;
+    RCPR_SYM(fiber_scheduler)* sched;
     int kq;
     int inputs;
     struct kevent kevent_inputs[MAX_KEVENT_INPUTS];

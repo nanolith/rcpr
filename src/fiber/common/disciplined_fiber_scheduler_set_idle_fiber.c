@@ -12,6 +12,9 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
+
 /**
  * \brief Set the following fiber as the idle fiber.
  *
@@ -36,8 +39,8 @@
  *      - On success, the scheduler will set the given fiber as its idle fiber.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_set_idle_fiber(
-    fiber_scheduler* sched, fiber* fib)
+RCPR_SYM(disciplined_fiber_scheduler_set_idle_fiber)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib)
 {
     fiber_scheduler_disciplined_context* ctx = NULL;
 

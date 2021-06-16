@@ -12,6 +12,7 @@
 using namespace std;
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
 RCPR_IMPORT_resource;
 
 TEST_SUITE(fiber_simple_coroutine);

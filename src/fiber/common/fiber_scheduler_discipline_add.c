@@ -13,6 +13,8 @@
 #include "fiber_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
 RCPR_IMPORT_resource;
 
 /**
@@ -46,8 +48,9 @@ RCPR_IMPORT_resource;
  *      - On success, \p sched takes ownership of \p disc.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_discipline_add(
-    fiber_scheduler* sched, fiber_scheduler_discipline* disc)
+RCPR_SYM(fiber_scheduler_discipline_add)(
+    RCPR_SYM(fiber_scheduler)* sched,
+    RCPR_SYM(fiber_scheduler_discipline)* disc)
 {
     status retval;
     fiber_scheduler_disciplined_context* ctx = NULL;

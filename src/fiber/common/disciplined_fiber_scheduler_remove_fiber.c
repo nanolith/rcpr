@@ -12,6 +12,8 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
 RCPR_IMPORT_resource;
 
 /**
@@ -37,8 +39,8 @@ RCPR_IMPORT_resource;
  *      - On success, the fiber's ownership is transferred to the caller.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_remove_fiber(
-    fiber_scheduler* sched, fiber* fib)
+RCPR_SYM(disciplined_fiber_scheduler_remove_fiber)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib)
 {
     fiber_scheduler_disciplined_context* ctx = NULL;
     resource* tmp = NULL;

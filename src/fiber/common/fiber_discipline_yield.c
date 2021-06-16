@@ -12,6 +12,8 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+
 /**
  * \brief Yield to the fiber scheduler through the discipline.
  *
@@ -45,9 +47,10 @@
  *        this function.
  */
 status FN_DECL_MUST_CHECK
-fiber_discipline_yield(
-    fiber_scheduler_discipline* disc, int yield_event, void* yield_param,
-    const rcpr_uuid** resume_id, int* resume_event, void** resume_param)
+RCPR_SYM(fiber_discipline_yield)(
+    RCPR_SYM(fiber_scheduler_discipline)* disc, int yield_event,
+    void* yield_param, const rcpr_uuid** resume_id, int* resume_event,
+    void** resume_param)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));

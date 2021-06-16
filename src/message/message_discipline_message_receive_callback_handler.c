@@ -12,6 +12,7 @@
 
 #include "message_internal.h"
 
+RCPR_IMPORT_fiber;
 RCPR_IMPORT_resource;
 
 /**
@@ -27,7 +28,8 @@ RCPR_IMPORT_resource;
  *      - a non-zero error code on failure.
  */
 status message_discipline_message_receive_callback_handler(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param)
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+    void* yield_param)
 {
     status retval;
     mailbox* mbox;

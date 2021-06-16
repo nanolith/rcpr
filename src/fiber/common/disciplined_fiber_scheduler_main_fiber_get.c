@@ -12,6 +12,9 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
+
 /**
  * \brief Get the main fiber from the disciplined scheduler.
  *
@@ -34,8 +37,8 @@
  *      - On success, \p fib is updated to point to the main fiber.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_main_fiber_get(
-    fiber** fib, fiber_scheduler* sched)
+RCPR_SYM(disciplined_fiber_scheduler_main_fiber_get)(
+    RCPR_SYM(fiber)** fib, RCPR_SYM(fiber_scheduler)* sched)
 {
     fiber_scheduler_disciplined_context* ctx = NULL;
 

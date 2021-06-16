@@ -12,6 +12,8 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
 RCPR_IMPORT_resource;
 
 /**
@@ -41,9 +43,9 @@ RCPR_IMPORT_resource;
  *        fiber_scheduler_discipline instance owned by the scheduler.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_discipline_find(
-    fiber_scheduler_discipline** disc, fiber_scheduler* sched,
-    const rcpr_uuid* id)
+RCPR_SYM(fiber_scheduler_discipline_find)(
+    RCPR_SYM(fiber_scheduler_discipline)** disc,
+    RCPR_SYM(fiber_scheduler)* sched, const rcpr_uuid* id)
 {
     status retval;
     fiber_scheduler_disciplined_context* ctx = NULL;

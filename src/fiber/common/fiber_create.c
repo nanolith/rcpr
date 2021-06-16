@@ -13,6 +13,8 @@
 #include "fiber_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -60,8 +62,9 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber);
  *      - On failure, \p fib is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-fiber_create(
-    fiber** fib, RCPR_SYM(allocator)* a, fiber_scheduler* sched,
+RCPR_SYM(fiber_create)(
+    RCPR_SYM(fiber)** fib, RCPR_SYM(allocator)* a,
+    RCPR_SYM(fiber_scheduler)* sched,
     size_t stack_size, void* context, fiber_fn fn)
 {
     fiber* tmp;

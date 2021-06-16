@@ -25,20 +25,21 @@ extern "C" {
  * \brief The fiber abstraction provides a way to capture execution so it can be
  * suspended and resumed based on yielding and scheduling events.
  */
-typedef struct fiber fiber;
+typedef struct RCPR_SYM(fiber) RCPR_SYM(fiber);
 
 /**
  * \brief A fiber scheduler decides which fiber to execute next on a given
  * thread of execution, by sending and receiving events to and from fiber
  * instances.
  */
-typedef struct fiber_scheduler fiber_scheduler;
+typedef struct RCPR_SYM(fiber_scheduler) RCPR_SYM(fiber_scheduler);
 
 /**
  * \brief A fiber scheduler discipline manages an API subset for both fibers and
  * the scheduler.
  */
-typedef struct fiber_scheduler_discipline fiber_scheduler_discipline;
+typedef struct RCPR_SYM(fiber_scheduler_discipline)
+RCPR_SYM(fiber_scheduler_discipline);
 
 /**
  * \brief The default yield events supported by the scheduler.
@@ -87,7 +88,7 @@ enum fiber_scheduler_resume_events
  * \returns a status code indicating success or failure when this fiber
  * terminates.
  */
-typedef status (*fiber_fn)(void* context);
+typedef status (*RCPR_SYM(fiber_fn))(void* context);
 
 /**
  * \brief A fiber scheduler callback function.
@@ -149,10 +150,10 @@ typedef status (*fiber_fn)(void* context);
  *      - any other non-zero status code will result in thread termination and
  *        the process aborting.
  */
-typedef status (*fiber_scheduler_callback_fn)(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param,
-    fiber** resume_fib, const rcpr_uuid** restore_disc_id, int *resume_event,
-    void** resume_param);
+typedef status (*RCPR_SYM(fiber_scheduler_callback_fn))(
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+    void* yield_param, RCPR_SYM(fiber)** resume_fib,
+    const rcpr_uuid** restore_disc_id, int *resume_event, void** resume_param);
 
 /**
  * \brief A disciplined fiber scheduler callback function.
@@ -172,8 +173,9 @@ typedef status (*fiber_scheduler_callback_fn)(
  *      - any other non-zero status code will result in thread termination and
  *        the process aborting.
  */
-typedef status (*fiber_scheduler_discipline_callback_fn)(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+typedef status (*RCPR_SYM(fiber_scheduler_discipline_callback_fn))(
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+    void* yield_param);
 
 /**
  * \brief An unexpected event fiber callback function.
@@ -200,7 +202,7 @@ typedef status (*fiber_scheduler_discipline_callback_fn)(
  *      - any other non-zero status code will be passed to the caller as an
  *        error code from the yielding function.
  */
-typedef status (*fiber_unexpected_event_callback_fn)(
+typedef status (*RCPR_SYM(fiber_unexpected_event_callback_fn))(
     void* context, const rcpr_uuid* resume_disc_id, int resume_event,
     void* resume_param);
 
@@ -250,9 +252,10 @@ typedef status (*fiber_unexpected_event_callback_fn)(
  *      - On failure, \p fib is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-fiber_create(
-    fiber** fib, RCPR_SYM(allocator)* a, fiber_scheduler* sched,
-    size_t stack_size, void* context, fiber_fn fn);
+RCPR_SYM(fiber_create)(
+    RCPR_SYM(fiber)** fib, RCPR_SYM(allocator)* a,
+    RCPR_SYM(fiber_scheduler)* sched, size_t stack_size, void* context,
+    RCPR_SYM(fiber_fn) fn);
 
 /**
  * \brief Create a \ref fiber instance for the main thread.
@@ -288,8 +291,8 @@ fiber_create(
  *      - On failure, \p fib is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-fiber_create_for_thread(
-    fiber** fib, RCPR_SYM(allocator)* a);
+RCPR_SYM(fiber_create_for_thread)(
+    RCPR_SYM(fiber)** fib, RCPR_SYM(allocator)* a);
 
 /**
  * \brief Create a \ref fiber_scheduler instance.
@@ -330,9 +333,9 @@ fiber_create_for_thread(
  *      - On failure, \p sched is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_create(
-    fiber_scheduler** sched, RCPR_SYM(allocator)* a, void* context,
-    fiber_scheduler_callback_fn fn);
+RCPR_SYM(fiber_scheduler_create)(
+    RCPR_SYM(fiber_scheduler)** sched, RCPR_SYM(allocator)* a, void* context,
+    RCPR_SYM(fiber_scheduler_callback_fn) fn);
 
 /**
  * \brief Create a disciplined \ref fiber_scheduler instance.
@@ -387,8 +390,8 @@ fiber_scheduler_create(
  *      - On failure, \p sched is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_create_with_disciplines(
-    fiber_scheduler** sched, RCPR_SYM(allocator)* a);
+RCPR_SYM(fiber_scheduler_create_with_disciplines)(
+    RCPR_SYM(fiber_scheduler)** sched, RCPR_SYM(allocator)* a);
 
 /**
  * \brief Create a custom fiber scheduler discipline.
@@ -431,10 +434,10 @@ fiber_scheduler_create_with_disciplines(
  *      - On failure, \p sched is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_discipline_create(
-    fiber_scheduler_discipline** disc, const rcpr_uuid* id,
+RCPR_SYM(fiber_scheduler_discipline_create)(
+    RCPR_SYM(fiber_scheduler_discipline)** disc, const rcpr_uuid* id,
     RCPR_SYM(allocator)* alloc, void* context, size_t callbacks,
-    fiber_scheduler_discipline_callback_fn* callback_vector);
+    RCPR_SYM(fiber_scheduler_discipline_callback_fn)* callback_vector);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -466,8 +469,8 @@ fiber_scheduler_discipline_create(
  *      - On success, \p sched takes ownership of \p fib.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_add(
-    fiber_scheduler* sched, fiber* fib);
+RCPR_SYM(fiber_scheduler_add)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib);
 
 /**
  * \brief Add a fiber scheduler discipline to the \ref fiber_scheduler.
@@ -500,8 +503,9 @@ fiber_scheduler_add(
  *      - On success, \p sched takes ownership of \p disc.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_discipline_add(
-    fiber_scheduler* sched, fiber_scheduler_discipline* disc);
+RCPR_SYM(fiber_scheduler_discipline_add)(
+    RCPR_SYM(fiber_scheduler)* sched,
+    RCPR_SYM(fiber_scheduler_discipline)* disc);
 
 /**
  * \brief Find a fiber scheduler discipline in the \ref fiber_scheduler.
@@ -530,9 +534,9 @@ fiber_scheduler_discipline_add(
  *        fiber_scheduler_discipline instance owned by the scheduler.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_discipline_find(
-    fiber_scheduler_discipline** disc, fiber_scheduler* sched,
-    const rcpr_uuid* id);
+RCPR_SYM(fiber_scheduler_discipline_find)(
+    RCPR_SYM(fiber_scheduler_discipline)** disc,
+    RCPR_SYM(fiber_scheduler)* sched, const rcpr_uuid* id);
 
 /**
  * \brief Run the fiber scheduler.
@@ -568,8 +572,8 @@ fiber_scheduler_discipline_find(
  *        exit with either a success or failure return code.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_run(
-    fiber_scheduler* sched);
+RCPR_SYM(fiber_scheduler_run)(
+    RCPR_SYM(fiber_scheduler)* sched);
 
 /**
  * \brief Yield to the fiber scheduler.
@@ -605,8 +609,8 @@ fiber_scheduler_run(
  *        determines that it should restart.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_yield(
-    fiber_scheduler* sched, int yield_event, void* yield_param,
+RCPR_SYM(fiber_scheduler_yield)(
+    RCPR_SYM(fiber_scheduler)* sched, int yield_event, void* yield_param,
     const rcpr_uuid** resume_disc_id, int* resume_event, void** resume_param);
 
 /**
@@ -642,9 +646,10 @@ fiber_scheduler_yield(
  *        this function.
  */
 status FN_DECL_MUST_CHECK
-fiber_discipline_yield(
-    fiber_scheduler_discipline* disc, int yield_event, void* yield_param,
-    const rcpr_uuid** resume_id, int* resume_event, void** resume_param);
+RCPR_SYM(fiber_discipline_yield)(
+    RCPR_SYM(fiber_scheduler_discipline)* disc, int yield_event,
+    void* yield_param, const rcpr_uuid** resume_id, int* resume_event,
+    void** resume_param);
 
 /**
  * \brief Add an unexpected event handler to a given fiber instance.
@@ -666,8 +671,8 @@ fiber_discipline_yield(
  *        received by participating yielding functions.
  */
 status FN_DECL_MUST_CHECK
-fiber_unexpected_event_callback_add(
-    fiber* fib, fiber_unexpected_event_callback_fn fn);
+RCPR_SYM(fiber_unexpected_event_callback_add)(
+    RCPR_SYM(fiber)* fib, RCPR_SYM(fiber_unexpected_event_callback_fn) fn);
 
 /******************************************************************************/
 /* Start of protected methods.                                                */
@@ -701,9 +706,9 @@ fiber_unexpected_event_callback_add(
  *      - On success, the scheduler will add the given fiber to its run queue.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_add_fiber_to_run_queue(
-    fiber_scheduler* sched, fiber* fib, const rcpr_uuid* resume_id,
-    int resume_event, void* resume_param);
+RCPR_SYM(disciplined_fiber_scheduler_add_fiber_to_run_queue)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib,
+    const rcpr_uuid* resume_id, int resume_event, void* resume_param);
 
 /**
  * \brief Mark the given \ref fiber as runnable, making it the next fiber to
@@ -732,9 +737,9 @@ disciplined_fiber_scheduler_add_fiber_to_run_queue(
  *      - On success, the scheduler will add the given fiber to its run queue.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_set_next_fiber_to_run(
-    fiber_scheduler* sched, fiber* fib, const rcpr_uuid* resume_id,
-    int resume_event, void* resume_param);
+RCPR_SYM(disciplined_fiber_scheduler_set_next_fiber_to_run)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib,
+    const rcpr_uuid* resume_id, int resume_event, void* resume_param);
 
 /**
  * \brief Set the following fiber as the idle fiber.
@@ -760,8 +765,8 @@ disciplined_fiber_scheduler_set_next_fiber_to_run(
  *      - On success, the scheduler will set the given fiber as its idle fiber.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_set_idle_fiber(
-    fiber_scheduler* sched, fiber* fib);
+RCPR_SYM(disciplined_fiber_scheduler_set_idle_fiber)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib);
 
 /**
  * \brief Suspend this idle fiber until the scheduler idles again.
@@ -781,8 +786,8 @@ disciplined_fiber_scheduler_set_idle_fiber(
  *        to an out-of-bound event.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_idle_fiber_yield(
-    fiber_scheduler* sched);
+RCPR_SYM(disciplined_fiber_scheduler_idle_fiber_yield)(
+    RCPR_SYM(fiber_scheduler)* sched);
 
 /**
  * \brief Suspend this fiber until a management event is received from the
@@ -809,8 +814,8 @@ disciplined_fiber_scheduler_idle_fiber_yield(
  *      - \p resume_param is set to the management event parameter.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_receive_management_event(
-    fiber_scheduler* sched, const rcpr_uuid** resume_id,
+RCPR_SYM(disciplined_fiber_scheduler_receive_management_event)(
+    RCPR_SYM(fiber_scheduler)* sched, const rcpr_uuid** resume_id,
     int* resume_event, void** resume_param);
 
 /**
@@ -836,8 +841,8 @@ disciplined_fiber_scheduler_receive_management_event(
  *      - On success, the fiber's ownership is transferred to the caller.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_remove_fiber(
-    fiber_scheduler* sched, fiber* fib);
+RCPR_SYM(disciplined_fiber_scheduler_remove_fiber)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib);
 
 /**
  * \brief Get the main fiber from the disciplined scheduler.
@@ -861,8 +866,8 @@ disciplined_fiber_scheduler_remove_fiber(
  *      - On success, \p fib is updated to point to the main fiber.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_main_fiber_get(
-    fiber** fib, fiber_scheduler* sched);
+RCPR_SYM(disciplined_fiber_scheduler_main_fiber_get)(
+    RCPR_SYM(fiber)** fib, RCPR_SYM(fiber_scheduler)* sched);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -878,7 +883,7 @@ disciplined_fiber_scheduler_main_fiber_get(
  * \returns the \ref resource handle for this \ref fiber instance.
  */
 RCPR_SYM(resource)*
-fiber_resource_handle(fiber* fib);
+RCPR_SYM(fiber_resource_handle)(RCPR_SYM(fiber)* fib);
 
 /**
  * \brief Given a \ref fiber_scheduler instance, return the resource handle for
@@ -890,7 +895,7 @@ fiber_resource_handle(fiber* fib);
  * \returns the \ref resource handle for this \ref fiber_scheduler instance.
  */
 RCPR_SYM(resource)*
-fiber_scheduler_resource_handle(fiber_scheduler* sched);
+RCPR_SYM(fiber_scheduler_resource_handle)(RCPR_SYM(fiber_scheduler)* sched);
 
 /**
  * \brief Given a \ref fiber_scheduler_discipline instance, return the resource
@@ -903,8 +908,8 @@ fiber_scheduler_resource_handle(fiber_scheduler* sched);
  *          instance.
  */
 RCPR_SYM(resource)*
-fiber_scheduler_discipline_resource_handle(
-    fiber_scheduler_discipline* disc);
+RCPR_SYM(fiber_scheduler_discipline_resource_handle)(
+    RCPR_SYM(fiber_scheduler_discipline)* disc);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
@@ -917,7 +922,7 @@ fiber_scheduler_discipline_resource_handle(
  *
  * \returns true if the \ref fiber instance is valid.
  */
-bool prop_fiber_valid(const fiber* fib);
+bool RCPR_SYM(prop_fiber_valid)(const RCPR_SYM(fiber)* fib);
 
 /**
  * \brief Valid \ref fiber_scheduler property.
@@ -926,7 +931,247 @@ bool prop_fiber_valid(const fiber* fib);
  *
  * \returns true if the \ref fiber_scheduler instance is valid.
  */
-bool prop_fiber_scheduler_valid(const fiber_scheduler* sched);
+bool RCPR_SYM(prop_fiber_scheduler_valid)(
+    const RCPR_SYM(fiber_scheduler)* sched);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_fiber_as(sym) \
+    typedef RCPR_SYM(fiber) sym ## _ ## fiber; \
+    typedef RCPR_SYM(fiber_scheduler) sym ## _ ## fiber_scheduler; \
+    typedef RCPR_SYM(fiber_scheduler_discipline) \
+    sym ## _ ## fiber_scheduler_discipline; \
+    typedef RCPR_SYM(fiber_fn) sym ## _ ## fiber_fn; \
+    typedef RCPR_SYM(fiber_scheduler_callback_fn) \
+    sym ## _ ## fiber_scheduler_callback_fn; \
+    typedef RCPR_SYM(fiber_scheduler_discipline_callback_fn) \
+        sym ## _ ## fiber_scheduler_discipline_callback_fn; \
+    typedef RCPR_SYM(fiber_unexpected_event_callback_fn) \
+        sym ## _ ## fiber_unexpected_event_callback_fn; \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## fiber_create( \
+        RCPR_SYM(fiber)** u, RCPR_SYM(allocator)* v, \
+        RCPR_SYM(fiber_scheduler)* w, size_t x, void* y, \
+        RCPR_SYM(fiber_fn) z) { \
+            return RCPR_SYM(fiber_create)(u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_create_for_thread( \
+        RCPR_SYM(fiber)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(fiber_create_for_thread)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_scheduler_create( \
+        RCPR_SYM(fiber_scheduler)** w, RCPR_SYM(allocator)* x, void* y, \
+        RCPR_SYM(fiber_scheduler_callback_fn) z) { \
+            return RCPR_SYM(fiber_scheduler_create)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_scheduler_create_with_disciplines( \
+        RCPR_SYM(fiber_scheduler)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(fiber_scheduler_create_with_disciplines)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_scheduler_discipline_create( \
+        RCPR_SYM(fiber_scheduler_discipline)** u, const rcpr_uuid* v, \
+        RCPR_SYM(allocator)* w, void* x, size_t y, \
+        RCPR_SYM(fiber_scheduler_discipline_callback_fn)* z) { \
+            return RCPR_SYM(fiber_scheduler_discipline_create)(u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_scheduler_add( \
+        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
+            return RCPR_SYM(fiber_scheduler_add)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_scheduler_discipline_add( \
+        RCPR_SYM(fiber_scheduler)* x, \
+        RCPR_SYM(fiber_scheduler_discipline)* y) { \
+            return RCPR_SYM(fiber_scheduler_discipline_add)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_scheduler_discipline_find( \
+        RCPR_SYM(fiber_scheduler_discipline)** x, \
+        RCPR_SYM(fiber_scheduler)* y, const rcpr_uuid* z) { \
+            return RCPR_SYM(fiber_scheduler_discipline_find(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_scheduler_run( \
+        RCPR_SYM(fiber_scheduler)* x) { \
+            return RCPR_SYM(fiber_scheduler_run)(x); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_scheduler_yield( \
+        RCPR_SYM(fiber_scheduler)* u, int v, void* w, const rcpr_uuid** x, \
+        int* y, void** z) { \
+            return RCPR_SYM(fiber_scheduler_yield)(u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_discipline_yield( \
+        RCPR_SYM(fiber_scheduler_discipline)* u, int v, void* w, \
+        const rcpr_uuid** x, int* y, void** z) { \
+            return RCPR_SYM(fiber_discipline_yield)(u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_unexpected_event_callback_add( \
+        RCPR_SYM(fiber)* x, RCPR_SYM(fiber_unexpected_event_callback_fn) y) { \
+            return RCPR_SYM(fiber_unexpected_event_callback_add)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## disciplined_fiber_scheduler_add_fiber_to_run_queue( \
+        RCPR_SYM(fiber_scheduler)* v, RCPR_SYM(fiber)* w, const rcpr_uuid* x, \
+        int y, void* z) { \
+            return \
+                RCPR_SYM(disciplined_fiber_scheduler_add_fiber_to_run_queue)( \
+                    v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## disciplined_fiber_scheduler_set_next_fiber_to_run( \
+        RCPR_SYM(fiber_scheduler)* v, RCPR_SYM(fiber)* w, const rcpr_uuid* x, \
+        int y, void* z) { \
+            return \
+                RCPR_SYM(disciplined_fiber_scheduler_set_next_fiber_to_run)( \
+                    v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## disciplined_fiber_scheduler_set_idle_fiber( \
+        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
+            return \
+                RCPR_SYM(disciplined_fiber_scheduler_set_idle_fiber)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## disciplined_fiber_scheduler_idle_fiber_yield( \
+        RCPR_SYM(fiber_scheduler)* x) { \
+            return \
+                RCPR_SYM(disciplined_fiber_scheduler_idle_fiber_yield)(x); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## disciplined_fiber_scheduler_receive_management_event( \
+        RCPR_SYM(fiber_scheduler)* w, const rcpr_uuid** x, int* y, void** z) { \
+            return \
+                RCPR_SYM(disciplined_fiber_scheduler_receive_management_event)(\
+                    w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## disciplined_fiber_scheduler_remove_fiber( \
+        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
+            return RCPR_SYM(disciplined_fiber_scheduler_remove_fiber)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## disciplined_fiber_scheduler_main_fiber_get( \
+        RCPR_SYM(fiber)** x, RCPR_SYM(fiber_scheduler)* y) { \
+            return RCPR_SYM(disciplined_fiber_scheduler_main_fiber_get)(x,y); }\
+    static inline RCPR_SYM(resource)* sym ## _ ## fiber_resource_handle( \
+        RCPR_SYM(fiber)* x) { \
+            return RCPR_SYM(fiber_resource_handle)(x); } \
+    static inline RCPR_SYM(resource)* \
+    sym ## _ ## fiber_scheduler_resource_handle( \
+        RCPR_SYM(fiber_scheduler)* x) { \
+            return RCPR_SYM(fiber_scheduler_resource_handle)(x); } \
+    static inline RCPR_SYM(resource)* \
+    sym ## _ ## fiber_scheduler_discipline_resource_handle( \
+        RCPR_SYM(fiber_scheduler_discipline)* x) { \
+            return RCPR_SYM(fiber_scheduler_discipline_resource_handle)(x); } \
+    static inline bool sym ## _ ## prop_fiber_valid( \
+        const RCPR_SYM(fiber)* x) { \
+            return RCPR_SYM(prop_fiber_valid)(x); } \
+    static inline bool sym ## _ ## prop_fiber_scheduler_valid( \
+        const RCPR_SYM(fiber_scheduler)* x) { \
+            return RCPR_SYM(prop_fiber_scheduler_valid)(x); }
+
+#define RCPR_IMPORT_fiber \
+    typedef RCPR_SYM(fiber) fiber; \
+    typedef RCPR_SYM(fiber_scheduler) fiber_scheduler; \
+    typedef RCPR_SYM(fiber_scheduler_discipline) fiber_scheduler_discipline; \
+    typedef RCPR_SYM(fiber_fn) fiber_fn; \
+    typedef RCPR_SYM(fiber_scheduler_callback_fn) fiber_scheduler_callback_fn; \
+    typedef RCPR_SYM(fiber_scheduler_discipline_callback_fn) \
+        fiber_scheduler_discipline_callback_fn; \
+    typedef RCPR_SYM(fiber_unexpected_event_callback_fn) \
+        fiber_unexpected_event_callback_fn; \
+    static inline status FN_DECL_MUST_CHECK fiber_create( \
+        RCPR_SYM(fiber)** u, RCPR_SYM(allocator)* v, \
+        RCPR_SYM(fiber_scheduler)* w, size_t x, void* y, \
+        RCPR_SYM(fiber_fn) z) { \
+            return RCPR_SYM(fiber_create)(u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK fiber_create_for_thread( \
+        RCPR_SYM(fiber)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(fiber_create_for_thread)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK fiber_scheduler_create( \
+        RCPR_SYM(fiber_scheduler)** w, RCPR_SYM(allocator)* x, void* y, \
+        RCPR_SYM(fiber_scheduler_callback_fn) z) { \
+            return RCPR_SYM(fiber_scheduler_create)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    fiber_scheduler_create_with_disciplines( \
+        RCPR_SYM(fiber_scheduler)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(fiber_scheduler_create_with_disciplines)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK fiber_scheduler_discipline_create( \
+        RCPR_SYM(fiber_scheduler_discipline)** u, const rcpr_uuid* v, \
+        RCPR_SYM(allocator)* w, void* x, size_t y, \
+        RCPR_SYM(fiber_scheduler_discipline_callback_fn)* z) { \
+            return RCPR_SYM(fiber_scheduler_discipline_create)(u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK fiber_scheduler_add( \
+        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
+            return RCPR_SYM(fiber_scheduler_add)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK fiber_scheduler_discipline_add( \
+        RCPR_SYM(fiber_scheduler)* x, \
+        RCPR_SYM(fiber_scheduler_discipline)* y) { \
+            return RCPR_SYM(fiber_scheduler_discipline_add)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK fiber_scheduler_discipline_find( \
+        RCPR_SYM(fiber_scheduler_discipline)** x, \
+        RCPR_SYM(fiber_scheduler)* y, const rcpr_uuid* z) { \
+            return RCPR_SYM(fiber_scheduler_discipline_find)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK fiber_scheduler_run( \
+        RCPR_SYM(fiber_scheduler)* x) { \
+            return RCPR_SYM(fiber_scheduler_run)(x); } \
+    static inline status FN_DECL_MUST_CHECK fiber_scheduler_yield( \
+        RCPR_SYM(fiber_scheduler)* u, int v, void* w, const rcpr_uuid** x, \
+        int* y, void** z) { \
+            return RCPR_SYM(fiber_scheduler_yield)(u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK fiber_discipline_yield( \
+        RCPR_SYM(fiber_scheduler_discipline)* u, int v, void* w, \
+        const rcpr_uuid** x, int* y, void** z) { \
+            return RCPR_SYM(fiber_discipline_yield)(u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    fiber_unexpected_event_callback_add( \
+        RCPR_SYM(fiber)* x, RCPR_SYM(fiber_unexpected_event_callback_fn) y) { \
+            return RCPR_SYM(fiber_unexpected_event_callback_add)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    disciplined_fiber_scheduler_add_fiber_to_run_queue( \
+        RCPR_SYM(fiber_scheduler)* v, RCPR_SYM(fiber)* w, const rcpr_uuid* x, \
+        int y, void* z) { \
+            return \
+                RCPR_SYM(disciplined_fiber_scheduler_add_fiber_to_run_queue)( \
+                    v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    disciplined_fiber_scheduler_set_next_fiber_to_run( \
+        RCPR_SYM(fiber_scheduler)* v, RCPR_SYM(fiber)* w, const rcpr_uuid* x, \
+        int y, void* z) { \
+            return \
+                RCPR_SYM(disciplined_fiber_scheduler_set_next_fiber_to_run)( \
+                    v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    disciplined_fiber_scheduler_set_idle_fiber( \
+        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
+            return \
+                RCPR_SYM(disciplined_fiber_scheduler_set_idle_fiber)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    disciplined_fiber_scheduler_idle_fiber_yield( \
+        RCPR_SYM(fiber_scheduler)* x) { \
+            return \
+                RCPR_SYM(disciplined_fiber_scheduler_idle_fiber_yield)(x); } \
+    static inline status FN_DECL_MUST_CHECK \
+    disciplined_fiber_scheduler_receive_management_event( \
+        RCPR_SYM(fiber_scheduler)* w, const rcpr_uuid** x, int* y, void** z) { \
+            return \
+                RCPR_SYM(disciplined_fiber_scheduler_receive_management_event)(\
+                    w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    disciplined_fiber_scheduler_remove_fiber( \
+        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
+            return RCPR_SYM(disciplined_fiber_scheduler_remove_fiber)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    disciplined_fiber_scheduler_main_fiber_get( \
+        RCPR_SYM(fiber)** x, RCPR_SYM(fiber_scheduler)* y) { \
+            return RCPR_SYM(disciplined_fiber_scheduler_main_fiber_get)(x,y); }\
+    static inline RCPR_SYM(resource)* fiber_resource_handle( \
+        RCPR_SYM(fiber)* x) { \
+            return RCPR_SYM(fiber_resource_handle)(x); } \
+    static inline RCPR_SYM(resource)* fiber_scheduler_resource_handle( \
+        RCPR_SYM(fiber_scheduler)* x) { \
+            return RCPR_SYM(fiber_scheduler_resource_handle)(x); } \
+    static inline RCPR_SYM(resource)* \
+    fiber_scheduler_discipline_resource_handle( \
+        RCPR_SYM(fiber_scheduler_discipline)* x) { \
+            return RCPR_SYM(fiber_scheduler_discipline_resource_handle)(x); } \
+    static inline bool prop_fiber_valid( \
+        const RCPR_SYM(fiber)* x) { \
+            return RCPR_SYM(prop_fiber_valid)(x); } \
+    static inline bool prop_fiber_scheduler_valid( \
+        const RCPR_SYM(fiber_scheduler)* x) { \
+            return RCPR_SYM(prop_fiber_scheduler_valid)(x); }
 
 /* C++ compatibility. */
 # ifdef    __cplusplus

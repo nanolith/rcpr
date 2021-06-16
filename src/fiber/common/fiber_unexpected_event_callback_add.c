@@ -32,8 +32,8 @@
  *        received by participating yielding functions.
  */
 status FN_DECL_MUST_CHECK
-fiber_unexpected_event_callback_add(
-    fiber* fib, fiber_unexpected_event_callback_fn fn)
+RCPR_SYM(fiber_unexpected_event_callback_add)(
+    RCPR_SYM(fiber)* fib, RCPR_SYM(fiber_unexpected_event_callback_fn) fn)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_fiber_valid(fib));
