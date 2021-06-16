@@ -24,7 +24,7 @@ extern "C" {
 /**
  * \brief The bigint type represents a large fixed point integer value.
  */
-typedef struct bigint bigint;
+typedef struct RCPR_SYM(bigint) RCPR_SYM(bigint);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
@@ -65,8 +65,8 @@ typedef struct bigint bigint;
  *      - On failure, \p i is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-bigint_create_zero(
-    bigint** i, RCPR_SYM(allocator)* a, size_t size);
+RCPR_SYM(bigint_create_zero)(
+    RCPR_SYM(bigint)** i, RCPR_SYM(allocator)* a, size_t size);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -102,8 +102,8 @@ bigint_create_zero(
  *      - On failure, \p i is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-bigint_clone(
-    bigint** i, RCPR_SYM(allocator)* a, const bigint* j);
+RCPR_SYM(bigint_clone)(
+    RCPR_SYM(bigint)** i, RCPR_SYM(allocator)* a, const RCPR_SYM(bigint)* j);
 
 /**
  * \brief Get the modulus of a bigint using an integer divisor.
@@ -113,7 +113,7 @@ bigint_clone(
  *
  * \returns the integer result of this operation.
  */
-int bigint_modulus_int(const bigint* i, int d);
+int RCPR_SYM(bigint_modulus_int)(const RCPR_SYM(bigint)* i, int d);
 
 /**
  * \brief Divide the bigint value by the given integer value.
@@ -121,7 +121,7 @@ int bigint_modulus_int(const bigint* i, int d);
  * \param i         The \ref bigint value to divide.
  * \param d         The integer divisor.
  */
-void bigint_divide_int(bigint* i, int d);
+void RCPR_SYM(bigint_divide_int)(RCPR_SYM(bigint)* i, int d);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -136,7 +136,8 @@ void bigint_divide_int(bigint* i, int d);
  *
  * \returns the \ref resource handle for this \ref bigint instance.
  */
-RCPR_SYM(resource)* bigint_resource_handle(bigint* i);
+RCPR_SYM(resource)*
+RCPR_SYM(bigint_resource_handle)(RCPR_SYM(bigint)* i);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
@@ -149,7 +150,51 @@ RCPR_SYM(resource)* bigint_resource_handle(bigint* i);
  *
  * \returns true if the \ref bigint instance is valid.
  */
-bool prop_bigint_valid(const bigint* i);
+bool RCPR_SYM(prop_bigint_valid)(const RCPR_SYM(bigint)* i);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+
+#define RCPR_IMPORT_bigint_as(sym) \
+    typedef RCPR_SYM(bigint) sym ## _ ## bigint; \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## bigint_create_zero( \
+        bigint** x, RCPR_SYM(allocator)* y, size_t z) { \
+            return RCPR_SYM(bigint_create_zero)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## bigint_clone( \
+        bigint** x, RCPR_SYM(allocator)* y, const bigint* z) { \
+            return RCPR_SYM(bigint_clone)(x,y,z); } \
+    static inline int sym ## _ ## bigint_modulus_int( \
+        bigint* x, int y) { \
+            return RCPR_SYM(bigint_modulus_int)(x,y); } \
+    static inline void sym ## _ ## bigint_divide_int( \
+        bigint* x, int y) { \
+            return RCPR_SYM(bigint_divide_int)(x,y); } \
+    static inline RCPR_SYM(resource*) sym ## _ ## bigint_resource_handle( \
+        bigint* x) { \
+            return RCPR_SYM(bigint_resource_handle)(x); } \
+    static inline bool sym ## _ ## prop_bigint_valid(const bigint* x) { \
+            return RCPR_SYM(prop_bigint_valid(x)); }
+
+#define RCPR_IMPORT_bigint \
+    typedef RCPR_SYM(bigint) bigint; \
+    static inline status FN_DECL_MUST_CHECK bigint_create_zero( \
+        bigint** x, RCPR_SYM(allocator)* y, size_t z) { \
+            return RCPR_SYM(bigint_create_zero)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK bigint_clone( \
+        bigint** x, RCPR_SYM(allocator)* y, const bigint* z) { \
+            return RCPR_SYM(bigint_clone)(x,y,z); } \
+    static inline int bigint_modulus_int( \
+        bigint* x, int y) { \
+            return RCPR_SYM(bigint_modulus_int)(x,y); } \
+    static inline void bigint_divide_int( \
+        bigint* x, int y) { \
+            return RCPR_SYM(bigint_divide_int)(x,y); } \
+    static inline RCPR_SYM(resource*) bigint_resource_handle( \
+        bigint* x) { \
+            return RCPR_SYM(bigint_resource_handle)(x); } \
+    static inline bool prop_bigint_valid(const bigint* x) { \
+            return RCPR_SYM(prop_bigint_valid(x)); }
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

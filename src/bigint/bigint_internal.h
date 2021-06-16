@@ -24,9 +24,9 @@ extern "C" {
 # endif /*__cplusplus*/
 
 /* TODO - create a platform-agnostic way to handle fast integer mults. */
-typedef uint64_t native_int;
+typedef uint64_t RCPR_SYM(native_int);
 
-struct bigint
+struct RCPR_SYM(bigint)
 {
     RCPR_SYM(resource) hdr;
 
@@ -35,7 +35,7 @@ struct bigint
     RCPR_SYM(allocator)* a;
     bool sign;
     size_t length;
-    native_int* array;
+    RCPR_SYM(native_int)* array;
 };
 
 /**
@@ -45,7 +45,17 @@ struct bigint
  *
  * \returns a status code indicating success or failure.
  */
-status bigint_release(RCPR_SYM(resource)* r);
+status RCPR_SYM(bigint_release)(RCPR_SYM(resource)* r);
+
+/******************************************************************************/
+/* Start of private exports.                                                  */
+/******************************************************************************/
+
+#define RCPR_IMPORT_bigint_internal \
+    typedef RCPR_SYM(native_int) native_int; \
+    static inline status bigint_release( \
+        RCPR_SYM(resource)*x) { \
+            return RCPR_SYM(bigint_release)(x); }
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

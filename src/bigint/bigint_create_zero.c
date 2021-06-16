@@ -14,6 +14,8 @@
 #include "bigint_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_bigint;
+RCPR_IMPORT_bigint_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -54,8 +56,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(bigint);
  *      - On failure, \p i is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-bigint_create_zero(
-    bigint** i, RCPR_SYM(allocator)* a, size_t size)
+RCPR_SYM(bigint_create_zero)(
+    RCPR_SYM(bigint)** i, RCPR_SYM(allocator)* a, size_t size)
 {
     status retval, reclaim_retval;
 
