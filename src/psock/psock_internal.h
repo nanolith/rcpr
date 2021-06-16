@@ -60,8 +60,8 @@ struct psock_wrap_async
 {
     psock hdr;
     psock* wrapped;
-    fiber_scheduler* sched;
-    fiber_scheduler_discipline* psock_discipline;
+    RCPR_SYM(fiber_scheduler)* sched;
+    RCPR_SYM(fiber_scheduler_discipline)* psock_discipline;
     psock_unexpected_handler_callback_fn unexpected;
     void* context;
     int flags;
@@ -188,8 +188,8 @@ status psock_wrap_async_accept(
  *      - an error code indicating a specific failure condition.
  */
 status psock_fiber_scheduler_discipline_create(
-    fiber_scheduler_discipline** disc, RCPR_SYM(resource)** context,
-    fiber_scheduler* sched, RCPR_SYM(allocator)* alloc);
+    RCPR_SYM(fiber_scheduler_discipline)** disc, RCPR_SYM(resource)** context,
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(allocator)* alloc);
 
 /**
  * \brief Callback for read wait events.
@@ -205,7 +205,8 @@ status psock_fiber_scheduler_discipline_create(
  *        the process aborting.
  */
 status psock_fiber_scheduler_disciplined_read_wait_callback_handler(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+    void* yield_param);
 
 /**
  * \brief Callback for write wait events.
@@ -221,7 +222,8 @@ status psock_fiber_scheduler_disciplined_read_wait_callback_handler(
  *        the process aborting.
  */
 status psock_fiber_scheduler_disciplined_write_wait_callback_handler(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+    void* yield_param);
 
 /**
  * \brief The entry point for the psock idle fiber.
@@ -250,7 +252,7 @@ status psock_idle_fiber_entry(void* context);
  *      - a non-zero error code on failure.
  */
 status psock_fiber_scheduler_discipline_context_create(
-    RCPR_SYM(resource)** context, fiber_scheduler* sched,
+    RCPR_SYM(resource)** context, RCPR_SYM(fiber_scheduler)* sched,
     RCPR_SYM(allocator)* alloc);
 
 /**
@@ -262,7 +264,7 @@ status psock_fiber_scheduler_discipline_context_create(
  * \param context       The discipline user context.
  */
 void psock_fiber_scheduler_discipline_set_resource_release(
-    fiber_scheduler_discipline* disc, RCPR_SYM(resource)* context);
+    RCPR_SYM(fiber_scheduler_discipline)* disc, RCPR_SYM(resource)* context);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

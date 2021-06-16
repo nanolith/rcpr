@@ -12,6 +12,9 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
+
 /**
  * \brief Yield to the fiber scheduler.
  *
@@ -46,8 +49,8 @@
  *        determines that it should restart.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_yield(
-    fiber_scheduler* sched, int yield_event, void* yield_param,
+RCPR_SYM(fiber_scheduler_yield)(
+    RCPR_SYM(fiber_scheduler)* sched, int yield_event, void* yield_param,
     const rcpr_uuid** resume_disc_id, int* resume_event, void** resume_param)
 {
     status retval;

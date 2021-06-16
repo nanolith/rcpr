@@ -15,6 +15,8 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_compare;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -99,8 +101,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_disciplined_context);
  *      - On failure, \p sched is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_create_with_disciplines(
-    fiber_scheduler** sched, RCPR_SYM(allocator)* a)
+RCPR_SYM(fiber_scheduler_create_with_disciplines)(
+    RCPR_SYM(fiber_scheduler)** sched, RCPR_SYM(allocator)* a)
 {
     fiber_scheduler_disciplined_context* ctx;
     fiber_scheduler* tmp;

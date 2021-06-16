@@ -13,6 +13,9 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
+
 /**
  * \brief Suspend this fiber until a management event is received from the
  *        disciplined fiber scheduler, and then resume this fiber with that
@@ -38,8 +41,8 @@
  *      - \p resume_param is set to the management event parameter.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_receive_management_event(
-    fiber_scheduler* sched, const rcpr_uuid** resume_id,
+RCPR_SYM(disciplined_fiber_scheduler_receive_management_event)(
+    RCPR_SYM(fiber_scheduler)* sched, const rcpr_uuid** resume_id,
     int* resume_event, void** resume_param)
 {
     fiber_scheduler_disciplined_context* ctx = NULL;

@@ -12,6 +12,8 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+
 /**
  * \brief Run the fiber scheduler.
  *
@@ -46,8 +48,8 @@
  *        exit with either a success or failure return code.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_run(
-    fiber_scheduler* sched)
+RCPR_SYM(fiber_scheduler_run)(
+    RCPR_SYM(fiber_scheduler)* sched)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_fiber_scheduler_valid(sched));

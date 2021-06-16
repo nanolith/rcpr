@@ -20,7 +20,7 @@
 
 #fiber make function
 .section text
-.globl fiber_make
+.globl rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_make
 .type fiber_make,@function
 
 # -----------------------------------------------------------------
@@ -43,7 +43,7 @@
 
 .text
 .align 16
-fiber_make:
+rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_make:
 
     # load the stack pointer from the fiber instance.
     movq fiber_stack_ptr(%rdi), %rax

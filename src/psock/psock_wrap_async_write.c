@@ -15,6 +15,8 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_fiber;
+
 /**
  * \brief Write data to the given async \ref psock instance.
  *

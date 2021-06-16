@@ -65,7 +65,7 @@ typedef struct psock psock;
  *        simulated read/write.
  */
 typedef status (*psock_unexpected_handler_callback_fn)(
-    psock* sock, fiber* f, void* context, bool write,
+    psock* sock, RCPR_SYM(fiber)* f, void* context, bool write,
     const rcpr_uuid* resume_id, int resume_event, void* resume_param);
 
 /******************************************************************************/
@@ -173,7 +173,7 @@ psock_create_from_descriptor(
  */
 status FN_DECL_MUST_CHECK
 psock_create_wrap_async(
-    psock** sock, RCPR_SYM(allocator)* a, fiber_scheduler* sched,
+    psock** sock, RCPR_SYM(allocator)* a, RCPR_SYM(fiber_scheduler)* sched,
     psock* child);
 
 /**

@@ -13,6 +13,8 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+
 /**
  * \brief Suspend this idle fiber until the scheduler idles again.
  *
@@ -31,8 +33,8 @@
  *        to an out-of-bound event.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_idle_fiber_yield(
-    fiber_scheduler* sched)
+RCPR_SYM(disciplined_fiber_scheduler_idle_fiber_yield)(
+    RCPR_SYM(fiber_scheduler)* sched)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_fiber_scheduler_valid(sched));

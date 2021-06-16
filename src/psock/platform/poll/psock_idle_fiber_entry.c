@@ -13,6 +13,8 @@
 
 #include "psock_poll_internal.h"
 
+RCPR_IMPORT_fiber;
+
 /**
  * \brief The entry point for the psock idle fiber.
  *

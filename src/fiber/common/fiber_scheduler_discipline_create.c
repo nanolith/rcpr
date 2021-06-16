@@ -13,6 +13,7 @@
 #include "fiber_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -61,10 +62,10 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_discipline);
  *      - On failure, \p sched is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-fiber_scheduler_discipline_create(
-    fiber_scheduler_discipline** disc, const rcpr_uuid* id,
+RCPR_SYM(fiber_scheduler_discipline_create)(
+    RCPR_SYM(fiber_scheduler_discipline)** disc, const rcpr_uuid* id,
     RCPR_SYM(allocator)* alloc, void* context, size_t callbacks,
-    fiber_scheduler_discipline_callback_fn* callback_vector)
+    RCPR_SYM(fiber_scheduler_discipline_callback_fn)* callback_vector)
 {
     fiber_scheduler_discipline* tmp;
     status retval, release_retval;

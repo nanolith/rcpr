@@ -9,6 +9,7 @@
 #include <rcpr/message.h>
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
 RCPR_IMPORT_resource;
 
 TEST_SUITE(message_create);

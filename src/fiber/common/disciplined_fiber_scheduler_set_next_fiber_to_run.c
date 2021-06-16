@@ -12,6 +12,9 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
+
 /**
  * \brief Mark the given \ref fiber as runnable, making it the next fiber to
  * run.
@@ -39,9 +42,9 @@
  *      - On success, the scheduler will add the given fiber to its run queue.
  */
 status FN_DECL_MUST_CHECK
-disciplined_fiber_scheduler_set_next_fiber_to_run(
-    fiber_scheduler* sched, fiber* fib, const rcpr_uuid* resume_id,
-    int resume_event, void* resume_param)
+RCPR_SYM(disciplined_fiber_scheduler_set_next_fiber_to_run)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib,
+    const rcpr_uuid* resume_id, int resume_event, void* resume_param)
 {
     fiber_scheduler_disciplined_context* ctx = NULL;
 

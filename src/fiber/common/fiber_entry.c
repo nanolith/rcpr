@@ -12,6 +12,8 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+
 /**
  * \brief Entry point for a fiber.
  *
@@ -20,7 +22,8 @@
  *
  * \note Does not return.
  */
-status fiber_entry(fiber_scheduler* sched, fiber* fib)
+status RCPR_SYM(fiber_entry)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib)
 {
     /* enter the user function for this fiber. */
     status retval = fib->fn(fib->context);

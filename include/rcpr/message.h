@@ -63,7 +63,7 @@ typedef uint64_t mailbox_address;
  *        simulated read/write.
  */
 typedef status (*message_unexpected_handler_callback_fn)(
-    mailbox_address addr, fiber* f, void* context, bool write,
+    mailbox_address addr, RCPR_SYM(fiber)* f, void* context, bool write,
     const rcpr_uuid* resume_id, int resume_event, void* resume_param);
 
 /******************************************************************************/
@@ -86,7 +86,8 @@ typedef status (*message_unexpected_handler_callback_fn)(
  *      - a non-zero error code on failure.
  */
 status FN_DECL_MUST_CHECK
-mailbox_create(mailbox_address* addr, fiber_scheduler_discipline* msgdisc);
+mailbox_create(
+    mailbox_address* addr, RCPR_SYM(fiber_scheduler_discipline)* msgdisc);
 
 /**
  * \brief Create a \ref message with a return address and a resource payload.
@@ -136,8 +137,8 @@ message_create(
  */
 status FN_DECL_MUST_CHECK
 message_discipline_get_or_create(
-    fiber_scheduler_discipline** msgdisc, RCPR_SYM(allocator)* alloc,
-    fiber_scheduler* sched);
+    RCPR_SYM(fiber_scheduler_discipline)** msgdisc, RCPR_SYM(allocator)* alloc,
+    RCPR_SYM(fiber_scheduler)* sched);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -157,7 +158,8 @@ message_discipline_get_or_create(
  *      - a non-zero error code on failure.
  */
 status FN_DECL_MUST_CHECK
-mailbox_close(mailbox_address addr, fiber_scheduler_discipline* msgdisc);
+mailbox_close(
+    mailbox_address addr, RCPR_SYM(fiber_scheduler_discipline)* msgdisc);
 
 /**
  * \brief Send a \ref message to the given mailbox.

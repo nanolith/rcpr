@@ -12,6 +12,8 @@
 #include "../../src/fiber/common/fiber_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
 RCPR_IMPORT_resource;
 
 TEST_SUITE(disciplined_fiber_scheduler_set_idle_fiber);

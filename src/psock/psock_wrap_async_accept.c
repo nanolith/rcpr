@@ -15,6 +15,8 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_fiber;
+
 /**
  * \brief Accept a socket from a \ref psock listen socket instance.
  *

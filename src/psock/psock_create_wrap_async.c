@@ -16,6 +16,7 @@
 #include "psock_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -84,7 +85,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
  */
 status FN_DECL_MUST_CHECK
 psock_create_wrap_async(
-    psock** sock, RCPR_SYM(allocator)* a, fiber_scheduler* sched, psock* child)
+    psock** sock, RCPR_SYM(allocator)* a, RCPR_SYM(fiber_scheduler)* sched,
+    psock* child)
 {
     status retval, release_retval;
     fiber_scheduler_discipline* disc;
