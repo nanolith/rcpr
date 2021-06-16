@@ -65,7 +65,7 @@ typedef struct stack stack;
  */
 status FN_DECL_MUST_CHECK
 stack_create(
-    stack** st, allocator* a, size_t stack_size);
+    stack** st, RCPR_SYM(allocator)* a, size_t stack_size);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -80,7 +80,7 @@ stack_create(
  *
  * \returns the \ref resource handle for this \ref stack instance.
  */
-resource* stack_resource_handle(stack* st);
+RCPR_SYM(resource)* stack_resource_handle(stack* st);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */

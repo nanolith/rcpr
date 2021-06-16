@@ -9,6 +9,9 @@
 #include <rcpr/uuid.h>
 #include <string.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(rcpr_uuid_parse_string);
 
 /**

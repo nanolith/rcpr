@@ -12,6 +12,9 @@
 
 #include "config_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status config_resource_release(resource* r);
 static void config_set_defaults(config* c);

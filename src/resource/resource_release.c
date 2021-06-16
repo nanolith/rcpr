@@ -43,7 +43,7 @@
  * acquired.  This resource can no longer be used.
  */
 status FN_DECL_MUST_CHECK
-resource_release(resource* r)
+RCPR_SYM(resource_release)(RCPR_SYM(resource)* r)
 {
     MODEL_ASSERT(prop_resource_valid(r));
 

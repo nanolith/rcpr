@@ -14,6 +14,8 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Create a psock I/O discipline instance.
  *
@@ -31,8 +33,8 @@
  *      - an error code indicating a specific failure condition.
  */
 status psock_fiber_scheduler_discipline_create(
-    fiber_scheduler_discipline** disc, resource** context,
-    fiber_scheduler* sched, allocator* alloc)
+    fiber_scheduler_discipline** disc, RCPR_SYM(resource)** context,
+    fiber_scheduler* sched, RCPR_SYM(allocator)* alloc)
 {
     status retval, release_retval;
     resource* ctx;

@@ -23,7 +23,7 @@
  *
  * \returns the \ref resource handle for this \ref bigint instance.
  */
-resource* bigint_resource_handle(bigint* i)
+RCPR_SYM(resource)* bigint_resource_handle(bigint* i)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_bigint_valid(i));

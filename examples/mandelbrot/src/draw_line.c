@@ -11,6 +11,8 @@
 
 #include "thread.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Worker thread entry point.
  *

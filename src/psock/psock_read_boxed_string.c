@@ -15,6 +15,8 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_allocator;
+
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
  * written to the remote end of this socket by the peer calling \ref
@@ -58,7 +60,7 @@
  */
 status FN_DECL_MUST_CHECK
 psock_read_boxed_string(
-    psock* sock, allocator* a, char** val, size_t* length)
+    psock* sock, RCPR_SYM(allocator)* a, char** val, size_t* length)
 {
     status retval, release_retval;
 

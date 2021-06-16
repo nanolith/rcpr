@@ -13,6 +13,8 @@
 
 #include "bigint_internal.h"
 
+RCPR_IMPORT_allocator;
+
 /* forward decls. */
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(bigint);
 
@@ -47,7 +49,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(bigint);
  */
 status FN_DECL_MUST_CHECK
 bigint_clone(
-    bigint** i, allocator* a, const bigint* j)
+    bigint** i, RCPR_SYM(allocator)* a, const bigint* j)
 {
     status retval, reclaim_retval;
 

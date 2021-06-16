@@ -17,11 +17,11 @@
 extern "C" {
 # endif /*__cplusplus*/
 
-struct resource
+struct RCPR_SYM(resource)
 {
-    resource_release_fn release;
+    RCPR_SYM(resource_release_fn) release;
 
-    MODEL_STRUCT_TAG(resource);
+    MODEL_STRUCT_TAG(RCPR_SYM(resource));
 };
 
 /* C++ compatibility. */

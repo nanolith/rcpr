@@ -11,6 +11,9 @@
 
 #include <iostream>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(rcpr_uuid_to_string);
 
 /**

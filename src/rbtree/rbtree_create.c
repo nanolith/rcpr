@@ -12,6 +12,9 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree);
 static status rbtree_resource_release(resource* r);
@@ -59,8 +62,8 @@ static status rbtree_delete_nodes(rbtree* tree, rbtree_node* n);
  */
 status FN_DECL_MUST_CHECK
 rbtree_create(
-    rbtree** tree, allocator* a, compare_fn compare, compare_key_fn key,
-    void* context)
+    rbtree** tree, RCPR_SYM(allocator)* a, compare_fn compare,
+    compare_key_fn key, void* context)
 {
     rbtree* tmp;
     status retval;

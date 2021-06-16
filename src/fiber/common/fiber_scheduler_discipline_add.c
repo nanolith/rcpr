@@ -12,6 +12,9 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /**
  * \brief Add a fiber scheduler discipline to the \ref fiber_scheduler.
  *

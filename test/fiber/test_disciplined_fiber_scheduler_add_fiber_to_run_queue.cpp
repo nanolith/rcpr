@@ -11,6 +11,9 @@
 
 #include "../../src/fiber/common/fiber_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(disciplined_fiber_scheduler_add_fiber_to_run_queue);
 
 /**

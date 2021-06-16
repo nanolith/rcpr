@@ -9,6 +9,9 @@
 
 #include "config_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /**
  * \brief Get relevant config values.
  *

@@ -9,6 +9,9 @@
 #include <rcpr/fiber.h>
 #include <string.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(fiber_scheduler_discipline_find);
 
 static status dummy_scheduler_callback(

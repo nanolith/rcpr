@@ -16,6 +16,9 @@
 #include "config.h"
 #include "thread.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /**
  * \brief Main entry point for the mandelbrot example.
  */

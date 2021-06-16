@@ -31,7 +31,8 @@
  * used by the caller.
  */
 status FN_DECL_MUST_CHECK
-allocator_reclaim(allocator* alloc, void* ptr)
+RCPR_SYM(allocator_reclaim)(
+    RCPR_SYM(allocator)* alloc, void* ptr)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_allocator_valid(alloc));

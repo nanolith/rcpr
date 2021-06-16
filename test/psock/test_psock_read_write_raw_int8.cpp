@@ -11,6 +11,9 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(psock_read_write_raw_int8);
 
 /**

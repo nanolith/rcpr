@@ -18,7 +18,9 @@
  *
  * \returns the resource handle for this allocator instance.
  */
-resource* allocator_resource_handle(allocator* alloc)
+RCPR_SYM(resource)*
+RCPR_SYM(allocator_resource_handle)(
+    RCPR_SYM(allocator)* alloc)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != alloc);

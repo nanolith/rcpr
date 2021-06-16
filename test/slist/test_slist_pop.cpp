@@ -8,6 +8,9 @@
 #include <rcpr/allocator.h>
 #include <rcpr/slist.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(slist_pop);
 
 /**

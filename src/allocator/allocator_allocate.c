@@ -33,7 +33,8 @@
  * \p size bytes in size.  On failure, \p ptr is set to NULL.
  */
 status FN_DECL_MUST_CHECK
-allocator_allocate(allocator* alloc, void** ptr, size_t size)
+RCPR_SYM(allocator_allocate)(
+    RCPR_SYM(allocator)* alloc, void** ptr, size_t size)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_allocator_valid(alloc));

@@ -39,7 +39,7 @@
  */
 status FN_DECL_MUST_CHECK
 slist_node_child(
-    resource** r, slist_node* node)
+    RCPR_SYM(resource)** r, slist_node* node)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != r);

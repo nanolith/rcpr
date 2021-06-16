@@ -66,7 +66,7 @@ typedef struct list_node list_node;
  */
 status FN_DECL_MUST_CHECK
 list_create(
-    list** l, allocator* a);
+    list** l, RCPR_SYM(allocator)* a);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -98,7 +98,7 @@ list_create(
  */
 status FN_DECL_MUST_CHECK
 list_insert_head(
-    list* l, resource* r);
+    list* l, RCPR_SYM(resource)* r);
 
 /**
  * \brief Append the given \ref resource to the back of the \ref list.
@@ -126,7 +126,7 @@ list_insert_head(
  */
 status FN_DECL_MUST_CHECK
 list_append_tail(
-    list* l, resource* r);
+    list* l, RCPR_SYM(resource)* r);
 
 /**
  * \brief Append the given \ref resource to the next value of the given \ref
@@ -160,7 +160,7 @@ list_append_tail(
  */
 status FN_DECL_MUST_CHECK
 list_append(
-    list_node* node, resource* r);
+    list_node* node, RCPR_SYM(resource)* r);
 
 /**
  * \brief Insert the given \ref resource before the given \ref list_node.
@@ -193,7 +193,7 @@ list_append(
  */
 status FN_DECL_MUST_CHECK
 list_insert(
-    list_node* node, resource* r);
+    list_node* node, RCPR_SYM(resource)* r);
 
 /**
  * \brief Swap the \ref resource owned by this \ref list_node with the given
@@ -228,7 +228,7 @@ list_insert(
  */
 status FN_DECL_MUST_CHECK
 list_node_child_swap(
-    list_node* node, resource** r);
+    list_node* node, RCPR_SYM(resource)** r);
 
 /**
  * \brief Pop the head value of the list, setting the given resource pointer to
@@ -266,7 +266,7 @@ list_node_child_swap(
  */
 status FN_DECL_MUST_CHECK
 list_pop(
-    list* l, resource** r);
+    list* l, RCPR_SYM(resource)** r);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -281,7 +281,7 @@ list_pop(
  *
  * \returns the \ref resource handle for this \ref list instance.
  */
-resource* list_resource_handle(list* l);
+RCPR_SYM(resource)* list_resource_handle(list* l);
 
 /**
  * \brief Given a \ref list_node instance, return the resource handle for this
@@ -292,7 +292,7 @@ resource* list_resource_handle(list* l);
  *
  * \returns the \ref resource handle for this \ref list_node instance.
  */
-resource* list_node_resource_handle(list_node* node);
+RCPR_SYM(resource)* list_node_resource_handle(list_node* node);
 
 /**
  * \brief Get the head of a \ref list.
@@ -394,7 +394,7 @@ size_t list_count(list* l);
  */
 status FN_DECL_MUST_CHECK
 list_node_child(
-    resource** r, list_node* node);
+    RCPR_SYM(resource)** r, list_node* node);
 
 /**
  * \brief Given an \ref list_node, return the next \ref list_node in the list.

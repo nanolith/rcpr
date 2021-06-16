@@ -30,12 +30,12 @@ enum psock_type
 
 struct psock
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(psock);
     int type;
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     status (*read_fn)(psock* sock, void* data, size_t* size, bool block);
     status (*write_fn)(psock* sock, const void* data, size_t* size);
     status (*accept_fn)(
@@ -123,7 +123,7 @@ status psock_from_descriptor_accept(
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status psock_from_descriptor_release(resource* r);
+status psock_from_descriptor_release(RCPR_SYM(resource)* r);
 
 /**
  * \brief Read data from the given async \ref psock instance.
@@ -188,8 +188,8 @@ status psock_wrap_async_accept(
  *      - an error code indicating a specific failure condition.
  */
 status psock_fiber_scheduler_discipline_create(
-    fiber_scheduler_discipline** disc, resource** context,
-    fiber_scheduler* sched, allocator* alloc);
+    fiber_scheduler_discipline** disc, RCPR_SYM(resource)** context,
+    fiber_scheduler* sched, RCPR_SYM(allocator)* alloc);
 
 /**
  * \brief Callback for read wait events.
@@ -250,7 +250,8 @@ status psock_idle_fiber_entry(void* context);
  *      - a non-zero error code on failure.
  */
 status psock_fiber_scheduler_discipline_context_create(
-    resource** context, fiber_scheduler* sched, allocator* alloc);
+    RCPR_SYM(resource)** context, fiber_scheduler* sched,
+    RCPR_SYM(allocator)* alloc);
 
 /**
  * \brief Hook the fiber discipline resource release method in order to ensure
@@ -261,7 +262,7 @@ status psock_fiber_scheduler_discipline_context_create(
  * \param context       The discipline user context.
  */
 void psock_fiber_scheduler_discipline_set_resource_release(
-    fiber_scheduler_discipline* disc, resource* context);
+    fiber_scheduler_discipline* disc, RCPR_SYM(resource)* context);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

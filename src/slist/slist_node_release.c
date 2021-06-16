@@ -14,6 +14,9 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /**
  * \brief Release an slist_node resource.
  *
@@ -23,7 +26,7 @@
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status slist_node_release(resource* r)
+status slist_node_release(RCPR_SYM(resource)* r)
 {
     slist_node* n = (slist_node*)r;
 

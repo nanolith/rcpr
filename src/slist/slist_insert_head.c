@@ -40,7 +40,7 @@
  */
 status FN_DECL_MUST_CHECK
 slist_insert_head(
-    slist* list, resource* r)
+    slist* list, RCPR_SYM(resource)* r)
 {
     slist_node* node;
 

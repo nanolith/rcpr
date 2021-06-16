@@ -14,6 +14,8 @@
 #include "../fiber/common/fiber_internal.h"
 #include "message_internal.h"
 
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status message_discipline_context_chained_release(resource* r);
 
@@ -29,7 +31,7 @@ static status message_discipline_context_chained_release(resource* r);
  *      - a non-zero error code on failure.
  */
 status message_discipline_set_resource_release(
-    fiber_scheduler_discipline* msgdisc, resource* context)
+    fiber_scheduler_discipline* msgdisc, RCPR_SYM(resource)* context)
 {
     message_discipline_context* ctx = (message_discipline_context*)context;
 

@@ -69,8 +69,8 @@ typedef struct rbtree rbtree;
  */
 status FN_DECL_MUST_CHECK
 rbtree_create(
-    rbtree** tree, allocator* a, compare_fn compare, compare_key_fn key,
-    void* context);
+    rbtree** tree, RCPR_SYM(allocator)* a, compare_fn compare,
+    compare_key_fn key, void* context);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -104,7 +104,7 @@ rbtree_create(
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-rbtree_insert(rbtree* tree, resource* r);
+rbtree_insert(rbtree* tree, RCPR_SYM(resource)* r);
 
 /**
  * \brief Find the given key in the \ref rbtree.
@@ -133,7 +133,7 @@ rbtree_insert(rbtree* tree, resource* r);
  *      - On failure, \p r is set to NULL.
  */
 status FN_DECL_MUST_CHECK
-rbtree_find(resource** r, rbtree* tree, const void* key);
+rbtree_find(RCPR_SYM(resource)** r, rbtree* tree, const void* key);
 
 /**
  * \brief Delete the given key from the \ref rbtree, optionally releasing the
@@ -167,7 +167,7 @@ rbtree_find(resource** r, rbtree* tree, const void* key);
  *      - On failure, \p r is set to NULL.
  */
 status FN_DECL_MUST_CHECK
-rbtree_delete(resource** r, rbtree* tree, const void* key);
+rbtree_delete(RCPR_SYM(resource)** r, rbtree* tree, const void* key);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -182,7 +182,7 @@ rbtree_delete(resource** r, rbtree* tree, const void* key);
  *
  * \returns the \ref resource handle for this \ref rbtree instance.
  */
-resource* rbtree_resource_handle(rbtree* tree);
+RCPR_SYM(resource)* rbtree_resource_handle(rbtree* tree);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */

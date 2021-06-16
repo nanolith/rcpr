@@ -12,6 +12,9 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /**
  * \brief Release a fiber scheduler resource.
  *
@@ -21,7 +24,7 @@
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status fiber_scheduler_resource_release(resource* r)
+status fiber_scheduler_resource_release(RCPR_SYM(resource)* r)
 {
     status sched_retval, fiber_retval, retval;
     fiber_scheduler* sched = (fiber_scheduler*)r;

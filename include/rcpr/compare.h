@@ -51,7 +51,7 @@ typedef rcpr_comparison_result (*compare_fn)(
  * \returns the key for the resource.
  */
 typedef const void* (*compare_key_fn)(
-    void* context, const resource* r);
+    void* context, const RCPR_SYM(resource)* r);
 
 /* C++ compatibility. */
 # ifdef    __cplusplus

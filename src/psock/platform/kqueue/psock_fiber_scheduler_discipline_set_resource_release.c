@@ -13,6 +13,8 @@
 #include "../../../fiber/common/fiber_internal.h"
 #include "psock_kqueue_internal.h"
 
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status psock_kqueue_discipline_chained_release(resource* r);
 
@@ -25,7 +27,7 @@ static status psock_kqueue_discipline_chained_release(resource* r);
  * \param context       The discipline user context.
  */
 void psock_fiber_scheduler_discipline_set_resource_release(
-    fiber_scheduler_discipline* disc, resource* context)
+    fiber_scheduler_discipline* disc, RCPR_SYM(resource)* context)
 {
     psock_io_kqueue_context* ctx = (psock_io_kqueue_context*)context;
 

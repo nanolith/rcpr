@@ -32,6 +32,7 @@ configure_file(config.h.cmake include/rcpr/config.h)
 
 #includes
 INCLUDE_DIRECTORIES(include)
+INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
 
 #source files
 AUX_SOURCE_DIRECTORY(src/allocator RCPR_ALLOCATOR_SOURCES)

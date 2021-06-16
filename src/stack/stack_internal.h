@@ -22,11 +22,11 @@ extern "C" {
 
 struct stack
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(stack);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     void* region;
     size_t size;
 };

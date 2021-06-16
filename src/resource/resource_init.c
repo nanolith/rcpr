@@ -20,7 +20,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(resource);
  * \param release   The release method to use to release this resource.
  */
 void
-resource_init(resource* r, resource_release_fn release)
+RCPR_SYM(resource_init)(
+    RCPR_SYM(resource)* r, RCPR_SYM(resource_release_fn) release)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != r);

@@ -11,6 +11,9 @@
 
 using namespace std;
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(fiber_simple_coroutine);
 
 typedef struct test_fiber_scheduler_context test_fiber_scheduler_context;

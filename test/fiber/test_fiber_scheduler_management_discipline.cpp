@@ -11,6 +11,9 @@
 
 #include "../../src/fiber/common/fiber_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(fiber_scheduler_management_discipline);
 
 /* test management context structure. */

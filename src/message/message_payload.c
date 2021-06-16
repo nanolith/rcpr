@@ -11,6 +11,8 @@
 
 #include "message_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Given a \ref message instance, return the payload \ref resource
  * associated with it.
@@ -27,7 +29,7 @@
  * \returns the return payload \ref resource, or NULL if the payload \ref
  * resource is not set.
  */
-resource*
+RCPR_SYM(resource)*
 message_payload(message* msg, bool xfer)
 {
     /* parameter sanity checks. */

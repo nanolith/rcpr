@@ -16,6 +16,9 @@
 
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(list_node);
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /**
  * \brief Create a \ref list_node instance.
  *
@@ -49,7 +52,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(list_node);
  */
 status FN_DECL_MUST_CHECK
 list_node_create(
-    list_node** node, list* l, resource* r)
+    list_node** node, list* l, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != node);

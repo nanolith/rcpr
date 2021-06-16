@@ -12,6 +12,9 @@
 
 #include "message_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status message_discipline_context_resource_release(resource* r);
 static rcpr_comparison_result message_discipline_mailbox_address_compare(
@@ -33,7 +36,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(message_discipline_context);
  *      - a non-zero error code on failure.
  */
 status message_discipline_context_create(
-    resource** ctx, allocator* alloc, fiber_scheduler* sched)
+    RCPR_SYM(resource)** ctx, RCPR_SYM(allocator)* alloc,
+    fiber_scheduler* sched)
 {
     message_discipline_context* tmp;
     status retval, release_retval;

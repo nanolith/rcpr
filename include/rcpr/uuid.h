@@ -66,7 +66,7 @@ struct rcpr_uuid
  */
 status FN_DECL_MUST_CHECK
 rcpr_uuid_to_string(
-    char** str, allocator* alloc, const rcpr_uuid* uuid);
+    char** str, RCPR_SYM(allocator)* alloc, const rcpr_uuid* uuid);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */

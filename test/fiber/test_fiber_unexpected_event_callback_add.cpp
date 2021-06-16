@@ -10,6 +10,9 @@
 
 #include "../../src/fiber/common/fiber_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 TEST_SUITE(fiber_unexpected_event_callback_add);
 
 static status dummy_event(

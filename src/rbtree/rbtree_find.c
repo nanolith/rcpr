@@ -39,7 +39,7 @@
  *      - On failure, \p r is set to NULL.
  */
 status FN_DECL_MUST_CHECK
-rbtree_find(resource** r, rbtree* tree, const void* key)
+rbtree_find(RCPR_SYM(resource)** r, rbtree* tree, const void* key)
 {
     rbtree_node* node;
 

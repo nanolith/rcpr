@@ -23,7 +23,7 @@
  *
  * \returns the \ref resource handle for this \ref slist_node instance.
  */
-resource* slist_node_resource_handle(slist_node* node)
+RCPR_SYM(resource)* slist_node_resource_handle(slist_node* node)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_slist_node_valid(node));

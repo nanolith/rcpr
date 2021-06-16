@@ -46,7 +46,7 @@
  */
 status FN_DECL_MUST_CHECK
 slist_append(
-    slist_node* node, resource* r)
+    slist_node* node, RCPR_SYM(resource)* r)
 {
     slist_node* new_node;
 

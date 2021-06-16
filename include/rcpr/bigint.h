@@ -66,7 +66,7 @@ typedef struct bigint bigint;
  */
 status FN_DECL_MUST_CHECK
 bigint_create_zero(
-    bigint** i, allocator* a, size_t size);
+    bigint** i, RCPR_SYM(allocator)* a, size_t size);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -103,7 +103,7 @@ bigint_create_zero(
  */
 status FN_DECL_MUST_CHECK
 bigint_clone(
-    bigint** i, allocator* a, const bigint* j);
+    bigint** i, RCPR_SYM(allocator)* a, const bigint* j);
 
 /**
  * \brief Get the modulus of a bigint using an integer divisor.
@@ -136,7 +136,7 @@ void bigint_divide_int(bigint* i, int d);
  *
  * \returns the \ref resource handle for this \ref bigint instance.
  */
-resource* bigint_resource_handle(bigint* i);
+RCPR_SYM(resource)* bigint_resource_handle(bigint* i);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */

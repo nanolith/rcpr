@@ -20,7 +20,7 @@
  *
  * \returns the \ref resource handle for this \ref rbtree_node instance.
  */
-resource* rbtree_node_resource_handle(rbtree_node* node)
+RCPR_SYM(resource)* rbtree_node_resource_handle(rbtree_node* node)
 {
     return &node->hdr;
 }

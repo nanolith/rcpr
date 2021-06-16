@@ -12,6 +12,9 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status fiber_scheduler_discipline_resource_release(resource*);
 
@@ -59,8 +62,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_discipline);
  */
 status FN_DECL_MUST_CHECK
 fiber_scheduler_discipline_create(
-    fiber_scheduler_discipline** disc, const rcpr_uuid* id, allocator* alloc,
-    void* context, size_t callbacks,
+    fiber_scheduler_discipline** disc, const rcpr_uuid* id,
+    RCPR_SYM(allocator)* alloc, void* context, size_t callbacks,
     fiber_scheduler_discipline_callback_fn* callback_vector)
 {
     fiber_scheduler_discipline* tmp;

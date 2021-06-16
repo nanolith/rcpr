@@ -28,11 +28,11 @@ typedef uint64_t native_int;
 
 struct bigint
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(bigint);
 
-    allocator* a;
+    RCPR_SYM(allocator)* a;
     bool sign;
     size_t length;
     native_int* array;
@@ -45,7 +45,7 @@ struct bigint
  *
  * \returns a status code indicating success or failure.
  */
-status bigint_release(resource* r);
+status bigint_release(RCPR_SYM(resource)* r);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

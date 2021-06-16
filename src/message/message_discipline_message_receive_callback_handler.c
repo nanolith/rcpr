@@ -12,6 +12,8 @@
 
 #include "message_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief The callback handler for a receive message request.
  *

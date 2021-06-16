@@ -12,6 +12,9 @@
 
 #include "message_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status message_resource_release(resource* r);
 
@@ -39,8 +42,8 @@ static status message_resource_release(resource* r);
  */
 status FN_DECL_MUST_CHECK
 message_create(
-    message** msg, allocator* alloc, mailbox_address returnaddr,
-    resource* payload)
+    message** msg, RCPR_SYM(allocator)* alloc, mailbox_address returnaddr,
+    RCPR_SYM(resource)* payload)
 {
     message* tmp;
     status retval;

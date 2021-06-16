@@ -66,7 +66,7 @@ typedef struct slist_node slist_node;
  */
 status FN_DECL_MUST_CHECK
 slist_create(
-    slist** list, allocator* a);
+    slist** list, RCPR_SYM(allocator)* a);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -98,7 +98,7 @@ slist_create(
  */
 status FN_DECL_MUST_CHECK
 slist_insert_head(
-    slist* list, resource* r);
+    slist* list, RCPR_SYM(resource)* r);
 
 /**
  * \brief Append the given \ref resource to the back of the \ref slist.
@@ -126,7 +126,7 @@ slist_insert_head(
  */
 status FN_DECL_MUST_CHECK
 slist_append_tail(
-    slist* list, resource* r);
+    slist* list, RCPR_SYM(resource)* r);
 
 /**
  * \brief Append the given \ref resource to the next value of the given \ref
@@ -160,7 +160,7 @@ slist_append_tail(
  */
 status FN_DECL_MUST_CHECK
 slist_append(
-    slist_node* node, resource* r);
+    slist_node* node, RCPR_SYM(resource)* r);
 
 /**
  * \brief Swap the \ref resource owned by this \ref slist_node with the given
@@ -195,7 +195,7 @@ slist_append(
  */
 status FN_DECL_MUST_CHECK
 slist_node_child_swap(
-    slist_node* node, resource** r);
+    slist_node* node, RCPR_SYM(resource)** r);
 
 /**
  * \brief Pop the head value of the list, setting the given resource pointer to
@@ -233,7 +233,7 @@ slist_node_child_swap(
  */
 status FN_DECL_MUST_CHECK
 slist_pop(
-    slist* list, resource** r);
+    slist* list, RCPR_SYM(resource)** r);
 
 /**
  * \brief Pop the next value of the given node, setting the given resource
@@ -272,7 +272,7 @@ slist_pop(
  */
 status FN_DECL_MUST_CHECK
 slist_node_next_pop(
-    slist_node* node, resource** r);
+    slist_node* node, RCPR_SYM(resource)** r);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -287,7 +287,7 @@ slist_node_next_pop(
  *
  * \returns the \ref resource handle for this \ref slist instance.
  */
-resource* slist_resource_handle(slist* list);
+RCPR_SYM(resource)* slist_resource_handle(slist* list);
 
 /**
  * \brief Given an \ref slist_node instance, return the resource handle for this
@@ -298,7 +298,7 @@ resource* slist_resource_handle(slist* list);
  *
  * \returns the \ref resource handle for this \ref slist_node instance.
  */
-resource* slist_node_resource_handle(slist_node* node);
+RCPR_SYM(resource)* slist_node_resource_handle(slist_node* node);
 
 /**
  * \brief Get the head of a \ref slist.
@@ -400,7 +400,7 @@ size_t slist_count(slist* l);
  */
 status FN_DECL_MUST_CHECK
 slist_node_child(
-    resource** r, slist_node* node);
+    RCPR_SYM(resource)** r, slist_node* node);
 
 /**
  * \brief Given an \ref slist_node, return the next \ref slist_node in the list.

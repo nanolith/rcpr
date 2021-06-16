@@ -12,6 +12,8 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Remove the given fiber pointer from the disciplined fiber scheduler,
  *        transferring ownership to the caller.

@@ -14,6 +14,9 @@
 
 #include "thread_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
 static status thread_cond_release(resource*);
 
@@ -50,7 +53,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_cond);
  */
 status FN_DECL_MUST_CHECK
 thread_cond_create(
-    thread_cond** cond, allocator* a)
+    thread_cond** cond, RCPR_SYM(allocator)* a)
 {
     int retval, reclaim_retval;
     thread_cond* tmp;

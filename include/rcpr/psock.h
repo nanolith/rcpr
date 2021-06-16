@@ -112,7 +112,7 @@ typedef status (*psock_unexpected_handler_callback_fn)(
  */
 status FN_DECL_MUST_CHECK
 psock_create_from_descriptor(
-    psock** sock, allocator* a, int descriptor);
+    psock** sock, RCPR_SYM(allocator)* a, int descriptor);
 
 /**
  * \brief Wrap a \ref psock instance with an async \ref psock instance that
@@ -173,7 +173,8 @@ psock_create_from_descriptor(
  */
 status FN_DECL_MUST_CHECK
 psock_create_wrap_async(
-    psock** sock, allocator* a, fiber_scheduler* sched, psock* child);
+    psock** sock, RCPR_SYM(allocator)* a, fiber_scheduler* sched,
+    psock* child);
 
 /**
  * \brief Create a \ref psock instance backed by a listen socket bound to the
@@ -217,7 +218,8 @@ psock_create_wrap_async(
  */
 status FN_DECL_MUST_CHECK
 psock_create_from_listen_address(
-    psock** sock, allocator* a, const struct sockaddr* name, socklen_t namelen);
+    psock** sock, RCPR_SYM(allocator)* a, const struct sockaddr* name,
+    socklen_t namelen);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -615,7 +617,7 @@ psock_read_boxed_bool(
  */
 status FN_DECL_MUST_CHECK
 psock_read_boxed_string(
-    psock* sock, allocator* a, char** val, size_t* length);
+    psock* sock, RCPR_SYM(allocator)* a, char** val, size_t* length);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -659,7 +661,7 @@ psock_read_boxed_string(
  */
 status FN_DECL_MUST_CHECK
 psock_read_boxed_data(
-    psock* sock, allocator* a, void** data, size_t* data_size);
+    psock* sock, RCPR_SYM(allocator)* a, void** data, size_t* data_size);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -1378,7 +1380,7 @@ psock_read_raw_bool(
  */
 status FN_DECL_MUST_CHECK
 psock_read_raw_data(
-    psock* sock, allocator* a, void** data, size_t data_size);
+    psock* sock, RCPR_SYM(allocator)* a, void** data, size_t data_size);
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
@@ -1716,7 +1718,7 @@ psock_accept(
  *
  * \returns the resource handle for this \ref psock instance.
  */
-resource* psock_resource_handle(psock* sock);
+RCPR_SYM(resource)* psock_resource_handle(psock* sock);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */

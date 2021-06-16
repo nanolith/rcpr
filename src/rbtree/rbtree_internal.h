@@ -26,25 +26,25 @@ typedef struct rbtree_node rbtree_node;
 
 struct rbtree_node
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(rbtree_node);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     rbtree_node* parent;
     rbtree_node* left;
     rbtree_node* right;
-    resource* value;
+    RCPR_SYM(resource)* value;
     bool color;
 };
 
 struct rbtree
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(rbtree);
 
-    allocator* alloc;
+    RCPR_SYM(allocator)* alloc;
     void* context;
     compare_fn compare;
     compare_key_fn key;
@@ -199,7 +199,7 @@ rbtree_find_node(rbtree* tree, const void* key, rbtree_node** node);
  *      - a non-zero failure code on failure.
  */
 status FN_DECL_MUST_CHECK
-rbtree_node_create(rbtree_node** node, rbtree* tree, resource* r);
+rbtree_node_create(rbtree_node** node, rbtree* tree, RCPR_SYM(resource)* r);
 
 /**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
@@ -210,7 +210,7 @@ rbtree_node_create(rbtree_node** node, rbtree* tree, resource* r);
  *
  * \returns the \ref resource handle for this \ref rbtree_node instance.
  */
-resource* rbtree_node_resource_handle(rbtree_node* node);
+RCPR_SYM(resource)* rbtree_node_resource_handle(rbtree_node* node);
 
 /**
  * \brief Valid \ref rbtree_node property.

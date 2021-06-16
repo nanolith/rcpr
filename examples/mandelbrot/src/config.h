@@ -35,7 +35,7 @@ typedef struct config config;
  */
 status FN_DECL_MUST_CHECK
 config_create(
-    config** c, allocator* a, int argc, char* argv[]);
+    config** c, RCPR_SYM(allocator)* a, int argc, char* argv[]);
 
 /**
  * \brief Get the resource handle for this config instance.
@@ -44,7 +44,7 @@ config_create(
  *
  * \returns the resource handle for this config instance.
  */
-resource* config_resource_handle(config* c);
+RCPR_SYM(resource)* config_resource_handle(config* c);
 
 /**
  * \brief Get relevant config values.

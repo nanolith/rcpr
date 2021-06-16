@@ -9,10 +9,7 @@
 
 #pragma once
 
-/* C++ compatibility. */
-# ifdef   __cplusplus
-extern "C" {
-# endif /*__cplusplus*/
+#include <rcpr/config.h>
 
 /*
  * With GCC 3.4 and clang, we can force a warning / error if the return value
@@ -31,7 +28,18 @@ extern "C" {
 # define FN_DECL_MUST_CHECK
 #endif
 
-/* C++ compatibility. */
-# ifdef   __cplusplus
-}
-# endif /*__cplusplus*/
+/*
+ * The RCPR_UNIQUE_NAME is a UUID-based symbol.
+ */
+#define RCPR_UNIQUE_NAME u0ec71e88_25af_40aa_8dd9_990d596b60de
+
+/*
+ * Symbol expansion and combination macro.
+ */
+#define RCPR_SYM_COMBINE(x, y, z) rcpr ## _ ## x ## _ ## y ## _ ## z
+#define RCPR_SYM_COMBINE1(x, y, z) RCPR_SYM_COMBINE(x, y, z)
+
+/*
+ * The RCPR_SYM macro elevates a given symbol to the RCPR namespace.
+ */
+#define RCPR_SYM(sym) RCPR_SYM_COMBINE1(RCPR_UNIQUE_NAME, RCPR_VERSION_SYM, sym)
