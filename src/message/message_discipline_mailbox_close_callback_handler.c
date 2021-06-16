@@ -13,6 +13,8 @@
 #include "message_internal.h"
 
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_message;
+RCPR_IMPORT_message_internal;
 
 /**
  * \brief The callback handler for a close mailbox request.
@@ -26,7 +28,7 @@ RCPR_IMPORT_fiber;
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status message_discipline_mailbox_close_callback_handler(
+status RCPR_SYM(message_discipline_mailbox_close_callback_handler)(
     void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
     void* yield_param)
 {

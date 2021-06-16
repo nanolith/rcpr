@@ -13,6 +13,8 @@
 #include "message_internal.h"
 
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_message;
+RCPR_IMPORT_message_internal;
 RCPR_IMPORT_resource;
 
 /**
@@ -27,7 +29,7 @@ RCPR_IMPORT_resource;
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status message_discipline_message_receive_callback_handler(
+status RCPR_SYM(message_discipline_message_receive_callback_handler)(
     void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
     void* yield_param)
 {

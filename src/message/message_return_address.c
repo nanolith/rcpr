@@ -21,8 +21,9 @@
  * \returns the return \ref mailbox_address or MESSAGE_ADDRESS_NONE if there is
  * not a return address.
  */
-mailbox_address
-message_return_address(const message* msg)
+RCPR_SYM(mailbox_address)
+RCPR_SYM(message_return_address)(
+    const RCPR_SYM(message)* msg)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_message_valid(msg));

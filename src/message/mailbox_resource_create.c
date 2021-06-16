@@ -13,6 +13,8 @@
 #include "message_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_message;
+RCPR_IMPORT_message_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -29,8 +31,9 @@ static status mailbox_resource_release(resource* r);
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status mailbox_resource_create(
-    mailbox** mbox, RCPR_SYM(allocator)* alloc, mailbox_address addr)
+status RCPR_SYM(mailbox_resource_create)(
+    RCPR_SYM(mailbox)** mbox, RCPR_SYM(allocator)* alloc,
+    RCPR_SYM(mailbox_address) addr)
 {
     status retval, release_retval;
     mailbox* tmp;
