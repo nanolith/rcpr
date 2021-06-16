@@ -17,6 +17,8 @@
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(list_node);
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_list;
+RCPR_IMPORT_list_internal;
 RCPR_IMPORT_resource;
 
 /**
@@ -51,8 +53,8 @@ RCPR_IMPORT_resource;
  *      - On failure, \p node is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_node_create(
-    list_node** node, list* l, RCPR_SYM(resource)* r)
+RCPR_SYM(list_node_create)(
+    RCPR_SYM(list_node)** node, RCPR_SYM(list)* l, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != node);

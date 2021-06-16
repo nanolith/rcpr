@@ -14,6 +14,8 @@
 
 #include "list_internal.h"
 
+RCPR_IMPORT_list;
+
 /**
  * \brief Insert the given \ref resource before the given \ref list_node.
  *
@@ -44,8 +46,8 @@
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-list_insert(
-    list_node* node, RCPR_SYM(resource)* r)
+RCPR_SYM(list_insert)(
+    RCPR_SYM(list_node)* node, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_list_node_valid(node));

@@ -14,6 +14,8 @@
 
 #include "list_internal.h"
 
+RCPR_IMPORT_list;
+RCPR_IMPORT_list_internal;
 RCPR_IMPORT_resource;
 
 /**
@@ -26,7 +28,9 @@ RCPR_IMPORT_resource;
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status list_node_cleanup(RCPR_SYM(allocator)* a, list_node* node)
+status
+RCPR_SYM(list_node_cleanup)(
+    RCPR_SYM(allocator)* a, RCPR_SYM(list_node)* node)
 {
     (void)a;
 

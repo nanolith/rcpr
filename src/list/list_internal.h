@@ -21,28 +21,28 @@
 extern "C" {
 # endif /*__cplusplus*/
 
-struct list
+struct RCPR_SYM(list)
 {
     RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(list);
 
     RCPR_SYM(allocator)* alloc;
-    list_node* head;
-    list_node* tail;
+    RCPR_SYM(list_node)* head;
+    RCPR_SYM(list_node)* tail;
     size_t count;
 };
 
-struct list_node
+struct RCPR_SYM(list_node)
 {
     RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(list_node);
 
     RCPR_SYM(allocator)* alloc;
-    list* parent;
-    list_node* prev;
-    list_node* next;
+    RCPR_SYM(list)* parent;
+    RCPR_SYM(list_node)* prev;
+    RCPR_SYM(list_node)* next;
     RCPR_SYM(resource)* child;
 };
 
@@ -78,8 +78,8 @@ struct list_node
  *      - On failure, \p node is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_node_create(
-    list_node** node, list* l, RCPR_SYM(resource)* r);
+RCPR_SYM(list_node_create)(
+    RCPR_SYM(list_node)** node, RCPR_SYM(list)* l, RCPR_SYM(resource)* r);
 
 /**
  * \brief Clean up a list node.
@@ -91,7 +91,9 @@ list_node_create(
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status list_node_cleanup(RCPR_SYM(allocator)* a, list_node* node);
+status
+RCPR_SYM(list_node_cleanup)(
+    RCPR_SYM(allocator)* a, RCPR_SYM(list_node)* node);
 
 /**
  * \brief Release an list_node resource.
@@ -102,7 +104,21 @@ status list_node_cleanup(RCPR_SYM(allocator)* a, list_node* node);
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status list_node_release(RCPR_SYM(resource)* r);
+status RCPR_SYM(list_node_release)(RCPR_SYM(resource)* r);
+
+/******************************************************************************/
+/* Start of private exports.                                                  */
+/******************************************************************************/
+#define RCPR_IMPORT_list_internal \
+    static inline status FN_DECL_MUST_CHECK list_node_create( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list)* y, RCPR_SYM(resource)* z) { \
+            return RCPR_SYM(list_node_create)(x,y,z); } \
+    static inline status list_node_cleanup( \
+        RCPR_SYM(allocator)* x, RCPR_SYM(list_node)* y) { \
+            return RCPR_SYM(list_node_cleanup)(x,y); } \
+    static inline status list_node_release( \
+        RCPR_SYM(resource)* x) { \
+            return RCPR_SYM(list_node_release)(x); }
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

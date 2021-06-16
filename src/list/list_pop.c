@@ -14,6 +14,7 @@
 
 #include "list_internal.h"
 
+RCPR_IMPORT_list;
 RCPR_IMPORT_resource;
 
 /**
@@ -51,8 +52,8 @@ RCPR_IMPORT_resource;
  *      - On failure, the pointer that \p r points to remains unchanged (NULL).
  */
 status FN_DECL_MUST_CHECK
-list_pop(
-    list* l, RCPR_SYM(resource)** r)
+RCPR_SYM(list_pop)(
+    RCPR_SYM(list)* l, RCPR_SYM(resource)** r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_list_valid(l));

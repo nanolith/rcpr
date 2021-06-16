@@ -15,6 +15,8 @@
 #include "list_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_list;
+RCPR_IMPORT_list_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -51,8 +53,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(list);
  *      - On failure, \p l is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_create(
-    list** l, RCPR_SYM(allocator)* a)
+RCPR_SYM(list_create)(
+    RCPR_SYM(list)** l, RCPR_SYM(allocator)* a)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != l);

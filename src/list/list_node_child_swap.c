@@ -49,8 +49,8 @@ RCPR_IMPORT_resource;
  *      - On failure, \p r is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-list_node_child_swap(
-    list_node* node, RCPR_SYM(resource)** r)
+RCPR_SYM(list_node_child_swap)(
+    RCPR_SYM(list_node)* node, RCPR_SYM(resource)** r)
 {
     resource* old;
 

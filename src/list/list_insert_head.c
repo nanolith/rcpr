@@ -14,6 +14,9 @@
 
 #include "list_internal.h"
 
+RCPR_IMPORT_list;
+RCPR_IMPORT_list_internal;
+
 /**
  * \brief Insert the given \ref resource in the front of the \ref list.
  *
@@ -39,8 +42,8 @@
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-list_insert_head(
-    list* l, RCPR_SYM(resource)* r)
+RCPR_SYM(list_insert_head)(
+    RCPR_SYM(list)* l, RCPR_SYM(resource)* r)
 {
     list_node* node;
 
