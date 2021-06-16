@@ -14,6 +14,7 @@
 #include "fiber_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_compare;
 RCPR_IMPORT_resource;
 
 /* forward decls. */

@@ -62,8 +62,8 @@ static status rbtree_delete_nodes(rbtree* tree, rbtree_node* n);
  */
 status FN_DECL_MUST_CHECK
 rbtree_create(
-    rbtree** tree, RCPR_SYM(allocator)* a, compare_fn compare,
-    compare_key_fn key, void* context)
+    rbtree** tree, RCPR_SYM(allocator)* a, RCPR_SYM(compare_fn) compare,
+    RCPR_SYM(compare_key_fn) key, void* context)
 {
     rbtree* tmp;
     status retval;

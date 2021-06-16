@@ -69,8 +69,8 @@ typedef struct rbtree rbtree;
  */
 status FN_DECL_MUST_CHECK
 rbtree_create(
-    rbtree** tree, RCPR_SYM(allocator)* a, compare_fn compare,
-    compare_key_fn key, void* context);
+    rbtree** tree, RCPR_SYM(allocator)* a, RCPR_SYM(compare_fn) compare,
+    RCPR_SYM(compare_key_fn) key, void* context);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
