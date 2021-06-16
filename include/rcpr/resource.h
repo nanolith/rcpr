@@ -134,26 +134,26 @@ RCPR_SYM(prop_resource_valid)(
     typedef RCPR_SYM(resource) sym ## _ ## resource; \
     typedef RCPR_SYM(resource_release_fn) sym ## _ ## resource_release_fn; \
     static inline status sym ## _ ## resource_release(\
-        sym ## _ ## resource* x) { \
+        RCPR_SYM(resource)* x) { \
             return RCPR_SYM(resource_release)(x); } \
     static inline void sym ## _ ## resource_init(\
-        sym ## _ ## resource* x, sym ## _ ## resource_release_fn y) { \
+        RCPR_SYM(resource)* x, RCPR_SYM(resource_release_fn) y) { \
             return RCPR_SYM(resource_init)(x, y); } \
     static inline bool sym _ ## _ ## prop_resource_valid(\
-        const sym ## _ ## resource* x) { \
+        const RCPR_SYM(resource)* x) { \
             return RCPR_SYM(prop_resource_valid)(x); }
 
 #define RCPR_IMPORT_resource \
     typedef RCPR_SYM(resource) resource; \
     typedef RCPR_SYM(resource_release_fn) resource_release_fn; \
     static inline status resource_release(\
-        resource* x) { \
+        RCPR_SYM(resource)* x) { \
             return RCPR_SYM(resource_release)(x); } \
     static inline void resource_init(\
-        resource* x, resource_release_fn y) { \
+        RCPR_SYM(resource)* x, RCPR_SYM(resource_release_fn) y) { \
             return RCPR_SYM(resource_init)(x, y); } \
     static inline bool prop_resource_valid(\
-        const resource* x) { \
+        const RCPR_SYM(resource)* x) { \
             return RCPR_SYM(prop_resource_valid)(x); }
         
 
