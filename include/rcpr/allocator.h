@@ -216,49 +216,49 @@ RCPR_SYM(prop_allocator_valid)(
     typedef RCPR_SYM(allocator) sym ## _ ## allocator; \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## malloc_allocator_create( \
-        sym ## _ ## allocator** x) { \
+        RCPR_SYM(allocator)** x) { \
             return RCPR_SYM(malloc_allocator_create)(x); } \
     static inline status FN_DECL_MUST_CHECK sym ## _ ## bump_allocator_create( \
-        sym ## _ ## allocator** x, void* y, size_t z) { \
+        RCPR_SYM(allocator)** x, void* y, size_t z) { \
             return RCPR_SYM(bump_allocator_create)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK sym ## _ ## allocator_allocate( \
-        sym ## _ ## allocator* x, void** y, size_t z) { \
+        RCPR_SYM(allocator)* x, void** y, size_t z) { \
             return RCPR_SYM(allocator_allocate)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK sym ## _ ## allocator_reclaim( \
-        sym ## _ ## allocator* x, void* y) { \
+        RCPR_SYM(allocator)* x, void* y) { \
             return RCPR_SYM(allocator_reclaim)(x,y); } \
     static inline status FN_DECL_MUST_CHECK sym ## _ ## allocator_reallocate( \
-        sym ## _ ## allocator* x, void** y, size_t z) { \
+        RCPR_SYM(allocator)* x, void** y, size_t z) { \
             return RCPR_SYM(allocator_reallocate)(x,y,z); } \
     static inline RCPR_SYM(resource)* sym ## _ ## allocator_resource_handle( \
-        sym ## _ ## allocator* x) { \
+        RCPR_SYM(allocator)* x) { \
             return RCPR_SYM(allocator_resource_handle)(x); } \
     static inline bool sym ## _ ## prop_allocator_valid( \
-        const sym ## _ ## allocator* x) { \
+        const RCPR_SYM(allocator)* x) { \
             return RCPR_SYM(prop_allocator_valid)(x); }
 
 #define RCPR_IMPORT_allocator \
     typedef RCPR_SYM(allocator) allocator; \
     static inline status FN_DECL_MUST_CHECK malloc_allocator_create( \
-        allocator** x) { \
+        RCPR_SYM(allocator)** x) { \
             return RCPR_SYM(malloc_allocator_create)(x); } \
     static inline status FN_DECL_MUST_CHECK bump_allocator_create( \
-        allocator** x, void* y, size_t z) { \
+        RCPR_SYM(allocator)** x, void* y, size_t z) { \
             return RCPR_SYM(bump_allocator_create)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK allocator_allocate( \
-        allocator* x, void** y, size_t z) { \
+        RCPR_SYM(allocator)* x, void** y, size_t z) { \
             return RCPR_SYM(allocator_allocate)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK allocator_reclaim( \
-        allocator* x, void* y) { \
+        RCPR_SYM(allocator)* x, void* y) { \
             return RCPR_SYM(allocator_reclaim)(x,y); } \
     static inline status FN_DECL_MUST_CHECK allocator_reallocate( \
-        allocator* x, void** y, size_t z) { \
+        RCPR_SYM(allocator)* x, void** y, size_t z) { \
             return RCPR_SYM(allocator_reallocate)(x,y,z); } \
     static inline RCPR_SYM(resource)* allocator_resource_handle( \
-        allocator* x) { \
+        RCPR_SYM(allocator)* x) { \
             return RCPR_SYM(allocator_resource_handle)(x); } \
     static inline bool prop_allocator_valid( \
-        const allocator* x) { \
+        const RCPR_SYM(allocator)* x) { \
             return prop_allocator_valid(x); }
 
 /* C++ compatibility. */
