@@ -107,7 +107,7 @@ finish:
     call  _exit@PLT
     hlt
 
-.size fiber_make,.-fiber_make
+.size rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_make,.-rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_make
 
 # Mark that we don't need executable stack.
 .section .note.GNU-stack,"",%progbits

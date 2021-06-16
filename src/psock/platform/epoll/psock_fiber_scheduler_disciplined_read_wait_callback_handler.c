@@ -26,7 +26,8 @@
  *        the process aborting.
  */
 status psock_fiber_scheduler_disciplined_read_wait_callback_handler(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param)
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+    void* yield_param)
 {
     status retval;
     struct epoll_event event;

@@ -28,13 +28,13 @@ typedef struct psock_io_epoll_context psock_io_epoll_context;
 
 struct psock_io_epoll_context
 {
-    resource hdr;
+    RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(psock_io_epoll_context);
 
-    allocator* alloc;
-    resource discipline_cache;
-    fiber_scheduler* sched;
+    RCPR_SYM(allocator)* alloc;
+    RCPR_SYM(resource) discipline_cache;
+    RCPR_SYM(fiber_scheduler)* sched;
     int ep;
     int outputs;
     struct epoll_event epoll_outputs[MAX_EPOLL_OUTPUTS];

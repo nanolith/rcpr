@@ -7,11 +7,14 @@
  * distribution for the license terms under which this software is distributed.
  */
 
+#include <rcpr/fiber.h>
 #include <rcpr/fiber/disciplines/psock_io.h>
 #include <rcpr/model_assert.h>
 #include <sys/types.h>
 
 #include "psock_epoll_internal.h"
+
+RCPR_IMPORT_fiber;
 
 /**
  * \brief The entry point for the psock idle fiber.

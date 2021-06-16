@@ -7,11 +7,16 @@
  * distribution for the license terms under which this software is distributed.
  */
 
+#include <rcpr/fiber.h>
 #include <rcpr/model_assert.h>
 #include <string.h>
 
 #include "../../../fiber/common/fiber_internal.h"
 #include "psock_epoll_internal.h"
+
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_resource;
 
 /* forward decls. */
 static status psock_epoll_discipline_chained_release(resource* r);
@@ -25,7 +30,7 @@ static status psock_epoll_discipline_chained_release(resource* r);
  * \param context       The discipline user context.
  */
 void psock_fiber_scheduler_discipline_set_resource_release(
-    fiber_scheduler_discipline* disc, resource* context)
+    RCPR_SYM(fiber_scheduler_discipline)* disc, RCPR_SYM(resource)* context)
 {
     psock_io_epoll_context* ctx = (psock_io_epoll_context*)context;
 

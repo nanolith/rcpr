@@ -106,7 +106,7 @@ rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_switch:
     #indirect jump to context
     jmp *%r9
 
-.size fiber_switch,.-fiber_switch
+.size rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_switch,.-rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_switch
 
 # Mark that we don't need executable stack.
 .section .note.GNU-stack,"",%progbits
