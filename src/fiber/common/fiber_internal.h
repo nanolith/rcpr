@@ -32,7 +32,7 @@ struct RCPR_SYM(fiber)
 
     void* stack_ptr;
     RCPR_SYM(allocator)* alloc;
-    stack* st;
+    RCPR_SYM(stack)* st;
     void* context;
     RCPR_SYM(fiber_fn) fn;
     RCPR_SYM(fiber_unexpected_event_callback_fn) unexpected_fn;

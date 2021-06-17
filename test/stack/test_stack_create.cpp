@@ -10,6 +10,7 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_stack;
 
 TEST_SUITE(stack_create);
 
