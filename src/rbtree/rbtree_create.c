@@ -13,6 +13,8 @@
 #include "rbtree_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -61,9 +63,9 @@ static status rbtree_delete_nodes(rbtree* tree, rbtree_node* n);
  *      - On failure, \p tree is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-rbtree_create(
-    rbtree** tree, RCPR_SYM(allocator)* a, RCPR_SYM(compare_fn) compare,
-    RCPR_SYM(compare_key_fn) key, void* context)
+RCPR_SYM(rbtree_create)(
+    RCPR_SYM(rbtree)** tree, RCPR_SYM(allocator)* a,
+    RCPR_SYM(compare_fn) compare, RCPR_SYM(compare_key_fn) key, void* context)
 {
     rbtree* tmp;
     status retval;

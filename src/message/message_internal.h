@@ -59,7 +59,7 @@ struct RCPR_SYM(message_discipline_context)
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(resource) discipline_cache;
     RCPR_SYM(fiber_scheduler)* sched;
-    rbtree* mailboxes;
+    RCPR_SYM(rbtree)* mailboxes;
     uint64_t index;
 };
 

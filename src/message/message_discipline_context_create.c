@@ -16,6 +16,7 @@ RCPR_IMPORT_allocator;
 RCPR_IMPORT_compare;
 RCPR_IMPORT_message;
 RCPR_IMPORT_message_internal;
+RCPR_IMPORT_rbtree;
 RCPR_IMPORT_resource;
 
 /* forward decls. */

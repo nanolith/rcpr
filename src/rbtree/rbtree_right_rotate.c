@@ -12,6 +12,9 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+
 /**
  * \brief Perform a right rotation on a subtree in the given tree.
  *
@@ -19,7 +22,9 @@
  *                      performed.
  * \param x             The pivot point node for this right rotation.
  */
-void rbtree_right_rotate(rbtree* tree, rbtree_node* y)
+void
+RCPR_SYM(rbtree_right_rotate)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* y)
 {
     MODEL_ASSERT(prop_rbtree_valid(tree));
     MODEL_ASSERT(prop_rbtree_node_valid(tree, y));

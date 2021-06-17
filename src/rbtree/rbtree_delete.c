@@ -13,6 +13,8 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
 RCPR_IMPORT_resource;
 
 /**
@@ -47,7 +49,8 @@ RCPR_IMPORT_resource;
  *      - On failure, \p r is set to NULL.
  */
 status FN_DECL_MUST_CHECK
-rbtree_delete(RCPR_SYM(resource)** r, rbtree* tree, const void* key)
+RCPR_SYM(rbtree_delete)(
+    RCPR_SYM(resource)** r, RCPR_SYM(rbtree)* tree, const void* key)
 {
     status retval;
     rbtree_node* node = NULL;

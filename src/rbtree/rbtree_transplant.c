@@ -12,6 +12,9 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+
 /**
  * \brief Transplant moves subtrees around when a node with two children is
  * deleted.
@@ -21,7 +24,9 @@
  * \param u             One node that is part of the transplant operation.
  * \param v             The other node that is part of the transplant operation.
  */
-void rbtree_transplant(rbtree* tree, rbtree_node* u, rbtree_node* v)
+void
+RCPR_SYM(rbtree_transplant)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* u, RCPR_SYM(rbtree_node)* v)
 {
     if (u->parent == tree->nil)
     {

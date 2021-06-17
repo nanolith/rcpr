@@ -12,13 +12,18 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+
 /**
  * \brief Perform a post-insert fixup of the given \ref rbtree instance.
  *
  * \param tree          The \ref rbtree instance to fix up.
  * \param z             The inserted node where the fixup starts.
  */
-void rbtree_insert_fixup(rbtree* tree, rbtree_node* z)
+void
+RCPR_SYM(rbtree_insert_fixup)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* z)
 {
     while (RBTREE_RED == z->parent->color)
     {

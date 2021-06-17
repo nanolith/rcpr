@@ -70,8 +70,8 @@ struct RCPR_SYM(fiber_scheduler_disciplined_context)
     RCPR_SYM(fiber)* main_fiber;
     RCPR_SYM(fiber)* idle_fiber;
     RCPR_SYM(fiber)* management_fiber;
-    rbtree* fibers_by_pointer;
-    rbtree* disciplines_by_uuid;
+    RCPR_SYM(rbtree)* fibers_by_pointer;
+    RCPR_SYM(rbtree)* disciplines_by_uuid;
     RCPR_SYM(queue)* run_queue;
     RCPR_SYM(fiber_scheduler_discipline)* management_discipline;
 

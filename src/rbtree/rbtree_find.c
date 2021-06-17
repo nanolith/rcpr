@@ -12,6 +12,9 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+
 /**
  * \brief Find the given key in the \ref rbtree.
  *
@@ -39,7 +42,8 @@
  *      - On failure, \p r is set to NULL.
  */
 status FN_DECL_MUST_CHECK
-rbtree_find(RCPR_SYM(resource)** r, rbtree* tree, const void* key)
+RCPR_SYM(rbtree_find)
+    (RCPR_SYM(resource)** r, RCPR_SYM(rbtree)* tree, const void* key)
 {
     rbtree_node* node;
 

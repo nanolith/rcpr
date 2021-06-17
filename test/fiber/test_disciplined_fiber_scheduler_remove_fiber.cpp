@@ -14,6 +14,7 @@
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_fiber_internal;
+RCPR_IMPORT_rbtree;
 RCPR_IMPORT_resource;
 
 TEST_SUITE(disciplined_fiber_scheduler_remove_fiber);

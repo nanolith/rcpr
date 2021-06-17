@@ -10,6 +10,7 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_compare;
+RCPR_IMPORT_rbtree;
 RCPR_IMPORT_resource;
 
 TEST_SUITE(rbtree_create);
