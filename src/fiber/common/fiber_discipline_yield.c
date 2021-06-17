@@ -49,7 +49,7 @@ RCPR_IMPORT_fiber;
 status FN_DECL_MUST_CHECK
 RCPR_SYM(fiber_discipline_yield)(
     RCPR_SYM(fiber_scheduler_discipline)* disc, int yield_event,
-    void* yield_param, const rcpr_uuid** resume_id, int* resume_event,
+    void* yield_param, const RCPR_SYM(rcpr_uuid)** resume_id, int* resume_event,
     void** resume_param)
 {
     /* parameter sanity checks. */

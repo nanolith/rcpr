@@ -20,7 +20,7 @@ extern "C" {
 /**
  * \brief The fiber management discipline ID.
  */
-extern const rcpr_uuid FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE;
+extern const RCPR_SYM(rcpr_uuid) FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE;
 
 /**
  * \brief Management discipline yield events.

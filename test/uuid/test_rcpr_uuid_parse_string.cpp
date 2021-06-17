@@ -11,6 +11,7 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
 
 TEST_SUITE(rcpr_uuid_parse_string);
 

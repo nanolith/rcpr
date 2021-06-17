@@ -11,6 +11,8 @@
 #include <rcpr/uuid.h>
 #include <string.h>
 
+RCPR_IMPORT_uuid;
+
 /* forward decls. */
 static bool try_read_hex_nibble(const char** str, uint8_t* byte);
 static bool try_read_hex_byte(const char** str, uint8_t* byte);
@@ -42,8 +44,8 @@ static bool try_read_dash(const char** str, uint8_t* byte);
  *      - On failure, \p uuid is not changed, and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-rcpr_uuid_parse_string(
-    rcpr_uuid* uuid, const char* str)
+RCPR_SYM(rcpr_uuid_parse_string)(
+    RCPR_SYM(rcpr_uuid)* uuid, const char* str)
 {
     uint8_t ignore;
 

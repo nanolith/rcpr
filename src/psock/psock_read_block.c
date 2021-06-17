@@ -18,6 +18,7 @@
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_uuid;
 
 /**
  * \brief Block until a read is available.  This is used in conjunction with

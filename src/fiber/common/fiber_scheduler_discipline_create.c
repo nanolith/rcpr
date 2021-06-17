@@ -15,6 +15,7 @@
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
 
 /* forward decls. */
 static status fiber_scheduler_discipline_resource_release(resource*);
@@ -63,7 +64,7 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_discipline);
  */
 status FN_DECL_MUST_CHECK
 RCPR_SYM(fiber_scheduler_discipline_create)(
-    RCPR_SYM(fiber_scheduler_discipline)** disc, const rcpr_uuid* id,
+    RCPR_SYM(fiber_scheduler_discipline)** disc, const RCPR_SYM(rcpr_uuid)* id,
     RCPR_SYM(allocator)* alloc, void* context, size_t callbacks,
     RCPR_SYM(fiber_scheduler_discipline_callback_fn)* callback_vector)
 {

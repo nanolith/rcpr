@@ -42,7 +42,7 @@ RCPR_IMPORT_fiber_internal;
  */
 status FN_DECL_MUST_CHECK
 RCPR_SYM(disciplined_fiber_scheduler_receive_management_event)(
-    RCPR_SYM(fiber_scheduler)* sched, const rcpr_uuid** resume_id,
+    RCPR_SYM(fiber_scheduler)* sched, const RCPR_SYM(rcpr_uuid)** resume_id,
     int* resume_event, void** resume_param)
 {
     fiber_scheduler_disciplined_context* ctx = NULL;

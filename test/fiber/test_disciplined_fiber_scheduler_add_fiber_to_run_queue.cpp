@@ -16,6 +16,7 @@ RCPR_IMPORT_fiber;
 RCPR_IMPORT_fiber_internal;
 RCPR_IMPORT_queue;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
 
 TEST_SUITE(disciplined_fiber_scheduler_add_fiber_to_run_queue);
 

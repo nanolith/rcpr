@@ -41,7 +41,8 @@ RCPR_SYM(fiber_scheduler_discipline);
 typedef status (*RCPR_SYM(fiber_scheduler_callback_fn))(
     void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
     void* yield_param, RCPR_SYM(fiber)** resume_fib,
-    const rcpr_uuid** restore_disc_id, int *resume_event, void** resume_param);
+    const RCPR_SYM(rcpr_uuid)** restore_disc_id, int *resume_event,
+    void** resume_param);
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

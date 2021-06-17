@@ -20,6 +20,7 @@ RCPR_IMPORT_fiber_internal;
 RCPR_IMPORT_queue;
 RCPR_IMPORT_rbtree;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
 
 /* forward decls. */
 static status fiber_scheduler_disciplined_resource_release(resource*);

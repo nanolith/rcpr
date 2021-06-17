@@ -16,6 +16,7 @@ RCPR_IMPORT_fiber;
 RCPR_IMPORT_fiber_internal;
 RCPR_IMPORT_rbtree;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
 
 /**
  * \brief Find a fiber scheduler discipline in the \ref fiber_scheduler.
@@ -46,7 +47,7 @@ RCPR_IMPORT_resource;
 status FN_DECL_MUST_CHECK
 RCPR_SYM(fiber_scheduler_discipline_find)(
     RCPR_SYM(fiber_scheduler_discipline)** disc,
-    RCPR_SYM(fiber_scheduler)* sched, const rcpr_uuid* id)
+    RCPR_SYM(fiber_scheduler)* sched, const RCPR_SYM(rcpr_uuid)* id)
 {
     status retval;
     fiber_scheduler_disciplined_context* ctx = NULL;

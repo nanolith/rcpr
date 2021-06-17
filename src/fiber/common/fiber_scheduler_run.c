@@ -13,6 +13,7 @@
 #include "fiber_internal.h"
 
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_uuid;
 
 /**
  * \brief Run the fiber scheduler.
