@@ -11,6 +11,7 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_thread;
 
 TEST_SUITE(thread_mutex_create);
 

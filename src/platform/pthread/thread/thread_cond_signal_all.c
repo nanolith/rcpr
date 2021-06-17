@@ -14,6 +14,8 @@
 
 #include "thread_internal.h"
 
+RCPR_IMPORT_thread;
+
 /**
  * \brief Notify all threads waiting on the condition variable.
  *
@@ -34,8 +36,8 @@
  *        will be signaled and will wake.
  */
 status FN_DECL_MUST_CHECK
-thread_cond_signal_all(
-    thread_cond* cond)
+RCPR_SYM(thread_cond_signal_all)(
+    RCPR_SYM(thread_cond)* cond)
 {
     int retval;
 

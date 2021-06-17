@@ -21,7 +21,7 @@
 extern "C" {
 # endif /*__cplusplus*/
 
-struct thread
+struct RCPR_SYM(thread)
 {
     RCPR_SYM(resource) hdr;
 
@@ -30,21 +30,21 @@ struct thread
     RCPR_SYM(allocator)* alloc;
     pthread_t thread;
     void* context;
-    thread_fn fn;
+    RCPR_SYM(thread_fn) fn;
     volatile bool running;
     status exit_code;
 };
 
-struct thread_mutex_lock
+struct RCPR_SYM(thread_mutex_lock)
 {
     RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(thread_mutex_lock);
 
-    thread_mutex* parent;
+    RCPR_SYM(thread_mutex)* parent;
 };
 
-struct thread_mutex
+struct RCPR_SYM(thread_mutex)
 {
     RCPR_SYM(resource) hdr;
 
@@ -52,10 +52,10 @@ struct thread_mutex
 
     RCPR_SYM(allocator)* alloc;
     pthread_mutex_t mutex;
-    thread_mutex_lock child;
+    RCPR_SYM(thread_mutex_lock) child;
 };
 
-struct thread_cond
+struct RCPR_SYM(thread_cond)
 {
     RCPR_SYM(resource) hdr;
 

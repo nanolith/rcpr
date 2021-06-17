@@ -14,6 +14,8 @@
 
 #include "thread_internal.h"
 
+RCPR_IMPORT_thread;
+
 /**
  * \brief Wait on a condition variable, using the given mutex for exclusivity.
  *
@@ -46,8 +48,8 @@
  *      - On failure, \p lock is unchanged.
  */
 status FN_DECL_MUST_CHECK
-thread_cond_wait(
-    thread_mutex_lock** lock, thread_cond* cond)
+RCPR_SYM(thread_cond_wait)(
+    RCPR_SYM(thread_mutex_lock)** lock, RCPR_SYM(thread_cond)* cond)
 {
     int retval;
 
