@@ -72,7 +72,7 @@ struct RCPR_SYM(fiber_scheduler_disciplined_context)
     RCPR_SYM(fiber)* management_fiber;
     rbtree* fibers_by_pointer;
     rbtree* disciplines_by_uuid;
-    queue* run_queue;
+    RCPR_SYM(queue)* run_queue;
     RCPR_SYM(fiber_scheduler_discipline)* management_discipline;
 
     size_t callback_vector_size;

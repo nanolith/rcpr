@@ -14,6 +14,8 @@
 
 #include "queue_internal.h"
 
+RCPR_IMPORT_queue;
+
 /**
  * \brief Given an \ref queue instance, return the count of nodes in that queue.
  *
@@ -21,7 +23,7 @@
  *
  * \returns the number of nodes in the \ref queue instance.
  */
-size_t queue_count(queue* q)
+size_t RCPR_SYM(queue_count)(RCPR_SYM(queue)* q)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_queue_valid(q));

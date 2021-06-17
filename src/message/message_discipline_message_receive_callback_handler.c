@@ -15,6 +15,7 @@
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_message;
 RCPR_IMPORT_message_internal;
+RCPR_IMPORT_queue;
 RCPR_IMPORT_resource;
 
 /**

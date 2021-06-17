@@ -19,7 +19,7 @@ extern "C" {
 /**
  * \brief The queue container holds zero or more resources in a FIFO.
  */
-typedef struct queue queue;
+typedef struct RCPR_SYM(queue) RCPR_SYM(queue);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
@@ -55,8 +55,8 @@ typedef struct queue queue;
  *      - On failure, \p q is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-queue_create(
-    queue** q, RCPR_SYM(allocator)* a);
+RCPR_SYM(queue_create)(
+    RCPR_SYM(queue)** q, RCPR_SYM(allocator)* a);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -87,8 +87,8 @@ queue_create(
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-queue_append(
-    queue* q, RCPR_SYM(resource)* r);
+RCPR_SYM(queue_append)(
+    RCPR_SYM(queue)* q, RCPR_SYM(resource)* r);
 
 /**
  * \brief Pop the head value of the \ref queue, setting the given resource
@@ -125,8 +125,8 @@ queue_append(
  *      - On failure, the pointer that \p r points to remains unchanged (NULL).
  */
 status FN_DECL_MUST_CHECK
-queue_pop(
-    queue* q, RCPR_SYM(resource)** r);
+RCPR_SYM(queue_pop)(
+    RCPR_SYM(queue)* q, RCPR_SYM(resource)** r);
 
 /**
  * \brief Place the given \ref resource at the front of the \ref queue.
@@ -153,8 +153,8 @@ queue_pop(
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-queue_insert(
-    queue* q, RCPR_SYM(resource)* r);
+RCPR_SYM(queue_insert)(
+    RCPR_SYM(queue)* q, RCPR_SYM(resource)* r);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -167,7 +167,9 @@ queue_insert(
  *
  * \returns the number of nodes in the \ref queue instance.
  */
-size_t queue_count(queue* q);
+size_t
+RCPR_SYM(queue_count)(
+    RCPR_SYM(queue)* q);
 
 /**
  * \brief Given an \ref queue instance, return the resource handle for this
@@ -178,7 +180,9 @@ size_t queue_count(queue* q);
  *
  * \returns the \ref resource handle for this \ref queue instance.
  */
-RCPR_SYM(resource)* queue_resource_handle(queue* q);
+RCPR_SYM(resource)*
+RCPR_SYM(queue_resource_handle)(
+    RCPR_SYM(queue)* q);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
@@ -191,7 +195,60 @@ RCPR_SYM(resource)* queue_resource_handle(queue* q);
  *
  * \returns true if the \ref queue instance is valid.
  */
-bool prop_queue_valid(const queue* q);
+bool
+RCPR_SYM(prop_queue_valid)(
+    const RCPR_SYM(queue)* q);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_queue_as(sym) \
+    typedef RCPR_SYM(queue) sym ## _ ## queue; \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## queue_create( \
+        RCPR_SYM(queue)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(queue_create)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## queue_append( \
+        RCPR_SYM(queue)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(queue_append)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## queue_pop( \
+        RCPR_SYM(queue)* x, RCPR_SYM(resource)** y) { \
+            return RCPR_SYM(queue_pop)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## queue_insert( \
+        RCPR_SYM(queue)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(queue_insert)(x,y); } \
+    static inline size_t sym ## _ ## queue_count( \
+        RCPR_SYM(queue)* x) { \
+            return RCPR_SYM(queue_count)(x); } \
+    static inline RCPR_SYM(resource)* sym ## _ ## queue_resource_handle( \
+        RCPR_SYM(queue)* x) { \
+            return RCPR_SYM(queue_resource_handle)(x); } \
+    static inline bool sym ## _ ## prop_queue_valid( \
+        const RCPR_SYM(queue)* x) { \
+            return RCPR_SYM(prop_queue_valid)(x); }
+
+#define RCPR_IMPORT_queue \
+    typedef RCPR_SYM(queue) queue; \
+    static inline status FN_DECL_MUST_CHECK queue_create( \
+        RCPR_SYM(queue)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(queue_create)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK queue_append( \
+        RCPR_SYM(queue)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(queue_append)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK queue_pop( \
+        RCPR_SYM(queue)* x, RCPR_SYM(resource)** y) { \
+            return RCPR_SYM(queue_pop)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK queue_insert( \
+        RCPR_SYM(queue)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(queue_insert)(x,y); } \
+    static inline size_t queue_count( \
+        RCPR_SYM(queue)* x) { \
+            return RCPR_SYM(queue_count)(x); } \
+    static inline RCPR_SYM(resource)* queue_resource_handle( \
+        RCPR_SYM(queue)* x) { \
+            return RCPR_SYM(queue_resource_handle)(x); } \
+    static inline bool prop_queue_valid( \
+        const RCPR_SYM(queue)* x) { \
+            return RCPR_SYM(prop_queue_valid)(x); }
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

@@ -17,6 +17,7 @@ RCPR_IMPORT_allocator;
 RCPR_IMPORT_compare;
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_fiber_internal;
+RCPR_IMPORT_queue;
 RCPR_IMPORT_resource;
 
 /* forward decls. */

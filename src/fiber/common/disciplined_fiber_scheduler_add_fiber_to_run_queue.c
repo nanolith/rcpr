@@ -14,6 +14,7 @@
 
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_fiber_internal;
+RCPR_IMPORT_queue;
 
 /**
  * \brief Mark the given \ref fiber as runnable.

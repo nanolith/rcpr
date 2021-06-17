@@ -14,6 +14,8 @@
 
 #include "queue_internal.h"
 
+RCPR_IMPORT_queue;
+
 /**
  * \brief Place the given \ref resource at the front of the \ref queue.
  *
@@ -39,8 +41,8 @@
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-queue_insert(
-    queue* q, RCPR_SYM(resource)* r)
+RCPR_SYM(queue_insert)(
+    RCPR_SYM(queue)* q, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_queue_valid(q));
