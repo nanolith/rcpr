@@ -12,6 +12,9 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+
 /**
  * \brief Insert the given \ref resource into the \ref rbtree.
  *
@@ -40,7 +43,8 @@
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-rbtree_insert(rbtree* tree, RCPR_SYM(resource)* r)
+RCPR_SYM(rbtree_insert)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(resource)* r)
 {
     status retval;
     rbtree_node* new_node = NULL;

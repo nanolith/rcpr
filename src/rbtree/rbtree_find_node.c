@@ -12,6 +12,9 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+
 /**
  * \brief Find a \ref rbtree_node matching the given key in an \ref rbtree
  * instance.
@@ -29,7 +32,8 @@
  *      - ERROR_RBTREE_NOT_FOUND if a matching node was not found.
  */
 status FN_DECL_MUST_CHECK
-rbtree_find_node(rbtree* tree, const void* key, rbtree_node** node)
+RCPR_SYM(rbtree_find_node)(
+    RCPR_SYM(rbtree)* tree, const void* key, RCPR_SYM(rbtree_node)** node)
 {
     rbtree_node* x = tree->root;
 

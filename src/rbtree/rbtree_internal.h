@@ -22,23 +22,23 @@ extern "C" {
 #define RBTREE_RED true
 #define RBTREE_BLACK false
 
-typedef struct rbtree_node rbtree_node;
+typedef struct RCPR_SYM(rbtree_node) RCPR_SYM(rbtree_node);
 
-struct rbtree_node
+struct RCPR_SYM(rbtree_node)
 {
     RCPR_SYM(resource) hdr;
 
     MODEL_STRUCT_TAG(rbtree_node);
 
     RCPR_SYM(allocator)* alloc;
-    rbtree_node* parent;
-    rbtree_node* left;
-    rbtree_node* right;
+    RCPR_SYM(rbtree_node)* parent;
+    RCPR_SYM(rbtree_node)* left;
+    RCPR_SYM(rbtree_node)* right;
     RCPR_SYM(resource)* value;
     bool color;
 };
 
-struct rbtree
+struct RCPR_SYM(rbtree)
 {
     RCPR_SYM(resource) hdr;
 
@@ -48,9 +48,9 @@ struct rbtree
     void* context;
     RCPR_SYM(compare_fn) compare;
     RCPR_SYM(compare_key_fn) key;
-    rbtree_node* root;
-    rbtree_node nil_impl;
-    rbtree_node* nil;
+    RCPR_SYM(rbtree_node)* root;
+    RCPR_SYM(rbtree_node) nil_impl;
+    RCPR_SYM(rbtree_node)* nil;
     size_t count;
 };
 
@@ -61,7 +61,9 @@ struct rbtree
  *                      performed.
  * \param x             The pivot point node for this left rotation.
  */
-void rbtree_left_rotate(rbtree* tree, rbtree_node* x);
+void
+RCPR_SYM(rbtree_left_rotate)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
 
 /**
  * \brief Perform a right rotation on a subtree in the given tree.
@@ -70,7 +72,9 @@ void rbtree_left_rotate(rbtree* tree, rbtree_node* x);
  *                      performed.
  * \param y             The pivot point node for this right rotation.
  */
-void rbtree_right_rotate(rbtree* tree, rbtree_node* y);
+void
+RCPR_SYM(rbtree_right_rotate)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* y);
 
 /**
  * \brief Perform a post-insert fixup of the given \ref rbtree instance.
@@ -78,7 +82,9 @@ void rbtree_right_rotate(rbtree* tree, rbtree_node* y);
  * \param tree          The \ref rbtree instance to fix up.
  * \param z             The inserted node where the fixup starts.
  */
-void rbtree_insert_fixup(rbtree* tree, rbtree_node* z);
+void
+RCPR_SYM(rbtree_insert_fixup)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* z);
 
 /**
  * \brief Transplant moves subtrees around when a node with two children is
@@ -89,7 +95,9 @@ void rbtree_insert_fixup(rbtree* tree, rbtree_node* z);
  * \param u             One node that is part of the transplant operation.
  * \param v             The other node that is part of the transplant operation.
  */
-void rbtree_transplant(rbtree* tree, rbtree_node* u, rbtree_node* v);
+void
+RCPR_SYM(rbtree_transplant)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* u, RCPR_SYM(rbtree_node)* v);
 
 /**
  * \brief Return the minimum node in an rbtree subtree.
@@ -99,7 +107,9 @@ void rbtree_transplant(rbtree* tree, rbtree_node* u, rbtree_node* v);
  *
  * \returns the minimum node in this subtree.
  */
-rbtree_node* rbtree_minimum_node(rbtree* tree, rbtree_node* x);
+RCPR_SYM(rbtree_node)*
+RCPR_SYM(rbtree_minimum_node)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
 
 /**
  * \brief Return the maximum node in an rbtree subtree.
@@ -109,7 +119,9 @@ rbtree_node* rbtree_minimum_node(rbtree* tree, rbtree_node* x);
  *
  * \returns the maximum node in this subtree.
  */
-rbtree_node* rbtree_maximum_node(rbtree* tree, rbtree_node* x);
+RCPR_SYM(rbtree_node)*
+RCPR_SYM(rbtree_maximum_node)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
 
 /**
  * \brief Return the in-order successor node of the given node.
@@ -119,7 +131,9 @@ rbtree_node* rbtree_maximum_node(rbtree* tree, rbtree_node* x);
  *
  * \returns the successor node of this node, or tree->nil if none is found.
  */
-rbtree_node* rbtree_successor_node(rbtree* tree, rbtree_node* x);
+RCPR_SYM(rbtree_node)*
+RCPR_SYM(rbtree_successor_node)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
 
 /**
  * \brief Return the in-order predecessor node of the given node.
@@ -129,7 +143,9 @@ rbtree_node* rbtree_successor_node(rbtree* tree, rbtree_node* x);
  *
  * \returns the predecessor node of this node, or tree->nil if none is found.
  */
-rbtree_node* rbtree_predecessor_node(rbtree* tree, rbtree_node* x);
+RCPR_SYM(rbtree_node)*
+RCPR_SYM(rbtree_predecessor_node)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
 
 /**
  * \brief Perform a post-delete fixup of the given \ref rbtree instance.
@@ -137,7 +153,9 @@ rbtree_node* rbtree_predecessor_node(rbtree* tree, rbtree_node* x);
  * \param tree          The \ref rbtree instance to fix up.
  * \param x             The node now occupying the deleted node's position.
  */
-void rbtree_delete_fixup(rbtree* tree, rbtree_node* x);
+void
+RCPR_SYM(rbtree_delete_fixup)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
 
 /**
  * \brief Remove the given \ref rbtree_node from the \ref rbtree.
@@ -148,7 +166,9 @@ void rbtree_delete_fixup(rbtree* tree, rbtree_node* x);
  * \param tree          The \ref rbtree instance from which the node is removed.
  * \param z             The \ref rbtree_node to delete from the tree.
  */
-void rbtree_remove_node(rbtree* tree, rbtree_node* z);
+void
+RCPR_SYM(rbtree_remove_node)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* z);
 
 /**
  * \brief Insert the given \ref rbtree_node into the \ref rbtree.
@@ -159,7 +179,9 @@ void rbtree_remove_node(rbtree* tree, rbtree_node* z);
  * \param tree          The \ref rbtree instance from which the node is removed.
  * \param z             The \ref rbtree_node to delete from the tree.
  */
-void rbtree_insert_node(rbtree* tree, rbtree_node* z);
+void
+RCPR_SYM(rbtree_insert_node)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* z);
 
 /**
  * \brief Find a \ref rbtree_node matching the given key in an \ref rbtree
@@ -178,7 +200,8 @@ void rbtree_insert_node(rbtree* tree, rbtree_node* z);
  *      - ERROR_RBTREE_NOT_FOUND if a matching node was not found.
  */
 status FN_DECL_MUST_CHECK
-rbtree_find_node(rbtree* tree, const void* key, rbtree_node** node);
+RCPR_SYM(rbtree_find_node)(
+    RCPR_SYM(rbtree)* tree, const void* key, RCPR_SYM(rbtree_node)** node);
 
 /**
  * \brief Create a \ref rbtree_node instance from a tree and a resource.
@@ -199,7 +222,9 @@ rbtree_find_node(rbtree* tree, const void* key, rbtree_node** node);
  *      - a non-zero failure code on failure.
  */
 status FN_DECL_MUST_CHECK
-rbtree_node_create(rbtree_node** node, rbtree* tree, RCPR_SYM(resource)* r);
+RCPR_SYM(rbtree_node_create)(
+    RCPR_SYM(rbtree_node)** node, RCPR_SYM(rbtree)* tree,
+    RCPR_SYM(resource)* r);
 
 /**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
@@ -210,7 +235,9 @@ rbtree_node_create(rbtree_node** node, rbtree* tree, RCPR_SYM(resource)* r);
  *
  * \returns the \ref resource handle for this \ref rbtree_node instance.
  */
-RCPR_SYM(resource)* rbtree_node_resource_handle(rbtree_node* node);
+RCPR_SYM(resource)*
+RCPR_SYM(rbtree_node_resource_handle)(
+    RCPR_SYM(rbtree_node)* node);
 
 /**
  * \brief Valid \ref rbtree_node property.
@@ -221,7 +248,62 @@ RCPR_SYM(resource)* rbtree_node_resource_handle(rbtree_node* node);
  *
  * \returns true if the \ref rbtree instance is valid.
  */
-bool prop_rbtree_node_valid(const rbtree* tree, const rbtree_node* node);
+bool
+RCPR_SYM(prop_rbtree_node_valid)(
+    const RCPR_SYM(rbtree)* tree, const RCPR_SYM(rbtree_node)* node);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_rbtree_internal \
+    typedef RCPR_SYM(rbtree_node) rbtree_node; \
+    static inline void rbtree_left_rotate( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_left_rotate)(x,y); } \
+    static inline void rbtree_right_rotate( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_right_rotate)(x,y); } \
+    static inline void rbtree_insert_fixup( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_insert_fixup)(x,y); } \
+    static inline void rbtree_transplant( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y, \
+        RCPR_SYM(rbtree_node)* z) { \
+            return RCPR_SYM(rbtree_transplant)(x,y,z); } \
+    static inline RCPR_SYM(rbtree_node)* rbtree_minimum_node( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_minimum_node)(x,y); } \
+    static inline RCPR_SYM(rbtree_node)* rbtree_maximum_node( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_maximum_node)(x,y); } \
+    static inline RCPR_SYM(rbtree_node)* rbtree_successor_node( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_successor_node)(x,y); } \
+    static inline RCPR_SYM(rbtree_node)* rbtree_predecessor_node( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_predecessor_node)(x,y); } \
+    static inline void rbtree_delete_fixup( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_delete_fixup)(x,y); } \
+    static inline void rbtree_remove_node( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_remove_node)(x,y); } \
+    static inline void rbtree_insert_node( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_insert_node)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK rbtree_find_node( \
+        RCPR_SYM(rbtree)* x, const void* y, RCPR_SYM(rbtree_node)** z) { \
+            return RCPR_SYM(rbtree_find_node)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK rbtree_node_create( \
+        RCPR_SYM(rbtree_node)** x, RCPR_SYM(rbtree)* y, \
+        RCPR_SYM(resource)* z) { \
+            return RCPR_SYM(rbtree_node_create)(x,y,z); } \
+    static inline RCPR_SYM(resource)* rbtree_node_resource_handle( \
+        RCPR_SYM(rbtree_node)* x) { \
+            return RCPR_SYM(rbtree_node_resource_handle)(x); } \
+    static inline bool prop_rbtree_node_valid( \
+        const RCPR_SYM(rbtree)* x, const RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(prop_rbtree_node_valid)(x,y); }
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

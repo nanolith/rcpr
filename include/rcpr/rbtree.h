@@ -22,7 +22,7 @@ extern "C" {
 /**
  * \brief An rbtree stores resources in a balanced binary tree.
  */
-typedef struct rbtree rbtree;
+typedef struct RCPR_SYM(rbtree) RCPR_SYM(rbtree);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
@@ -68,9 +68,9 @@ typedef struct rbtree rbtree;
  *      - On failure, \p tree is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-rbtree_create(
-    rbtree** tree, RCPR_SYM(allocator)* a, RCPR_SYM(compare_fn) compare,
-    RCPR_SYM(compare_key_fn) key, void* context);
+RCPR_SYM(rbtree_create)(
+    RCPR_SYM(rbtree)** tree, RCPR_SYM(allocator)* a,
+    RCPR_SYM(compare_fn) compare, RCPR_SYM(compare_key_fn) key, void* context);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -104,7 +104,8 @@ rbtree_create(
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-rbtree_insert(rbtree* tree, RCPR_SYM(resource)* r);
+RCPR_SYM(rbtree_insert)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(resource)* r);
 
 /**
  * \brief Find the given key in the \ref rbtree.
@@ -133,7 +134,8 @@ rbtree_insert(rbtree* tree, RCPR_SYM(resource)* r);
  *      - On failure, \p r is set to NULL.
  */
 status FN_DECL_MUST_CHECK
-rbtree_find(RCPR_SYM(resource)** r, rbtree* tree, const void* key);
+RCPR_SYM(rbtree_find)(
+    RCPR_SYM(resource)** r, RCPR_SYM(rbtree)* tree, const void* key);
 
 /**
  * \brief Delete the given key from the \ref rbtree, optionally releasing the
@@ -167,7 +169,8 @@ rbtree_find(RCPR_SYM(resource)** r, rbtree* tree, const void* key);
  *      - On failure, \p r is set to NULL.
  */
 status FN_DECL_MUST_CHECK
-rbtree_delete(RCPR_SYM(resource)** r, rbtree* tree, const void* key);
+RCPR_SYM(rbtree_delete)(
+    RCPR_SYM(resource)** r, RCPR_SYM(rbtree)* tree, const void* key);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -182,7 +185,9 @@ rbtree_delete(RCPR_SYM(resource)** r, rbtree* tree, const void* key);
  *
  * \returns the \ref resource handle for this \ref rbtree instance.
  */
-RCPR_SYM(resource)* rbtree_resource_handle(rbtree* tree);
+RCPR_SYM(resource)*
+RCPR_SYM(rbtree_resource_handle)(
+    RCPR_SYM(rbtree)* tree);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
@@ -195,7 +200,56 @@ RCPR_SYM(resource)* rbtree_resource_handle(rbtree* tree);
  *
  * \returns true if the \ref rbtree instance is valid.
  */
-bool prop_rbtree_valid(const rbtree* tree);
+bool
+RCPR_SYM(prop_rbtree_valid)(
+    const RCPR_SYM(rbtree)* tree);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_rbtree_as(sym) \
+    typedef RCPR_SYM(rbtree) sym ## _ ## rbtree; \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_create( \
+        RCPR_SYM(rbtree)** v, RCPR_SYM(allocator)* w, \
+        RCPR_SYM(compare_fn) x, RCPR_SYM(compare_key_fn) y, void* z) { \
+            return RCPR_SYM(rbtree_create)(v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_insert( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(rbtree_insert)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_find( \
+        RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
+            return RCPR_SYM(rbtree_find)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_delete( \
+        RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
+            return RCPR_SYM(rbtree_delete)(x,y,z); } \
+    static inline RCPR_SYM(resource)* sym ## _ ## rbtree_resource_handle( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_resource_handle)(x); } \
+    static inline bool sym ## _ ## prop_rbtree_valid( \
+        const RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(prop_rbtree_valid)(x); }
+
+#define RCPR_IMPORT_rbtree \
+    typedef RCPR_SYM(rbtree) rbtree; \
+    static inline status FN_DECL_MUST_CHECK rbtree_create( \
+        RCPR_SYM(rbtree)** v, RCPR_SYM(allocator)* w, \
+        RCPR_SYM(compare_fn) x, RCPR_SYM(compare_key_fn) y, void* z) { \
+            return RCPR_SYM(rbtree_create)(v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK rbtree_insert( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(rbtree_insert)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK rbtree_find( \
+        RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
+            return RCPR_SYM(rbtree_find)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK rbtree_delete( \
+        RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
+            return RCPR_SYM(rbtree_delete)(x,y,z); } \
+    static inline RCPR_SYM(resource)* rbtree_resource_handle( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_resource_handle)(x); } \
+    static inline bool prop_rbtree_valid( \
+        const RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(prop_rbtree_valid)(x); }
 
 /* C++ compatibility. */
 # ifdef    __cplusplus

@@ -12,6 +12,9 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+
 /**
  * \brief Return the minimum node in an rbtree subtree.
  *
@@ -20,7 +23,9 @@
  *
  * \returns the minimum node in this subtree.
  */
-rbtree_node* rbtree_minimum_node(rbtree* tree, rbtree_node* x)
+RCPR_SYM(rbtree_node)*
+RCPR_SYM(rbtree_minimum_node)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x)
 {
     while (x->left != tree->nil)
     {

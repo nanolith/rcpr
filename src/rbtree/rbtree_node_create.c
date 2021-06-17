@@ -15,6 +15,8 @@
 #include "rbtree_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -40,7 +42,9 @@ static status rbtree_node_release(resource* r);
  *      - a non-zero failure code on failure.
  */
 status FN_DECL_MUST_CHECK
-rbtree_node_create(rbtree_node** node, rbtree* tree, RCPR_SYM(resource)* r)
+RCPR_SYM(rbtree_node_create)(
+    RCPR_SYM(rbtree_node)** node, RCPR_SYM(rbtree)* tree,
+    RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != node);

@@ -12,6 +12,9 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+
 /**
  * \brief Insert the given \ref rbtree_node into the \ref rbtree.
  *
@@ -21,7 +24,9 @@
  * \param tree          The \ref rbtree instance from which the node is removed.
  * \param z             The \ref rbtree_node to delete from the tree.
  */
-void rbtree_insert_node(rbtree* tree, rbtree_node* z)
+void
+RCPR_SYM(rbtree_insert_node)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* z)
 {
     rbtree_node* x = tree->root;
     rbtree_node* y = tree->nil;

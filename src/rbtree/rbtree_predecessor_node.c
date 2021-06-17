@@ -12,6 +12,9 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+
 /**
  * \brief Return the in-order predecessor node of the given node.
  *
@@ -20,7 +23,9 @@
  *
  * \returns the predecessor node of this node, or tree->nil if none is found.
  */
-rbtree_node* rbtree_predecessor_node(rbtree* tree, rbtree_node* x)
+RCPR_SYM(rbtree_node)*
+RCPR_SYM(rbtree_predecessor_node)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x)
 {
     if (x->left != tree->nil)
     {

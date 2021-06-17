@@ -12,13 +12,18 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+
 /**
  * \brief Perform a post-delete fixup of the given \ref rbtree instance.
  *
  * \param tree          The \ref rbtree instance to fix up.
  * \param x             The node now occupying the deleted node's position.
  */
-void rbtree_delete_fixup(rbtree* tree, rbtree_node* x)
+void
+RCPR_SYM(rbtree_delete_fixup)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x)
 {
     while (x != tree->nil && x->color == RBTREE_BLACK)
     {
