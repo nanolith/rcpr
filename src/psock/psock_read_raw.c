@@ -15,6 +15,9 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
+
 /**
  * \brief Attempt to read up to \p data_size bytes from the psock instance. This
  * function will return fewer bytes (updating \p data_size accordingly) if no
@@ -50,8 +53,8 @@
  *      - On failure, \p data is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw(
-    psock* sock, void* data, size_t* data_size)
+RCPR_SYM(psock_read_raw)(
+    RCPR_SYM(psock)* sock, void* data, size_t* data_size)
 {
     status retval;
 

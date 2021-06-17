@@ -15,6 +15,9 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
+
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
  * from the remote end of this socket by the peer calling
@@ -41,8 +44,8 @@
  *        length.
  */
 status FN_DECL_MUST_CHECK
-psock_write_raw_data(
-    psock* sock, const void* data, size_t data_size)
+RCPR_SYM(psock_write_raw_data)(
+    RCPR_SYM(psock)* sock, const void* data, size_t data_size)
 {
     status retval;
 

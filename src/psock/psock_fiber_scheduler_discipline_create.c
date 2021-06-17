@@ -15,6 +15,8 @@
 #include "psock_internal.h"
 
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
 RCPR_IMPORT_resource;
 
 /**
@@ -33,7 +35,8 @@ RCPR_IMPORT_resource;
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_fiber_scheduler_discipline_create(
+status
+RCPR_SYM(psock_fiber_scheduler_discipline_create)(
     RCPR_SYM(fiber_scheduler_discipline)** disc, RCPR_SYM(resource)** context,
     RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(allocator)* alloc)
 {

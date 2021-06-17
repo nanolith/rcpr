@@ -26,15 +26,12 @@
 extern "C" {
 # endif /*__cplusplus*/
 
-/* forward decls */
-struct psock;
-
 /**
  * \brief The psock abstraction enables inter-process communication via a
  * socket, and enables layering of encryption, message authentication,
  * compression, and asynchronous I/O.
  */
-typedef struct psock psock;
+typedef struct RCPR_SYM(psock) RCPR_SYM(psock);
 
 /**
  * \brief An unexpected message handler callback function.
@@ -64,8 +61,8 @@ typedef struct psock psock;
  *        abstraction layer read/write as if that was returned from the
  *        simulated read/write.
  */
-typedef status (*psock_unexpected_handler_callback_fn)(
-    psock* sock, RCPR_SYM(fiber)* f, void* context, bool write,
+typedef status (*RCPR_SYM(psock_unexpected_handler_callback_fn))(
+    RCPR_SYM(psock)* sock, RCPR_SYM(fiber)* f, void* context, bool write,
     const rcpr_uuid* resume_id, int resume_event, void* resume_param);
 
 /******************************************************************************/
@@ -111,8 +108,8 @@ typedef status (*psock_unexpected_handler_callback_fn)(
  *      - On failure, \p sock is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_create_from_descriptor(
-    psock** sock, RCPR_SYM(allocator)* a, int descriptor);
+RCPR_SYM(psock_create_from_descriptor)(
+    RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a, int descriptor);
 
 /**
  * \brief Wrap a \ref psock instance with an async \ref psock instance that
@@ -172,9 +169,9 @@ psock_create_from_descriptor(
  *      - On failure, \p sock is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_create_wrap_async(
-    psock** sock, RCPR_SYM(allocator)* a, RCPR_SYM(fiber_scheduler)* sched,
-    psock* child);
+RCPR_SYM(psock_create_wrap_async)(
+    RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a,
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(psock)* child);
 
 /**
  * \brief Create a \ref psock instance backed by a listen socket bound to the
@@ -217,9 +214,9 @@ psock_create_wrap_async(
  *      - On failure, \p sock is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_create_from_listen_address(
-    psock** sock, RCPR_SYM(allocator)* a, const struct sockaddr* name,
-    socklen_t namelen);
+RCPR_SYM(psock_create_from_listen_address)(
+    RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a,
+    const struct sockaddr* name, socklen_t namelen);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -256,8 +253,9 @@ psock_create_from_listen_address(
  *      - On failure, the unexpected handler is not changed.
  */
 status FN_DECL_MUST_CHECK
-psock_wrap_async_unexpected_handler_set(
-    psock* sock, psock_unexpected_handler_callback_fn fn, void* context);
+RCPR_SYM(psock_wrap_async_unexpected_handler_set)(
+    RCPR_SYM(psock)* sock, RCPR_SYM(psock_unexpected_handler_callback_fn) fn,
+    void* context);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -291,8 +289,8 @@ psock_wrap_async_unexpected_handler_set(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_int64(
-    psock* sock, int64_t* val);
+RCPR_SYM(psock_read_boxed_int64)(
+    RCPR_SYM(psock)* sock, int64_t* val);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -326,8 +324,8 @@ psock_read_boxed_int64(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_uint64(
-    psock* sock, uint64_t* val);
+RCPR_SYM(psock_read_boxed_uint64)(
+    RCPR_SYM(psock)* sock, uint64_t* val);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -361,8 +359,8 @@ psock_read_boxed_uint64(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_int32(
-    psock* sock, int32_t* val);
+RCPR_SYM(psock_read_boxed_int32)(
+    RCPR_SYM(psock)* sock, int32_t* val);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -396,8 +394,8 @@ psock_read_boxed_int32(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_uint32(
-    psock* sock, uint32_t* val);
+RCPR_SYM(psock_read_boxed_uint32)(
+    RCPR_SYM(psock)* sock, uint32_t* val);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -431,8 +429,8 @@ psock_read_boxed_uint32(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_int16(
-    psock* sock, int16_t* val);
+RCPR_SYM(psock_read_boxed_int16)(
+    RCPR_SYM(psock)* sock, int16_t* val);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -466,8 +464,8 @@ psock_read_boxed_int16(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_uint16(
-    psock* sock, uint16_t* val);
+RCPR_SYM(psock_read_boxed_uint16)(
+    RCPR_SYM(psock)* sock, uint16_t* val);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -501,8 +499,8 @@ psock_read_boxed_uint16(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_int8(
-    psock* sock, int8_t* val);
+RCPR_SYM(psock_read_boxed_int8)(
+    RCPR_SYM(psock)* sock, int8_t* val);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -536,8 +534,8 @@ psock_read_boxed_int8(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_uint8(
-    psock* sock, uint8_t* val);
+RCPR_SYM(psock_read_boxed_uint8)(
+    RCPR_SYM(psock)* sock, uint8_t* val);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -571,8 +569,8 @@ psock_read_boxed_uint8(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_bool(
-    psock* sock, bool* val);
+RCPR_SYM(psock_read_boxed_bool)(
+    RCPR_SYM(psock)* sock, bool* val);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -616,8 +614,8 @@ psock_read_boxed_bool(
  *      - On failure, \p length is unchanged.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_string(
-    psock* sock, RCPR_SYM(allocator)* a, char** val, size_t* length);
+RCPR_SYM(psock_read_boxed_string)(
+    RCPR_SYM(psock)* sock, RCPR_SYM(allocator)* a, char** val, size_t* length);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -660,8 +658,9 @@ psock_read_boxed_string(
  *      - On failure, \p data_size is unchanged.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_data(
-    psock* sock, RCPR_SYM(allocator)* a, void** data, size_t* data_size);
+RCPR_SYM(psock_read_boxed_data)(
+    RCPR_SYM(psock)* sock, RCPR_SYM(allocator)* a, void** data,
+    size_t* data_size);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -687,8 +686,8 @@ psock_read_boxed_data(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_int64(
-    psock* sock, int64_t val);
+RCPR_SYM(psock_write_boxed_int64)(
+    RCPR_SYM(psock)* sock, int64_t val);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -714,8 +713,8 @@ psock_write_boxed_int64(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_uint64(
-    psock* sock, uint64_t val);
+RCPR_SYM(psock_write_boxed_uint64)(
+    RCPR_SYM(psock)* sock, uint64_t val);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -741,8 +740,8 @@ psock_write_boxed_uint64(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_int32(
-    psock* sock, int32_t val);
+RCPR_SYM(psock_write_boxed_int32)(
+    RCPR_SYM(psock)* sock, int32_t val);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -768,8 +767,8 @@ psock_write_boxed_int32(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_uint32(
-    psock* sock, uint32_t val);
+RCPR_SYM(psock_write_boxed_uint32)(
+    RCPR_SYM(psock)* sock, uint32_t val);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -795,8 +794,8 @@ psock_write_boxed_uint32(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_int16(
-    psock* sock, int16_t val);
+RCPR_SYM(psock_write_boxed_int16)(
+    RCPR_SYM(psock)* sock, int16_t val);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -822,8 +821,8 @@ psock_write_boxed_int16(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_uint16(
-    psock* sock, uint16_t val);
+RCPR_SYM(psock_write_boxed_uint16)(
+    RCPR_SYM(psock)* sock, uint16_t val);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -849,8 +848,8 @@ psock_write_boxed_uint16(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_int8(
-    psock* sock, int8_t val);
+RCPR_SYM(psock_write_boxed_int8)(
+    RCPR_SYM(psock)* sock, int8_t val);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -876,8 +875,8 @@ psock_write_boxed_int8(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_uint8(
-    psock* sock, uint8_t val);
+RCPR_SYM(psock_write_boxed_uint8)(
+    RCPR_SYM(psock)* sock, uint8_t val);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -901,8 +900,8 @@ psock_write_boxed_uint8(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_bool(
-    psock* sock, bool val);
+RCPR_SYM(psock_write_boxed_bool)(
+    RCPR_SYM(psock)* sock, bool val);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -927,8 +926,8 @@ psock_write_boxed_bool(
  *      - \p val must be a valid C-string pointer.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_string(
-    psock* sock, const char* val);
+RCPR_SYM(psock_write_boxed_string)(
+    RCPR_SYM(psock)* sock, const char* val);
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -955,8 +954,8 @@ psock_write_boxed_string(
  *        length.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_data(
-    psock* sock, const void* data, size_t data_size);
+RCPR_SYM(psock_write_boxed_data)(
+    RCPR_SYM(psock)* sock, const void* data, size_t data_size);
 
 /**
  * \brief Attempt to read up to \p data_size bytes from the psock instance. This
@@ -993,8 +992,8 @@ psock_write_boxed_data(
  *      - On failure, \p data is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw(
-    psock* sock, void* data, size_t* data_size);
+RCPR_SYM(psock_read_raw)(
+    RCPR_SYM(psock)* sock, void* data, size_t* data_size);
 
 /**
  * \brief Block until a read is available.  This is used in conjunction with
@@ -1018,7 +1017,7 @@ psock_read_raw(
  *        this \ref psock instance has occurred.
  */
 status FN_DECL_MUST_CHECK
-psock_read_block(psock* sock);
+RCPR_SYM(psock_read_block)(RCPR_SYM(psock)* sock);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was
@@ -1053,8 +1052,8 @@ psock_read_block(psock* sock);
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw_int64(
-    psock* sock, int64_t* val);
+RCPR_SYM(psock_read_raw_int64)(
+    RCPR_SYM(psock)* sock, int64_t* val);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was
@@ -1089,8 +1088,8 @@ psock_read_raw_int64(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw_uint64(
-    psock* sock, uint64_t* val);
+RCPR_SYM(psock_read_raw_uint64)(
+    RCPR_SYM(psock)* sock, uint64_t* val);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was
@@ -1125,8 +1124,8 @@ psock_read_raw_uint64(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw_int32(
-    psock* sock, int32_t* val);
+RCPR_SYM(psock_read_raw_int32)(
+    RCPR_SYM(psock)* sock, int32_t* val);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was written
@@ -1161,8 +1160,8 @@ psock_read_raw_int32(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw_uint32(
-    psock* sock, uint32_t* val);
+RCPR_SYM(psock_read_raw_uint32)(
+    RCPR_SYM(psock)* sock, uint32_t* val);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was written
@@ -1197,8 +1196,8 @@ psock_read_raw_uint32(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw_int16(
-    psock* sock, int16_t* val);
+RCPR_SYM(psock_read_raw_int16)(
+    RCPR_SYM(psock)* sock, int16_t* val);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was written
@@ -1233,8 +1232,8 @@ psock_read_raw_int16(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw_uint16(
-    psock* sock, uint16_t* val);
+RCPR_SYM(psock_read_raw_uint16)(
+    RCPR_SYM(psock)* sock, uint16_t* val);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was written
@@ -1269,8 +1268,8 @@ psock_read_raw_uint16(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw_int8(
-    psock* sock, int8_t* val);
+RCPR_SYM(psock_read_raw_int8)(
+    RCPR_SYM(psock)* sock, int8_t* val);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was written
@@ -1305,8 +1304,8 @@ psock_read_raw_int8(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw_uint8(
-    psock* sock, uint8_t* val);
+RCPR_SYM(psock_read_raw_uint8)(
+    RCPR_SYM(psock)* sock, uint8_t* val);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was written
@@ -1339,8 +1338,8 @@ psock_read_raw_uint8(
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw_bool(
-    psock* sock, bool* val);
+RCPR_SYM(psock_read_raw_bool)(
+    RCPR_SYM(psock)* sock, bool* val);
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was
@@ -1379,8 +1378,9 @@ psock_read_raw_bool(
  *      - On failure, \p data is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw_data(
-    psock* sock, RCPR_SYM(allocator)* a, void** data, size_t data_size);
+RCPR_SYM(psock_read_raw_data)(
+    RCPR_SYM(psock)* sock, RCPR_SYM(allocator)* a, void** data,
+    size_t data_size);
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
@@ -1407,8 +1407,8 @@ psock_read_raw_data(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_raw_int64(
-    psock* sock, int64_t val);
+RCPR_SYM(psock_write_raw_int64)(
+    RCPR_SYM(psock)* sock, int64_t val);
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be
@@ -1435,8 +1435,8 @@ psock_write_raw_int64(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_raw_uint64(
-    psock* sock, uint64_t val);
+RCPR_SYM(psock_write_raw_uint64)(
+    RCPR_SYM(psock)* sock, uint64_t val);
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
@@ -1463,8 +1463,8 @@ psock_write_raw_uint64(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_raw_int32(
-    psock* sock, int32_t val);
+RCPR_SYM(psock_write_raw_int32)(
+    RCPR_SYM(psock)* sock, int32_t val);
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
@@ -1491,8 +1491,8 @@ psock_write_raw_int32(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_raw_uint32(
-    psock* sock, uint32_t val);
+RCPR_SYM(psock_write_raw_uint32)(
+    RCPR_SYM(psock)* sock, uint32_t val);
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
@@ -1519,8 +1519,8 @@ psock_write_raw_uint32(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_raw_int16(
-    psock* sock, int16_t val);
+RCPR_SYM(psock_write_raw_int16)(
+    RCPR_SYM(psock)* sock, int16_t val);
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
@@ -1547,8 +1547,8 @@ psock_write_raw_int16(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_raw_uint16(
-    psock* sock, uint16_t val);
+RCPR_SYM(psock_write_raw_uint16)(
+    RCPR_SYM(psock)* sock, uint16_t val);
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
@@ -1575,8 +1575,8 @@ psock_write_raw_uint16(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_raw_int8(
-    psock* sock, int8_t val);
+RCPR_SYM(psock_write_raw_int8)(
+    RCPR_SYM(psock)* sock, int8_t val);
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
@@ -1603,8 +1603,8 @@ psock_write_raw_int8(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_raw_uint8(
-    psock* sock, uint8_t val);
+RCPR_SYM(psock_write_raw_uint8)(
+    RCPR_SYM(psock)* sock, uint8_t val);
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
@@ -1629,8 +1629,8 @@ psock_write_raw_uint8(
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_raw_bool(
-    psock* sock, bool val);
+RCPR_SYM(psock_write_raw_bool)(
+    RCPR_SYM(psock)* sock, bool val);
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
@@ -1658,8 +1658,8 @@ psock_write_raw_bool(
  *        length.
  */
 status FN_DECL_MUST_CHECK
-psock_write_raw_data(
-    psock* sock, const void* data, size_t data_size);
+RCPR_SYM(psock_write_raw_data)(
+    RCPR_SYM(psock)* sock, const void* data, size_t data_size);
 
 /**
  * \brief Accept a socket from a listen socket \ref psock instance.
@@ -1702,8 +1702,9 @@ psock_write_raw_data(
  *      - on failure, no field is updated.
  */
 status FN_DECL_MUST_CHECK
-psock_accept(
-    psock* sock, int* desc, struct sockaddr* addr, socklen_t* addrlen);
+RCPR_SYM(psock_accept)(
+    RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+    socklen_t* addrlen);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -1718,7 +1719,9 @@ psock_accept(
  *
  * \returns the resource handle for this \ref psock instance.
  */
-RCPR_SYM(resource)* psock_resource_handle(psock* sock);
+RCPR_SYM(resource)*
+RCPR_SYM(psock_resource_handle)(
+    RCPR_SYM(psock)* sock);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
@@ -1731,7 +1734,9 @@ RCPR_SYM(resource)* psock_resource_handle(psock* sock);
  *
  * \returns true if the \ref psock instance is valid.
  */
-bool prop_psock_valid(const psock* sock);
+bool
+RCPR_SYM(prop_psock_valid)(
+    const RCPR_SYM(psock)* sock);
 
 /******************************************************************************/
 /* Start of support types.                                                    */
@@ -1751,6 +1756,383 @@ enum psock_boxed_type
     PSOCK_BOXED_TYPE_STRING                     =   0x00000020,
     PSOCK_BOXED_TYPE_DATA                       =   0x00000022,
 };
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_psock_as(sym) \
+    typedef RCPR_SYM(psock) sym ## _ ## psock; \
+    typedef RCPR_SYM(psock_unexpected_handler_callback_fn) \
+    sym ## _ ## psock_unexpected_handler_callback_fn; \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_create_from_descriptor( \
+        RCPR_SYM(psock)** x, RCPR_SYM(allocator)* y, int z) { \
+            return RCPR_SYM(psock_create_from_descriptor)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_create_wrap_async( \
+        RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
+        RCPR_SYM(fiber_scheduler)* y, RCPR_SYM(psock)* z) { \
+            return RCPR_SYM(psock_create_wrap_async)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_create_from_listen_address( \
+        RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
+        const struct sockaddr* y, socklen_t z) { \
+            return RCPR_SYM(psock_create_from_listen_address)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_wrap_async_unexpected_handler_set( \
+        RCPR_SYM(psock)* x, RCPR_SYM(psock_unexpected_handler_callback_fn) y, \
+        void* z) { \
+            return RCPR_SYM(psock_wrap_async_unexpected_handler_set)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_boxed_int64( \
+        RCPR_SYM(psock)* x, int64_t* y) { \
+            return RCPR_SYM(psock_read_boxed_int64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_boxed_uint64( \
+        RCPR_SYM(psock)* x, uint64_t* y) { \
+            return RCPR_SYM(psock_read_boxed_uint64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_boxed_int32( \
+        RCPR_SYM(psock)* x, int32_t* y) { \
+            return RCPR_SYM(psock_read_boxed_int32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_boxed_uint32( \
+        RCPR_SYM(psock)* x, uint32_t* y) { \
+            return RCPR_SYM(psock_read_boxed_uint32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_boxed_int16( \
+        RCPR_SYM(psock)* x, int16_t* y) { \
+            return RCPR_SYM(psock_read_boxed_int16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_boxed_uint16( \
+        RCPR_SYM(psock)* x, uint16_t* y) { \
+            return RCPR_SYM(psock_read_boxed_uint16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_boxed_int8( \
+        RCPR_SYM(psock)* x, int8_t* y) { \
+            return RCPR_SYM(psock_read_boxed_int8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_boxed_uint8( \
+        RCPR_SYM(psock)* x, uint8_t* y) { \
+            return RCPR_SYM(psock_read_boxed_uint8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_boxed_bool( \
+        RCPR_SYM(psock)* x, bool* y) { \
+            return RCPR_SYM(psock_read_boxed_bool)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_boxed_string( \
+        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, char** y, size_t* z) { \
+            return RCPR_SYM(psock_read_boxed_string)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_boxed_data( \
+        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t* z) { \
+            return RCPR_SYM(psock_read_boxed_data)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_boxed_int64( \
+        RCPR_SYM(psock)* x, int64_t y) { \
+            return RCPR_SYM(psock_write_boxed_int64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_boxed_uint64( \
+        RCPR_SYM(psock)* x, uint64_t y) { \
+            return RCPR_SYM(psock_write_boxed_uint64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_boxed_int32( \
+        RCPR_SYM(psock)* x, int32_t y) { \
+            return RCPR_SYM(psock_write_boxed_int32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_boxed_uint32( \
+        RCPR_SYM(psock)* x, uint32_t y) { \
+            return RCPR_SYM(psock_write_boxed_uint32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_boxed_int16( \
+        RCPR_SYM(psock)* x, int16_t y) { \
+            return RCPR_SYM(psock_write_boxed_int16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_boxed_uint16( \
+        RCPR_SYM(psock)* x, uint16_t y) { \
+            return RCPR_SYM(psock_write_boxed_uint16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_boxed_int8( \
+        RCPR_SYM(psock)* x, int8_t y) { \
+            return RCPR_SYM(psock_write_boxed_int8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_boxed_uint8( \
+        RCPR_SYM(psock)* x, uint8_t y) { \
+            return RCPR_SYM(psock_write_boxed_uint8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_boxed_bool( \
+        RCPR_SYM(psock)* x, bool y) { \
+            return RCPR_SYM(psock_write_boxed_bool)(x, y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_boxed_string( \
+        RCPR_SYM(psock)* x, const char* y) { \
+            return RCPR_SYM(psock_write_boxed_string)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_boxed_data( \
+        RCPR_SYM(psock)* x, const void* y, size_t z) { \
+            return RCPR_SYM(psock_write_boxed_data)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw( \
+        RCPR_SYM(psock)* x, void* y, size_t* z) { \
+            return RCPR_SYM(psock_read_raw)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_block( \
+        RCPR_SYM(psock)* x) { \
+            return RCPR_SYM(psock_read_block)(x); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw_int64( \
+        RCPR_SYM(psock)* x, int64_t* y) { \
+            return RCPR_SYM(psock_read_raw_int64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw_uint64( \
+        RCPR_SYM(psock)* x, uint64_t* y) { \
+            return RCPR_SYM(psock_read_raw_uint64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw_int32( \
+        RCPR_SYM(psock)* x, int32_t* y) { \
+            return RCPR_SYM(psock_read_raw_int32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw_uint32( \
+        RCPR_SYM(psock)* x, uint32_t* y) { \
+            return RCPR_SYM(psock_read_raw_uint32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw_int16( \
+        RCPR_SYM(psock)* x, int16_t* y) { \
+            return RCPR_SYM(psock_read_raw_int16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw_uint16( \
+        RCPR_SYM(psock)* x, uint16_t* y) { \
+            return RCPR_SYM(psock_read_raw_uint16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw_int8( \
+        RCPR_SYM(psock)* x, int8_t* y) { \
+            return RCPR_SYM(psock_read_raw_int8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw_uint8( \
+        RCPR_SYM(psock)* x, uint8_t* y) { \
+            return RCPR_SYM(psock_read_raw_uint8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw_bool( \
+        RCPR_SYM(psock)* x, bool* y) { \
+            return RCPR_SYM(psock_read_raw_bool)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw_data( \
+        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t z) { \
+            return RCPR_SYM(psock_read_raw_data)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_raw_int64( \
+        RCPR_SYM(psock)* x, int64_t y) { \
+            return RCPR_SYM(psock_write_raw_int64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_raw_uint64( \
+        RCPR_SYM(psock)* x, uint64_t y) { \
+            return RCPR_SYM(psock_write_raw_uint64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_raw_int32( \
+        RCPR_SYM(psock)* x, int32_t y) { \
+            return RCPR_SYM(psock_write_raw_int32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_raw_uint32( \
+        RCPR_SYM(psock)* x, uint32_t y) { \
+            return RCPR_SYM(psock_write_raw_uint32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_raw_int16( \
+        RCPR_SYM(psock)* x, int16_t y) { \
+            return RCPR_SYM(psock_write_raw_int16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_raw_uint16( \
+        RCPR_SYM(psock)* x, uint16_t y) { \
+            return RCPR_SYM(psock_write_raw_uint16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_raw_int8( \
+        RCPR_SYM(psock)* x, int8_t y) { \
+            return RCPR_SYM(psock_write_raw_int8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_raw_uint8( \
+        RCPR_SYM(psock)* x, uint8_t y) { \
+            return RCPR_SYM(psock_write_raw_uint8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_raw_bool( \
+        RCPR_SYM(psock)* x, bool y) { \
+            return RCPR_SYM(psock_write_raw_bool)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_raw_data( \
+        RCPR_SYM(psock)* x, const void* y, size_t z) { \
+            return RCPR_SYM(psock_write_raw_data)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_accept( \
+        RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
+            return RCPR_SYM(psock_accept)(w,x,y,z); } \
+    static inline RCPR_SYM(resource)* \
+    sym ## _ ## psock_resource_handle( \
+        RCPR_SYM(psock)* x) { \
+            return RCPR_SYM(psock_resource_handle)(x); } \
+    static inline bool \
+    sym ## _ ## prop_psock_valid( \
+        const RCPR_SYM(psock)* x) { \
+            return RCPR_SYM(prop_psock_valid)(x); }
+
+#define RCPR_IMPORT_psock \
+    typedef RCPR_SYM(psock) psock; \
+    typedef RCPR_SYM(psock_unexpected_handler_callback_fn) \
+    psock_unexpected_handler_callback_fn; \
+    static inline status FN_DECL_MUST_CHECK psock_create_from_descriptor( \
+        RCPR_SYM(psock)** x, RCPR_SYM(allocator)* y, int z) { \
+            return RCPR_SYM(psock_create_from_descriptor)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_create_wrap_async( \
+        RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
+        RCPR_SYM(fiber_scheduler)* y, RCPR_SYM(psock)* z) { \
+            return RCPR_SYM(psock_create_wrap_async)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_create_from_listen_address( \
+        RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
+        const struct sockaddr* y, socklen_t z) { \
+            return RCPR_SYM(psock_create_from_listen_address)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    psock_wrap_async_unexpected_handler_set( \
+        RCPR_SYM(psock)* x, RCPR_SYM(psock_unexpected_handler_callback_fn) y, \
+        void* z) { \
+            return RCPR_SYM(psock_wrap_async_unexpected_handler_set)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_boxed_int64( \
+        RCPR_SYM(psock)* x, int64_t* y) { \
+            return RCPR_SYM(psock_read_boxed_int64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_boxed_uint64( \
+        RCPR_SYM(psock)* x, uint64_t* y) { \
+            return RCPR_SYM(psock_read_boxed_uint64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_boxed_int32( \
+        RCPR_SYM(psock)* x, int32_t* y) { \
+            return RCPR_SYM(psock_read_boxed_int32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_boxed_uint32( \
+        RCPR_SYM(psock)* x, uint32_t* y) { \
+            return RCPR_SYM(psock_read_boxed_uint32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_boxed_int16( \
+        RCPR_SYM(psock)* x, int16_t* y) { \
+            return RCPR_SYM(psock_read_boxed_int16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_boxed_uint16( \
+        RCPR_SYM(psock)* x, uint16_t* y) { \
+            return RCPR_SYM(psock_read_boxed_uint16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_boxed_int8( \
+        RCPR_SYM(psock)* x, int8_t* y) { \
+            return RCPR_SYM(psock_read_boxed_int8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_boxed_uint8( \
+        RCPR_SYM(psock)* x, uint8_t* y) { \
+            return RCPR_SYM(psock_read_boxed_uint8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_boxed_bool( \
+        RCPR_SYM(psock)* x, bool* y) { \
+            return RCPR_SYM(psock_read_boxed_bool)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_boxed_string( \
+        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, char** y, size_t* z) { \
+            return RCPR_SYM(psock_read_boxed_string)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_boxed_data( \
+        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t* z) { \
+            return RCPR_SYM(psock_read_boxed_data)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_boxed_int64( \
+        RCPR_SYM(psock)* x, int64_t y) { \
+            return RCPR_SYM(psock_write_boxed_int64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_boxed_uint64( \
+        RCPR_SYM(psock)* x, uint64_t y) { \
+            return RCPR_SYM(psock_write_boxed_uint64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_boxed_int32( \
+        RCPR_SYM(psock)* x, int32_t y) { \
+            return RCPR_SYM(psock_write_boxed_int32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_boxed_uint32( \
+        RCPR_SYM(psock)* x, uint32_t y) { \
+            return RCPR_SYM(psock_write_boxed_uint32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_boxed_int16( \
+        RCPR_SYM(psock)* x, int16_t y) { \
+            return RCPR_SYM(psock_write_boxed_int16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_boxed_uint16( \
+        RCPR_SYM(psock)* x, uint16_t y) { \
+            return RCPR_SYM(psock_write_boxed_uint16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_boxed_int8( \
+        RCPR_SYM(psock)* x, int8_t y) { \
+            return RCPR_SYM(psock_write_boxed_int8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_boxed_uint8( \
+        RCPR_SYM(psock)* x, uint8_t y) { \
+            return RCPR_SYM(psock_write_boxed_uint8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_boxed_bool( \
+        RCPR_SYM(psock)* x, bool y) { \
+            return RCPR_SYM(psock_write_boxed_bool)(x, y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_boxed_string( \
+        RCPR_SYM(psock)* x, const char* y) { \
+            return RCPR_SYM(psock_write_boxed_string)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_boxed_data( \
+        RCPR_SYM(psock)* x, const void* y, size_t z) { \
+            return RCPR_SYM(psock_write_boxed_data)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw( \
+        RCPR_SYM(psock)* x, void* y, size_t* z) { \
+            return RCPR_SYM(psock_read_raw)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_block( \
+        RCPR_SYM(psock)* x) { \
+            return RCPR_SYM(psock_read_block)(x); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw_int64( \
+        RCPR_SYM(psock)* x, int64_t* y) { \
+            return RCPR_SYM(psock_read_raw_int64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw_uint64( \
+        RCPR_SYM(psock)* x, uint64_t* y) { \
+            return RCPR_SYM(psock_read_raw_uint64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw_int32( \
+        RCPR_SYM(psock)* x, int32_t* y) { \
+            return RCPR_SYM(psock_read_raw_int32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw_uint32( \
+        RCPR_SYM(psock)* x, uint32_t* y) { \
+            return RCPR_SYM(psock_read_raw_uint32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw_int16( \
+        RCPR_SYM(psock)* x, int16_t* y) { \
+            return RCPR_SYM(psock_read_raw_int16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw_uint16( \
+        RCPR_SYM(psock)* x, uint16_t* y) { \
+            return RCPR_SYM(psock_read_raw_uint16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw_int8( \
+        RCPR_SYM(psock)* x, int8_t* y) { \
+            return RCPR_SYM(psock_read_raw_int8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw_uint8( \
+        RCPR_SYM(psock)* x, uint8_t* y) { \
+            return RCPR_SYM(psock_read_raw_uint8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw_bool( \
+        RCPR_SYM(psock)* x, bool* y) { \
+            return RCPR_SYM(psock_read_raw_bool)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw_data( \
+        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t z) { \
+            return RCPR_SYM(psock_read_raw_data)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_raw_int64( \
+        RCPR_SYM(psock)* x, int64_t y) { \
+            return RCPR_SYM(psock_write_raw_int64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_raw_uint64( \
+        RCPR_SYM(psock)* x, uint64_t y) { \
+            return RCPR_SYM(psock_write_raw_uint64)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_raw_int32( \
+        RCPR_SYM(psock)* x, int32_t y) { \
+            return RCPR_SYM(psock_write_raw_int32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_raw_uint32( \
+        RCPR_SYM(psock)* x, uint32_t y) { \
+            return RCPR_SYM(psock_write_raw_uint32)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_raw_int16( \
+        RCPR_SYM(psock)* x, int16_t y) { \
+            return RCPR_SYM(psock_write_raw_int16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_raw_uint16( \
+        RCPR_SYM(psock)* x, uint16_t y) { \
+            return RCPR_SYM(psock_write_raw_uint16)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_raw_int8( \
+        RCPR_SYM(psock)* x, int8_t y) { \
+            return RCPR_SYM(psock_write_raw_int8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_raw_uint8( \
+        RCPR_SYM(psock)* x, uint8_t y) { \
+            return RCPR_SYM(psock_write_raw_uint8)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_raw_bool( \
+        RCPR_SYM(psock)* x, bool y) { \
+            return RCPR_SYM(psock_write_raw_bool)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_raw_data( \
+        RCPR_SYM(psock)* x, const void* y, size_t z) { \
+            return RCPR_SYM(psock_write_raw_data)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_accept( \
+        RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
+            return RCPR_SYM(psock_accept)(w,x,y,z); } \
+    static inline RCPR_SYM(resource)* psock_resource_handle( \
+        RCPR_SYM(psock)* x) { \
+            return RCPR_SYM(psock_resource_handle)(x); } \
+    static inline bool prop_psock_valid( \
+        const RCPR_SYM(psock)* x) { \
+            return RCPR_SYM(prop_psock_valid)(x); }
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

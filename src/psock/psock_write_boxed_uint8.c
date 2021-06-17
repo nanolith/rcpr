@@ -15,6 +15,9 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
+
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
  * read from the remote end of this socket by the peer calling \ref
@@ -39,8 +42,8 @@
  *        be NULL.
  */
 status FN_DECL_MUST_CHECK
-psock_write_boxed_uint8(
-    psock* sock, uint8_t val)
+RCPR_SYM(psock_write_boxed_uint8)(
+    RCPR_SYM(psock)* sock, uint8_t val)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_psock_valid(sock));

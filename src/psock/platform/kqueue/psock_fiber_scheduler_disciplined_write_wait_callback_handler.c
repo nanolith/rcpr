@@ -26,8 +26,9 @@
  *      - any other non-zero status code will result in thread termination and
  *        the process aborting.
  */
-status psock_fiber_scheduler_disciplined_write_wait_callback_handler(
-    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event, void* yield_param)
+status RCPR_SYM(psock_fiber_scheduler_disciplined_write_wait_callback_handler)(
+    void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
+    void* yield_param)
 {
     /* unused parameter. */
     (void)yield_event;

@@ -16,6 +16,8 @@
 #include "psock_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -59,8 +61,8 @@ RCPR_IMPORT_allocator;
  *      - On failure, \p length is unchanged.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_string(
-    psock* sock, RCPR_SYM(allocator)* a, char** val, size_t* length)
+RCPR_SYM(psock_read_boxed_string)(
+    RCPR_SYM(psock)* sock, RCPR_SYM(allocator)* a, char** val, size_t* length)
 {
     status retval, release_retval;
 

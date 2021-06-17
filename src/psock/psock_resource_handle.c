@@ -23,7 +23,9 @@
  *
  * \returns the resource handle for this \ref psock instance.
  */
-RCPR_SYM(resource)* psock_resource_handle(psock* sock)
+RCPR_SYM(resource)*
+RCPR_SYM(psock_resource_handle)(
+    RCPR_SYM(psock)* sock)
 {
     return &sock->hdr;
 }

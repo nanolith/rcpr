@@ -15,6 +15,9 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
+
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
  * written to the remote end of this socket by the peer calling \ref
@@ -47,8 +50,8 @@
  *      - On failure, \p val is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_boxed_int16(
-    psock* sock, int16_t* val)
+RCPR_SYM(psock_read_boxed_int16)(
+    RCPR_SYM(psock)* sock, int16_t* val)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_psock_valid(sock));
