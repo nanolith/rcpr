@@ -20,6 +20,7 @@ RCPR_IMPORT_fiber;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_socket_utilities;
 
 /* forward decls. */
 static status psock_wrap_async_release(resource*);

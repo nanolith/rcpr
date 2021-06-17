@@ -31,7 +31,7 @@
  *      - a failure code on failure.
  */
 status FN_DECL_MUST_CHECK
-socket_utility_socketpair(
+RCPR_SYM(socket_utility_socketpair)(
     int domain, int type, int protocol, int* left, int* right)
 {
     int sd[2];

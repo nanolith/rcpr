@@ -19,7 +19,9 @@
  *
  * \returns the value in network byte order.
  */
-int64_t socket_utility_hton64(int64_t val)
+int64_t
+RCPR_SYM(socket_utility_hton64)(
+    int64_t val)
 {
 #ifdef __BIG_ENDIAN__
     return val;
