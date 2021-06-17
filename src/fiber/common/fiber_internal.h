@@ -36,7 +36,7 @@ struct RCPR_SYM(fiber)
     void* context;
     RCPR_SYM(fiber_fn) fn;
     RCPR_SYM(fiber_unexpected_event_callback_fn) unexpected_fn;
-    const rcpr_uuid* restore_discipline_id;
+    const RCPR_SYM(rcpr_uuid)* restore_discipline_id;
     uint64_t restore_reason_code;
     void* restore_param;
 };
@@ -87,7 +87,7 @@ struct RCPR_SYM(fiber_scheduler_discipline)
     MODEL_STRUCT_TAG(fiber_scheduler_discipline);
 
     RCPR_SYM(allocator)* alloc;
-    rcpr_uuid id;
+    RCPR_SYM(rcpr_uuid) id;
     RCPR_SYM(fiber_scheduler)* sched;
     void* context;
     size_t callback_vector_size;
@@ -95,7 +95,7 @@ struct RCPR_SYM(fiber_scheduler_discipline)
     uint32_t* callback_codes;
 };
 
-extern const rcpr_uuid FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
+extern const RCPR_SYM(rcpr_uuid) FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
 
 /**
  * \brief Release a fiber resource.
@@ -138,7 +138,7 @@ status (*RCPR_SYM(fiber_entry_fn))(
  */
 void RCPR_SYM(fiber_switch)(
     RCPR_SYM(fiber)* prev, RCPR_SYM(fiber)* next,
-    const rcpr_uuid* disc, int64_t event, void *param);
+    const RCPR_SYM(rcpr_uuid)* disc, int64_t event, void *param);
 
 /**
  * \brief Assembler routine to set up a fiber for entry.
@@ -176,7 +176,7 @@ status RCPR_SYM(fiber_scheduler_resource_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
             return RCPR_SYM(fiber_entry)(x, y); } \
     static inline void fiber_switch( \
-        RCPR_SYM(fiber)* v, RCPR_SYM(fiber)* w, const rcpr_uuid* x, \
+        RCPR_SYM(fiber)* v, RCPR_SYM(fiber)* w, const RCPR_SYM(rcpr_uuid)* x, \
         int64_t y, void* z) { \
             return RCPR_SYM(fiber_switch)(v,w,x,y,z); } \
     static inline void fiber_make( \

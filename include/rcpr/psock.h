@@ -63,7 +63,7 @@ typedef struct RCPR_SYM(psock) RCPR_SYM(psock);
  */
 typedef status (*RCPR_SYM(psock_unexpected_handler_callback_fn))(
     RCPR_SYM(psock)* sock, RCPR_SYM(fiber)* f, void* context, bool write,
-    const rcpr_uuid* resume_id, int resume_event, void* resume_param);
+    const RCPR_SYM(rcpr_uuid)* resume_id, int resume_event, void* resume_param);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */

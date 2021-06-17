@@ -25,6 +25,7 @@ RCPR_IMPORT_allocator;
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
 
 /* forward decls. */
 typedef struct dispatch_context dispatch_context;

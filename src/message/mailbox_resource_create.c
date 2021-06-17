@@ -17,6 +17,7 @@ RCPR_IMPORT_message;
 RCPR_IMPORT_message_internal;
 RCPR_IMPORT_queue;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
 
 /* forward decls. */
 static status mailbox_resource_release(resource* r);

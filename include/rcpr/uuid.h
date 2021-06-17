@@ -25,9 +25,9 @@ extern "C" {
  * type in a structure, as opposed to a pointer type. However, it is passed
  * around as a constant pointer to this value in functions.
  */
-typedef struct rcpr_uuid rcpr_uuid;
+typedef struct RCPR_SYM(rcpr_uuid) RCPR_SYM(rcpr_uuid);
 
-struct rcpr_uuid
+struct RCPR_SYM(rcpr_uuid)
 {
     uint8_t data[16];
 };
@@ -65,8 +65,8 @@ struct rcpr_uuid
  *      - On failure, \p str is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-rcpr_uuid_to_string(
-    char** str, RCPR_SYM(allocator)* alloc, const rcpr_uuid* uuid);
+RCPR_SYM(rcpr_uuid_to_string)(
+    char** str, RCPR_SYM(allocator)* alloc, const RCPR_SYM(rcpr_uuid)* uuid);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -98,8 +98,8 @@ rcpr_uuid_to_string(
  *      - On failure, \p uuid is not changed, and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-rcpr_uuid_parse_string(
-    rcpr_uuid* uuid, const char* str);
+RCPR_SYM(rcpr_uuid_parse_string)(
+    RCPR_SYM(rcpr_uuid)* uuid, const char* str);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
@@ -112,7 +112,37 @@ rcpr_uuid_parse_string(
  *
  * \returns true if the \ref rcpr_uuid instance is valid.
  */
-bool prop_uuid_valid(const rcpr_uuid* id);
+bool
+RCPR_SYM(prop_uuid_valid)(
+    const RCPR_SYM(rcpr_uuid)* id);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_uuid_as(sym) \
+    typedef RCPR_SYM(rcpr_uuid) sym ## _ ## rcpr_uuid; \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## rcpr_uuid_to_string( \
+        char** x, RCPR_SYM(allocator)* y, const RCPR_SYM(rcpr_uuid)* z) { \
+            return RCPR_SYM(rcpr_uuid_to_string)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## rcpr_uuid_parse_string( \
+        RCPR_SYM(rcpr_uuid)* x, const char* y) { \
+            return RCPR_SYM(rcpr_uuid_parse_string)(x,y); } \
+    static inline bool sym ## _ ## prop_uuid_valid( \
+        const RCPR_SYM(rcpr_uuid)* x) { \
+            return RCPR_SYM(prop_uuid_valid)(x); }
+
+#define RCPR_IMPORT_uuid \
+    typedef RCPR_SYM(rcpr_uuid) rcpr_uuid; \
+    static inline status FN_DECL_MUST_CHECK rcpr_uuid_to_string( \
+        char** x, RCPR_SYM(allocator)* y, const RCPR_SYM(rcpr_uuid)* z) { \
+            return RCPR_SYM(rcpr_uuid_to_string)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK rcpr_uuid_parse_string( \
+        RCPR_SYM(rcpr_uuid)* x, const char* y) { \
+            return RCPR_SYM(rcpr_uuid_parse_string)(x,y); } \
+    static inline bool prop_uuid_valid( \
+        const RCPR_SYM(rcpr_uuid)* x) { \
+            return RCPR_SYM(prop_uuid_valid)(x); }
 
 /* C++ compatibility. */
 # ifdef    __cplusplus

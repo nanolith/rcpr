@@ -12,6 +12,7 @@
 #include <string.h>
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_uuid;
 
 #define UUID_STRING_LENGTH 36
 
@@ -98,8 +99,8 @@ static inline char nibble_to_hex(char nibble)
  *      - On failure, \p str is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-rcpr_uuid_to_string(
-    char** str, RCPR_SYM(allocator)* alloc, const rcpr_uuid* uuid)
+RCPR_SYM(rcpr_uuid_to_string)(
+    char** str, RCPR_SYM(allocator)* alloc, const RCPR_SYM(rcpr_uuid)* uuid)
 {
     status retval;
 

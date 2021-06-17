@@ -16,6 +16,7 @@ RCPR_IMPORT_allocator;
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_fiber_internal;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
 
 /* forward decls. */
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler);

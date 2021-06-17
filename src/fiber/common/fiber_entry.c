@@ -13,6 +13,7 @@
 #include "fiber_internal.h"
 
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_uuid;
 
 /**
  * \brief Entry point for a fiber.

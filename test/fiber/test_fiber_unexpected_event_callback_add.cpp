@@ -14,6 +14,7 @@ RCPR_IMPORT_allocator;
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_fiber_internal;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
 
 TEST_SUITE(fiber_unexpected_event_callback_add);
 

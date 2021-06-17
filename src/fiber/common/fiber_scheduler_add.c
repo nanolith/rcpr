@@ -14,6 +14,7 @@
 
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_fiber_internal;
+RCPR_IMPORT_uuid;
 
 /**
  * \brief Add a fiber to the \ref fiber_scheduler.

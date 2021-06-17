@@ -14,6 +14,7 @@
 
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_fiber_internal;
+RCPR_IMPORT_uuid;
 
 /**
  * \brief Yield to the fiber scheduler.
@@ -51,7 +52,8 @@ RCPR_IMPORT_fiber_internal;
 status FN_DECL_MUST_CHECK
 RCPR_SYM(fiber_scheduler_yield)(
     RCPR_SYM(fiber_scheduler)* sched, int yield_event, void* yield_param,
-    const rcpr_uuid** resume_disc_id, int* resume_event, void** resume_param)
+    const RCPR_SYM(rcpr_uuid)** resume_disc_id, int* resume_event,
+    void** resume_param)
 {
     status retval;
 

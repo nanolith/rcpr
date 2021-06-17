@@ -20,7 +20,7 @@ extern "C" {
 /**
  * \brief The psock I/O fiber scheduler discipline.
  */
-extern const rcpr_uuid FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE;
+extern const RCPR_SYM(rcpr_uuid) FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE;
 
 /**
  * \brief psock I/O discipline yield events.

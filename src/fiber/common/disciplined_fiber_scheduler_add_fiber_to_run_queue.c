@@ -44,7 +44,7 @@ RCPR_IMPORT_queue;
 status FN_DECL_MUST_CHECK
 RCPR_SYM(disciplined_fiber_scheduler_add_fiber_to_run_queue)(
     RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib,
-    const rcpr_uuid* resume_id, int resume_event, void* resume_param)
+    const RCPR_SYM(rcpr_uuid)* resume_id, int resume_event, void* resume_param)
 {
     fiber_scheduler_disciplined_context* ctx = NULL;
 

@@ -64,7 +64,7 @@ typedef uint64_t RCPR_SYM(mailbox_address);
  */
 typedef status (*RCPR_SYM(message_unexpected_handler_callback_fn))(
     RCPR_SYM(mailbox_address) addr, RCPR_SYM(fiber)* f, void* context,
-    bool write, const rcpr_uuid* resume_id, int resume_event,
+    bool write, const RCPR_SYM(rcpr_uuid)* resume_id, int resume_event,
     void* resume_param);
 
 /******************************************************************************/
