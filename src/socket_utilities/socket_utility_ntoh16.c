@@ -19,7 +19,9 @@
  *
  * \returns the value in host byte order.
  */
-int16_t socket_utility_ntoh16(int16_t val)
+int16_t
+RCPR_SYM(socket_utility_ntoh16)(
+    int16_t val)
 {
 #ifdef __BIG_ENDIAN__
     return val;

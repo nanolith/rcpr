@@ -21,7 +21,8 @@
  *      - a failure code on failure.
  */
 status FN_DECL_MUST_CHECK
-socket_utility_set_nonblock(int desc)
+RCPR_SYM(socket_utility_set_nonblock)(
+    int desc)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(desc >= 0);

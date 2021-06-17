@@ -17,6 +17,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_socket_utilities;
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be

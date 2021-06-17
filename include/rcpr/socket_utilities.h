@@ -36,7 +36,7 @@ extern "C" {
  *      - a failure code on failure.
  */
 status FN_DECL_MUST_CHECK
-socket_utility_socketpair(
+RCPR_SYM(socket_utility_socketpair)(
     int domain, int type, int protocol, int* left, int* right);
 
 /**
@@ -49,7 +49,8 @@ socket_utility_socketpair(
  *      - a failure code on failure.
  */
 status FN_DECL_MUST_CHECK
-socket_utility_set_nonblock(int desc);
+RCPR_SYM(socket_utility_set_nonblock)(
+    int desc);
 
 /**
  * \brief Convert a 64-bit integer value from host to network byte order.
@@ -58,7 +59,9 @@ socket_utility_set_nonblock(int desc);
  *
  * \returns the value in network byte order.
  */
-int64_t socket_utility_hton64(int64_t val);
+int64_t
+RCPR_SYM(socket_utility_hton64)(
+    int64_t val);
 
 /**
  * \brief Convert a 64-bit integer value from network to host byte order.
@@ -67,7 +70,9 @@ int64_t socket_utility_hton64(int64_t val);
  *
  * \returns the value in host byte order.
  */
-int64_t socket_utility_ntoh64(int64_t val);
+int64_t
+RCPR_SYM(socket_utility_ntoh64)(
+    int64_t val);
 
 /**
  * \brief Convert a 32-bit integer value from host to network byte order.
@@ -76,7 +81,9 @@ int64_t socket_utility_ntoh64(int64_t val);
  *
  * \returns the value in network byte order.
  */
-int32_t socket_utility_hton32(int32_t val);
+int32_t
+RCPR_SYM(socket_utility_hton32)(
+    int32_t val);
 
 /**
  * \brief Convert a 32-bit integer value from network to host byte order.
@@ -85,7 +92,9 @@ int32_t socket_utility_hton32(int32_t val);
  *
  * \returns the value in host byte order.
  */
-int32_t socket_utility_ntoh32(int32_t val);
+int32_t
+RCPR_SYM(socket_utility_ntoh32)(
+    int32_t val);
 
 /**
  * \brief Convert a 16-bit integer value from host to network byte order.
@@ -94,7 +103,9 @@ int32_t socket_utility_ntoh32(int32_t val);
  *
  * \returns the value in network byte order.
  */
-int16_t socket_utility_hton16(int16_t val);
+int16_t
+RCPR_SYM(socket_utility_hton16)(
+    int16_t val);
 
 /**
  * \brief Convert a 16-bit integer value from network to host byte order.
@@ -103,7 +114,66 @@ int16_t socket_utility_hton16(int16_t val);
  *
  * \returns the value in host byte order.
  */
-int16_t socket_utility_ntoh16(int16_t val);
+int16_t
+RCPR_SYM(socket_utility_ntoh16)(
+    int16_t val);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_socket_utilities_as(sym) \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## socket_utility_socketpair( \
+        int v, int w, int x, int* y, int* z) { \
+            return RCPR_SYM(socket_utility_socketpair)(v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## socket_utility_set_nonblock( \
+        int x) { \
+            return RCPR_SYM(socket_utility_set_nonblock)(x); } \
+    static inline int64_t sym ## _ ## socket_utility_hton64( \
+        int64_t x) { \
+            return RCPR_SYM(socket_utility_hton64)(x); } \
+    static inline int64_t sym ## _ ## socket_utility_ntoh64( \
+        int64_t x) { \
+            return RCPR_SYM(socket_utility_ntoh64)(x); } \
+    static inline int32_t sym ## _ ## socket_utility_hton32( \
+        int32_t x) { \
+            return RCPR_SYM(socket_utility_hton32)(x); } \
+    static inline int32_t sym ## _ ## socket_utility_ntoh32( \
+        int32_t x) { \
+            return RCPR_SYM(socket_utility_ntoh32)(x); } \
+    static inline int16_t sym ## _ ## socket_utility_hton16( \
+        int16_t x) { \
+            return RCPR_SYM(socket_utility_hton16)(x); } \
+    static inline int16_t sym ## _ ## socket_utility_ntoh16( \
+        int16_t x) { \
+            return RCPR_SYM(socket_utility_ntoh16)(x); }
+
+#define RCPR_IMPORT_socket_utilities \
+    static inline status FN_DECL_MUST_CHECK socket_utility_socketpair( \
+        int v, int w, int x, int* y, int* z) { \
+            return RCPR_SYM(socket_utility_socketpair)(v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK socket_utility_set_nonblock( \
+        int x) { \
+            return RCPR_SYM(socket_utility_set_nonblock)(x); } \
+    static inline int64_t socket_utility_hton64( \
+        int64_t x) { \
+            return RCPR_SYM(socket_utility_hton64)(x); } \
+    static inline int64_t socket_utility_ntoh64( \
+        int64_t x) { \
+            return RCPR_SYM(socket_utility_ntoh64)(x); } \
+    static inline int32_t socket_utility_hton32( \
+        int32_t x) { \
+            return RCPR_SYM(socket_utility_hton32)(x); } \
+    static inline int32_t socket_utility_ntoh32( \
+        int32_t x) { \
+            return RCPR_SYM(socket_utility_ntoh32)(x); } \
+    static inline int16_t socket_utility_hton16( \
+        int16_t x) { \
+            return RCPR_SYM(socket_utility_hton16)(x); } \
+    static inline int16_t socket_utility_ntoh16( \
+        int16_t x) { \
+            return RCPR_SYM(socket_utility_ntoh16)(x); }
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

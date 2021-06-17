@@ -14,6 +14,7 @@
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_socket_utilities;
 
 TEST_SUITE(psock_read_write_raw_int32);
 
