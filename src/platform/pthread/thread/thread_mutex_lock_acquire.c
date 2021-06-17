@@ -14,6 +14,8 @@
 
 #include "thread_internal.h"
 
+RCPR_IMPORT_thread;
+
 /**
  * \brief Acquire the lock from a \ref thread_mutex.
  *
@@ -47,8 +49,8 @@
  *      - On failure, \p lock is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-thread_mutex_lock_acquire(
-    thread_mutex_lock** lock, thread_mutex* mut)
+RCPR_SYM(thread_mutex_lock_acquire)(
+    RCPR_SYM(thread_mutex_lock)** lock, RCPR_SYM(thread_mutex)* mut)
 {
     int retval;
 

@@ -13,9 +13,9 @@ typedef struct thread_info thread_info;
 
 struct thread_info
 {
-    thread_mutex* mutex;
-    thread_cond* worker_cond;
-    thread_cond* main_cond;
+    RCPR_SYM(thread_mutex)* mutex;
+    RCPR_SYM(thread_cond)* worker_cond;
+    RCPR_SYM(thread_cond)* main_cond;
 
     size_t curr_line;
     size_t lines_written;

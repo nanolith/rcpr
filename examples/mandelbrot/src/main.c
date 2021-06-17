@@ -18,6 +18,7 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_thread;
 
 /**
  * \brief Main entry point for the mandelbrot example.

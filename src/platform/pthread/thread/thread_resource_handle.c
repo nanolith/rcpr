@@ -14,6 +14,8 @@
 
 #include "thread_internal.h"
 
+RCPR_IMPORT_thread;
+
 /**
  * \brief Given a \ref thread instance, return the resource handle for this
  * \ref thread instance.
@@ -23,7 +25,9 @@
  *
  * \returns the \ref resource handle for this \ref thread instance.
  */
-RCPR_SYM(resource)* thread_resource_handle(thread* th)
+RCPR_SYM(resource)*
+RCPR_SYM(thread_resource_handle)(
+    RCPR_SYM(thread)* th)
 {
     MODEL_ASSERT(prop_thread_valid(th));
 

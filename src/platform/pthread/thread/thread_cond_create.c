@@ -16,6 +16,7 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_thread;
 
 /* forward decls. */
 static status thread_cond_release(resource*);
@@ -52,8 +53,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_cond);
  *      - On failure, \p cond is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-thread_cond_create(
-    thread_cond** cond, RCPR_SYM(allocator)* a)
+RCPR_SYM(thread_cond_create)(
+    RCPR_SYM(thread_cond)** cond, RCPR_SYM(allocator)* a)
 {
     int retval, reclaim_retval;
     thread_cond* tmp;

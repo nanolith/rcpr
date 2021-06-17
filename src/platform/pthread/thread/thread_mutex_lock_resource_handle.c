@@ -14,6 +14,8 @@
 
 #include "thread_internal.h"
 
+RCPR_IMPORT_thread;
+
 /**
  * \brief Given a \ref thread_mutex_lock instance, return the resource handle
  * for this \ref thread_mutex_lock instance.
@@ -23,7 +25,9 @@
  *
  * \returns the \ref resource handle for this \ref thread_mutex_lock instance.
  */
-RCPR_SYM(resource)* thread_mutex_lock_resource_handle(thread_mutex_lock* lock)
+RCPR_SYM(resource)*
+RCPR_SYM(thread_mutex_lock_resource_handle)(
+    RCPR_SYM(thread_mutex_lock)* lock)
 {
     MODEL_ASSERT(prop_thread_mutex_lock_valid(lock));
 
