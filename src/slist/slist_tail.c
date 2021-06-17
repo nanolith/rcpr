@@ -44,8 +44,8 @@
  *      - On failure, \p node is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-slist_tail(
-    slist_node** node, slist* list)
+RCPR_SYM(slist_tail)(
+    RCPR_SYM(slist_node)** node, RCPR_SYM(slist)* list)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != node);

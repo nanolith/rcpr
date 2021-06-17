@@ -21,7 +21,9 @@
  *
  * \returns the number of nodes in the given \ref slist.
  */
-size_t slist_count(slist* l)
+size_t
+RCPR_SYM(slist_count)(
+    RCPR_SYM(slist)* l)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_slist_valid(l));

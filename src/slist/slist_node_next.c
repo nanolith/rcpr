@@ -14,6 +14,9 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_slist;
+RCPR_IMPORT_slist_internal;
+
 /**
  * \brief Given an \ref slist_node, return the next \ref slist_node in the list.
  *
@@ -35,8 +38,8 @@
  *      - On failure, \p next is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-slist_node_next(
-    slist_node** next, slist_node* node)
+RCPR_SYM(slist_node_next)(
+    RCPR_SYM(slist_node)** next, RCPR_SYM(slist_node)* node)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != next);

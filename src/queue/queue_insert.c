@@ -15,6 +15,7 @@
 #include "queue_internal.h"
 
 RCPR_IMPORT_queue;
+RCPR_IMPORT_slist;
 
 /**
  * \brief Place the given \ref resource at the front of the \ref queue.

@@ -14,6 +14,9 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_slist;
+RCPR_IMPORT_slist_internal;
+
 /**
  * \brief Given an \ref slist_node instance, return the resource handle for this
  * \ref slist_node instance.
@@ -23,7 +26,9 @@
  *
  * \returns the \ref resource handle for this \ref slist_node instance.
  */
-RCPR_SYM(resource)* slist_node_resource_handle(slist_node* node)
+RCPR_SYM(resource)*
+RCPR_SYM(slist_node_resource_handle)(
+    RCPR_SYM(slist_node)* node)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_slist_node_valid(node));

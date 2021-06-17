@@ -14,6 +14,9 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_slist;
+RCPR_IMPORT_slist_internal;
+
 /**
  * \brief Append the given \ref resource to the next value of the given \ref
  * slist_node.
@@ -45,8 +48,8 @@
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-slist_append(
-    slist_node* node, RCPR_SYM(resource)* r)
+RCPR_SYM(slist_append)(
+    RCPR_SYM(slist_node)* node, RCPR_SYM(resource)* r)
 {
     slist_node* new_node;
 

@@ -14,6 +14,9 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_slist;
+RCPR_IMPORT_slist_internal;
+
 /**
  * \brief Get the resource associated with the given of \ref slist_node.
  *
@@ -38,8 +41,8 @@
  *      - On failure, \p r is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-slist_node_child(
-    RCPR_SYM(resource)** r, slist_node* node)
+RCPR_SYM(slist_node_child)(
+    RCPR_SYM(resource)** r, RCPR_SYM(slist_node)* node)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != r);
