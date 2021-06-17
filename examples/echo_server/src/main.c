@@ -23,6 +23,7 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_psock;
 RCPR_IMPORT_resource;
 
 /* forward decls. */

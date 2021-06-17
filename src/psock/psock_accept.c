@@ -54,8 +54,9 @@
  *      - on failure, no field is updated.
  */
 status FN_DECL_MUST_CHECK
-psock_accept(
-    psock* sock, int* desc, struct sockaddr* addr, socklen_t* addrlen)
+RCPR_SYM(psock_accept)(
+    RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+    socklen_t* addrlen)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_psock_valid(sock));

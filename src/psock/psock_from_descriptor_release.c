@@ -15,6 +15,8 @@
 #include "psock_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
 
 /**
  * \brief Release a psock_from_descriptor resource.
@@ -26,7 +28,8 @@ RCPR_IMPORT_allocator;
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status psock_from_descriptor_release(RCPR_SYM(resource)* r)
+status
+RCPR_SYM(psock_from_descriptor_release)(RCPR_SYM(resource)* r)
 {
     psock_from_descriptor* ps = (psock_from_descriptor*)r;
 

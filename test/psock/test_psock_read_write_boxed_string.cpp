@@ -13,6 +13,7 @@
 #include <unistd.h>
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_psock;
 RCPR_IMPORT_resource;
 
 TEST_SUITE(psock_read_write_boxed_string);

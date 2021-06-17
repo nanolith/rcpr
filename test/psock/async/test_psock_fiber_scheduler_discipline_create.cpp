@@ -14,6 +14,8 @@
 
 #include "../../../src/psock/psock_internal.h"
 
+RCPR_IMPORT_psock;
+
 TEST_SUITE(psock_fiber_scheduler_discipline_create);
 
 #if 0

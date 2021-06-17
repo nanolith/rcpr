@@ -13,6 +13,9 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
+
 /**
  * \brief Read data from the given \ref psock instance.
  *
@@ -25,8 +28,9 @@
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_from_descriptor_read(
-    psock* sock, void* data, size_t* size, bool block)
+status
+RCPR_SYM(psock_from_descriptor_read)(
+    RCPR_SYM(psock)* sock, void* data, size_t* size, bool block)
 {
     (void)block;
 

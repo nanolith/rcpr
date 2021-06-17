@@ -14,6 +14,8 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_psock;
+
 /* forward decls. */
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
 
@@ -58,8 +60,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
  *      - On failure, \p sock is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_create_from_listen_address(
-    psock** sock, RCPR_SYM(allocator)* a, const struct sockaddr* name,
+RCPR_SYM(psock_create_from_listen_address)(
+    RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a, const struct sockaddr* name,
     socklen_t namelen)
 {
     status retval;

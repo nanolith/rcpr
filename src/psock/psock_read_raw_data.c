@@ -16,6 +16,8 @@
 #include "psock_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was
@@ -54,8 +56,9 @@ RCPR_IMPORT_allocator;
  *      - On failure, \p data is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_read_raw_data(
-    psock* sock, RCPR_SYM(allocator)* a, void** data, size_t data_size)
+RCPR_SYM(psock_read_raw_data)(
+    RCPR_SYM(psock)* sock, RCPR_SYM(allocator)* a, void** data,
+    size_t data_size)
 {
     status retval, release_retval;
 

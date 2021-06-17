@@ -28,7 +28,7 @@ enum psock_type
     PSOCK_TYPE_WRAP_ASYNC               = 0x0002,
 };
 
-struct psock
+struct RCPR_SYM(psock)
 {
     RCPR_SYM(resource) hdr;
 
@@ -36,33 +36,34 @@ struct psock
     int type;
 
     RCPR_SYM(allocator)* alloc;
-    status (*read_fn)(psock* sock, void* data, size_t* size, bool block);
-    status (*write_fn)(psock* sock, const void* data, size_t* size);
+    status (*read_fn)(
+        RCPR_SYM(psock)* sock, void* data, size_t* size, bool block);
+    status (*write_fn)(
+        RCPR_SYM(psock)* sock, const void* data, size_t* size);
     status (*accept_fn)(
-        psock* sock, int* desc, struct sockaddr* addr, socklen_t* addrlen);
+        RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+        socklen_t* addrlen);
 };
 
 /* forward decls for psock_from_descriptor. */
-struct psock_from_descriptor;
-typedef struct psock_from_descriptor psock_from_descriptor;
+typedef struct RCPR_SYM(psock_from_descriptor) RCPR_SYM(psock_from_descriptor);
 
-struct psock_from_descriptor
+struct RCPR_SYM(psock_from_descriptor)
 {
-    psock hdr;
+    RCPR_SYM(psock) hdr;
     int descriptor;
 };
 
 /* forward decls for psock_wrap_async. */
-struct psock_wrap_async;
-typedef struct psock_wrap_async psock_wrap_async;
+typedef struct RCPR_SYM(psock_wrap_async) RCPR_SYM(psock_wrap_async);
 
-struct psock_wrap_async
+struct RCPR_SYM(psock_wrap_async)
 {
-    psock hdr;
-    psock* wrapped;
+    RCPR_SYM(psock) hdr;
+    RCPR_SYM(psock)* wrapped;
     RCPR_SYM(fiber_scheduler)* sched;
     RCPR_SYM(fiber_scheduler_discipline)* psock_discipline;
-    psock_unexpected_handler_callback_fn unexpected;
+    RCPR_SYM(psock_unexpected_handler_callback_fn) unexpected;
     void* context;
     int flags;
 };
@@ -79,8 +80,8 @@ struct psock_wrap_async
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_from_descriptor_read(
-    psock* sock, void* data, size_t* size, bool block);
+status RCPR_SYM(psock_from_descriptor_read)(
+    RCPR_SYM(psock)* sock, void* data, size_t* size, bool block);
 
 /**
  * \brief Write data to the given \ref psock instance.
@@ -94,7 +95,8 @@ status psock_from_descriptor_read(
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_from_descriptor_write(psock* sock, const void* data, size_t* size);
+status RCPR_SYM(psock_from_descriptor_write)(
+    RCPR_SYM(psock)* sock, const void* data, size_t* size);
 
 /**
  * \brief Accept a socket from a \ref psock listen socket instance.
@@ -110,8 +112,9 @@ status psock_from_descriptor_write(psock* sock, const void* data, size_t* size);
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_from_descriptor_accept(
-    psock* sock, int* desc, struct sockaddr* addr, socklen_t* addrlen);
+status RCPR_SYM(psock_from_descriptor_accept)(
+    RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+    socklen_t* addrlen);
 
 /**
  * \brief Release a psock_from_descriptor resource.
@@ -123,7 +126,7 @@ status psock_from_descriptor_accept(
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status psock_from_descriptor_release(RCPR_SYM(resource)* r);
+status RCPR_SYM(psock_from_descriptor_release)(RCPR_SYM(resource)* r);
 
 /**
  * \brief Read data from the given async \ref psock instance.
@@ -138,7 +141,8 @@ status psock_from_descriptor_release(RCPR_SYM(resource)* r);
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_wrap_async_read(psock* sock, void* data, size_t* size, bool block);
+status RCPR_SYM(psock_wrap_async_read)(
+    RCPR_SYM(psock)* sock, void* data, size_t* size, bool block);
 
 /**
  * \brief Write data to the given async \ref psock instance.
@@ -152,7 +156,8 @@ status psock_wrap_async_read(psock* sock, void* data, size_t* size, bool block);
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_wrap_async_write(psock* sock, const void* data, size_t* size);
+status RCPR_SYM(psock_wrap_async_write)(
+    RCPR_SYM(psock)* sock, const void* data, size_t* size);
 
 /**
  * \brief Accept a socket from a \ref psock listen socket instance.
@@ -168,8 +173,9 @@ status psock_wrap_async_write(psock* sock, const void* data, size_t* size);
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_wrap_async_accept(
-    psock* sock, int* idesc, struct sockaddr* addr, socklen_t* addrlen);
+status RCPR_SYM(psock_wrap_async_accept)(
+    RCPR_SYM(psock)* sock, int* idesc, struct sockaddr* addr,
+    socklen_t* addrlen);
 
 /**
  * \brief Create a psock I/O discipline instance.
@@ -187,7 +193,7 @@ status psock_wrap_async_accept(
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_fiber_scheduler_discipline_create(
+status RCPR_SYM(psock_fiber_scheduler_discipline_create)(
     RCPR_SYM(fiber_scheduler_discipline)** disc, RCPR_SYM(resource)** context,
     RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(allocator)* alloc);
 
@@ -204,7 +210,7 @@ status psock_fiber_scheduler_discipline_create(
  *      - any other non-zero status code will result in thread termination and
  *        the process aborting.
  */
-status psock_fiber_scheduler_disciplined_read_wait_callback_handler(
+status RCPR_SYM(psock_fiber_scheduler_disciplined_read_wait_callback_handler)(
     void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
     void* yield_param);
 
@@ -221,7 +227,7 @@ status psock_fiber_scheduler_disciplined_read_wait_callback_handler(
  *      - any other non-zero status code will result in thread termination and
  *        the process aborting.
  */
-status psock_fiber_scheduler_disciplined_write_wait_callback_handler(
+status RCPR_SYM(psock_fiber_scheduler_disciplined_write_wait_callback_handler)(
     void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
     void* yield_param);
 
@@ -236,7 +242,7 @@ status psock_fiber_scheduler_disciplined_write_wait_callback_handler(
  * \returns a status code indicating success or failure when this fiber
  * terminates.
  */
-status psock_idle_fiber_entry(void* context);
+status RCPR_SYM(psock_idle_fiber_entry)(void* context);
 
 /**
  * \brief Create a platform-specific fiber scheduler discipline context for
@@ -251,7 +257,7 @@ status psock_idle_fiber_entry(void* context);
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-status psock_fiber_scheduler_discipline_context_create(
+status RCPR_SYM(psock_fiber_scheduler_discipline_context_create)(
     RCPR_SYM(resource)** context, RCPR_SYM(fiber_scheduler)* sched,
     RCPR_SYM(allocator)* alloc);
 
@@ -263,8 +269,68 @@ status psock_fiber_scheduler_discipline_context_create(
  * \param disc          The discipline to override.
  * \param context       The discipline user context.
  */
-void psock_fiber_scheduler_discipline_set_resource_release(
+void RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)(
     RCPR_SYM(fiber_scheduler_discipline)* disc, RCPR_SYM(resource)* context);
+
+/******************************************************************************/
+/* Start of private exports.                                                  */
+/******************************************************************************/
+#define RCPR_IMPORT_psock_internal \
+    typedef RCPR_SYM(psock_from_descriptor) psock_from_descriptor; \
+    typedef RCPR_SYM(psock_wrap_async) psock_wrap_async; \
+    static inline status psock_from_descriptor_read( \
+        RCPR_SYM(psock)* w, void* x, size_t* y, bool z) { \
+            return RCPR_SYM(psock_from_descriptor_read)(w,x,y,z); } \
+    static inline status psock_from_descriptor_write( \
+        RCPR_SYM(psock)* x, const void* y, size_t* z) { \
+            return RCPR_SYM(psock_from_descriptor_write)(x,y,z); } \
+    static inline status psock_from_descriptor_accept( \
+        RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
+            return RCPR_SYM(psock_from_descriptor_accept)(w,x,y,z); } \
+    static inline status psock_from_descriptor_release( \
+        RCPR_SYM(resource)* x) { \
+            return RCPR_SYM(psock_from_descriptor_release)(x); } \
+    static inline status psock_wrap_async_read( \
+        RCPR_SYM(psock)* w, void* x, size_t* y, bool z) { \
+            return RCPR_SYM(psock_wrap_async_read)(w,x,y,z); } \
+    static inline status psock_wrap_async_write( \
+        RCPR_SYM(psock)* x, const void* y, size_t* z) { \
+             return RCPR_SYM(psock_wrap_async_write)(x,y,z); } \
+    static inline status psock_wrap_async_accept( \
+        RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
+            return RCPR_SYM(psock_wrap_async_accept)(w,x,y,z); } \
+    static inline status psock_fiber_scheduler_discipline_create( \
+        RCPR_SYM(fiber_scheduler_discipline)** w, RCPR_SYM(resource)** x, \
+        RCPR_SYM(fiber_scheduler)* y, RCPR_SYM(allocator)* z) { \
+            return \
+                RCPR_SYM(psock_fiber_scheduler_discipline_create)(w,x,y,z); } \
+    static inline status \
+    psock_fiber_scheduler_disciplined_read_wait_callback_handler( \
+        void* w, RCPR_SYM(fiber)* x, int y, void* z) { \
+          return \
+            RCPR_SYM( \
+              psock_fiber_scheduler_disciplined_read_wait_callback_handler)( \
+                w,x,y,z); } \
+    static inline status \
+    psock_fiber_scheduler_disciplined_write_wait_callback_handler( \
+        void* w, RCPR_SYM(fiber)* x, int y, void* z) { \
+          return \
+            RCPR_SYM( \
+              psock_fiber_scheduler_disciplined_write_wait_callback_handler)( \
+                w,x,y,z); } \
+    static inline status psock_idle_fiber_entry( \
+        void* x) { \
+            return RCPR_SYM(psock_idle_fiber_entry)(x); } \
+    static inline status psock_fiber_scheduler_discipline_context_create( \
+        RCPR_SYM(resource)** x, RCPR_SYM(fiber_scheduler)* y, \
+        RCPR_SYM(allocator)* z) { \
+            return RCPR_SYM(psock_fiber_scheduler_discipline_context_create)( \
+                x,y,z); } \
+    static inline void psock_fiber_scheduler_discipline_set_resource_release( \
+        RCPR_SYM(fiber_scheduler_discipline)* x, RCPR_SYM(resource)* y) { \
+          return \
+            RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)( \
+                x,y); }
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

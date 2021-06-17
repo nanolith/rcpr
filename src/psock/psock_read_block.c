@@ -16,6 +16,8 @@
 #include "psock_internal.h"
 
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
 
 /**
  * \brief Block until a read is available.  This is used in conjunction with
@@ -39,7 +41,8 @@ RCPR_IMPORT_fiber;
  *        this \ref psock instance has occurred.
  */
 status FN_DECL_MUST_CHECK
-psock_read_block(psock* sock)
+RCPR_SYM(psock_read_block)(
+    RCPR_SYM(psock)* sock)
 {
     status retval;
     bool done = false;

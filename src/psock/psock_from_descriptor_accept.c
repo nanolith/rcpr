@@ -13,6 +13,9 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
+
 /**
  * \brief Accept a socket from a \ref psock listen socket instance.
  *
@@ -27,8 +30,10 @@
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_from_descriptor_accept(
-    psock* sock, int* desc, struct sockaddr* addr, socklen_t* addrlen)
+status
+RCPR_SYM(psock_from_descriptor_accept)(
+    RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+    socklen_t* addrlen)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_psock_valid(sock));

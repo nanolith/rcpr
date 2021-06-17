@@ -27,7 +27,7 @@ RCPR_IMPORT_fiber;
  * \returns a status code indicating success or failure when this fiber
  * terminates.
  */
-status psock_idle_fiber_entry(void* context)
+status RCPR_SYM(psock_idle_fiber_entry)(void* context)
 {
     status retval, set_retval;
     bool run_state = true;

@@ -16,6 +16,8 @@
 #include "psock_internal.h"
 
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
 
 /**
  * \brief Write data to the given async \ref psock instance.
@@ -29,7 +31,9 @@ RCPR_IMPORT_fiber;
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_wrap_async_write(psock* sock, const void* data, size_t* size)
+status
+RCPR_SYM(psock_wrap_async_write)(
+    RCPR_SYM(psock)* sock, const void* data, size_t* size)
 {
     status retval;
 

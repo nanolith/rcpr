@@ -16,6 +16,8 @@
 #include "psock_internal.h"
 
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
 
 /**
  * \brief Accept a socket from a \ref psock listen socket instance.
@@ -31,8 +33,10 @@ RCPR_IMPORT_fiber;
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status psock_wrap_async_accept(
-    psock* sock, int* idesc, struct sockaddr* addr, socklen_t* addrlen)
+status
+RCPR_SYM(psock_wrap_async_accept)(
+    RCPR_SYM(psock)* sock, int* idesc, struct sockaddr* addr,
+    socklen_t* addrlen)
 {
     status retval;
 

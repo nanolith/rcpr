@@ -18,6 +18,8 @@
 MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
 RCPR_IMPORT_resource;
 
 /**
@@ -59,8 +61,8 @@ RCPR_IMPORT_resource;
  *      - On failure, \p sock is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_create_from_descriptor(
-    psock** sock, RCPR_SYM(allocator)* a, int descriptor)
+RCPR_SYM(psock_create_from_descriptor)(
+    RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a, int descriptor)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != sock);

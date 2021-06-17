@@ -17,6 +17,8 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -84,9 +86,9 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
  *      - On failure, \p sock is unchanged and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-psock_create_wrap_async(
-    psock** sock, RCPR_SYM(allocator)* a, RCPR_SYM(fiber_scheduler)* sched,
-    psock* child)
+RCPR_SYM(psock_create_wrap_async)(
+    RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a,
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(psock)* child)
 {
     status retval, release_retval;
     fiber_scheduler_discipline* disc;
