@@ -17,6 +17,7 @@
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_queue;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_slist;
 
 /* forward decls. */
 static status queue_release(resource*);

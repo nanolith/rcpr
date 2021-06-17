@@ -10,6 +10,7 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_slist;
 
 TEST_SUITE(slist_node_next_pop);
 

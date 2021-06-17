@@ -22,7 +22,7 @@ extern "C" {
 struct RCPR_SYM(queue)
 {
     RCPR_SYM(resource) hdr;
-    slist* list;
+    RCPR_SYM(slist)* list;
 
     MODEL_STRUCT_TAG(queue);
 };

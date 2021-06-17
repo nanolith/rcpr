@@ -16,6 +16,8 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_slist;
+RCPR_IMPORT_slist_internal;
 
 /**
  * \brief Release an slist_node resource.
@@ -26,7 +28,9 @@ RCPR_IMPORT_resource;
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status slist_node_release(RCPR_SYM(resource)* r)
+status
+RCPR_SYM(slist_node_release)(
+    RCPR_SYM(resource)* r)
 {
     slist_node* n = (slist_node*)r;
 

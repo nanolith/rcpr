@@ -14,6 +14,9 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_slist;
+RCPR_IMPORT_slist_internal;
+
 /**
  * \brief Insert the given \ref resource in the front of the \ref slist.
  *
@@ -39,8 +42,8 @@
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-slist_insert_head(
-    slist* list, RCPR_SYM(resource)* r)
+RCPR_SYM(slist_insert_head)(
+    RCPR_SYM(slist)* list, RCPR_SYM(resource)* r)
 {
     slist_node* node;
 

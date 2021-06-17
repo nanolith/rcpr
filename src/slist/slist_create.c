@@ -16,6 +16,8 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_slist;
+RCPR_IMPORT_slist_internal;
 
 /* forward decls. */
 static status slist_release(resource*);
@@ -51,8 +53,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(slist);
  *      - On failure, \p list is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-slist_create(
-    slist** list, RCPR_SYM(allocator)* a)
+RCPR_SYM(slist_create)(
+    RCPR_SYM(slist)** list, RCPR_SYM(allocator)* a)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != list);

@@ -15,6 +15,8 @@
 #include "slist_internal.h"
 
 RCPR_IMPORT_resource;
+RCPR_IMPORT_slist;
+RCPR_IMPORT_slist_internal;
 
 /**
  * \brief Pop the head value of the list, setting the given resource pointer to
@@ -51,8 +53,8 @@ RCPR_IMPORT_resource;
  *      - On failure, the pointer that \p r points to remains unchanged (NULL).
  */
 status FN_DECL_MUST_CHECK
-slist_pop(
-    slist* list, RCPR_SYM(resource)** r)
+RCPR_SYM(slist_pop)(
+    RCPR_SYM(slist)* list, RCPR_SYM(resource)** r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_slist_valid(list));
