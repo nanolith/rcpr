@@ -20,7 +20,7 @@
 extern "C" {
 # endif /*__cplusplus*/
 
-struct stack
+struct RCPR_SYM(stack)
 {
     RCPR_SYM(resource) hdr;
 

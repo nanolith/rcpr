@@ -15,6 +15,7 @@
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_stack;
 
 /**
  * \brief Release a fiber resource.

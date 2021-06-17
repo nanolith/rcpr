@@ -23,7 +23,9 @@
  *
  * \returns the \ref resource handle for this \ref stack instance.
  */
-RCPR_SYM(resource)* stack_resource_handle(stack* st)
+RCPR_SYM(resource)*
+RCPR_SYM(stack_resource_handle)(
+    RCPR_SYM(stack)* st)
 {
     MODEL_ASSERT(prop_stack_valid(st));
 

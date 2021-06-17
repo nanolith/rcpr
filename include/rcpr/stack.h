@@ -22,7 +22,7 @@ extern "C" {
  * \brief The stack abstraction provides access to a stack that can be reclaimed
  * using resource_release on its resource handle.
  */
-typedef struct stack stack;
+typedef struct RCPR_SYM(stack) RCPR_SYM(stack);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
@@ -64,8 +64,8 @@ typedef struct stack stack;
  *      - On failure, \p stack is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-stack_create(
-    stack** st, RCPR_SYM(allocator)* a, size_t stack_size);
+RCPR_SYM(stack_create)(
+    RCPR_SYM(stack)** st, RCPR_SYM(allocator)* a, size_t stack_size);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -80,7 +80,9 @@ stack_create(
  *
  * \returns the \ref resource handle for this \ref stack instance.
  */
-RCPR_SYM(resource)* stack_resource_handle(stack* st);
+RCPR_SYM(resource)*
+RCPR_SYM(stack_resource_handle)(
+    RCPR_SYM(stack)* st);
 
 /******************************************************************************/
 /* Start of model checking properties.                                        */
@@ -93,7 +95,36 @@ RCPR_SYM(resource)* stack_resource_handle(stack* st);
  *
  * \returns true if the \ref stack instance is valid.
  */
-bool prop_stack_valid(const stack* st);
+bool
+RCPR_SYM(prop_stack_valid)(
+    const RCPR_SYM(stack)* st);
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define RCPR_IMPORT_stack_as(sym) \
+    typedef RCPR_SYM(stack) stack; \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## stack_create( \
+        RCPR_SYM(stack)** x, RCPR_SYM(allocator)* y, size_t z) { \
+            return RCPR_SYM(stack_create)(x,y,z); } \
+    static inline RCPR_SYM(resource)* sym ## _ ## stack_resource_handle( \
+        RCPR_SYM(stack)* x) { \
+            return RCPR_SYM(stack_resource_handle)(x); } \
+    static inline bool sym ## _ ## prop_stack_valid( \
+        const RCPR_SYM(stack)* x) { \
+            return RCPR_SYM(prop_stack_valid)(x); }
+
+#define RCPR_IMPORT_stack \
+    typedef RCPR_SYM(stack) stack; \
+    static inline status FN_DECL_MUST_CHECK stack_create( \
+        RCPR_SYM(stack)** x, RCPR_SYM(allocator)* y, size_t z) { \
+            return RCPR_SYM(stack_create)(x,y,z); } \
+    static inline RCPR_SYM(resource)* stack_resource_handle( \
+        RCPR_SYM(stack)* x) { \
+            return RCPR_SYM(stack_resource_handle)(x); } \
+    static inline bool prop_stack_valid( \
+        const RCPR_SYM(stack)* x) { \
+            return RCPR_SYM(prop_stack_valid)(x); }
 
 /* C++ compatibility. */
 # ifdef    __cplusplus

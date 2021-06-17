@@ -17,6 +17,7 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_resource;
+RCPR_IMPORT_stack;
 
 /* forward decls. */
 static status stack_release(resource*);
@@ -59,8 +60,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(stack);
  *      - On failure, \p stack is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-stack_create(
-    stack** st, RCPR_SYM(allocator)* a, size_t stack_size)
+RCPR_SYM(stack_create)(
+    RCPR_SYM(stack)** st, RCPR_SYM(allocator)* a, size_t stack_size)
 {
     status retval, reclaim_retval;
     void* mem;
