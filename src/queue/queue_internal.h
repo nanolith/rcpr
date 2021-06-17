@@ -19,7 +19,7 @@
 extern "C" {
 # endif /*__cplusplus*/
 
-struct queue
+struct RCPR_SYM(queue)
 {
     RCPR_SYM(resource) hdr;
     slist* list;

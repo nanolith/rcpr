@@ -14,6 +14,8 @@
 
 #include "queue_internal.h"
 
+RCPR_IMPORT_queue;
+
 /**
  * \brief Pop the head value of the \ref queue, setting the given resource
  * pointer to the resource previously held in the head node.
@@ -49,8 +51,8 @@
  *      - On failure, the pointer that \p r points to remains unchanged (NULL).
  */
 status FN_DECL_MUST_CHECK
-queue_pop(
-    queue* q, RCPR_SYM(resource)** r)
+RCPR_SYM(queue_pop)(
+    RCPR_SYM(queue)* q, RCPR_SYM(resource)** r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_queue_valid(q));

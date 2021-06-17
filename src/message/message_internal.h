@@ -44,7 +44,7 @@ struct RCPR_SYM(mailbox)
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(mailbox_address) address;
     RCPR_SYM(fiber)* blocked_fiber;
-    queue* message_queue;
+    RCPR_SYM(queue)* message_queue;
 };
 
 typedef struct RCPR_SYM(message_discipline_context)

@@ -23,7 +23,9 @@
  *
  * \returns the \ref resource handle for this \ref queue instance.
  */
-RCPR_SYM(resource)* queue_resource_handle(queue* q)
+RCPR_SYM(resource)*
+RCPR_SYM(queue_resource_handle)(
+    RCPR_SYM(queue)* q)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_queue_valid(q));

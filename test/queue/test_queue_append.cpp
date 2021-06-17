@@ -9,6 +9,7 @@
 #include <rcpr/queue.h>
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_queue;
 RCPR_IMPORT_resource;
 
 TEST_SUITE(queue_append);

@@ -15,6 +15,7 @@
 #include "queue_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_queue;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
@@ -52,8 +53,8 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(queue);
  *      - On failure, \p q is set to NULL and an error status is returned.
  */
 status FN_DECL_MUST_CHECK
-queue_create(
-    queue** q, RCPR_SYM(allocator)* a)
+RCPR_SYM(queue_create)(
+    RCPR_SYM(queue)** q, RCPR_SYM(allocator)* a)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(NULL != q);

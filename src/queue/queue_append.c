@@ -14,6 +14,8 @@
 
 #include "queue_internal.h"
 
+RCPR_IMPORT_queue;
+
 /**
  * \brief Append the given \ref resource to the back of the \ref queue.
  *
@@ -39,8 +41,8 @@
  *      - On failure, \p r remains owned by the caller.
  */
 status FN_DECL_MUST_CHECK
-queue_append(
-    queue* q, RCPR_SYM(resource)* r)
+RCPR_SYM(queue_append)(
+    RCPR_SYM(queue)* q, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
     MODEL_ASSERT(prop_queue_valid(q));
