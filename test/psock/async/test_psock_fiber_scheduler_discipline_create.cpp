@@ -14,11 +14,14 @@
 
 #include "../../../src/psock/psock_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
 RCPR_IMPORT_psock;
+RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 TEST_SUITE(psock_fiber_scheduler_discipline_create);
 
-#if 0
 /**
  * Verify that we can create a fiber scheduler discipline for psock I/O.
  */
@@ -27,6 +30,7 @@ TEST(create)
     allocator* alloc = nullptr;
     fiber_scheduler* sched = nullptr;
     fiber_scheduler_discipline* disc = nullptr;
+    resource* ctx = nullptr;
 
     /* we should be able to create a malloc allocator. */
     TEST_ASSERT(
@@ -40,7 +44,7 @@ TEST(create)
     /* we should be able to create the psock fiber scheduler discipline. */
     TEST_ASSERT(
         STATUS_SUCCESS ==
-            psock_fiber_scheduler_discipline_create(&disc, sched, alloc));
+            psock_fiber_scheduler_discipline_create(&disc, &ctx, sched, alloc));
 
     /* clean up. */
     TEST_ASSERT(
@@ -49,4 +53,3 @@ TEST(create)
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
 }
-#endif
