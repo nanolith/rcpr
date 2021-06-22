@@ -64,7 +64,7 @@ status RCPR_SYM(psock_fiber_scheduler_discipline_context_create)(
     /* set the tag. */
     MODEL_STRUCT_TAG_INIT(
         ctx->hdr.MODEL_STRUCT_TAG_REF(psock_io_kqueue_context),
-        psock_io_kqueue_context)
+        psock_io_kqueue_context);
 
     /* set the release method. */
     resource_init(&ctx->hdr, &psock_io_kqueue_context_resource_release);
