@@ -103,6 +103,8 @@ RCPR_SYM(prop_stack_valid)(
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_stack_as(sym) \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(stack) stack; \
     static inline status FN_DECL_MUST_CHECK sym ## _ ## stack_create( \
         RCPR_SYM(stack)** x, RCPR_SYM(allocator)* y, size_t z) { \
@@ -113,9 +115,12 @@ RCPR_SYM(prop_stack_valid)(
     static inline bool sym ## _ ## prop_stack_valid( \
         const RCPR_SYM(stack)* x) { \
             return RCPR_SYM(prop_stack_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_stack \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(stack) stack; \
     static inline status FN_DECL_MUST_CHECK stack_create( \
         RCPR_SYM(stack)** x, RCPR_SYM(allocator)* y, size_t z) { \
@@ -126,6 +131,7 @@ RCPR_SYM(prop_stack_valid)(
     static inline bool prop_stack_valid( \
         const RCPR_SYM(stack)* x) { \
             return RCPR_SYM(prop_stack_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

@@ -131,6 +131,8 @@ RCPR_SYM(prop_resource_valid)(
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_resource_as(sym) \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(resource) sym ## _ ## resource; \
     typedef RCPR_SYM(resource_release_fn) sym ## _ ## resource_release_fn; \
     static inline status sym ## _ ## resource_release(\
@@ -142,9 +144,12 @@ RCPR_SYM(prop_resource_valid)(
     static inline bool sym _ ## _ ## prop_resource_valid(\
         const RCPR_SYM(resource)* x) { \
             return RCPR_SYM(prop_resource_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_resource \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(resource) resource; \
     typedef RCPR_SYM(resource_release_fn) resource_release_fn; \
     static inline status resource_release(\
@@ -156,6 +161,7 @@ RCPR_SYM(prop_resource_valid)(
     static inline bool prop_resource_valid(\
         const RCPR_SYM(resource)* x) { \
             return RCPR_SYM(prop_resource_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

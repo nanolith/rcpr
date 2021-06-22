@@ -462,6 +462,8 @@ RCPR_SYM(prop_slist_node_valid)(
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_slist_as(sym) \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(slist) sym ## _ ## slist; \
     typedef RCPR_SYM(slist_node) sym ## _ ## slist_node; \
     static inline status FN_DECL_MUST_CHECK sym ## _ ## slist_create( \
@@ -512,9 +514,12 @@ RCPR_SYM(prop_slist_node_valid)(
     static inline bool sym ## _ ## prop_slist_node_valid( \
         const RCPR_SYM(slist_node)* x) { \
             return RCPR_SYM(prop_slist_node_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_slist \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(slist) slist; \
     typedef RCPR_SYM(slist_node) slist_node; \
     static inline status FN_DECL_MUST_CHECK slist_create( \
@@ -565,6 +570,7 @@ RCPR_SYM(prop_slist_node_valid)(
     static inline bool prop_slist_node_valid( \
         const RCPR_SYM(slist_node)* x) { \
             return RCPR_SYM(prop_slist_node_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

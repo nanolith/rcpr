@@ -120,6 +120,8 @@ RCPR_SYM(prop_uuid_valid)(
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_uuid_as(sym) \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(rcpr_uuid) sym ## _ ## rcpr_uuid; \
     static inline status FN_DECL_MUST_CHECK sym ## _ ## rcpr_uuid_to_string( \
         char** x, RCPR_SYM(allocator)* y, const RCPR_SYM(rcpr_uuid)* z) { \
@@ -131,9 +133,12 @@ RCPR_SYM(prop_uuid_valid)(
     static inline bool sym ## _ ## prop_uuid_valid( \
         const RCPR_SYM(rcpr_uuid)* x) { \
             return RCPR_SYM(prop_uuid_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_uuid \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(rcpr_uuid) rcpr_uuid; \
     static inline status FN_DECL_MUST_CHECK rcpr_uuid_to_string( \
         char** x, RCPR_SYM(allocator)* y, const RCPR_SYM(rcpr_uuid)* z) { \
@@ -144,6 +149,7 @@ RCPR_SYM(prop_uuid_valid)(
     static inline bool prop_uuid_valid( \
         const RCPR_SYM(rcpr_uuid)* x) { \
             return RCPR_SYM(prop_uuid_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
