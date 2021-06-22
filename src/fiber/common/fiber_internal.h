@@ -166,6 +166,8 @@ status RCPR_SYM(fiber_scheduler_resource_release)(RCPR_SYM(resource)* r);
 /* Start of private exports.                                                  */
 /******************************************************************************/
 #define RCPR_IMPORT_fiber_internal \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(fiber_scheduler_disciplined_context) \
     fiber_scheduler_disciplined_context; \
     typedef RCPR_SYM(fiber_entry_fn) fiber_entry_fn; \
@@ -186,6 +188,7 @@ status RCPR_SYM(fiber_scheduler_resource_release)(RCPR_SYM(resource)* r);
     static inline status fiber_scheduler_resource_release( \
         RCPR_SYM(resource)* x) { \
             return RCPR_SYM(fiber_scheduler_resource_release)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

@@ -32,6 +32,9 @@ if ("${RCPR_FIBER_PLATFORM}" MATCHES "x86_64-sysv")
     SET(RCPR_FIBER_FOUND TRUE)
     FILE(GLOB RCPR_FIBER_SYSV_X86_64_SOURCES src/fiber/platform/sysv/x86_64/*.s)
     SET(RCPR_FIBER_PLATFORM_SOURCES ${RCPR_FIBER_SYSV_X86_64_SOURCES})
+    set_source_files_properties(
+        ${RCPR_FIBER_SYSV_X86_64_SOURCES} PROPERTIES
+        COMPILE_FLAGS "-I${CMAKE_SOURCE_DIR}/src/fiber/platform/sysv/x86_64")
 else ()
     if ("${RCPR_FIBER_PROCESSOR}" MATCHES "invalid")
         message(

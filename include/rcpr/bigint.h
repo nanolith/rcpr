@@ -157,6 +157,8 @@ bool RCPR_SYM(prop_bigint_valid)(const RCPR_SYM(bigint)* i);
 /******************************************************************************/
 
 #define RCPR_IMPORT_bigint_as(sym) \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(bigint) sym ## _ ## bigint; \
     static inline status FN_DECL_MUST_CHECK sym ## _ ## bigint_create_zero( \
         RCPR_SYM(bigint)** x, RCPR_SYM(allocator)* y, size_t z) { \
@@ -177,9 +179,12 @@ bool RCPR_SYM(prop_bigint_valid)(const RCPR_SYM(bigint)* i);
     static inline bool sym ## _ ## prop_bigint_valid( \
         const RCPR_SYM(bigint)* x) { \
             return RCPR_SYM(prop_bigint_valid(x)); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_bigint \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(bigint) bigint; \
     static inline status FN_DECL_MUST_CHECK bigint_create_zero( \
         RCPR_SYM(bigint)** x, RCPR_SYM(allocator)* y, size_t z) { \
@@ -200,6 +205,7 @@ bool RCPR_SYM(prop_bigint_valid)(const RCPR_SYM(bigint)* i);
     static inline bool prop_bigint_valid( \
         const RCPR_SYM(bigint)* x) { \
             return RCPR_SYM(prop_bigint_valid(x)); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

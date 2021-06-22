@@ -124,17 +124,20 @@ ADD_LIBRARY(rcpr STATIC
     ${RCPR_SOURCES})
 TARGET_COMPILE_OPTIONS(
     rcpr PRIVATE -fPIC -O2
-    -Wall -Werror -Wextra -Wpedantic)
+    -Wall -Werror -Wextra -Wpedantic -Wno-unused-command-line-argument
+    ${USE_EXTERN_ASSEMBLER})
 
 ADD_EXECUTABLE(testrcpr
     ${RCPR_SOURCES} ${RCPR_TEST_SOURCES})
 
 TARGET_COMPILE_OPTIONS(
     testrcpr PRIVATE -g -O0 --coverage ${MINUNIT_CFLAGS}
-                     -Wall -Werror -Wextra -Wpedantic)
+                     -Wall -Werror -Wextra -Wpedantic
+                     -Wno-unused-command-line-argument ${USE_EXTERN_ASSEMBLER})
 TARGET_LINK_LIBRARIES(testrcpr PRIVATE -g -O0 --coverage ${MINUNIT_LDFLAGS})
 set_source_files_properties(
-    ${RCPR_TEST_SOURCES} PROPERTIES COMPILE_FLAGS ${STD_CXX_20})
+    ${RCPR_TEST_SOURCES} PROPERTIES
+    COMPILE_FLAGS "${STD_CXX_20} ${USE_INTERN_ASSEMBLER}")
 
 #conditional link for Threads
 if (Threads_FOUND)

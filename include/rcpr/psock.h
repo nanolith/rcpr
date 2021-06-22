@@ -1761,6 +1761,8 @@ enum psock_boxed_type
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_psock_as(sym) \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(psock) sym ## _ ## psock; \
     typedef RCPR_SYM(psock_unexpected_handler_callback_fn) \
     sym ## _ ## psock_unexpected_handler_callback_fn; \
@@ -1971,9 +1973,12 @@ enum psock_boxed_type
     sym ## _ ## prop_psock_valid( \
         const RCPR_SYM(psock)* x) { \
             return RCPR_SYM(prop_psock_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_psock \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(psock) psock; \
     typedef RCPR_SYM(psock_unexpected_handler_callback_fn) \
     psock_unexpected_handler_callback_fn; \
@@ -2134,6 +2139,7 @@ enum psock_boxed_type
     static inline bool prop_psock_valid( \
         const RCPR_SYM(psock)* x) { \
             return RCPR_SYM(prop_psock_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

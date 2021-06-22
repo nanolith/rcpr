@@ -276,6 +276,8 @@ RCPR_SYM(prop_message_valid)(
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_message_as(sym) \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(message) sym ## _ ## message; \
     typedef RCPR_SYM(mailbox_address) sym ## _ ## mailbox_address; \
     typedef RCPR_SYM(message_unexpected_handler_callback_fn) \
@@ -315,9 +317,12 @@ RCPR_SYM(prop_message_valid)(
     static inline bool sym ## _ ## prop_message_valid( \
         const RCPR_SYM(message)* x) { \
             return RCPR_SYM(prop_message_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_message \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
     typedef RCPR_SYM(message) message; \
     typedef RCPR_SYM(mailbox_address) mailbox_address; \
     typedef RCPR_SYM(message_unexpected_handler_callback_fn) \
@@ -355,6 +360,7 @@ RCPR_SYM(prop_message_valid)(
     static inline bool prop_message_valid( \
         const RCPR_SYM(message)* x) { \
             return RCPR_SYM(prop_message_valid)(x); } \
+    _Pragma("GCC diagnostic pop") \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
