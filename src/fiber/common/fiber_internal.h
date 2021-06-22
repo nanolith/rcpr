@@ -178,14 +178,15 @@ status RCPR_SYM(fiber_scheduler_resource_release)(RCPR_SYM(resource)* r);
     static inline void fiber_switch( \
         RCPR_SYM(fiber)* v, RCPR_SYM(fiber)* w, const RCPR_SYM(rcpr_uuid)* x, \
         int64_t y, void* z) { \
-            return RCPR_SYM(fiber_switch)(v,w,x,y,z); } \
+            RCPR_SYM(fiber_switch)(v,w,x,y,z); } \
     static inline void fiber_make( \
         RCPR_SYM(fiber)* x, RCPR_SYM(fiber_scheduler)* y, \
         RCPR_SYM(fiber_entry_fn) z) { \
-            return RCPR_SYM(fiber_make)(x,y,z); } \
+            RCPR_SYM(fiber_make)(x,y,z); } \
     static inline status fiber_scheduler_resource_release( \
         RCPR_SYM(resource)* x) { \
-            return RCPR_SYM(fiber_scheduler_resource_release)(x); }
+            return RCPR_SYM(fiber_scheduler_resource_release)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

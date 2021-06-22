@@ -314,7 +314,8 @@ RCPR_SYM(prop_message_valid)(
             return RCPR_SYM(message_payload)(x,y); } \
     static inline bool sym ## _ ## prop_message_valid( \
         const RCPR_SYM(message)* x) { \
-            return RCPR_SYM(prop_message_valid)(x); }
+            return RCPR_SYM(prop_message_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_message \
     typedef RCPR_SYM(message) message; \
@@ -353,7 +354,8 @@ RCPR_SYM(prop_message_valid)(
             return RCPR_SYM(message_payload)(x,y); } \
     static inline bool prop_message_valid( \
         const RCPR_SYM(message)* x) { \
-            return RCPR_SYM(prop_message_valid)(x); }
+            return RCPR_SYM(prop_message_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef    __cplusplus

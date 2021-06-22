@@ -20,7 +20,7 @@ TEST_SUITE(rbtree_find);
 
 /* dummy comparison. */
 static rcpr_comparison_result dummy_compare(
-    void* context, const void* lhs, const void* rhs)
+    void*, const void* lhs, const void* rhs)
 {
     if (((int64_t)lhs) < ((int64_t)rhs))
     {
@@ -37,7 +37,7 @@ static rcpr_comparison_result dummy_compare(
 }
 
 /* dummy key function. */
-static const void* dummy_key(void* context, const resource* r)
+static const void* dummy_key(void*, const resource* r)
 {
     return r;
 }

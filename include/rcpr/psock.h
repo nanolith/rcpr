@@ -1970,7 +1970,8 @@ enum psock_boxed_type
     static inline bool \
     sym ## _ ## prop_psock_valid( \
         const RCPR_SYM(psock)* x) { \
-            return RCPR_SYM(prop_psock_valid)(x); }
+            return RCPR_SYM(prop_psock_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_psock \
     typedef RCPR_SYM(psock) psock; \
@@ -2132,7 +2133,8 @@ enum psock_boxed_type
             return RCPR_SYM(psock_resource_handle)(x); } \
     static inline bool prop_psock_valid( \
         const RCPR_SYM(psock)* x) { \
-            return RCPR_SYM(prop_psock_valid)(x); }
+            return RCPR_SYM(prop_psock_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

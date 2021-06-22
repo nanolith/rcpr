@@ -448,7 +448,8 @@ RCPR_SYM(prop_thread_mutex_lock_valid)(
             return RCPR_SYM(prop_thread_cond_valid)(x); } \
     static inline bool sym ## _ ## prop_thread_mutex_lock_valid( \
         const RCPR_SYM(thread_mutex_lock)* x) { \
-            return RCPR_SYM(prop_thread_mutex_lock_valid)(x); }
+            return RCPR_SYM(prop_thread_mutex_lock_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_thread \
     typedef RCPR_SYM(thread) thread; \
@@ -501,7 +502,8 @@ RCPR_SYM(prop_thread_mutex_lock_valid)(
             return RCPR_SYM(prop_thread_cond_valid)(x); } \
     static inline bool prop_thread_mutex_lock_valid( \
         const RCPR_SYM(thread_mutex_lock)* x) { \
-            return RCPR_SYM(prop_thread_mutex_lock_valid)(x); }
+            return RCPR_SYM(prop_thread_mutex_lock_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

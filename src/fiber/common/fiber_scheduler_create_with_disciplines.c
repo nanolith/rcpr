@@ -369,7 +369,7 @@ static rcpr_comparison_result fiber_by_pointer_compare(
 {
     (void)context;
 
-    ptrdiff_t compare = lhs - rhs;
+    ptrdiff_t compare = ((uint8_t*)lhs) - ((uint8_t*)rhs);
 
     if (compare < 0)
         return RCPR_COMPARE_LT;

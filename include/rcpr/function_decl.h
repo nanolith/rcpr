@@ -10,6 +10,7 @@
 #pragma once
 
 #include <rcpr/config.h>
+#include <rcpr/macro_tricks.h>
 
 /*
  * With GCC 3.4 and clang, we can force a warning / error if the return value

@@ -60,12 +60,14 @@ typedef const void* (*RCPR_SYM(compare_key_fn))(
     typedef RCPR_SYM(rcpr_comparison_result) \
         sym ## _ ## rcpr_comparison_result; \
     typedef RCPR_SYM(compare_fn) sym ## _ ## compare_fn; \
-    typedef RCPR_SYM(compare_key_fn) sym ## _ ## compare_key_fn;
+    typedef RCPR_SYM(compare_key_fn) sym ## _ ## compare_key_fn; \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_compare \
     typedef RCPR_SYM(rcpr_comparison_result) rcpr_comparison_result; \
     typedef RCPR_SYM(compare_fn) compare_fn; \
-    typedef RCPR_SYM(compare_key_fn) compare_key_fn;
+    typedef RCPR_SYM(compare_key_fn) compare_key_fn; \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef    __cplusplus

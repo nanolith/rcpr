@@ -19,13 +19,13 @@ TEST_SUITE(rbtree_remove_node);
 
 /* dummy comparison. */
 static rcpr_comparison_result dummy_compare(
-    void* context, const void* lhs, const void* rhs)
+    void*, const void*, const void*)
 {
     return RCPR_COMPARE_LT;
 }
 
 /* dummy key function. */
-static const void* dummy_key(void* context, const resource* r)
+static const void* dummy_key(void*, const resource* r)
 {
     return r;
 }
@@ -1671,10 +1671,10 @@ TEST(remove_leaf1_fifteen_nodes)
     TEST_EXPECT(n2.right == &n3);
     TEST_EXPECT(n2.color == RBTREE_BLACK);
     TEST_EXPECT(n1.parent == &n2);
-    TEST_EXPECT(n3.parent = &n2);
-    TEST_EXPECT(n3.left = tree->nil);
-    TEST_EXPECT(n3.right = tree->nil);
-    TEST_EXPECT(n3.color = RBTREE_RED);
+    TEST_EXPECT(n3.parent == &n2);
+    TEST_EXPECT(n3.left == tree->nil);
+    TEST_EXPECT(n3.right == tree->nil);
+    TEST_EXPECT(n3.color == RBTREE_RED);
     TEST_EXPECT(n6.parent == &n4);
     TEST_EXPECT(n6.left == &n5);
     TEST_EXPECT(n6.right == &n7);
@@ -2015,10 +2015,10 @@ TEST(remove_branch6_fifteen_nodes)
     TEST_EXPECT(n1.left == tree->nil);
     TEST_EXPECT(n1.right == tree->nil);
     TEST_EXPECT(n1.color == RBTREE_RED);
-    TEST_EXPECT(n3.parent = &n2);
-    TEST_EXPECT(n3.left = tree->nil);
-    TEST_EXPECT(n3.right = tree->nil);
-    TEST_EXPECT(n3.color = RBTREE_RED);
+    TEST_EXPECT(n3.parent == &n2);
+    TEST_EXPECT(n3.left == tree->nil);
+    TEST_EXPECT(n3.right == tree->nil);
+    TEST_EXPECT(n3.color == RBTREE_RED);
     TEST_EXPECT(n7.parent == &n4);
     TEST_EXPECT(n7.left == &n5);
     TEST_EXPECT(n7.right == tree->nil);
@@ -2185,10 +2185,10 @@ TEST(remove_branch10_fifteen_nodes)
     TEST_EXPECT(n1.left == tree->nil);
     TEST_EXPECT(n1.right == tree->nil);
     TEST_EXPECT(n1.color == RBTREE_RED);
-    TEST_EXPECT(n3.parent = &n2);
-    TEST_EXPECT(n3.left = tree->nil);
-    TEST_EXPECT(n3.right = tree->nil);
-    TEST_EXPECT(n3.color = RBTREE_RED);
+    TEST_EXPECT(n3.parent == &n2);
+    TEST_EXPECT(n3.left == tree->nil);
+    TEST_EXPECT(n3.right == tree->nil);
+    TEST_EXPECT(n3.color == RBTREE_RED);
     TEST_EXPECT(n6.parent == &n4);
     TEST_EXPECT(n6.left == &n5);
     TEST_EXPECT(n6.right == &n7);
@@ -2355,10 +2355,10 @@ TEST(remove_branch14_fifteen_nodes)
     TEST_EXPECT(n1.left == tree->nil);
     TEST_EXPECT(n1.right == tree->nil);
     TEST_EXPECT(n1.color == RBTREE_RED);
-    TEST_EXPECT(n3.parent = &n2);
-    TEST_EXPECT(n3.left = tree->nil);
-    TEST_EXPECT(n3.right = tree->nil);
-    TEST_EXPECT(n3.color = RBTREE_RED);
+    TEST_EXPECT(n3.parent == &n2);
+    TEST_EXPECT(n3.left == tree->nil);
+    TEST_EXPECT(n3.right == tree->nil);
+    TEST_EXPECT(n3.color == RBTREE_RED);
     TEST_EXPECT(n6.parent == &n4);
     TEST_EXPECT(n6.left == &n5);
     TEST_EXPECT(n6.right == &n7);
@@ -2525,10 +2525,10 @@ TEST(remove_branch4_fifteen_nodes)
     TEST_EXPECT(n1.left == tree->nil);
     TEST_EXPECT(n1.right == tree->nil);
     TEST_EXPECT(n1.color == RBTREE_RED);
-    TEST_EXPECT(n3.parent = &n2);
-    TEST_EXPECT(n3.left = tree->nil);
-    TEST_EXPECT(n3.right = tree->nil);
-    TEST_EXPECT(n3.color = RBTREE_RED);
+    TEST_EXPECT(n3.parent == &n2);
+    TEST_EXPECT(n3.left == tree->nil);
+    TEST_EXPECT(n3.right == tree->nil);
+    TEST_EXPECT(n3.color == RBTREE_RED);
     TEST_EXPECT(n6.parent == &n5);
     TEST_EXPECT(n6.left == tree->nil);
     TEST_EXPECT(n6.right == &n7);
@@ -2695,10 +2695,10 @@ TEST(remove_branch12_fifteen_nodes)
     TEST_EXPECT(n1.left == tree->nil);
     TEST_EXPECT(n1.right == tree->nil);
     TEST_EXPECT(n1.color == RBTREE_RED);
-    TEST_EXPECT(n3.parent = &n2);
-    TEST_EXPECT(n3.left = tree->nil);
-    TEST_EXPECT(n3.right = tree->nil);
-    TEST_EXPECT(n3.color = RBTREE_RED);
+    TEST_EXPECT(n3.parent == &n2);
+    TEST_EXPECT(n3.left == tree->nil);
+    TEST_EXPECT(n3.right == tree->nil);
+    TEST_EXPECT(n3.color == RBTREE_RED);
     TEST_EXPECT(n6.parent == &n4);
     TEST_EXPECT(n6.left == &n5);
     TEST_EXPECT(n6.right == &n7);
@@ -2865,10 +2865,10 @@ TEST(remove_branch8_fifteen_nodes)
     TEST_EXPECT(n1.left == tree->nil);
     TEST_EXPECT(n1.right == tree->nil);
     TEST_EXPECT(n1.color == RBTREE_RED);
-    TEST_EXPECT(n3.parent = &n2);
-    TEST_EXPECT(n3.left = tree->nil);
-    TEST_EXPECT(n3.right = tree->nil);
-    TEST_EXPECT(n3.color = RBTREE_RED);
+    TEST_EXPECT(n3.parent == &n2);
+    TEST_EXPECT(n3.left == tree->nil);
+    TEST_EXPECT(n3.right == tree->nil);
+    TEST_EXPECT(n3.color == RBTREE_RED);
     TEST_EXPECT(n6.parent == &n4);
     TEST_EXPECT(n6.left == &n5);
     TEST_EXPECT(n6.right == &n7);

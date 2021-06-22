@@ -227,7 +227,8 @@ RCPR_SYM(prop_rbtree_valid)(
             return RCPR_SYM(rbtree_resource_handle)(x); } \
     static inline bool sym ## _ ## prop_rbtree_valid( \
         const RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(prop_rbtree_valid)(x); }
+            return RCPR_SYM(prop_rbtree_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_rbtree \
     typedef RCPR_SYM(rbtree) rbtree; \
@@ -249,7 +250,8 @@ RCPR_SYM(prop_rbtree_valid)(
             return RCPR_SYM(rbtree_resource_handle)(x); } \
     static inline bool prop_rbtree_valid( \
         const RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(prop_rbtree_valid)(x); }
+            return RCPR_SYM(prop_rbtree_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef    __cplusplus

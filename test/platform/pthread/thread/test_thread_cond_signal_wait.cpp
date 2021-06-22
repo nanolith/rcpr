@@ -47,7 +47,7 @@ static status incr(void* context)
     }
 
     /* increment val on signal. */
-    ++ts->val;
+    ts->val = ts->val + 1;
 
     /* success. */
     retval = STATUS_SUCCESS;

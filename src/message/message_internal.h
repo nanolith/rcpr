@@ -207,7 +207,8 @@ status RCPR_SYM(message_discipline_message_receive_callback_handler)(
         void* w, RCPR_SYM(fiber)* x, int y, void* z) { \
             return \
                 RCPR_SYM(message_discipline_message_receive_callback_handler)( \
-                    w,x,y,z); }
+                    w,x,y,z); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
