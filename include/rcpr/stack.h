@@ -112,7 +112,8 @@ RCPR_SYM(prop_stack_valid)(
             return RCPR_SYM(stack_resource_handle)(x); } \
     static inline bool sym ## _ ## prop_stack_valid( \
         const RCPR_SYM(stack)* x) { \
-            return RCPR_SYM(prop_stack_valid)(x); }
+            return RCPR_SYM(prop_stack_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_stack \
     typedef RCPR_SYM(stack) stack; \
@@ -124,7 +125,8 @@ RCPR_SYM(prop_stack_valid)(
             return RCPR_SYM(stack_resource_handle)(x); } \
     static inline bool prop_stack_valid( \
         const RCPR_SYM(stack)* x) { \
-            return RCPR_SYM(prop_stack_valid)(x); }
+            return RCPR_SYM(prop_stack_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef    __cplusplus

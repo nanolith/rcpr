@@ -3,12 +3,13 @@
  *
  * \brief Model tagging macros for data structures.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #pragma once
 
+#include <rcpr/macro_tricks.h>
 #include <rcpr/shadow/allocator.h>
 #include <rcpr/shadow/model_tag.h>
 
@@ -32,12 +33,20 @@
 # define MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(var, name) \
     MODEL_ASSERT(var != MODEL_STRUCT_TAG_GLOBAL_REF(name))
 #else
-# define MODEL_STRUCT_TAG_REF(name)
-# define MODEL_STRUCT_TAG(name)
-# define MODEL_STRUCT_TAG_GLOBAL_REF(name)
-# define MODEL_STRUCT_TAG_GLOBAL_INIT(name)
-# define MODEL_STRUCT_TAG_GLOBAL_EXTERN(name)
-# define MODEL_STRUCT_TAG_INIT(var, name)
-# define MODEL_ASSERT_STRUCT_TAG_INITIALIZED(var, name)
-# define MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(var, name)
+# define MODEL_STRUCT_TAG_REF(name) \
+    REQUIRE_SEMICOLON_HERE
+# define MODEL_STRUCT_TAG(name) \
+    REQUIRE_SEMICOLON_HERE
+# define MODEL_STRUCT_TAG_GLOBAL_REF(name) \
+    REQUIRE_SEMICOLON_HERE
+# define MODEL_STRUCT_TAG_GLOBAL_INIT(name) \
+    REQUIRE_SEMICOLON_HERE
+# define MODEL_STRUCT_TAG_GLOBAL_EXTERN(name) \
+    REQUIRE_SEMICOLON_HERE
+# define MODEL_STRUCT_TAG_INIT(var, name) \
+    REQUIRE_SEMICOLON_HERE
+# define MODEL_ASSERT_STRUCT_TAG_INITIALIZED(var, name) \
+    REQUIRE_SEMICOLON_HERE
+# define MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(var, name) \
+    REQUIRE_SEMICOLON_HERE
 #endif

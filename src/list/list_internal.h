@@ -118,7 +118,8 @@ status RCPR_SYM(list_node_release)(RCPR_SYM(resource)* r);
             return RCPR_SYM(list_node_cleanup)(x,y); } \
     static inline status list_node_release( \
         RCPR_SYM(resource)* x) { \
-            return RCPR_SYM(list_node_release)(x); }
+            return RCPR_SYM(list_node_release)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

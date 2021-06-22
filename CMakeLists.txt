@@ -119,13 +119,19 @@ endif()
 
 ADD_LIBRARY(rcpr STATIC
     ${RCPR_SOURCES})
-TARGET_COMPILE_OPTIONS(rcpr PRIVATE -fPIC -O2 -Wall -Werror -Wextra)
+TARGET_COMPILE_OPTIONS(
+    rcpr PRIVATE -fPIC -O2
+    -Wall -Werror -Wextra -Wpedantic)
 
 ADD_EXECUTABLE(testrcpr
     ${RCPR_SOURCES} ${RCPR_TEST_SOURCES})
 
-TARGET_COMPILE_OPTIONS(testrcpr PRIVATE -g -O0 --coverage ${MINUNIT_CFLAGS})
+TARGET_COMPILE_OPTIONS(
+    testrcpr PRIVATE -g -O0 --coverage ${MINUNIT_CFLAGS}
+                     -Wall -Werror -Wextra -Wpedantic)
 TARGET_LINK_LIBRARIES(testrcpr PRIVATE -g -O0 --coverage ${MINUNIT_LDFLAGS})
+set_source_files_properties(
+    ${RCPR_TEST_SOURCES} PROPERTIES COMPILE_FLAGS -std=c++20)
 
 #conditional link for Threads
 if (Threads_FOUND)

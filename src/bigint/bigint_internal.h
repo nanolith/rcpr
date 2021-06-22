@@ -55,7 +55,8 @@ status RCPR_SYM(bigint_release)(RCPR_SYM(resource)* r);
     typedef RCPR_SYM(native_int) native_int; \
     static inline status bigint_release( \
         RCPR_SYM(resource)*x) { \
-            return RCPR_SYM(bigint_release)(x); }
+            return RCPR_SYM(bigint_release)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

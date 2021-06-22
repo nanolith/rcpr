@@ -130,7 +130,8 @@ RCPR_SYM(prop_uuid_valid)(
             return RCPR_SYM(rcpr_uuid_parse_string)(x,y); } \
     static inline bool sym ## _ ## prop_uuid_valid( \
         const RCPR_SYM(rcpr_uuid)* x) { \
-            return RCPR_SYM(prop_uuid_valid)(x); }
+            return RCPR_SYM(prop_uuid_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_uuid \
     typedef RCPR_SYM(rcpr_uuid) rcpr_uuid; \
@@ -142,7 +143,8 @@ RCPR_SYM(prop_uuid_valid)(
             return RCPR_SYM(rcpr_uuid_parse_string)(x,y); } \
     static inline bool prop_uuid_valid( \
         const RCPR_SYM(rcpr_uuid)* x) { \
-            return RCPR_SYM(prop_uuid_valid)(x); }
+            return RCPR_SYM(prop_uuid_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef    __cplusplus

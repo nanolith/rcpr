@@ -328,9 +328,9 @@ void RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)(
                 x,y,z); } \
     static inline void psock_fiber_scheduler_discipline_set_resource_release( \
         RCPR_SYM(fiber_scheduler_discipline)* x, RCPR_SYM(resource)* y) { \
-          return \
             RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)( \
-                x,y); }
+                x,y); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

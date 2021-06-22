@@ -138,10 +138,11 @@ RCPR_SYM(prop_resource_valid)(
             return RCPR_SYM(resource_release)(x); } \
     static inline void sym ## _ ## resource_init(\
         RCPR_SYM(resource)* x, RCPR_SYM(resource_release_fn) y) { \
-            return RCPR_SYM(resource_init)(x, y); } \
+            RCPR_SYM(resource_init)(x, y); } \
     static inline bool sym _ ## _ ## prop_resource_valid(\
         const RCPR_SYM(resource)* x) { \
-            return RCPR_SYM(prop_resource_valid)(x); }
+            return RCPR_SYM(prop_resource_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_resource \
     typedef RCPR_SYM(resource) resource; \
@@ -151,11 +152,11 @@ RCPR_SYM(prop_resource_valid)(
             return RCPR_SYM(resource_release)(x); } \
     static inline void resource_init(\
         RCPR_SYM(resource)* x, RCPR_SYM(resource_release_fn) y) { \
-            return RCPR_SYM(resource_init)(x, y); } \
+            RCPR_SYM(resource_init)(x, y); } \
     static inline bool prop_resource_valid(\
         const RCPR_SYM(resource)* x) { \
-            return RCPR_SYM(prop_resource_valid)(x); }
-        
+            return RCPR_SYM(prop_resource_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

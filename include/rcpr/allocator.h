@@ -235,7 +235,8 @@ RCPR_SYM(prop_allocator_valid)(
             return RCPR_SYM(allocator_resource_handle)(x); } \
     static inline bool sym ## _ ## prop_allocator_valid( \
         const RCPR_SYM(allocator)* x) { \
-            return RCPR_SYM(prop_allocator_valid)(x); }
+            return RCPR_SYM(prop_allocator_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_allocator \
     typedef RCPR_SYM(allocator) allocator; \
@@ -259,7 +260,8 @@ RCPR_SYM(prop_allocator_valid)(
             return RCPR_SYM(allocator_resource_handle)(x); } \
     static inline bool prop_allocator_valid( \
         const RCPR_SYM(allocator)* x) { \
-            return prop_allocator_valid(x); }
+            return prop_allocator_valid(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

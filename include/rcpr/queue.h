@@ -224,7 +224,8 @@ RCPR_SYM(prop_queue_valid)(
             return RCPR_SYM(queue_resource_handle)(x); } \
     static inline bool sym ## _ ## prop_queue_valid( \
         const RCPR_SYM(queue)* x) { \
-            return RCPR_SYM(prop_queue_valid)(x); }
+            return RCPR_SYM(prop_queue_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_queue \
     typedef RCPR_SYM(queue) queue; \
@@ -248,7 +249,8 @@ RCPR_SYM(prop_queue_valid)(
             return RCPR_SYM(queue_resource_handle)(x); } \
     static inline bool prop_queue_valid( \
         const RCPR_SYM(queue)* x) { \
-            return RCPR_SYM(prop_queue_valid)(x); }
+            return RCPR_SYM(prop_queue_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

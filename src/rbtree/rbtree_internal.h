@@ -259,17 +259,17 @@ RCPR_SYM(prop_rbtree_node_valid)(
     typedef RCPR_SYM(rbtree_node) rbtree_node; \
     static inline void rbtree_left_rotate( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_left_rotate)(x,y); } \
+            RCPR_SYM(rbtree_left_rotate)(x,y); } \
     static inline void rbtree_right_rotate( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_right_rotate)(x,y); } \
+            RCPR_SYM(rbtree_right_rotate)(x,y); } \
     static inline void rbtree_insert_fixup( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_insert_fixup)(x,y); } \
+            RCPR_SYM(rbtree_insert_fixup)(x,y); } \
     static inline void rbtree_transplant( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y, \
         RCPR_SYM(rbtree_node)* z) { \
-            return RCPR_SYM(rbtree_transplant)(x,y,z); } \
+            RCPR_SYM(rbtree_transplant)(x,y,z); } \
     static inline RCPR_SYM(rbtree_node)* rbtree_minimum_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_minimum_node)(x,y); } \
@@ -284,13 +284,13 @@ RCPR_SYM(prop_rbtree_node_valid)(
             return RCPR_SYM(rbtree_predecessor_node)(x,y); } \
     static inline void rbtree_delete_fixup( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_delete_fixup)(x,y); } \
+            RCPR_SYM(rbtree_delete_fixup)(x,y); } \
     static inline void rbtree_remove_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_remove_node)(x,y); } \
+            RCPR_SYM(rbtree_remove_node)(x,y); } \
     static inline void rbtree_insert_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_insert_node)(x,y); } \
+            RCPR_SYM(rbtree_insert_node)(x,y); } \
     static inline status FN_DECL_MUST_CHECK rbtree_find_node( \
         RCPR_SYM(rbtree)* x, const void* y, RCPR_SYM(rbtree_node)** z) { \
             return RCPR_SYM(rbtree_find_node)(x,y,z); } \
@@ -303,7 +303,8 @@ RCPR_SYM(prop_rbtree_node_valid)(
             return RCPR_SYM(rbtree_node_resource_handle)(x); } \
     static inline bool prop_rbtree_node_valid( \
         const RCPR_SYM(rbtree)* x, const RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(prop_rbtree_node_valid)(x,y); }
+            return RCPR_SYM(prop_rbtree_node_valid)(x,y); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

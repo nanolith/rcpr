@@ -87,7 +87,7 @@ static status FN_DECL_MUST_CHECK integer_create(integer** i, int value)
  *      - RCPR_COMPARE_EQ if lhs == rhs.
  */
 static rcpr_comparison_result integer_compare(
-    void* context, const void* lhs, const void* rhs)
+    void*, const void* lhs, const void* rhs)
 {
     const int* l = (const int*)lhs; const int* r = (const int*)rhs;
 
@@ -109,7 +109,7 @@ static rcpr_comparison_result integer_compare(
  *
  * \returns a const void pointer to the integer primitive value.
  */
-static const void* integer_key(void* context, const resource* r)
+static const void* integer_key(void*, const resource* r)
 {
     const integer* i = (const integer*)r;
 

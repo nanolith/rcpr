@@ -19,13 +19,13 @@ TEST_SUITE(rbtree_successor_node);
 
 /* dummy comparison. */
 static rcpr_comparison_result dummy_compare(
-    void* context, const void* lhs, const void* rhs)
+    void*, const void*, const void*)
 {
     return RCPR_COMPARE_LT;
 }
 
 /* dummy key function. */
-static const void* dummy_key(void* context, const resource* r)
+static const void* dummy_key(void*, const resource* r)
 {
     return r;
 }

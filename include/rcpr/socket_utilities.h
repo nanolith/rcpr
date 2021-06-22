@@ -147,7 +147,8 @@ RCPR_SYM(socket_utility_ntoh16)(
             return RCPR_SYM(socket_utility_hton16)(x); } \
     static inline int16_t sym ## _ ## socket_utility_ntoh16( \
         int16_t x) { \
-            return RCPR_SYM(socket_utility_ntoh16)(x); }
+            return RCPR_SYM(socket_utility_ntoh16)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_socket_utilities \
     static inline status FN_DECL_MUST_CHECK socket_utility_socketpair( \
@@ -173,7 +174,8 @@ RCPR_SYM(socket_utility_ntoh16)(
             return RCPR_SYM(socket_utility_hton16)(x); } \
     static inline int16_t socket_utility_ntoh16( \
         int16_t x) { \
-            return RCPR_SYM(socket_utility_ntoh16)(x); }
+            return RCPR_SYM(socket_utility_ntoh16)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

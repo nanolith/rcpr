@@ -42,7 +42,11 @@ static status manager_main(void* context)
     retval =
         disciplined_fiber_scheduler_receive_management_event(
             ctx->sched, &resume_id, &resume_event, &resume_param);
-    if (
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
+    else if (
          !memcmp(resume_id, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE, 16)
       && FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_FIBER_ADD == resume_event
       && nullptr != resume_param)
@@ -59,7 +63,11 @@ static status manager_main(void* context)
     retval =
         disciplined_fiber_scheduler_receive_management_event(
             ctx->sched, &resume_id, &resume_event, &resume_param);
-    if (
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
+    else if (
          !memcmp(resume_id, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE, 16)
       && FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_FIBER_STOP == resume_event
       && nullptr != resume_param)
@@ -75,7 +83,7 @@ static status manager_main(void* context)
     return STATUS_SUCCESS;
 }
 
-static status dummy_main(void* context)
+static status dummy_main(void*)
 {
     return STATUS_SUCCESS;
 }

@@ -511,7 +511,8 @@ RCPR_SYM(prop_slist_node_valid)(
             return RCPR_SYM(prop_slist_valid)(x); } \
     static inline bool sym ## _ ## prop_slist_node_valid( \
         const RCPR_SYM(slist_node)* x) { \
-            return RCPR_SYM(prop_slist_node_valid)(x); }
+            return RCPR_SYM(prop_slist_node_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_slist \
     typedef RCPR_SYM(slist) slist; \
@@ -563,7 +564,8 @@ RCPR_SYM(prop_slist_node_valid)(
             return RCPR_SYM(prop_slist_valid)(x); } \
     static inline bool prop_slist_node_valid( \
         const RCPR_SYM(slist_node)* x) { \
-            return RCPR_SYM(prop_slist_node_valid)(x); }
+            return RCPR_SYM(prop_slist_node_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

@@ -17,8 +17,8 @@ RCPR_IMPORT_uuid;
 TEST_SUITE(fiber_scheduler_discipline_find);
 
 static status dummy_scheduler_callback(
-    void* context, fiber* yield_fib, int yield_event, void* yield_param,
-    fiber** resume_fib, const rcpr_uuid** restore_disc_id, int* resume_event,
+    void*, fiber* yield_fib, int yield_event, void*,
+    fiber** resume_fib, const rcpr_uuid**, int* resume_event,
     void** resume_param)
 {
     /* is this a main fiber add? */
@@ -56,7 +56,6 @@ TEST(not_found)
     rcpr_uuid id = { .data = {
         0x0e, 0x2c, 0xfc, 0x92, 0x89, 0xfa, 0x46, 0x54,
         0xb9, 0x69, 0xd7, 0x1b, 0x18, 0x46, 0x9b, 0x4c } };
-    fiber_scheduler_discipline_callback_fn emptyvec[0];
 
     /* we should be able to create a malloc allocator. */
     TEST_ASSERT(
@@ -92,7 +91,7 @@ TEST(found)
     rcpr_uuid id = { .data = {
         0x0e, 0x2c, 0xfc, 0x92, 0x89, 0xfa, 0x46, 0x54,
         0xb9, 0x69, 0xd7, 0x1b, 0x18, 0x46, 0x9b, 0x4c } };
-    fiber_scheduler_discipline_callback_fn emptyvec[0];
+    fiber_scheduler_discipline_callback_fn emptyvec[1];
 
     /* we should be able to create a malloc allocator. */
     TEST_ASSERT(
@@ -140,7 +139,6 @@ TEST(undisciplined)
     rcpr_uuid id = { .data = {
         0x0e, 0x2c, 0xfc, 0x92, 0x89, 0xfa, 0x46, 0x54,
         0xb9, 0x69, 0xd7, 0x1b, 0x18, 0x46, 0x9b, 0x4c } };
-    fiber_scheduler_discipline_callback_fn emptyvec[0];
 
     /* we should be able to create a malloc allocator. */
     TEST_ASSERT(

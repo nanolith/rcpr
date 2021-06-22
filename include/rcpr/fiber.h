@@ -1062,7 +1062,8 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
             return RCPR_SYM(prop_fiber_valid)(x); } \
     static inline bool sym ## _ ## prop_fiber_scheduler_valid( \
         const RCPR_SYM(fiber_scheduler)* x) { \
-            return RCPR_SYM(prop_fiber_scheduler_valid)(x); }
+            return RCPR_SYM(prop_fiber_scheduler_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_fiber \
     typedef RCPR_SYM(fiber) fiber; \
@@ -1175,7 +1176,8 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
             return RCPR_SYM(prop_fiber_valid)(x); } \
     static inline bool prop_fiber_scheduler_valid( \
         const RCPR_SYM(fiber_scheduler)* x) { \
-            return RCPR_SYM(prop_fiber_scheduler_valid)(x); }
+            return RCPR_SYM(prop_fiber_scheduler_valid)(x); } \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
