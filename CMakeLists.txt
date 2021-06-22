@@ -27,6 +27,9 @@ include ("cmake/fibers.cmake")
 #detect psock async
 include ("cmake/psock.cmake")
 
+#detect C++ compiler options
+include ("cmake/cpp.cmake")
+
 #Build config.h
 configure_file(config.h.cmake include/rcpr/config.h)
 
@@ -131,7 +134,7 @@ TARGET_COMPILE_OPTIONS(
                      -Wall -Werror -Wextra -Wpedantic)
 TARGET_LINK_LIBRARIES(testrcpr PRIVATE -g -O0 --coverage ${MINUNIT_LDFLAGS})
 set_source_files_properties(
-    ${RCPR_TEST_SOURCES} PROPERTIES COMPILE_FLAGS -std=c++20)
+    ${RCPR_TEST_SOURCES} PROPERTIES COMPILE_FLAGS ${STD_CXX_20})
 
 #conditional link for Threads
 if (Threads_FOUND)
