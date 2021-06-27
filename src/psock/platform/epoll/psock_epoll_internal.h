@@ -30,7 +30,7 @@ struct psock_io_epoll_context
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(psock_io_epoll_context);
+    RCPR_MODEL_STRUCT_TAG(psock_io_epoll_context);
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(resource) discipline_cache;

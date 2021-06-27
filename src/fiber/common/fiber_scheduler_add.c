@@ -48,8 +48,8 @@ RCPR_SYM(fiber_scheduler_add)(
     status retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(prop_fiber_valid(fib));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
 
     /* call the callback function to add this fiber. */
     fiber* resume_fib;

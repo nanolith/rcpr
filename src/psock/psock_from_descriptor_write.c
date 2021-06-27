@@ -33,10 +33,10 @@ RCPR_SYM(psock_from_descriptor_write)(
     RCPR_SYM(psock)* sock, const void* data, size_t* size)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
-    MODEL_ASSERT(NULL != data);
-    MODEL_ASSERT(NULL != size);
-    MODEL_ASSERT(prop_valid_range(data, *size));
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(NULL != data);
+    RCPR_MODEL_ASSERT(NULL != size);
+    RCPR_MODEL_ASSERT(prop_valid_range(data, *size));
 
     /* convert this to a psock_from_descriptor. */
     psock_from_descriptor* s = (psock_from_descriptor*)sock;

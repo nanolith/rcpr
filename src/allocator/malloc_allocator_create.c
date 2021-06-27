@@ -22,7 +22,7 @@ static status malloc_allocator_allocate(allocator*, void**, size_t);
 static status malloc_allocator_reclaim(allocator*, void*);
 static status malloc_allocator_reallocate(allocator*, void**, size_t);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(RCPR_SYM(allocator));
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(RCPR_SYM(allocator));
 
 /**
  * \brief Create an allocator backed by malloc / free.
@@ -50,7 +50,7 @@ RCPR_SYM(malloc_allocator_create)(
     RCPR_SYM(allocator)** alloc)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != alloc);
+    RCPR_MODEL_ASSERT(NULL != alloc);
 
     /* attempt to allocate memory for the allocator. */
     *alloc = (allocator*)malloc(sizeof(allocator));
@@ -63,11 +63,12 @@ RCPR_SYM(malloc_allocator_create)(
     memset(*alloc, 0, sizeof(allocator));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
         (*alloc)->MODEL_STRUCT_TAG_REF(allocator), allocator);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT((*alloc)->MODEL_STRUCT_TAG_REF(allocator), allocator);
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        (*alloc)->MODEL_STRUCT_TAG_REF(allocator), allocator);
 
     /* set the release method. */
     resource_init(&(*alloc)->hdr, &malloc_allocator_release);
@@ -78,7 +79,7 @@ RCPR_SYM(malloc_allocator_create)(
     (*alloc)->reallocate_fn = &malloc_allocator_reallocate;
 
     /* verify that the structure is now valid. */
-    MODEL_ASSERT(prop_allocator_valid(*alloc));
+    RCPR_MODEL_ASSERT(prop_allocator_valid(*alloc));
 
     /* success. */
     return STATUS_SUCCESS;
@@ -97,8 +98,8 @@ static status malloc_allocator_release(resource* r)
     allocator* alloc = (allocator*)r;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_resource_valid(r));
-    MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(prop_resource_valid(r));
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
 
     /* clean up the malloc allocator instance. */
     memset(alloc, 0, sizeof(allocator));
@@ -137,8 +138,8 @@ static status malloc_allocator_allocate(
     (void)alloc;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(NULL != ptr);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(NULL != ptr);
 
     /* attempt to allocate memory. */
     *ptr = malloc(size);
@@ -178,8 +179,8 @@ static status malloc_allocator_reclaim(
     (void)alloc;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(NULL != ptr);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(NULL != ptr);
 
     /* release the memory allocated by malloc. */
     free(ptr);
@@ -223,8 +224,8 @@ static status malloc_allocator_reallocate(
     (void)alloc;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(NULL != ptr);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(NULL != ptr);
 
     /* attempt to reallocate memory. */
     void* newptr = realloc(*ptr, size);

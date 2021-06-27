@@ -67,10 +67,10 @@ RCPR_SYM(psock_read_boxed_data)(
     status retval, release_retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(NULL != data);
-    MODEL_ASSERT(NULL != data_size);
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(NULL != data);
+    RCPR_MODEL_ASSERT(NULL != data_size);
 
     /* attempt to read the type from the socket. */
     uint32_t type = 0U;

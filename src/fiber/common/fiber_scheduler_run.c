@@ -53,7 +53,7 @@ RCPR_SYM(fiber_scheduler_run)(
     RCPR_SYM(fiber_scheduler)* sched)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     /* call the callback function to run the scheduler. */
     const rcpr_uuid* resume_id = &FIBER_SCHEDULER_INTERNAL_DISCIPLINE;

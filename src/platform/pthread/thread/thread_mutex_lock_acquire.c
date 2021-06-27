@@ -55,9 +55,9 @@ RCPR_SYM(thread_mutex_lock_acquire)(
     int retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != lock);
-    MODEL_ASSERT(prop_thread_mutex_valid(mut));
-    MODEL_ASSERT(prop_thread_mutex_lock_valid(&mut->child));
+    RCPR_MODEL_ASSERT(NULL != lock);
+    RCPR_MODEL_ASSERT(prop_thread_mutex_valid(mut));
+    RCPR_MODEL_ASSERT(prop_thread_mutex_lock_valid(&mut->child));
 
     /* acquire the lock. */
     retval = pthread_mutex_lock(&mut->mutex);

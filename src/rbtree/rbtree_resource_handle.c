@@ -24,7 +24,7 @@ RCPR_SYM(resource)*
 RCPR_SYM(rbtree_resource_handle)(
     RCPR_SYM(rbtree)* tree)
 {
-    MODEL_ASSERT(prop_rbtree_valid(tree));
+    RCPR_MODEL_ASSERT(prop_rbtree_valid(tree));
 
     return &(tree->hdr);
 }

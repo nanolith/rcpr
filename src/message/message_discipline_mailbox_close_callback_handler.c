@@ -45,8 +45,8 @@ status RCPR_SYM(message_discipline_mailbox_close_callback_handler)(
     mailbox_address addr = (mailbox_address)((ptrdiff_t)yield_param);
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_message_discipline_context_valid(ctx));
-    MODEL_ASSERT(addr > 0);
+    RCPR_MODEL_ASSERT(prop_message_discipline_context_valid(ctx));
+    RCPR_MODEL_ASSERT(addr > 0);
 
     /* Attempt to delete the mailbox. */
     retval = rbtree_delete(NULL, ctx->mailboxes, &addr);

@@ -48,8 +48,8 @@ RCPR_SYM(slist_tail)(
     RCPR_SYM(slist_node)** node, RCPR_SYM(slist)* list)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != node);
-    MODEL_ASSERT(prop_slist_valid(list));
+    RCPR_MODEL_ASSERT(NULL != node);
+    RCPR_MODEL_ASSERT(prop_slist_valid(list));
 
     /* set the node to tail. */
     *node = list->tail;

@@ -35,8 +35,8 @@ void RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)(
     psock_io_epoll_context* ctx = (psock_io_epoll_context*)context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
-    MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
+    RCPR_MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
 
     /* cache the resource header for this discipline. */
     resource* pdisc = fiber_scheduler_discipline_resource_handle(disc);
@@ -61,8 +61,8 @@ static status psock_epoll_discipline_chained_release(resource* r)
     psock_io_epoll_context* ctx = (psock_io_epoll_context*)disc->context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
-    MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
+    RCPR_MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
 
     /* copy the original resource to the discipline. */
     memcpy(&disc->hdr, &ctx->discipline_cache, sizeof(resource));

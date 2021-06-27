@@ -25,7 +25,7 @@
 RCPR_SYM(resource)* RCPR_SYM(fiber_scheduler_discipline_resource_handle)(
     RCPR_SYM(fiber_scheduler_discipline)* disc)
 {
-    MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
 
     return &disc->hdr;
 }

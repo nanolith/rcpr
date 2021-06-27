@@ -49,8 +49,8 @@ RCPR_SYM(psock_read_block)(
     bool done = false;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
-    MODEL_ASSERT(PSOCK_TYPE_WRAP_ASYNC == sock->type);
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(PSOCK_TYPE_WRAP_ASYNC == sock->type);
 
     /* this has to be an async psock instance. */
     if (PSOCK_TYPE_WRAP_ASYNC != sock->type)
@@ -60,7 +60,7 @@ RCPR_SYM(psock_read_block)(
 
     /* convert this to a async wrapped psock instance. */
     psock_wrap_async* s = (psock_wrap_async*)sock;
-    MODEL_ASSERT(prop_psock_valid(s->wrapped));
+    RCPR_MODEL_ASSERT(prop_psock_valid(s->wrapped));
 
     /* get the underlying descriptor psock instance. */
     psock_from_descriptor* desc = (psock_from_descriptor*)s->wrapped;

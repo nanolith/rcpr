@@ -51,10 +51,10 @@ RCPR_SYM(message_create)(
     status retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != msg);
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(returnaddr >= 0);
-    MODEL_ASSERT(prop_resource_valid(payload));
+    RCPR_MODEL_ASSERT(NULL != msg);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(returnaddr >= 0);
+    RCPR_MODEL_ASSERT(prop_resource_valid(payload));
 
     /* attempt to allocate memory for this message. */
     retval = allocator_allocate(alloc, (void**)&tmp, sizeof(message));
@@ -67,11 +67,12 @@ RCPR_SYM(message_create)(
     memset(tmp, 0, sizeof(message));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(message), message);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(message), message);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(message), message);
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(message), message);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &message_resource_release);
@@ -85,7 +86,7 @@ RCPR_SYM(message_create)(
     *msg = tmp;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_message_valid(*msg));
+    RCPR_MODEL_ASSERT(prop_message_valid(*msg));
 
     /* success. */
     return STATUS_SUCCESS;
@@ -106,7 +107,7 @@ static status message_resource_release(resource* r)
     message* msg = (message*)r;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_message_valid(msg));
+    RCPR_MODEL_ASSERT(prop_message_valid(msg));
 
     /* cache the allocator. */
     allocator* alloc = msg->alloc;

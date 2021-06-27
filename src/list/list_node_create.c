@@ -14,7 +14,7 @@
 
 #include "list_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(list_node);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(list_node);
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_list;
@@ -57,9 +57,9 @@ RCPR_SYM(list_node_create)(
     RCPR_SYM(list_node)** node, RCPR_SYM(list)* l, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != node);
-    MODEL_ASSERT(prop_list_valid(l));
-    MODEL_ASSERT(NULL == r || prop_resource_valid(r));
+    RCPR_MODEL_ASSERT(NULL != node);
+    RCPR_MODEL_ASSERT(prop_list_valid(l));
+    RCPR_MODEL_ASSERT(NULL == r || prop_resource_valid(r));
 
     /* attempt to allocate memory for this list_node. */
     list_node* n = NULL;
@@ -74,11 +74,11 @@ RCPR_SYM(list_node_create)(
     memset(n, 0, sizeof(list_node));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
         n->MODEL_STRUCT_TAG_REF(list_node), list_node);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(n->MODEL_STRUCT_TAG_REF(list_node), list_node);
+    RCPR_MODEL_STRUCT_TAG_INIT(n->MODEL_STRUCT_TAG_REF(list_node), list_node);
 
     /* set the release method. */
     resource_init(&n->hdr, &list_node_release);
@@ -102,7 +102,7 @@ RCPR_SYM(list_node_create)(
     *node = n;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_list_node_valid(*node));
+    RCPR_MODEL_ASSERT(prop_list_node_valid(*node));
 
     /* set the parent; this breaks our invariant, but the caller fixes it up. */
     n->parent = l;

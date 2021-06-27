@@ -20,7 +20,7 @@ RCPR_IMPORT_uuid;
 /* forward decls. */
 static status fiber_scheduler_discipline_resource_release(resource*);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_discipline);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_discipline);
 
 /**
  * \brief Create a custom fiber scheduler discipline.
@@ -72,10 +72,10 @@ RCPR_SYM(fiber_scheduler_discipline_create)(
     status retval, release_retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != disc);
-    MODEL_ASSERT(prop_uuid_valid(id));
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(
+    RCPR_MODEL_ASSERT(NULL != disc);
+    RCPR_MODEL_ASSERT(prop_uuid_valid(id));
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(
         prop_valid_range(
             callback_vector,
             callbacks * sizeof(fiber_scheduler_discipline_callback_fn)));
@@ -94,13 +94,13 @@ RCPR_SYM(fiber_scheduler_discipline_create)(
     memset(tmp, 0, sizeof(fiber_scheduler_discipline));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(fiber_scheduler_discipline),
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(fiber_scheduler_discipline),
         fiber_scheduler_discipline);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(
-        tmp->MODEL_STRUCT_TAG_REF(fiber_scheduler_discipline),
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(fiber_scheduler_discipline),
         fiber_scheduler_discipline);
 
     /* set the release method. */
@@ -145,7 +145,7 @@ RCPR_SYM(fiber_scheduler_discipline_create)(
     retval = STATUS_SUCCESS;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(*disc));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(*disc));
 
     /* success. */
     goto done;
@@ -181,7 +181,7 @@ static status fiber_scheduler_discipline_resource_release(resource* r)
 {
     status vector_retval, codes_retval, disc_retval;
     fiber_scheduler_discipline* disc = (fiber_scheduler_discipline*)r;
-    MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
 
     /* cache the allocator. */
     allocator* a = disc->alloc;

@@ -45,7 +45,7 @@
 status FN_DECL_MUST_CHECK
 RCPR_SYM(resource_release)(RCPR_SYM(resource)* r)
 {
-    MODEL_ASSERT(prop_resource_valid(r));
+    RCPR_MODEL_ASSERT(prop_resource_valid(r));
 
     return r->release(r);
 }

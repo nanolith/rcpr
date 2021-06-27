@@ -18,7 +18,7 @@ RCPR_IMPORT_rbtree_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree);
 static status rbtree_resource_release(resource* r);
 static status rbtree_nil_node_resource_release(resource* r);
 static status rbtree_delete_nodes(rbtree* tree, rbtree_node* n);
@@ -71,9 +71,9 @@ RCPR_SYM(rbtree_create)(
     status retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(NULL != tree);
-    MODEL_ASSERT(NULL != a);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(NULL != tree);
+    RCPR_MODEL_ASSERT(NULL != a);
 
     /* attempt to allocate memory for this rbtree instance. */
     retval = allocator_allocate(a, (void**)&tmp, sizeof(rbtree));
@@ -87,11 +87,11 @@ RCPR_SYM(rbtree_create)(
     memset(tmp, 0, sizeof(rbtree));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(rbtree), rbtree);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(rbtree), rbtree);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(rbtree), rbtree);
+    RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(rbtree), rbtree);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &rbtree_resource_release);
@@ -114,7 +114,7 @@ RCPR_SYM(rbtree_create)(
     retval = STATUS_SUCCESS;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_rbtree_valid(*tree));
+    RCPR_MODEL_ASSERT(prop_rbtree_valid(*tree));
 
     /* success. */
     goto done;
@@ -147,7 +147,7 @@ static status rbtree_resource_release(resource* r)
     }
 
     /* clear the rbtree structure. */
-    MODEL_EXEMPT(memset(tree, 0, sizeof(*tree)));
+    RCPR_MODEL_EXEMPT(memset(tree, 0, sizeof(*tree)));
 
     /* reclaim the rbtree structure. */
     status reclaim_retval = allocator_reclaim(a, tree);

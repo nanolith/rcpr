@@ -23,7 +23,7 @@
 RCPR_SYM(resource)* RCPR_SYM(fiber_scheduler_resource_handle)(
     RCPR_SYM(fiber_scheduler)* sched)
 {
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     return &(sched->hdr);
 }

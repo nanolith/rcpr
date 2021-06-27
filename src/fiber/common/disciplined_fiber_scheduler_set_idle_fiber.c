@@ -45,9 +45,9 @@ RCPR_SYM(disciplined_fiber_scheduler_set_idle_fiber)(
     fiber_scheduler_disciplined_context* ctx = NULL;
 
     /* parameter sanity checking. */
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(prop_fiber_valid(fib));
-    MODEL_ASSERT(sched->disciplined);
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
+    RCPR_MODEL_ASSERT(sched->disciplined);
 
     /* get the fiber scheduler discipline context. */
     ctx = (fiber_scheduler_disciplined_context*)sched->context;

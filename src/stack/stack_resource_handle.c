@@ -27,7 +27,7 @@ RCPR_SYM(resource)*
 RCPR_SYM(stack_resource_handle)(
     RCPR_SYM(stack)* st)
 {
-    MODEL_ASSERT(prop_stack_valid(st));
+    RCPR_MODEL_ASSERT(prop_stack_valid(st));
 
     return &(st->hdr);
 }

@@ -58,7 +58,7 @@ status RCPR_SYM(message_discipline_message_receive_callback_handler)(
     }
 
     /* mailbox sanity check. */
-    MODEL_ASSERT(prop_mailbox_valid(mbox));
+    RCPR_MODEL_ASSERT(prop_mailbox_valid(mbox));
 
     /* if there are no messages to receive, block this fiber. */
     if (queue_count(mbox->message_queue) == 0)

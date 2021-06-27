@@ -41,9 +41,9 @@ status RCPR_SYM(psock_fiber_scheduler_disciplined_write_wait_callback_handler)(
     int fd = (int)((ptrdiff_t)yield_param);
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_poll_io_struct_valid(ctx));
-    MODEL_ASSERT(prop_fiber_valid(yield_fib));
-    MODEL_ASSERT(fb >= 0);
+    RCPR_MODEL_ASSERT(prop_poll_io_struct_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(fb >= 0);
 
     /* do we need to allocate more memory for the poll events structure? */
     if (ctx->poll_curr == ctx->poll_max)

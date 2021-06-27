@@ -22,7 +22,7 @@ RCPR_IMPORT_thread;
 static status thread_release(resource*);
 static void* thread_start(void*);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread);
 
 /**
  * \brief Create a \ref thread instance.
@@ -73,10 +73,10 @@ RCPR_SYM(thread_create)(
     thread* tmp = NULL;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != th);
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(stack_size > 0);
-    MODEL_ASSERT(NULL != fn);
+    RCPR_MODEL_ASSERT(NULL != th);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(stack_size > 0);
+    RCPR_MODEL_ASSERT(NULL != fn);
 
     /* create a thread attribute structure. */
     retval = pthread_attr_init(&attr);
@@ -106,11 +106,11 @@ RCPR_SYM(thread_create)(
     memset(tmp, 0, sizeof(thread));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(thread), thread);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(thread), thread);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(thread), thread);
+    RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(thread), thread);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &thread_release);
@@ -134,7 +134,7 @@ RCPR_SYM(thread_create)(
     retval = STATUS_SUCCESS;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_thread_valid(*th));
+    RCPR_MODEL_ASSERT(prop_thread_valid(*th));
 
     /* success.  Clean up the thread attribute structure. */
     goto cleanup_attr;
@@ -161,7 +161,7 @@ static void* thread_start(void* ctx)
 {
     /* get the thread instance and verify it is valid. */
     thread* th = (thread*)ctx;
-    MODEL_ASSERT(prop_thread_valid(th));
+    RCPR_MODEL_ASSERT(prop_thread_valid(th));
 
     /* run the thread function. */
     th->exit_code = th->fn(th->context);
@@ -188,7 +188,7 @@ static status thread_release(resource* r)
 {
     status thread_retval, retval;
     thread* th = (thread*)r;
-    MODEL_ASSERT(prop_thread_valid(th));
+    RCPR_MODEL_ASSERT(prop_thread_valid(th));
 
     /* cache the allocator. */
     allocator* a = th->alloc;

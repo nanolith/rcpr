@@ -54,8 +54,8 @@ RCPR_SYM(psock_read_boxed_int32)(
     RCPR_SYM(psock)* sock, int32_t* val)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
-    MODEL_ASSERT(NULL != val);
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(NULL != val);
 
     /* attempt to read the type from the socket. */
     uint32_t type = 0U;

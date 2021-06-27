@@ -19,7 +19,7 @@ RCPR_IMPORT_resource;
 RCPR_IMPORT_uuid;
 
 /* forward decls. */
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler);
 
 /**
  * \brief Create a \ref fiber_scheduler instance.
@@ -68,9 +68,9 @@ RCPR_SYM(fiber_scheduler_create)(
     status retval, release_retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(NULL != sched);
-    MODEL_ASSERT(NULL != fn);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(NULL != sched);
+    RCPR_MODEL_ASSERT(NULL != fn);
 
     /* attempt to allocate memory for this fiber_scheduler. */
     retval = allocator_allocate(a, (void**)&tmp, sizeof(fiber_scheduler));
@@ -84,12 +84,12 @@ RCPR_SYM(fiber_scheduler_create)(
     memset(tmp, 0, sizeof(fiber_scheduler));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(fiber_scheduler), fiber_scheduler);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(fiber_scheduler), fiber_scheduler);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(
-        tmp->MODEL_STRUCT_TAG_REF(fiber_scheduler), fiber_scheduler);
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(fiber_scheduler), fiber_scheduler);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &fiber_scheduler_resource_release);
@@ -137,7 +137,7 @@ RCPR_SYM(fiber_scheduler_create)(
     retval = STATUS_SUCCESS;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_fiber_scheduler_valid(*sched));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(*sched));
 
     /* success. */
     goto done;

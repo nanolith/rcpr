@@ -29,7 +29,7 @@ RCPR_SYM(resource)*
 RCPR_SYM(thread_cond_resource_handle)(
     RCPR_SYM(thread_cond)* cond)
 {
-    MODEL_ASSERT(prop_thread_cond_valid(cond));
+    RCPR_MODEL_ASSERT(prop_thread_cond_valid(cond));
 
     return &(cond->hdr);
 }

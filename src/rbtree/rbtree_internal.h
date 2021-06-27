@@ -28,7 +28,7 @@ struct RCPR_SYM(rbtree_node)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(rbtree_node);
+    RCPR_MODEL_STRUCT_TAG(rbtree_node);
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(rbtree_node)* parent;
@@ -42,7 +42,7 @@ struct RCPR_SYM(rbtree)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(rbtree);
+    RCPR_MODEL_STRUCT_TAG(rbtree);
 
     RCPR_SYM(allocator)* alloc;
     void* context;

@@ -19,7 +19,7 @@ RCPR_IMPORT_resource;
 RCPR_IMPORT_slist;
 RCPR_IMPORT_slist_internal;
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(slist_node);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(slist_node);
 
 /**
  * \brief Create a \ref slist_node instance.
@@ -57,9 +57,9 @@ RCPR_SYM(slist_node_create)(
     RCPR_SYM(slist_node)** node, RCPR_SYM(slist)* list, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != node);
-    MODEL_ASSERT(prop_slist_valid(list));
-    MODEL_ASSERT(NULL == r || prop_resource_valid(r));
+    RCPR_MODEL_ASSERT(NULL != node);
+    RCPR_MODEL_ASSERT(prop_slist_valid(list));
+    RCPR_MODEL_ASSERT(NULL == r || prop_resource_valid(r));
 
     /* attempt to allocate memory for this slist_node. */
     slist_node* n = NULL;
@@ -74,11 +74,12 @@ RCPR_SYM(slist_node_create)(
     memset(n, 0, sizeof(slist_node));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        n->MODEL_STRUCT_TAG_REF(slist_node), slist_node);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        n->RCPR_MODEL_STRUCT_TAG_REF(slist_node), slist_node);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(n->MODEL_STRUCT_TAG_REF(slist_node), slist_node);
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        n->RCPR_MODEL_STRUCT_TAG_REF(slist_node), slist_node);
 
     /* set the release method. */
     resource_init(&n->hdr, &slist_node_release);
@@ -99,7 +100,7 @@ RCPR_SYM(slist_node_create)(
     *node = n;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_slist_node_valid(*node));
+    RCPR_MODEL_ASSERT(prop_slist_node_valid(*node));
 
     /* set the parent; this breaks our invariant, but the caller fixes it up. */
     n->parent = list;

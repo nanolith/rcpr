@@ -56,7 +56,7 @@ RCPR_SYM(rbtree_delete)(
     rbtree_node* node = NULL;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_rbtree_valid(tree));
+    RCPR_MODEL_ASSERT(prop_rbtree_valid(tree));
 
     /* attempt to find a node matching the given key. */
     retval = rbtree_find_node(tree, key, &node);

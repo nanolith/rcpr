@@ -29,7 +29,7 @@ RCPR_SYM(resource)*
 RCPR_SYM(thread_resource_handle)(
     RCPR_SYM(thread)* th)
 {
-    MODEL_ASSERT(prop_thread_valid(th));
+    RCPR_MODEL_ASSERT(prop_thread_valid(th));
 
     return &(th->hdr);
 }

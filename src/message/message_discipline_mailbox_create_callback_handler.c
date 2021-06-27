@@ -48,7 +48,7 @@ status RCPR_SYM(message_discipline_mailbox_create_callback_handler)(
     message_discipline_context* ctx = (message_discipline_context*)context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_message_discipline_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_message_discipline_context_valid(ctx));
 
     /* compute the new address value. */
     addr = ctx->index + 1;

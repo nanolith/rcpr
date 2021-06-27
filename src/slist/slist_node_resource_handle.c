@@ -31,7 +31,7 @@ RCPR_SYM(slist_node_resource_handle)(
     RCPR_SYM(slist_node)* node)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_slist_node_valid(node));
+    RCPR_MODEL_ASSERT(prop_slist_node_valid(node));
 
     /* return the resource handle for this node. */
     return &node->hdr;

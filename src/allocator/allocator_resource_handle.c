@@ -23,8 +23,8 @@ RCPR_SYM(allocator_resource_handle)(
     RCPR_SYM(allocator)* alloc)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != alloc);
-    MODEL_ASSERT(prop_resource_valid(&alloc->hdr));
+    RCPR_MODEL_ASSERT(NULL != alloc);
+    RCPR_MODEL_ASSERT(prop_resource_valid(&alloc->hdr));
 
     return &alloc->hdr;
 }

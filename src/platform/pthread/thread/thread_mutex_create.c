@@ -22,8 +22,8 @@ RCPR_IMPORT_thread;
 static status thread_mutex_release(resource*);
 static status thread_mutex_lock_release(resource*);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex);
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex_lock);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex_lock);
 
 /**
  * \brief Create a \ref thread_mutex instance.
@@ -62,8 +62,8 @@ RCPR_SYM(thread_mutex_create)(
     thread_mutex* tmp;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != mut);
-    MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(NULL != mut);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
 
     /* attempt to allocate memory for this mutex. */
     retval = allocator_allocate(a, (void**)&tmp, sizeof(thread_mutex));
@@ -77,16 +77,17 @@ RCPR_SYM(thread_mutex_create)(
     memset(tmp, 0, sizeof(thread_mutex));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(thread_mutex), thread_mutex);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(thread_mutex), thread_mutex);
 
     /* the child tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->child.MODEL_STRUCT_TAG_REF(thread_mutex_lock), thread_mutex_lock);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->child.RCPR_MODEL_STRUCT_TAG_REF(thread_mutex_lock),
+        thread_mutex_lock);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(
-        tmp->MODEL_STRUCT_TAG_REF(thread_mutex), thread_mutex);
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(thread_mutex), thread_mutex);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &thread_mutex_release);
@@ -109,18 +110,19 @@ RCPR_SYM(thread_mutex_create)(
     tmp->child.parent = tmp;
 
     /* set the child tag. */
-    MODEL_STRUCT_TAG_INIT(
-        tmp->child.MODEL_STRUCT_TAG_REF(thread_mutex_lock), thread_mutex_lock);
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        tmp->child.RCPR_MODEL_STRUCT_TAG_REF(thread_mutex_lock),
+        thread_mutex_lock);
 
     /* set the return pointer. */
     *mut = tmp;
     retval = STATUS_SUCCESS;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_thread_mutex_valid(*mut));
+    RCPR_MODEL_ASSERT(prop_thread_mutex_valid(*mut));
 
     /* verify that the child structure is now valid. */
-    MODEL_ASSERT(prop_thread_mutex_lock_valid(&(*mut)->child));
+    RCPR_MODEL_ASSERT(prop_thread_mutex_lock_valid(&(*mut)->child));
 
     /* success. skip to done. */
     goto done;
@@ -146,7 +148,7 @@ static status thread_mutex_release(resource* r)
 {
     status retval, mutex_retval;
     thread_mutex* mut = (thread_mutex*)r;
-    MODEL_ASSERT(prop_thread_mutex_valid(mut));
+    RCPR_MODEL_ASSERT(prop_thread_mutex_valid(mut));
 
     /* cache the allocator. */
     allocator* a = mut->alloc;
@@ -191,7 +193,7 @@ static status thread_mutex_lock_release(resource* r)
 {
     status retval;
     thread_mutex_lock* lock = (thread_mutex_lock*)r;
-    MODEL_ASSERT(prop_thread_mutex_lock_valid(lock));
+    RCPR_MODEL_ASSERT(prop_thread_mutex_lock_valid(lock));
 
     /* unlock the pthread_mutex. */
     retval = pthread_mutex_unlock(&lock->parent->mutex);

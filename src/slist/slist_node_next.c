@@ -42,8 +42,8 @@ RCPR_SYM(slist_node_next)(
     RCPR_SYM(slist_node)** next, RCPR_SYM(slist_node)* node)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != next);
-    MODEL_ASSERT(prop_slist_node_valid(node));
+    RCPR_MODEL_ASSERT(NULL != next);
+    RCPR_MODEL_ASSERT(prop_slist_node_valid(node));
 
     /* set the next node. */
     *next = node->next;

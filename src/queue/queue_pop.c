@@ -56,9 +56,9 @@ RCPR_SYM(queue_pop)(
     RCPR_SYM(queue)* q, RCPR_SYM(resource)** r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_queue_valid(q));
-    MODEL_ASSERT(NULL != r);
-    MODEL_ASSERT(NULL == *r);
+    RCPR_MODEL_ASSERT(prop_queue_valid(q));
+    RCPR_MODEL_ASSERT(NULL != r);
+    RCPR_MODEL_ASSERT(NULL == *r);
 
     /* pop the element off of the slist. */
     return slist_pop(q->list, r);

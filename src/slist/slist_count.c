@@ -26,7 +26,7 @@ RCPR_SYM(slist_count)(
     RCPR_SYM(slist)* l)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_slist_valid(l));
+    RCPR_MODEL_ASSERT(prop_slist_valid(l));
 
     return l->count;
 }

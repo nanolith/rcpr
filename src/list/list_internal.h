@@ -25,7 +25,7 @@ struct RCPR_SYM(list)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(list);
+    RCPR_MODEL_STRUCT_TAG(list);
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(list_node)* head;
@@ -37,7 +37,7 @@ struct RCPR_SYM(list_node)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(list_node);
+    RCPR_MODEL_STRUCT_TAG(list_node);
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(list)* parent;

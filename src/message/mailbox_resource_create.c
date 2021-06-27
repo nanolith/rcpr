@@ -41,9 +41,9 @@ status RCPR_SYM(mailbox_resource_create)(
     mailbox* tmp;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != mbox);
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(addr > 0);
+    RCPR_MODEL_ASSERT(NULL != mbox);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(addr > 0);
 
     /* allocate memory for this resource. */
     retval = allocator_allocate(alloc, (void**)&tmp, sizeof(mailbox));
@@ -56,11 +56,12 @@ status RCPR_SYM(mailbox_resource_create)(
     memset(tmp, 0, sizeof(mailbox));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(mailbox), mailbox);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(mailbox), mailbox);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(mailbox), mailbox);
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(mailbox), mailbox);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &mailbox_resource_release);
@@ -81,7 +82,7 @@ status RCPR_SYM(mailbox_resource_create)(
     *mbox = tmp;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_mailbox_valid(*mailbox));
+    RCPR_MODEL_ASSERT(prop_mailbox_valid(*mailbox));
 
     /* success. */
     retval = STATUS_SUCCESS;
@@ -112,7 +113,7 @@ static status mailbox_resource_release(resource* r)
     mailbox* mbox = (mailbox*)r;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_mailbox_valid(mbox));
+    RCPR_MODEL_ASSERT(prop_mailbox_valid(mbox));
 
     /* cache the allocator. */
     allocator* alloc = mbox->alloc;

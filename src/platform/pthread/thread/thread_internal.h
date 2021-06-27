@@ -25,7 +25,7 @@ struct RCPR_SYM(thread)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(thread);
+    RCPR_MODEL_STRUCT_TAG(thread);
 
     RCPR_SYM(allocator)* alloc;
     pthread_t thread;
@@ -39,7 +39,7 @@ struct RCPR_SYM(thread_mutex_lock)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(thread_mutex_lock);
+    RCPR_MODEL_STRUCT_TAG(thread_mutex_lock);
 
     RCPR_SYM(thread_mutex)* parent;
 };
@@ -48,7 +48,7 @@ struct RCPR_SYM(thread_mutex)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(thread_mutex);
+    RCPR_MODEL_STRUCT_TAG(thread_mutex);
 
     RCPR_SYM(allocator)* alloc;
     pthread_mutex_t mutex;
@@ -59,7 +59,7 @@ struct RCPR_SYM(thread_cond)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(thread_cond);
+    RCPR_MODEL_STRUCT_TAG(thread_cond);
 
     RCPR_SYM(allocator)* alloc;
     pthread_cond_t cond;

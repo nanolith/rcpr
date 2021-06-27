@@ -38,15 +38,15 @@ RCPR_SYM(psock_wrap_async_read)(
     status retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
-    MODEL_ASSERT(NULL != data);
-    MODEL_ASSERT(NULL != size);
-    MODEL_ASSERT(prop_valid_range(data, *size));
-    MODEL_ASSERT(PSOCK_TYPE_WRAP_ASYNC == sock->type);
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(NULL != data);
+    RCPR_MODEL_ASSERT(NULL != size);
+    RCPR_MODEL_ASSERT(prop_valid_range(data, *size));
+    RCPR_MODEL_ASSERT(PSOCK_TYPE_WRAP_ASYNC == sock->type);
 
     /* convert this to a async wrapped psock instance. */
     psock_wrap_async* s = (psock_wrap_async*)sock;
-    MODEL_ASSERT(prop_psock_valid(s->wrapped));
+    RCPR_MODEL_ASSERT(prop_psock_valid(s->wrapped));
 
     /* loop through until all bytes are read. */
     size_t read_size = *size;

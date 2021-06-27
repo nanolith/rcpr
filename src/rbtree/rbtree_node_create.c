@@ -20,7 +20,7 @@ RCPR_IMPORT_rbtree_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree_node);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree_node);
 static status rbtree_node_release(resource* r);
 
 /**
@@ -47,9 +47,9 @@ RCPR_SYM(rbtree_node_create)(
     RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != node);
-    MODEL_ASSERT(prop_rbtree_valid(tree));
-    MODEL_ASSERT(prop_resource_valid(r));
+    RCPR_MODEL_ASSERT(NULL != node);
+    RCPR_MODEL_ASSERT(prop_rbtree_valid(tree));
+    RCPR_MODEL_ASSERT(prop_resource_valid(r));
 
     /* attempt to allocate memory for this rbtree_node. */
     rbtree_node* tmp = NULL;
@@ -64,11 +64,12 @@ RCPR_SYM(rbtree_node_create)(
     memset(tmp, 0, sizeof(rbtree_node));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &rbtree_node_release);
@@ -86,7 +87,7 @@ RCPR_SYM(rbtree_node_create)(
     *node = tmp;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_rbtree_node_valid(*node));
+    RCPR_MODEL_ASSERT(prop_rbtree_node_valid(*node));
 
     /* success. */
     return STATUS_SUCCESS;
@@ -107,7 +108,7 @@ static status rbtree_node_release(resource* r)
     rbtree_node* n = (rbtree_node*)r;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_rbtree_node_valid(n));
+    RCPR_MODEL_ASSERT(prop_rbtree_node_valid(n));
 
     /* if the value is set, release it. */
     if (NULL != n->value)
@@ -116,7 +117,7 @@ static status rbtree_node_release(resource* r)
         n->value = NULL;
 
         /* ensure that this value is valid. */
-        MODEL_ASSERT(prop_resource_valid(v));
+        RCPR_MODEL_ASSERT(prop_resource_valid(v));
 
         /* release the value. */
         status retval = resource_release(v);

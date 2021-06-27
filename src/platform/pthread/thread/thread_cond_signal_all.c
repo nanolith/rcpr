@@ -42,7 +42,7 @@ RCPR_SYM(thread_cond_signal_all)(
     int retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_thread_cond_valid(cond));
+    RCPR_MODEL_ASSERT(prop_thread_cond_valid(cond));
 
     /* signal all threads waiting on this conditional. */
     retval = pthread_cond_broadcast(&(cond->cond));

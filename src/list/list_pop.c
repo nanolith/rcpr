@@ -56,9 +56,9 @@ RCPR_SYM(list_pop)(
     RCPR_SYM(list)* l, RCPR_SYM(resource)** r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_list_valid(l));
-    MODEL_ASSERT(NULL != r);
-    MODEL_ASSERT(NULL == *r);
+    RCPR_MODEL_ASSERT(prop_list_valid(l));
+    RCPR_MODEL_ASSERT(NULL != r);
+    RCPR_MODEL_ASSERT(NULL == *r);
 
     /* does the head node exist? */
     if (NULL != l->head)

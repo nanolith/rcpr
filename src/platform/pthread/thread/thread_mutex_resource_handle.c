@@ -29,7 +29,7 @@ RCPR_SYM(resource)*
 RCPR_SYM(thread_mutex_resource_handle)(
     RCPR_SYM(thread_mutex)* mut)
 {
-    MODEL_ASSERT(prop_thread_mutex_valid(mut));
+    RCPR_MODEL_ASSERT(prop_thread_mutex_valid(mut));
 
     return &(mut->hdr);
 }

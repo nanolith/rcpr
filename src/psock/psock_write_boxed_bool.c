@@ -44,7 +44,7 @@ RCPR_SYM(psock_write_boxed_bool)(
     RCPR_SYM(psock)* sock, bool val)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
 
     /* attempt to write the type to the socket. */
     status retval = psock_write_raw_uint32(sock, PSOCK_BOXED_TYPE_BOOL);

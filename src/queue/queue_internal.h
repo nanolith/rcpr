@@ -24,7 +24,7 @@ struct RCPR_SYM(queue)
     RCPR_SYM(resource) hdr;
     RCPR_SYM(slist)* list;
 
-    MODEL_STRUCT_TAG(queue);
+    RCPR_MODEL_STRUCT_TAG(queue);
 };
 
 /* C++ compatibility. */

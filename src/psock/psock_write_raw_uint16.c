@@ -48,7 +48,7 @@ RCPR_SYM(psock_write_raw_uint16)(
     RCPR_SYM(psock)* sock, uint16_t val)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
 
     /* size to write. */
     size_t size = sizeof(uint16_t);

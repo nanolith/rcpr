@@ -50,9 +50,9 @@ RCPR_SYM(psock_write_raw_data)(
     status retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
-    MODEL_ASSERT(NULL != data);
-    MODEL_ASSERT(data_size <= UINT32_MAX);
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(NULL != data);
+    RCPR_MODEL_ASSERT(data_size <= UINT32_MAX);
 
     /* attempt to write the data to the socket. */
     size_t write_size = data_size;

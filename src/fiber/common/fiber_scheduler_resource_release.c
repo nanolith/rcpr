@@ -30,7 +30,7 @@ status RCPR_SYM(fiber_scheduler_resource_release)(RCPR_SYM(resource)* r)
 {
     status sched_retval, fiber_retval, retval;
     fiber_scheduler* sched = (fiber_scheduler*)r;
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     /* cache the allocator. */
     allocator* a = sched->alloc;
@@ -60,7 +60,7 @@ status RCPR_SYM(fiber_scheduler_resource_release)(RCPR_SYM(resource)* r)
     }
 
     /* clear the scheduler structure. */
-    MODEL_EXEMPT(memset(sched, 0, sizeof(*sched)));
+    RCPR_MODEL_EXEMPT(memset(sched, 0, sizeof(*sched)));
 
     /* reclaim the scheduler structure. */
     retval = allocator_reclaim(a, sched);

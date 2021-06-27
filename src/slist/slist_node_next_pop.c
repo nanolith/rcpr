@@ -58,9 +58,9 @@ RCPR_SYM(slist_node_next_pop)(
     RCPR_SYM(slist_node)* node, RCPR_SYM(resource)** r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_slist_node_valid(node));
-    MODEL_ASSERT(NULL != r);
-    MODEL_ASSERT(NULL == *r);
+    RCPR_MODEL_ASSERT(prop_slist_node_valid(node));
+    RCPR_MODEL_ASSERT(NULL != r);
+    RCPR_MODEL_ASSERT(NULL == *r);
 
     /* get the parent slist for this node. */
     slist* parent = node->parent;

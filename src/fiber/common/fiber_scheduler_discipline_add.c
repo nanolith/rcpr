@@ -57,10 +57,10 @@ RCPR_SYM(fiber_scheduler_discipline_add)(
     fiber_scheduler_disciplined_context* ctx = NULL;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
-    MODEL_ASSERT(sched->disciplined);
-    MODEL_ASSERT(NULL == disc->sched);
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
+    RCPR_MODEL_ASSERT(sched->disciplined);
+    RCPR_MODEL_ASSERT(NULL == disc->sched);
 
     /* if the scheduler is not disciplined, this call is in error. */
     if (!sched->disciplined)

@@ -57,9 +57,9 @@ RCPR_SYM(slist_node_child_swap)(
     resource* old;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_slist_node_valid(node));
-    MODEL_ASSERT(NULL != r);
-    MODEL_ASSERT(prop_resource_valid(*r));
+    RCPR_MODEL_ASSERT(prop_slist_node_valid(node));
+    RCPR_MODEL_ASSERT(NULL != r);
+    RCPR_MODEL_ASSERT(prop_resource_valid(*r));
 
     /* save the old resource. */
     old = node->child;

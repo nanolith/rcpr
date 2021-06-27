@@ -28,7 +28,7 @@ RCPR_SYM(list_resource_handle)(
     RCPR_SYM(list)* l)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_list_valid(l));
+    RCPR_MODEL_ASSERT(prop_list_valid(l));
 
     /* return the resource handle for this list. */
     return &l->hdr;

@@ -30,7 +30,7 @@ struct RCPR_SYM(bigint)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(bigint);
+    RCPR_MODEL_STRUCT_TAG(bigint);
 
     RCPR_SYM(allocator)* a;
     bool sign;

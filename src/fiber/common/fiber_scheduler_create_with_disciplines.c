@@ -49,7 +49,7 @@ static status
 fiber_scheduler_disciplined_management_yield_event_callback_handler(
     void* context, fiber* yield_fib, int yield_event, void* yield_param);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_disciplined_context);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_disciplined_context);
 
 /**
  * \brief Create a disciplined \ref fiber_scheduler instance.
@@ -112,8 +112,8 @@ RCPR_SYM(fiber_scheduler_create_with_disciplines)(
     status retval, release_retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(NULL != sched);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(NULL != sched);
 
     /* attempt to allocate memory for the fiber scheduler context. */
     retval =
@@ -129,13 +129,13 @@ RCPR_SYM(fiber_scheduler_create_with_disciplines)(
     memset(ctx, 0, sizeof(fiber_scheduler_disciplined_context));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        ctx->MODEL_STRUCT_TAG_REF(fiber_scheduler_disciplined_context),
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        ctx->RCPR_MODEL_STRUCT_TAG_REF(fiber_scheduler_disciplined_context),
         fiber_scheduler_disciplined_context);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(
-        ctx->MODEL_STRUCT_TAG_REF(fiber_scheduler_disciplined_context),
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        ctx->RCPR_MODEL_STRUCT_TAG_REF(fiber_scheduler_disciplined_context),
         fiber_scheduler_disciplined_context);
 
     /* set the release method. */
@@ -266,7 +266,7 @@ cleanup_management_discipline:
             fiber_scheduler_discipline_resource_handle(
                 ctx->management_discipline));
     /* this should always succeed. */
-    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    RCPR_MODEL_ASSERT(STATUS_SUCCESS == release_retval);
     /* runtime assurance: bubble up the error */
     if (STATUS_SUCCESS != release_retval)
     {
@@ -276,7 +276,7 @@ cleanup_management_discipline:
 cleanup_scheduler:
     release_retval = resource_release(fiber_scheduler_resource_handle(tmp));
     /* this should always succeed. */
-    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    RCPR_MODEL_ASSERT(STATUS_SUCCESS == release_retval);
     /* runtime assurance: bubble up the error */
     if (STATUS_SUCCESS != release_retval)
     {
@@ -289,7 +289,7 @@ cleanup_scheduler:
 cleanup_context_vector:
     release_retval = allocator_reclaim(a, ctx->context_vector);
     /* this should always succeed. */
-    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    RCPR_MODEL_ASSERT(STATUS_SUCCESS == release_retval);
     /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != release_retval)
     {
@@ -299,7 +299,7 @@ cleanup_context_vector:
 cleanup_callback_vector:
     release_retval = allocator_reclaim(a, ctx->callback_vector);
     /* this should always succeed. */
-    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    RCPR_MODEL_ASSERT(STATUS_SUCCESS == release_retval);
     /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != release_retval)
     {
@@ -309,7 +309,7 @@ cleanup_callback_vector:
 cleanup_run_queue:
     release_retval = resource_release(queue_resource_handle(ctx->run_queue));
     /* this should always succeed. */
-    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    RCPR_MODEL_ASSERT(STATUS_SUCCESS == release_retval);
     /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != release_retval)
     {
@@ -320,7 +320,7 @@ cleanup_disciplines_by_uuid:
     release_retval =
         resource_release(rbtree_resource_handle(ctx->disciplines_by_uuid));
     /* this should always succeed. */
-    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    RCPR_MODEL_ASSERT(STATUS_SUCCESS == release_retval);
     /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != retval)
     {
@@ -331,7 +331,7 @@ cleanup_fibers_by_pointer:
     release_retval =
         resource_release(rbtree_resource_handle(ctx->fibers_by_pointer));
     /* this should always succeed. */
-    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    RCPR_MODEL_ASSERT(STATUS_SUCCESS == release_retval);
     /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != release_retval)
     {
@@ -341,7 +341,7 @@ cleanup_fibers_by_pointer:
 reclaim_ctx_memory:
     release_retval = allocator_reclaim(a, ctx);
     /* this should always succeed. */
-    MODEL_ASSERT(STATUS_SUCCESS == release_retval);
+    RCPR_MODEL_ASSERT(STATUS_SUCCESS == release_retval);
     /* runtime assurance: bubble up the error. */
     if (STATUS_SUCCESS != release_retval)
     {
@@ -415,8 +415,8 @@ static rcpr_comparison_result disciplines_by_uuid_compare(
     const rcpr_uuid* ur = (const rcpr_uuid*)rhs;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_uuid_valid(ul));
-    MODEL_ASSERT(prop_uuid_valid(ur));
+    RCPR_MODEL_ASSERT(prop_uuid_valid(ul));
+    RCPR_MODEL_ASSERT(prop_uuid_valid(ur));
 
     int compare = memcmp(ul, ur, sizeof(rcpr_uuid));
 
@@ -443,7 +443,7 @@ static const void* disciplines_by_uuid_key(void* context, const resource* r)
         (const fiber_scheduler_discipline*)r;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
 
     return (const void*)&disc->id;
 }
@@ -470,7 +470,7 @@ static status fiber_scheduler_disciplined_context_resource_release(resource* r)
         (fiber_scheduler_disciplined_context*)r;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
 
     /* cache the allocator. */
     allocator* alloc = ctx->alloc;
@@ -563,8 +563,8 @@ static status fiber_scheduler_disciplined_resource_release(resource* r)
         (fiber_scheduler_disciplined_context*)sched->context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
 
     /* copy over the base resource so the scheduler can be cleaned up. */
     memcpy(
@@ -652,7 +652,7 @@ static status fiber_scheduler_disciplined_callback(
 
         /* downcast to a fiber instance. */
         fiber* next_fiber = (fiber*)next_fiber_resource;
-        MODEL_ASSERT(prop_fiber_valid(next_fiber));
+        RCPR_MODEL_ASSERT(prop_fiber_valid(next_fiber));
 
         /* set that fiber as the resume fiber. */
         *resume_fib = next_fiber;
@@ -700,8 +700,8 @@ static status fiber_scheduler_disciplined_run_callback_handler(
         (fiber_scheduler_disciplined_context*)context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_valid(yield_fib));
-    MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
 
     /* ignore parameters. */
     (void)yield_event;
@@ -743,8 +743,8 @@ static status fiber_scheduler_disciplined_main_callback_handler(
         (fiber_scheduler_disciplined_context*)context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_valid(yield_fib));
-    MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
 
     /* ignore parameters. */
     (void)yield_event;
@@ -785,9 +785,9 @@ static status fiber_scheduler_disciplined_add_fiber_callback_handler(
     fiber* new_fib = (fiber*)yield_param;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_valid(yield_fib));
-    MODEL_ASSERT(prop_fiber_valid(new_fib));
-    MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(new_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
 
     /* ignore parameters. */
     (void)yield_event;
@@ -877,9 +877,9 @@ static status fiber_scheduler_disciplined_stop_callback_handler(
         (fiber_scheduler_disciplined_context*)context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_valid(yield_fib));
-    MODEL_ASSERT(prop_fiber_valid(new_fib));
-    MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(new_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
 
     /* ignore parameters. */
     (void)yield_event;
@@ -933,8 +933,8 @@ static status fiber_scheduler_disciplined_resource_release_callback_handler(
         (fiber_scheduler_disciplined_context*)context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_valid(yield_fib));
-    MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
 
     /* ignore parameters. */
     (void)yield_event;
@@ -969,8 +969,8 @@ fiber_scheduler_disciplined_management_yield_event_callback_handler(
         (fiber_scheduler_disciplined_context*)context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_valid(yield_fib));
-    MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
 
     /* ignore parameters. */
     (void)yield_event;

@@ -14,39 +14,39 @@
 #include <rcpr/shadow/model_tag.h>
 
 #if CBMC
-# define MODEL_STRUCT_TAG_REF(name) \
+# define RCPR_MODEL_STRUCT_TAG_REF(name) \
     model_struct_tag_ ## name
-# define MODEL_STRUCT_TAG(name) \
-    int MODEL_STRUCT_TAG_REF(name)
-# define MODEL_STRUCT_TAG_GLOBAL_REF(name) \
+# define RCPR_MODEL_STRUCT_TAG(name) \
+    int RCPR_MODEL_STRUCT_TAG_REF(name)
+# define RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(name) \
     model_global_struct_tag_ ## name
-# define MODEL_STRUCT_TAG_GLOBAL_INIT(name) \
+# define RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(name) \
     int nondet_ ## name ## _tag(); \
-    MODEL_STRUCT_TAG_GLOBAL_REF(name) = nondet_ ## name ## _tag(); \
-    MODEL_ASSUME(MODEL_STRUCT_TAG_GLOBAL_REF(name) != 0)
-# define MODEL_STRUCT_TAG_GLOBAL_EXTERN(name) \
-    extern int MODEL_STRUCT_TAG_GLOBAL_REF(name)
-# define MODEL_STRUCT_TAG_INIT(var, name) \
-    var = MODEL_STRUCT_TAG_GLOBAL_REF(name)
-# define MODEL_ASSERT_STRUCT_TAG_INITIALIZED(var, name) \
-    MODEL_ASSERT(var == MODEL_STRUCT_TAG_GLOBAL_REF(name))
-# define MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(var, name) \
-    MODEL_ASSERT(var != MODEL_STRUCT_TAG_GLOBAL_REF(name))
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(name) = nondet_ ## name ## _tag(); \
+    RCPR_MODEL_ASSUME(MODEL_STRUCT_TAG_GLOBAL_REF(name) != 0)
+# define RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(name) \
+    extern int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(name)
+# define RCPR_MODEL_STRUCT_TAG_INIT(var, name) \
+    var = RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(name)
+# define RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(var, name) \
+    RCPR_MODEL_ASSERT(var == RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(name))
+# define RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(var, name) \
+    RCPR_MODEL_ASSERT(var != RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(name))
 #else
-# define MODEL_STRUCT_TAG_REF(name) \
+# define RCPR_MODEL_STRUCT_TAG_REF(name) \
     REQUIRE_SEMICOLON_HERE
-# define MODEL_STRUCT_TAG(name) \
+# define RCPR_MODEL_STRUCT_TAG(name) \
     REQUIRE_SEMICOLON_HERE
-# define MODEL_STRUCT_TAG_GLOBAL_REF(name) \
+# define RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(name) \
     REQUIRE_SEMICOLON_HERE
-# define MODEL_STRUCT_TAG_GLOBAL_INIT(name) \
+# define RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(name) \
     REQUIRE_SEMICOLON_HERE
-# define MODEL_STRUCT_TAG_GLOBAL_EXTERN(name) \
+# define RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(name) \
     REQUIRE_SEMICOLON_HERE
-# define MODEL_STRUCT_TAG_INIT(var, name) \
+# define RCPR_MODEL_STRUCT_TAG_INIT(var, name) \
     REQUIRE_SEMICOLON_HERE
-# define MODEL_ASSERT_STRUCT_TAG_INITIALIZED(var, name) \
+# define RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(var, name) \
     REQUIRE_SEMICOLON_HERE
-# define MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(var, name) \
+# define RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(var, name) \
     REQUIRE_SEMICOLON_HERE
 #endif

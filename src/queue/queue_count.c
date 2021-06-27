@@ -26,7 +26,7 @@ RCPR_IMPORT_queue;
 size_t RCPR_SYM(queue_count)(RCPR_SYM(queue)* q)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_queue_valid(q));
+    RCPR_MODEL_ASSERT(prop_queue_valid(q));
 
     /* return the count of this queue. */
     return q->list->count;

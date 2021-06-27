@@ -27,7 +27,7 @@ static status psock_wrap_async_release(resource*);
 static status psock_create_wrap_async_add_psock_discipline(
     fiber_scheduler_discipline** disc, allocator* a, fiber_scheduler* sched);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
 
 /**
  * \brief Wrap a \ref psock instance with an async \ref psock instance that
@@ -95,11 +95,11 @@ RCPR_SYM(psock_create_wrap_async)(
     fiber_scheduler_discipline* disc;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != sock);
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(prop_psock_valid(child));
-    MODEL_ASSERT(PSOCK_TYPE_DESCRIPTOR == child->type);
+    RCPR_MODEL_ASSERT(NULL != sock);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_psock_valid(child));
+    RCPR_MODEL_ASSERT(PSOCK_TYPE_DESCRIPTOR == child->type);
 
     /* Verify that the psock type is descriptor. */
     if (PSOCK_TYPE_DESCRIPTOR != child->type)
@@ -144,11 +144,11 @@ RCPR_SYM(psock_create_wrap_async)(
     memset(ps, 0, sizeof(psock_wrap_async));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        ps->hdr.MODEL_STRUCT_TAG_REF(psock), psock);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        ps->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock), psock);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(ps->hdr.MODEL_STRUCT_TAG_REF(psock), psock);
+    RCPR_MODEL_STRUCT_TAG_INIT(ps->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock), psock);
 
     /* set the release method. */
     resource_init(&ps->hdr.hdr, &psock_wrap_async_release);
@@ -184,7 +184,7 @@ RCPR_SYM(psock_create_wrap_async)(
     *sock = &ps->hdr;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_psock_valid(*sock));
+    RCPR_MODEL_ASSERT(prop_psock_valid(*sock));
 
     /* success. */
     retval = STATUS_SUCCESS;
@@ -215,7 +215,7 @@ static status psock_wrap_async_release(resource* r)
     psock_wrap_async* ps = (psock_wrap_async*)r;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(&ps->hdr));
+    RCPR_MODEL_ASSERT(prop_psock_valid(&ps->hdr));
 
     /* release the child resource. */
     int child_retval = resource_release(psock_resource_handle(ps->wrapped));
@@ -261,9 +261,9 @@ static status psock_create_wrap_async_add_psock_discipline(
     fiber* idle_fiber;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != disc);
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(NULL != disc);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     /* create the fiber scheduler discipline. */
     retval =

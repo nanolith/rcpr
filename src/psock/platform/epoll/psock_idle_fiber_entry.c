@@ -34,7 +34,7 @@ status RCPR_SYM(psock_idle_fiber_entry)(void* context)
     psock_io_epoll_context* ctx = (psock_io_epoll_context*)context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
 
     /* loop until termination is requested. */
     while (run_state)
