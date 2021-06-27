@@ -30,7 +30,7 @@ status RCPR_SYM(fiber_resource_release)(RCPR_SYM(resource)* r)
 {
     status stack_retval, retval;
     fiber* fib = (fiber*)r;
-    MODEL_ASSERT(prop_fiber_valid(fib));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
 
     /* cache the allocator. */
     allocator* a = fib->alloc;
@@ -47,7 +47,7 @@ status RCPR_SYM(fiber_resource_release)(RCPR_SYM(resource)* r)
     }
 
     /* clear the fiber structure. */
-    MODEL_EXEMPT(memset(fib, 0, sizeof(fiber)));
+    RCPR_MODEL_EXEMPT(memset(fib, 0, sizeof(fiber)));
 
     /* reclaim the fiber structure. */
     retval = allocator_reclaim(a, fib);

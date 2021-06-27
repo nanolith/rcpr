@@ -36,11 +36,11 @@ RCPR_SYM(psock_from_descriptor_accept)(
     socklen_t* addrlen)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
-    MODEL_ASSERT(NULL != desc);
-    MODEL_ASSERT(NULL != addr);
-    MODEL_ASSERT(NULL != addrlen);
-    MODEL_ASSERT(prop_valid_range(addr, *addrlen));
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(NULL != desc);
+    RCPR_MODEL_ASSERT(NULL != addr);
+    RCPR_MODEL_ASSERT(NULL != addrlen);
+    RCPR_MODEL_ASSERT(prop_valid_range(addr, *addrlen));
 
     /* convert this to a psock_from_descriptor. */
     psock_from_descriptor* s = (psock_from_descriptor*)sock;

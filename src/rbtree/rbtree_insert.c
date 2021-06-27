@@ -50,8 +50,8 @@ RCPR_SYM(rbtree_insert)(
     rbtree_node* new_node = NULL;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_rbtree_valid(tree));
-    MODEL_ASSERT(prop_resource_valid(r));
+    RCPR_MODEL_ASSERT(prop_rbtree_valid(tree));
+    RCPR_MODEL_ASSERT(prop_resource_valid(r));
 
     /* attempt to create an rbtree node. */
     retval = rbtree_node_create(&new_node, tree, r);

@@ -28,7 +28,7 @@ RCPR_SYM(message_resource_handle)(
     RCPR_SYM(message)* msg)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_message_valid(msg));
+    RCPR_MODEL_ASSERT(prop_message_valid(msg));
 
     return &msg->hdr;
 }

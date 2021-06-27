@@ -37,12 +37,12 @@ status RCPR_SYM(psock_fiber_scheduler_disciplined_write_wait_callback_handler)(
     int fd = (int)((ptrdiff_t)yield_param);
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_kqueue_io_struct_valid(ctx));
-    MODEL_ASSERT(prop_fiber_valid(yield_fib));
-    MODEL_ASSERT(yield_param >= 0);
+    RCPR_MODEL_ASSERT(prop_kqueue_io_struct_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(yield_param >= 0);
 
     /* event structure invariant. */
-    MODEL_ASSERT(ctx->inputs < MAX_KEVENT_INPUTS);
+    RCPR_MODEL_ASSERT(ctx->inputs < MAX_KEVENT_INPUTS);
 
     /* set the kevent for this yield event. */
     EV_SET(

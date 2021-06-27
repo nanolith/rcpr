@@ -54,12 +54,12 @@ RCPR_SYM(list_append)(
     list_node* new_node;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_list_node_valid(node));
-    MODEL_ASSERT(prop_resource_valid(r));
+    RCPR_MODEL_ASSERT(prop_list_node_valid(node));
+    RCPR_MODEL_ASSERT(prop_resource_valid(r));
 
     /* get the parent list. */
     list* parent = node->parent;
-    MODEL_ASSERT(prop_list_valid(parent));
+    RCPR_MODEL_ASSERT(prop_list_valid(parent));
 
     /* attempt to create a list_node. */
     int retval = list_node_create(&new_node, parent, r);

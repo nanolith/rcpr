@@ -27,8 +27,8 @@ RCPR_SYM(rbtree_left_rotate)(
     RCPR_SYM(rbtree)* tree,
     RCPR_SYM(rbtree_node)* x)
 {
-    MODEL_ASSERT(prop_rbtree_valid(tree));
-    MODEL_ASSERT(prop_rbtree_node_valid(tree, x));
+    RCPR_MODEL_ASSERT(prop_rbtree_valid(tree));
+    RCPR_MODEL_ASSERT(prop_rbtree_node_valid(tree, x));
 
     /* from Cormen et al, 13.2. */
 

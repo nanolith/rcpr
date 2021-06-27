@@ -41,8 +41,8 @@ status RCPR_SYM(message_discipline_set_resource_release)(
     message_discipline_context* ctx = (message_discipline_context*)context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(msgdisc));
-    MODEL_ASSERT(prop_message_discipline_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(msgdisc));
+    RCPR_MODEL_ASSERT(prop_message_discipline_context_valid(ctx));
 
     /* cache the resource header for this discipline. */
     resource* pdisc = fiber_scheduler_discipline_resource_handle(msgdisc);
@@ -71,8 +71,8 @@ static status message_discipline_context_chained_release(resource* r)
         (message_discipline_context*)disc->context;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
-    MODEL_ASSERT(prop_message_discipline_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
+    RCPR_MODEL_ASSERT(prop_message_discipline_context_valid(ctx));
 
     /* copy the original resource to the discipline. */
     memcpy(&disc->hdr, &ctx->discipline_cache, sizeof(resource));

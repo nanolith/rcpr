@@ -39,9 +39,9 @@ status RCPR_SYM(psock_fiber_scheduler_disciplined_write_wait_callback_handler)(
     int fd = (int)((ptrdiff_t)yield_param);
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
-    MODEL_ASSERT(prop_fiber_valid(yield_fib));
-    MODEL_ASSERT(fd >= 0);
+    RCPR_MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(fd >= 0);
 
     /* set the epoll control for this yield event. */
     event.events = EPOLLOUT | EPOLLONESHOT;

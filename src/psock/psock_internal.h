@@ -32,7 +32,7 @@ struct RCPR_SYM(psock)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(psock);
+    RCPR_MODEL_STRUCT_TAG(psock);
     int type;
 
     RCPR_SYM(allocator)* alloc;

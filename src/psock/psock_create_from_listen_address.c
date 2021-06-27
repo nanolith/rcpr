@@ -17,7 +17,7 @@
 RCPR_IMPORT_psock;
 
 /* forward decls. */
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
 
 /**
  * \brief Create a \ref psock instance backed by a listen socket bound to the
@@ -68,10 +68,10 @@ RCPR_SYM(psock_create_from_listen_address)(
     int res;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != sock);
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(NULL != name);
-    MODEL_ASSERT(prop_valid_range(name, namelen));
+    RCPR_MODEL_ASSERT(NULL != sock);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(NULL != name);
+    RCPR_MODEL_ASSERT(prop_valid_range(name, namelen));
 
     /* Create a socket for this address. */
     int desc = socket(AF_INET, SOCK_STREAM, 0);

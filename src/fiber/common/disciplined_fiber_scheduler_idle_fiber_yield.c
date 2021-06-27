@@ -37,7 +37,7 @@ RCPR_SYM(disciplined_fiber_scheduler_idle_fiber_yield)(
     RCPR_SYM(fiber_scheduler)* sched)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     /* we're just wrapping run.  The scheduler is smart enough to detect whether
      * this is the idle fiber. */

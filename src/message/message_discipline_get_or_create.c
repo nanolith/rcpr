@@ -46,9 +46,9 @@ RCPR_SYM(message_discipline_get_or_create)(
     resource* ctx;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != msgdisc);
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(NULL != msgdisc);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     /* return the fiber scheduler discipline if it already exists. */
     retval =

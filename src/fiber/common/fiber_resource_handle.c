@@ -23,7 +23,7 @@
 RCPR_SYM(resource)* RCPR_SYM(fiber_resource_handle)(
     RCPR_SYM(fiber)* fib)
 {
-    MODEL_ASSERT(prop_fiber_valid(fib));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
 
     return &(fib->hdr);
 }

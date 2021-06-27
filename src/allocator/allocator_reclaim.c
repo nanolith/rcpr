@@ -35,8 +35,8 @@ RCPR_SYM(allocator_reclaim)(
     RCPR_SYM(allocator)* alloc, void* ptr)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(NULL != ptr);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(NULL != ptr);
 
     return
         alloc->reclaim_fn(alloc, ptr);

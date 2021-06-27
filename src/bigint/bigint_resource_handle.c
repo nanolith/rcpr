@@ -27,7 +27,7 @@ RCPR_SYM(resource)*
 RCPR_SYM(bigint_resource_handle)(RCPR_SYM(bigint)* i)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_bigint_valid(i));
+    RCPR_MODEL_ASSERT(prop_bigint_valid(i));
 
     /* return the resource handle for this bigint. */
     return &i->hdr;

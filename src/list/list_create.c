@@ -22,7 +22,7 @@ RCPR_IMPORT_resource;
 /* forward decls. */
 static status list_release(resource*);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(list);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(list);
 
 /**
  * \brief Create a \ref list instance.
@@ -57,8 +57,8 @@ RCPR_SYM(list_create)(
     RCPR_SYM(list)** l, RCPR_SYM(allocator)* a)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != l);
-    MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(NULL != l);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
 
     /* attempt to allocate memory for this list. */
     list* tmp = NULL;
@@ -73,11 +73,11 @@ RCPR_SYM(list_create)(
     memset(tmp, 0, sizeof(list));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
         tmp->MODEL_STRUCT_TAG_REF(list), list);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(list), list);
+    RCPR_MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(list), list);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &list_release);
@@ -94,7 +94,7 @@ RCPR_SYM(list_create)(
     *l = tmp;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_list_valid(*l));
+    RCPR_MODEL_ASSERT(prop_list_valid(*l));
 
     /* success. */
     return STATUS_SUCCESS;

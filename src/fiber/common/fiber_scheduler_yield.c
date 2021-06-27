@@ -58,10 +58,10 @@ RCPR_SYM(fiber_scheduler_yield)(
     status retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(NULL != resume_disc_id);
-    MODEL_ASSERT(NULL != resume_event);
-    MODEL_ASSERT(NULL != resume_param);
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(NULL != resume_disc_id);
+    RCPR_MODEL_ASSERT(NULL != resume_event);
+    RCPR_MODEL_ASSERT(NULL != resume_param);
 
     /* call the callback function to yield to the scheduler. */
     fiber* resume_fib;

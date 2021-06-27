@@ -29,7 +29,7 @@ RCPR_SYM(resource)*
 RCPR_SYM(thread_mutex_lock_resource_handle)(
     RCPR_SYM(thread_mutex_lock)* lock)
 {
-    MODEL_ASSERT(prop_thread_mutex_lock_valid(lock));
+    RCPR_MODEL_ASSERT(prop_thread_mutex_lock_valid(lock));
 
     return &(lock->hdr);
 }

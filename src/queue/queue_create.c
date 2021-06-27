@@ -22,7 +22,7 @@ RCPR_IMPORT_slist;
 /* forward decls. */
 static status queue_release(resource*);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(queue);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(queue);
 
 /**
  * \brief Create a \ref queue instance.
@@ -58,8 +58,8 @@ RCPR_SYM(queue_create)(
     RCPR_SYM(queue)** q, RCPR_SYM(allocator)* a)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != q);
-    MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(NULL != q);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
 
     /* attempt to allocate memory for this queue. */
     queue* tmp = NULL;
@@ -73,11 +73,11 @@ RCPR_SYM(queue_create)(
     memset(tmp, 0, sizeof(queue));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(queue), queue);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(queue), queue);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(queue), queue);
+    RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(queue), queue);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &queue_release);
@@ -100,7 +100,7 @@ RCPR_SYM(queue_create)(
     *q = tmp;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_queue_valid(*q));
+    RCPR_MODEL_ASSERT(prop_queue_valid(*q));
 
     /* success. */
     return STATUS_SUCCESS;

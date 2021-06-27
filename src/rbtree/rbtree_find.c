@@ -48,8 +48,8 @@ RCPR_SYM(rbtree_find)
     rbtree_node* node;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_rbtree_valid(tree));
-    MODEL_ASSERT(NULL != r);
+    RCPR_MODEL_ASSERT(prop_rbtree_valid(tree));
+    RCPR_MODEL_ASSERT(NULL != r);
 
     /* attempt to find the matching node. */
     status retval = rbtree_find_node(tree, key, &node);

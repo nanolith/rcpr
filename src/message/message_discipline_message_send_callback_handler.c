@@ -52,8 +52,8 @@ status RCPR_SYM(message_discipline_message_send_callback_handler)(
     msg = (message*)yield_param;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_message_discipline_context_valid(ctx));
-    MODEL_ASSERT(prop_message_valid(msg));
+    RCPR_MODEL_ASSERT(prop_message_discipline_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_message_valid(msg));
 
     /* get the address. */
     addr = msg->sendaddr;
@@ -66,7 +66,7 @@ status RCPR_SYM(message_discipline_message_send_callback_handler)(
     }
 
     /* mailbox sanity check. */
-    MODEL_ASSERT(prop_mailbox_valid(mbox));
+    RCPR_MODEL_ASSERT(prop_mailbox_valid(mbox));
 
     /* append the message to the end of the mail queue. */
     retval = queue_append(mbox->message_queue, &mbox->hdr);

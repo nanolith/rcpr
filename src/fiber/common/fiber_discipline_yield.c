@@ -53,10 +53,10 @@ RCPR_SYM(fiber_discipline_yield)(
     void** resume_param)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
-    MODEL_ASSERT(NULL != resume_id);
-    MODEL_ASSERT(NULL != resume_event);
-    MODEL_ASSERT(NULL != resume_param);
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(disc));
+    RCPR_MODEL_ASSERT(NULL != resume_id);
+    RCPR_MODEL_ASSERT(NULL != resume_event);
+    RCPR_MODEL_ASSERT(NULL != resume_param);
 
     /* convert the event to an offset. */
     size_t yield_offset = (size_t)yield_event;

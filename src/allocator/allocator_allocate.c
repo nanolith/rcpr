@@ -37,8 +37,8 @@ RCPR_SYM(allocator_allocate)(
     RCPR_SYM(allocator)* alloc, void** ptr, size_t size)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(NULL != ptr);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(NULL != ptr);
 
     return
         alloc->allocate_fn(alloc, ptr, size);

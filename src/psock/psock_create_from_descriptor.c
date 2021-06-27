@@ -15,7 +15,7 @@
 #include "psock_internal.h"
 
 /* forward decls. */
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_psock;
@@ -65,9 +65,9 @@ RCPR_SYM(psock_create_from_descriptor)(
     RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a, int descriptor)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != sock);
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(descriptor >= 0);
+    RCPR_MODEL_ASSERT(NULL != sock);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(descriptor >= 0);
 
     /* attempt to allocate memory for this descriptor psock. */
     psock_from_descriptor* ps = NULL;
@@ -82,11 +82,11 @@ RCPR_SYM(psock_create_from_descriptor)(
     memset(ps, 0, sizeof(psock_from_descriptor));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        ps->hdr.MODEL_STRUCT_TAG_REF(psock), psock);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        ps->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock), psock);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(ps->hdr.MODEL_STRUCT_TAG_REF(psock), psock);
+    RCPR_MODEL_STRUCT_TAG_INIT(ps->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock), psock);
 
     /* set the release method. */
     resource_init(&ps->hdr.hdr, &psock_from_descriptor_release);
@@ -109,7 +109,7 @@ RCPR_SYM(psock_create_from_descriptor)(
     *sock = &ps->hdr;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_psock_valid(*sock));
+    RCPR_MODEL_ASSERT(prop_psock_valid(*sock));
 
     /* success. */
     return STATUS_SUCCESS;

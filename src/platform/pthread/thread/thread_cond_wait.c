@@ -54,9 +54,9 @@ RCPR_SYM(thread_cond_wait)(
     int retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != lock);
-    MODEL_ASSERT(prop_thread_mutex_lock_valid(*lock));
-    MODEL_ASSERT(prop_thread_cond_valid(cond));
+    RCPR_MODEL_ASSERT(NULL != lock);
+    RCPR_MODEL_ASSERT(prop_thread_mutex_lock_valid(*lock));
+    RCPR_MODEL_ASSERT(prop_thread_cond_valid(cond));
 
     /* wait on the condition variable. */
     retval = pthread_cond_wait(&(cond->cond), &((*lock)->parent->mutex));

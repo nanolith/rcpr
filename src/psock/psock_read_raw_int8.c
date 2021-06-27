@@ -55,8 +55,8 @@ RCPR_SYM(psock_read_raw_int8)(
     RCPR_SYM(psock)* sock, int8_t* val)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
-    MODEL_ASSERT(NULL != val);
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(NULL != val);
 
     /* size and data locals. */
     size_t size = sizeof(int8_t);

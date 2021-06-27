@@ -53,10 +53,10 @@ RCPR_SYM(fiber_scheduler_discipline_find)(
     fiber_scheduler_disciplined_context* ctx = NULL;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != disc);
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(prop_uuid_valid(id));
-    MODEL_ASSERT(sched->disciplined);
+    RCPR_MODEL_ASSERT(NULL != disc);
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_uuid_valid(id));
+    RCPR_MODEL_ASSERT(sched->disciplined);
 
     /* if the scheduler is not disciplined, this call is in error. */
     if (!sched->disciplined)
@@ -77,7 +77,7 @@ RCPR_SYM(fiber_scheduler_discipline_find)(
 
     /* return the discipline. */
     *disc = (fiber_scheduler_discipline*)discipline_resource;
-    MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(*disc));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(*disc));
 
     /* success. */
     return STATUS_SUCCESS;

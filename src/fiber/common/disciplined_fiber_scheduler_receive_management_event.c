@@ -48,11 +48,11 @@ RCPR_SYM(disciplined_fiber_scheduler_receive_management_event)(
     fiber_scheduler_disciplined_context* ctx = NULL;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(sched->disciplined);
-    MODEL_ASSERT(NULL != resume_id);
-    MODEL_ASSERT(NULL != resume_event);
-    MODEL_ASSERT(NULL != resume_param);
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(sched->disciplined);
+    RCPR_MODEL_ASSERT(NULL != resume_id);
+    RCPR_MODEL_ASSERT(NULL != resume_event);
+    RCPR_MODEL_ASSERT(NULL != resume_param);
 
     /* get the fiber scheduler discipline context. */
     ctx = (fiber_scheduler_disciplined_context*)sched->context;

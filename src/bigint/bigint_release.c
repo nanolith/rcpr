@@ -31,7 +31,7 @@ status RCPR_SYM(bigint_release)(RCPR_SYM(resource)* r)
     bigint* i = (bigint*)r;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_bigint_valid(i));
+    RCPR_MODEL_ASSERT(prop_bigint_valid(i));
 
     /* clear the integer array. */
     memset(i->array, 0, i->length * sizeof(native_int));

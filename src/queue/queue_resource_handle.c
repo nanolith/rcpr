@@ -28,7 +28,7 @@ RCPR_SYM(queue_resource_handle)(
     RCPR_SYM(queue)* q)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_queue_valid(q));
+    RCPR_MODEL_ASSERT(prop_queue_valid(q));
 
     /* return the resource handle for this queue. */
     return &q->hdr;

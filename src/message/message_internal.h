@@ -25,7 +25,7 @@ struct RCPR_SYM(message)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(message);
+    RCPR_MODEL_STRUCT_TAG(message);
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(mailbox_address) returnaddr;
@@ -39,7 +39,7 @@ struct RCPR_SYM(mailbox)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(mailbox);
+    RCPR_MODEL_STRUCT_TAG(mailbox);
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(mailbox_address) address;
@@ -54,7 +54,7 @@ struct RCPR_SYM(message_discipline_context)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(message_discipline_context);
+    RCPR_MODEL_STRUCT_TAG(message_discipline_context);
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(resource) discipline_cache;

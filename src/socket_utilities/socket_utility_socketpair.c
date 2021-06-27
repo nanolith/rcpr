@@ -37,8 +37,8 @@ RCPR_SYM(socket_utility_socketpair)(
     int sd[2];
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != left);
-    MODEL_ASSERT(NULL != right);
+    RCPR_MODEL_ASSERT(NULL != left);
+    RCPR_MODEL_ASSERT(NULL != right);
 
     /* create the socket pair. */
     if (0 != socketpair(domain, type, protocol, sd))

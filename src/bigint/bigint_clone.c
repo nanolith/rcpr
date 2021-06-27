@@ -18,7 +18,7 @@ RCPR_IMPORT_bigint;
 RCPR_IMPORT_bigint_internal;
 
 /* forward decls. */
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(bigint);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(bigint);
 
 /**
  * \brief Clone a \ref bigint instance.
@@ -56,8 +56,8 @@ RCPR_SYM(bigint_clone)(
     status retval, reclaim_retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(prop_bigint_valid(j));
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(prop_bigint_valid(j));
 
     /* attempt to allocate memory for the cloned bigint instacne. */
     bigint* tmp = NULL;
@@ -92,11 +92,11 @@ RCPR_SYM(bigint_clone)(
     memcpy(int_bytes, j->array, sizeof(native_int) * tmp->length); 
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
         tmp->MODEL_STRUCT_TAG_REF(bigint), bigint);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(bigint), bigint);
+    RCPR_MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(bigint), bigint);
 
     /* set the array. */
     tmp->array = int_bytes;
@@ -105,7 +105,7 @@ RCPR_SYM(bigint_clone)(
     *i = tmp;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_bigint_valid(*i));
+    RCPR_MODEL_ASSERT(prop_bigint_valid(*i));
 
     /* success. */
     retval = STATUS_SUCCESS;

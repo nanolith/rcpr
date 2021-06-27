@@ -59,12 +59,12 @@ RCPR_SYM(psock_read_raw)(
     status retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(NULL != data);
-    MODEL_ASSERT(NULL != data_size);
-    MODEL_ASSERT(*data_size > 0);
-    MODEL_ASSERT(prop_valid_range(data, *data_size));
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(NULL != data);
+    RCPR_MODEL_ASSERT(NULL != data_size);
+    RCPR_MODEL_ASSERT(*data_size > 0);
+    RCPR_MODEL_ASSERT(prop_valid_range(data, *data_size));
 
     /* read data to the buffer. */
     size_t read_size = *data_size;

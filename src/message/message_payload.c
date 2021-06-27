@@ -35,7 +35,7 @@ RCPR_SYM(resource)*
 RCPR_SYM(message_payload)(RCPR_SYM(message)* msg, bool xfer)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_message_valid(msg));
+    RCPR_MODEL_ASSERT(prop_message_valid(msg));
 
     resource* tmp = msg->payload;
 

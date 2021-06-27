@@ -44,9 +44,9 @@ RCPR_SYM(psock_fiber_scheduler_discipline_create)(
     resource* ctx;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != disc);
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(NULL != disc);
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
 
     /* create the fiber I/O discipline callback structure. */
     fiber_scheduler_discipline_callback_fn callbacks[2] = {

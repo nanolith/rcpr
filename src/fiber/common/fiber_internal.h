@@ -28,7 +28,7 @@ struct RCPR_SYM(fiber)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(fiber);
+    RCPR_MODEL_STRUCT_TAG(fiber);
 
     void* stack_ptr;
     RCPR_SYM(allocator)* alloc;
@@ -45,7 +45,7 @@ struct RCPR_SYM(fiber_scheduler)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(fiber_scheduler);
+    RCPR_MODEL_STRUCT_TAG(fiber_scheduler);
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(fiber)* current_fiber;
@@ -62,7 +62,7 @@ struct RCPR_SYM(fiber_scheduler_disciplined_context)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(fiber_scheduler_disciplined_context);
+    RCPR_MODEL_STRUCT_TAG(fiber_scheduler_disciplined_context);
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(fiber_scheduler)* sched;
@@ -84,7 +84,7 @@ struct RCPR_SYM(fiber_scheduler_discipline)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(fiber_scheduler_discipline);
+    RCPR_MODEL_STRUCT_TAG(fiber_scheduler_discipline);
 
     RCPR_SYM(allocator)* alloc;
     RCPR_SYM(rcpr_uuid) id;

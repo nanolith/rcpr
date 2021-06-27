@@ -24,7 +24,7 @@ struct RCPR_SYM(stack)
 {
     RCPR_SYM(resource) hdr;
 
-    MODEL_STRUCT_TAG(stack);
+    RCPR_MODEL_STRUCT_TAG(stack);
 
     RCPR_SYM(allocator)* alloc;
     void* region;

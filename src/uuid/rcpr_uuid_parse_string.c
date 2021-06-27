@@ -50,8 +50,8 @@ RCPR_SYM(rcpr_uuid_parse_string)(
     uint8_t ignore;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_uuid_valid(uuid));
-    MODEL_ASSERT(NULL != str);
+    RCPR_MODEL_ASSERT(prop_uuid_valid(uuid));
+    RCPR_MODEL_ASSERT(NULL != str);
 
     /* verify that the string is not NULL. */
     if (NULL == str) goto fail;
@@ -118,8 +118,8 @@ fail:
 static bool try_read_hex_nibble(const char** str, uint8_t* byte)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != str);
-    MODEL_ASSERT(NULL != byte);
+    RCPR_MODEL_ASSERT(NULL != str);
+    RCPR_MODEL_ASSERT(NULL != byte);
 
     uint8_t in = *(*str);
 
@@ -160,8 +160,8 @@ static bool try_read_hex_nibble(const char** str, uint8_t* byte)
 static bool try_read_hex_byte(const char** str, uint8_t* byte)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != str);
-    MODEL_ASSERT(NULL != byte);
+    RCPR_MODEL_ASSERT(NULL != str);
+    RCPR_MODEL_ASSERT(NULL != byte);
 
     const char* in = *str;
 
@@ -192,8 +192,8 @@ fail:
 static bool try_read_dash(const char** str, uint8_t* byte)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != str);
-    MODEL_ASSERT(NULL != byte);
+    RCPR_MODEL_ASSERT(NULL != str);
+    RCPR_MODEL_ASSERT(NULL != byte);
 
     if (*(*str) == '-')
     {

@@ -36,8 +36,8 @@ RCPR_SYM(fiber_unexpected_event_callback_add)(
     RCPR_SYM(fiber)* fib, RCPR_SYM(fiber_unexpected_event_callback_fn) fn)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_valid(fib));
-    MODEL_ASSERT(NULL != fn);
+    RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
+    RCPR_MODEL_ASSERT(NULL != fn);
 
     /* assign the callback function. */
     fib->unexpected_fn = fn;

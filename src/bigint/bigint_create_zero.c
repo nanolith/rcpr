@@ -19,7 +19,7 @@ RCPR_IMPORT_bigint_internal;
 RCPR_IMPORT_resource;
 
 /* forward decls. */
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(bigint);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(bigint);
 
 /**
  * \brief Create a \ref bigint instance of a given size.
@@ -62,8 +62,8 @@ RCPR_SYM(bigint_create_zero)(
     status retval, reclaim_retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != i);
-    MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(NULL != i);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
 
     /* compute the size in bytes based on the bit size. */
     size_t byte_size = size / 8;
@@ -105,11 +105,11 @@ RCPR_SYM(bigint_create_zero)(
     memset(int_bytes, 0, int_size * sizeof(native_int));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
         tmp->MODEL_STRUCT_TAG_REF(bigint), bigint);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(bigint), bigint);
+    RCPR_MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(bigint), bigint);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &bigint_release);
@@ -125,7 +125,7 @@ RCPR_SYM(bigint_create_zero)(
     *i = tmp;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_bigint_valid(*i));
+    RCPR_MODEL_ASSERT(prop_bigint_valid(*i));
 
     /* success. */
     retval = STATUS_SUCCESS;

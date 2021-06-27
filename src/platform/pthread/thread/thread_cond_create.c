@@ -21,7 +21,7 @@ RCPR_IMPORT_thread;
 /* forward decls. */
 static status thread_cond_release(resource*);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_cond);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_cond);
 
 /**
  * \brief Create a \ref thread_cond instance.
@@ -60,8 +60,8 @@ RCPR_SYM(thread_cond_create)(
     thread_cond* tmp;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != cond);
-    MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(NULL != cond);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
 
     /* attempt to allocate memory for this condition variable. */
     retval = allocator_allocate(a, (void**)&tmp, sizeof(thread_cond));
@@ -75,12 +75,12 @@ RCPR_SYM(thread_cond_create)(
     memset(tmp, 0, sizeof(thread_cond));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(thread_cond), thread_cond);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(thread_cond), thread_cond);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(
-        tmp->MODEL_STRUCT_TAG_REF(thread_cond), thread_cond);
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(thread_cond), thread_cond);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &thread_cond_release);
@@ -101,7 +101,7 @@ RCPR_SYM(thread_cond_create)(
     retval = STATUS_SUCCESS;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_thread_cond_valid(*cond));
+    RCPR_MODEL_ASSERT(prop_thread_cond_valid(*cond));
 
     /* success. skip to done. */
     goto done;
@@ -127,7 +127,7 @@ static status thread_cond_release(resource* r)
 {
     status retval, cond_retval;
     thread_cond* cond = (thread_cond*)r;
-    MODEL_ASSERT(prop_thread_cond_valid(cond));
+    RCPR_MODEL_ASSERT(prop_thread_cond_valid(cond));
 
     /* cache the allocator. */
     allocator* a = cond->alloc;

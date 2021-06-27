@@ -45,8 +45,8 @@ RCPR_SYM(slist_node_child)(
     RCPR_SYM(resource)** r, RCPR_SYM(slist_node)* node)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != r);
-    MODEL_ASSERT(prop_slist_node_valid(node));
+    RCPR_MODEL_ASSERT(NULL != r);
+    RCPR_MODEL_ASSERT(prop_slist_node_valid(node));
 
     /* populate the resource with the child for this node. */
     *r = node->child;

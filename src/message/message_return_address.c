@@ -26,7 +26,7 @@ RCPR_SYM(message_return_address)(
     const RCPR_SYM(message)* msg)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_message_valid(msg));
+    RCPR_MODEL_ASSERT(prop_message_valid(msg));
 
     return msg->returnaddr;
 }

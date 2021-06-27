@@ -26,7 +26,7 @@ static rcpr_comparison_result message_discipline_mailbox_address_compare(
 static const void* message_discipline_mailbox_get_key(
     void* context, const resource* r);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(message_discipline_context);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(message_discipline_context);
 
 /**
  * \brief Create the message discipline context.
@@ -47,9 +47,9 @@ status RCPR_SYM(message_discipline_context_create)(
     status retval, release_retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != ctx);
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(NULL != ctx);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     /* allocate memory for the message discipline context. */
     retval =
@@ -64,13 +64,13 @@ status RCPR_SYM(message_discipline_context_create)(
     memset(tmp, 0, sizeof(message_discipline_context));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(message_discipline_context),
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(message_discipline_context),
         message_discipline_context);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(
-        tmp->MODEL_STRUCT_TAG_REF(message_discipline_context),
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(message_discipline_context),
         message_discipline_context);
 
     /* set the release method. */
@@ -95,7 +95,7 @@ status RCPR_SYM(message_discipline_context_create)(
     *ctx = &tmp->hdr;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_message_discipline_context_valid(*ctx));
+    RCPR_MODEL_ASSERT(prop_message_discipline_context_valid(*ctx));
 
     /* success. */
     retval = STATUS_SUCCESS;
@@ -155,7 +155,7 @@ static const void* message_discipline_mailbox_get_key(
     const mailbox* mb = (const mailbox*)r;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_mailbox_valid(mb));
+    RCPR_MODEL_ASSERT(prop_mailbox_valid(mb));
 
     return &mb->address;
 }
@@ -174,7 +174,7 @@ static status message_discipline_context_resource_release(resource* r)
     message_discipline_context* ctx = (message_discipline_context*)r;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_valid_message_discipline_context(ctx));
+    RCPR_MODEL_ASSERT(prop_valid_message_discipline_context(ctx));
 
     /* cache the allocator. */
     allocator* alloc = ctx->alloc;

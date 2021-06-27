@@ -40,8 +40,8 @@ RCPR_SYM(list_node_prev)(
     RCPR_SYM(list_node)** prev, RCPR_SYM(list_node)* node)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != prev);
-    MODEL_ASSERT(prop_slist_node_valid(node));
+    RCPR_MODEL_ASSERT(NULL != prev);
+    RCPR_MODEL_ASSERT(prop_slist_node_valid(node));
 
     /* set the prev node. */
     *prev = node->prev;

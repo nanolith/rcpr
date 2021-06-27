@@ -40,9 +40,9 @@ status RCPR_SYM(psock_fiber_scheduler_discipline_context_create)(
     status retval, release_retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != context);
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(NULL != context);
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
 
     /* attempt to allocate memory for this context. */
     psock_io_poll_context* ctx = NULL;
@@ -89,13 +89,13 @@ status RCPR_SYM(psock_fiber_scheduler_discipline_context_create)(
     memset(ctx->poll_fibers, 0, ctx->poll_max * sizeof(fiber*));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        ctx->hdr.MODEL_STRUCT_TAG_REF(psock_io_poll_context),
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        ctx->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock_io_poll_context),
         psock_io_poll_context);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(
-        ctx->hdr.MODEL_STRUCT_TAG_REF(psock_io_poll_context),
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        ctx->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock_io_poll_context),
         psock_io_poll_context);
 
     /* set the release method. */
@@ -110,7 +110,7 @@ status RCPR_SYM(psock_fiber_scheduler_discipline_context_create)(
     *context = &ctx->hdr;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_poll_io_struct_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_poll_io_struct_valid(ctx));
 
     /* success. */
     retval = STATUS_SUCCESS;
@@ -148,7 +148,7 @@ static status psock_io_poll_context_resource_release(resource* r)
     psock_io_poll_context* ctx = (psock_io_poll_context*)r;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_poll_io_struct_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_poll_io_struct_valid(ctx));
 
     /* get the allocator. */
     allocator* alloc = ctx->alloc;

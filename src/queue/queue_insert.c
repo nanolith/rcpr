@@ -46,8 +46,8 @@ RCPR_SYM(queue_insert)(
     RCPR_SYM(queue)* q, RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_queue_valid(q));
-    MODEL_ASSERT(prop_resource_valid(r));
+    RCPR_MODEL_ASSERT(prop_queue_valid(q));
+    RCPR_MODEL_ASSERT(prop_resource_valid(r));
 
     /* insert this resource to the head of our slist. */
     return slist_insert_head(q->list, r);

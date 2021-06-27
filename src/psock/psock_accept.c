@@ -59,11 +59,11 @@ RCPR_SYM(psock_accept)(
     socklen_t* addrlen)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
-    MODEL_ASSERT(NULL != desc);
-    MODEL_ASSERT(NULL != addr);
-    MODEL_ASSERT(NULL != addrlen);
-    MODEL_ASSERT(*addrlen > 0);
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(NULL != desc);
+    RCPR_MODEL_ASSERT(NULL != addr);
+    RCPR_MODEL_ASSERT(NULL != addrlen);
+    RCPR_MODEL_ASSERT(*addrlen > 0);
 
     return
         sock->accept_fn(sock, desc, addr, addrlen);

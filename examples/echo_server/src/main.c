@@ -195,9 +195,9 @@ dispatch(int desc, allocator* alloc, fiber_scheduler* sched)
     fiber* dispatch_fiber;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(desc >= 0);
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(desc >= 0);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     /* create a psock for this descriptor. */
     retval = psock_create_from_descriptor(&sock, alloc, desc);
@@ -302,10 +302,10 @@ dispatch_context_create(
     dispatch_context* tmp;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != ctx);
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(NULL != ctx);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
 
     /* allocate memory for the dispatch context. */
     retval = allocator_allocate(alloc, (void**)&tmp, sizeof(dispatch_context));
@@ -388,8 +388,8 @@ static status management_fiber_add(allocator* alloc, fiber_scheduler* sched)
     fiber* manager;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     /* create the management fiber. */
     retval =
@@ -444,7 +444,7 @@ static status fiber_manager_entry(void* vsched)
     fiber_scheduler* sched = (fiber_scheduler*)vsched;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     for (;;)
     {

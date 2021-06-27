@@ -25,7 +25,7 @@ RCPR_SYM(socket_utility_set_nonblock)(
     int desc)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(desc >= 0);
+    RCPR_MODEL_ASSERT(desc >= 0);
 
     /* get the flags for this descriptor. */
     int flags = fcntl(desc, F_GETFL);

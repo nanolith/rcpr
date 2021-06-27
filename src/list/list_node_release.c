@@ -33,8 +33,8 @@ RCPR_SYM(list_node_release)(
 {
     list_node* n = (list_node*)r;
 
-    MODEL_ASSERT(prop_list_node_valid(n));
-    MODEL_ASSERT(NULL == n->parent && NULL == n->next);
+    RCPR_MODEL_ASSERT(prop_list_node_valid(n));
+    RCPR_MODEL_ASSERT(NULL == n->parent && NULL == n->next);
 
     /* if the child resource is set, release it. */
     if (NULL != n->child)
@@ -43,7 +43,7 @@ RCPR_SYM(list_node_release)(
         n->child = NULL;
 
         /* ensure that this resource is valid. */
-        MODEL_ASSERT(prop_resource_valid(c));
+        RCPR_MODEL_ASSERT(prop_resource_valid(c));
 
         /* release the child resource. */
         status retval = resource_release(c);

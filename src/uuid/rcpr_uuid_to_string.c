@@ -49,7 +49,7 @@ static inline uint8_t high_nibble(uint8_t b)
  */
 static inline char nibble_to_hex(char nibble)
 {
-    MODEL_ASSERT(nibble >= 0 && nibble <= 15);
+    RCPR_MODEL_ASSERT(nibble >= 0 && nibble <= 15);
 
     switch (nibble)
     {
@@ -105,9 +105,9 @@ RCPR_SYM(rcpr_uuid_to_string)(
     status retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != str);
-    MODEL_ASSERT(prop_allocator_valid(alloc));
-    MODEL_ASSERT(prop_uuid_valid(uuid));
+    RCPR_MODEL_ASSERT(NULL != str);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+    RCPR_MODEL_ASSERT(prop_uuid_valid(uuid));
 
     /* attempt to allocate a buffer to hold our string value. */
     retval = allocator_allocate(alloc, (void**)str, UUID_STRING_LENGTH + 1);

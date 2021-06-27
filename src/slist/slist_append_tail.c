@@ -48,8 +48,8 @@ RCPR_SYM(slist_append_tail)(
     slist_node* node;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_slist_valid(list));
-    MODEL_ASSERT(prop_resource_valid(r));
+    RCPR_MODEL_ASSERT(prop_slist_valid(list));
+    RCPR_MODEL_ASSERT(prop_resource_valid(r));
 
     /* attempt to create an slist_node. */
     int retval = slist_node_create(&node, list, r);

@@ -47,9 +47,9 @@ RCPR_SYM(psock_write_boxed_data)(
     RCPR_SYM(psock)* sock, const void* data, size_t data_size)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_psock_valid(sock));
-    MODEL_ASSERT(NULL != data);
-    MODEL_ASSERT(data_size <= UINT32_MAX);
+    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    RCPR_MODEL_ASSERT(NULL != data);
+    RCPR_MODEL_ASSERT(data_size <= UINT32_MAX);
 
     /* attempt to write the type to the socket. */
     status retval = psock_write_raw_uint32(sock, PSOCK_BOXED_TYPE_DATA);

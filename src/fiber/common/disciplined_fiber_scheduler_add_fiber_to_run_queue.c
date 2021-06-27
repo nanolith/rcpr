@@ -49,10 +49,10 @@ RCPR_SYM(disciplined_fiber_scheduler_add_fiber_to_run_queue)(
     fiber_scheduler_disciplined_context* ctx = NULL;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    MODEL_ASSERT(prop_fiber_valid(fib));
-    MODEL_ASSERT(prop_uuid_valid(resume_id));
-    MODEL_ASSERT(sched->disciplined);
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
+    RCPR_MODEL_ASSERT(prop_uuid_valid(resume_id));
+    RCPR_MODEL_ASSERT(sched->disciplined);
 
     /* get the fiber scheduler discipline context. */
     ctx = (fiber_scheduler_disciplined_context*)sched->context;
