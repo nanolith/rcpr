@@ -276,8 +276,7 @@ void RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)(
 /* Start of private exports.                                                  */
 /******************************************************************************/
 #define RCPR_IMPORT_psock_internal \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(psock_from_descriptor) psock_from_descriptor; \
     typedef RCPR_SYM(psock_wrap_async) psock_wrap_async; \
     static inline status psock_from_descriptor_read( \
@@ -332,7 +331,7 @@ void RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)(
         RCPR_SYM(fiber_scheduler_discipline)* x, RCPR_SYM(resource)* y) { \
             RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)( \
                 x,y); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

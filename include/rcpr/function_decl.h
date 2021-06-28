@@ -44,3 +44,16 @@
  * The RCPR_SYM macro elevates a given symbol to the RCPR namespace.
  */
 #define RCPR_SYM(sym) RCPR_SYM_COMBINE1(RCPR_UNIQUE_NAME, RCPR_VERSION_SYM, sym)
+
+/**
+ * Begin an export section.
+ */
+#define RCPR_BEGIN_EXPORT \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wunused-function\"")
+
+/**
+ * End an export section.
+ */
+#define RCPR_END_EXPORT \
+    _Pragma("GCC diagnostic pop")

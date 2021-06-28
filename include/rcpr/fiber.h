@@ -940,8 +940,7 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_fiber_as(sym) \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(fiber) sym ## _ ## fiber; \
     typedef RCPR_SYM(fiber_scheduler) sym ## _ ## fiber_scheduler; \
     typedef RCPR_SYM(fiber_scheduler_discipline) \
@@ -1065,12 +1064,11 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
     static inline bool sym ## _ ## prop_fiber_scheduler_valid( \
         const RCPR_SYM(fiber_scheduler)* x) { \
             return RCPR_SYM(prop_fiber_scheduler_valid)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_fiber \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(fiber) fiber; \
     typedef RCPR_SYM(fiber_scheduler) fiber_scheduler; \
     typedef RCPR_SYM(fiber_scheduler_discipline) fiber_scheduler_discipline; \
@@ -1182,7 +1180,7 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
     static inline bool prop_fiber_scheduler_valid( \
         const RCPR_SYM(fiber_scheduler)* x) { \
             return RCPR_SYM(prop_fiber_scheduler_valid)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

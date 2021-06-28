@@ -122,8 +122,7 @@ RCPR_SYM(socket_utility_ntoh16)(
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_socket_utilities_as(sym) \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## socket_utility_socketpair( \
         int v, int w, int x, int* y, int* z) { \
@@ -150,12 +149,11 @@ RCPR_SYM(socket_utility_ntoh16)(
     static inline int16_t sym ## _ ## socket_utility_ntoh16( \
         int16_t x) { \
             return RCPR_SYM(socket_utility_ntoh16)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_socket_utilities \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     static inline status FN_DECL_MUST_CHECK socket_utility_socketpair( \
         int v, int w, int x, int* y, int* z) { \
             return RCPR_SYM(socket_utility_socketpair)(v,w,x,y,z); } \
@@ -180,7 +178,7 @@ RCPR_SYM(socket_utility_ntoh16)(
     static inline int16_t socket_utility_ntoh16( \
         int16_t x) { \
             return RCPR_SYM(socket_utility_ntoh16)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

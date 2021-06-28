@@ -393,8 +393,7 @@ RCPR_SYM(prop_thread_mutex_lock_valid)(
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_thread_as(sym) \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(thread) sym ## _ ## thread; \
     typedef RCPR_SYM(thread_mutex) sym ## _ ## thread_mutex; \
     typedef RCPR_SYM(thread_mutex_lock) sym ## _ ## thread_mutex_lock; \
@@ -451,12 +450,11 @@ RCPR_SYM(prop_thread_mutex_lock_valid)(
     static inline bool sym ## _ ## prop_thread_mutex_lock_valid( \
         const RCPR_SYM(thread_mutex_lock)* x) { \
             return RCPR_SYM(prop_thread_mutex_lock_valid)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_thread \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(thread) thread; \
     typedef RCPR_SYM(thread_mutex) thread_mutex; \
     typedef RCPR_SYM(thread_mutex_lock) thread_mutex_lock; \
@@ -508,7 +506,7 @@ RCPR_SYM(prop_thread_mutex_lock_valid)(
     static inline bool prop_thread_mutex_lock_valid( \
         const RCPR_SYM(thread_mutex_lock)* x) { \
             return RCPR_SYM(prop_thread_mutex_lock_valid)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
