@@ -203,8 +203,7 @@ RCPR_SYM(prop_queue_valid)(
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_queue_as(sym) \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(queue) sym ## _ ## queue; \
     static inline status FN_DECL_MUST_CHECK sym ## _ ## queue_create( \
         RCPR_SYM(queue)** x, RCPR_SYM(allocator)* y) { \
@@ -227,12 +226,11 @@ RCPR_SYM(prop_queue_valid)(
     static inline bool sym ## _ ## prop_queue_valid( \
         const RCPR_SYM(queue)* x) { \
             return RCPR_SYM(prop_queue_valid)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_queue \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(queue) queue; \
     static inline status FN_DECL_MUST_CHECK queue_create( \
         RCPR_SYM(queue)** x, RCPR_SYM(allocator)* y) { \
@@ -255,7 +253,7 @@ RCPR_SYM(prop_queue_valid)(
     static inline bool prop_queue_valid( \
         const RCPR_SYM(queue)* x) { \
             return RCPR_SYM(prop_queue_valid)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

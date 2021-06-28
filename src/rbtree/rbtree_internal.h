@@ -256,8 +256,7 @@ RCPR_SYM(prop_rbtree_node_valid)(
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_rbtree_internal \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(rbtree_node) rbtree_node; \
     static inline void rbtree_left_rotate( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
@@ -306,7 +305,7 @@ RCPR_SYM(prop_rbtree_node_valid)(
     static inline bool prop_rbtree_node_valid( \
         const RCPR_SYM(rbtree)* x, const RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(prop_rbtree_node_valid)(x,y); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

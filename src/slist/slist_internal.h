@@ -111,8 +111,7 @@ RCPR_SYM(slist_node_release)(
 /* Start of private exports.                                                  */
 /******************************************************************************/
 #define RCPR_IMPORT_slist_internal \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     static inline status FN_DECL_MUST_CHECK slist_node_create( \
         RCPR_SYM(slist_node)** x, RCPR_SYM(slist)* y, \
         RCPR_SYM(resource)* z) { \
@@ -123,7 +122,7 @@ RCPR_SYM(slist_node_release)(
     static inline status slist_node_release( \
         RCPR_SYM(resource)* x) { \
             return RCPR_SYM(slist_node_release)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

@@ -110,8 +110,7 @@ status RCPR_SYM(list_node_release)(RCPR_SYM(resource)* r);
 /* Start of private exports.                                                  */
 /******************************************************************************/
 #define RCPR_IMPORT_list_internal \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     static inline status FN_DECL_MUST_CHECK list_node_create( \
         RCPR_SYM(list_node)** x, RCPR_SYM(list)* y, RCPR_SYM(resource)* z) { \
             return RCPR_SYM(list_node_create)(x,y,z); } \
@@ -121,7 +120,7 @@ status RCPR_SYM(list_node_release)(RCPR_SYM(resource)* r);
     static inline status list_node_release( \
         RCPR_SYM(resource)* x) { \
             return RCPR_SYM(list_node_release)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

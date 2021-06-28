@@ -175,8 +175,7 @@ status RCPR_SYM(message_discipline_message_receive_callback_handler)(
 /* Start of private exports.                                                  */
 /******************************************************************************/
 #define RCPR_IMPORT_message_internal \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(mailbox) mailbox; \
     typedef RCPR_SYM(message_discipline_context) message_discipline_context; \
     static inline status mailbox_resource_create( \
@@ -210,7 +209,7 @@ status RCPR_SYM(message_discipline_message_receive_callback_handler)(
             return \
                 RCPR_SYM(message_discipline_message_receive_callback_handler)( \
                     w,x,y,z); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

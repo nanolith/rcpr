@@ -52,13 +52,12 @@ status RCPR_SYM(bigint_release)(RCPR_SYM(resource)* r);
 /******************************************************************************/
 
 #define RCPR_IMPORT_bigint_internal \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(native_int) native_int; \
     static inline status bigint_release( \
         RCPR_SYM(resource)*x) { \
             return RCPR_SYM(bigint_release)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */

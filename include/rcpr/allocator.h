@@ -213,8 +213,7 @@ RCPR_SYM(prop_allocator_valid)(
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_allocator_as(sym) \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(allocator) sym ## _ ## allocator; \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## malloc_allocator_create( \
@@ -238,12 +237,11 @@ RCPR_SYM(prop_allocator_valid)(
     static inline bool sym ## _ ## prop_allocator_valid( \
         const RCPR_SYM(allocator)* x) { \
             return RCPR_SYM(prop_allocator_valid)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 #define RCPR_IMPORT_allocator \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-function\"") \
+    RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(allocator) allocator; \
     static inline status FN_DECL_MUST_CHECK malloc_allocator_create( \
         RCPR_SYM(allocator)** x) { \
@@ -266,7 +264,7 @@ RCPR_SYM(prop_allocator_valid)(
     static inline bool prop_allocator_valid( \
         const RCPR_SYM(allocator)* x) { \
             return RCPR_SYM(prop_allocator_valid)(x); } \
-    _Pragma("GCC diagnostic pop") \
+    RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
