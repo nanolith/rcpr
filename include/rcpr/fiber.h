@@ -81,6 +81,21 @@ enum fiber_scheduler_resume_events
 };
 
 /**
+ * \brief The fiber state.
+ */
+enum fiber_state
+{
+    /** \brief The fiber has been created but hasn't started executing yet. */
+    FIBER_STATE_CREATED                                             = 0x0000,
+
+    /** \brief The fiber is either currently running or suspended. */
+    FIBER_STATE_RUNNING                                             = 0x0001,
+
+    /** \brief The fiber has been stopped and can't be resumed. */
+    FIBER_STATE_STOPPED                                             = 0x0002,
+};
+
+/**
  * \brief A function that can be executed by a \ref fiber.
  *
  * \param context       The user context for this fiber.
@@ -913,6 +928,16 @@ RCPR_SYM(resource)*
 RCPR_SYM(fiber_scheduler_discipline_resource_handle)(
     RCPR_SYM(fiber_scheduler_discipline)* disc);
 
+/**
+ * \brief Given a \ref fiber instance, return its current state.
+ *
+ * \param fib           The \ref fiber instance.
+ *
+ * \returns the fiber state, one of the values in the \ref fiber_state
+ * enumeration.
+ */
+uint64_t RCPR_SYM(fiber_state_get)(const RCPR_SYM(fiber)* fib);
+
 /******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
@@ -1058,6 +1083,9 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
     sym ## _ ## fiber_scheduler_discipline_resource_handle( \
         RCPR_SYM(fiber_scheduler_discipline)* x) { \
             return RCPR_SYM(fiber_scheduler_discipline_resource_handle)(x); } \
+    static inline uint64_t sym ## _ ## fiber_state_get( \
+        const RCPR_SYM(fiber)* x) { \
+            return RCPR_SYM(fiber_state_get)(x); } \
     static inline bool sym ## _ ## prop_fiber_valid( \
         const RCPR_SYM(fiber)* x) { \
             return RCPR_SYM(prop_fiber_valid)(x); } \
@@ -1174,6 +1202,9 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
     fiber_scheduler_discipline_resource_handle( \
         RCPR_SYM(fiber_scheduler_discipline)* x) { \
             return RCPR_SYM(fiber_scheduler_discipline_resource_handle)(x); } \
+    static inline uint64_t fiber_state_get( \
+        const RCPR_SYM(fiber)* x) { \
+            return RCPR_SYM(fiber_state_get)(x); } \
     static inline bool prop_fiber_valid( \
         const RCPR_SYM(fiber)* x) { \
             return RCPR_SYM(prop_fiber_valid)(x); } \

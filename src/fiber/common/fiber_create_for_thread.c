@@ -91,6 +91,9 @@ RCPR_SYM(fiber_create_for_thread)(
     tmp->context = NULL;
     tmp->fn = NULL;
 
+    /* the thread fiber state is running. */
+    tmp->fiber_state = FIBER_STATE_RUNNING;
+
     /* set the return pointer. */
     *fib = tmp;
     retval = STATUS_SUCCESS;

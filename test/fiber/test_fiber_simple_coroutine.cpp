@@ -90,6 +90,14 @@ static status test_fiber_scheduler_callback(
 
         return STATUS_SUCCESS;
     }
+    else if (FIBER_SCHEDULER_YIELD_EVENT_STOP == yield_event)
+    {
+        *resume_fib = ctx->main;
+        *resume_event = FIBER_SCHEDULER_YIELD_EVENT_STOP;
+        *resume_param = (void*)-1;
+
+        return STATUS_SUCCESS;
+    }
     else if (FIBER_SCHEDULER_YIELD_EVENT_RESOURCE_RELEASE == yield_event)
     {
         *resume_fib = NULL;
@@ -187,6 +195,9 @@ TEST(coroutine)
                 &coroutine, alloc, sched, 16384, &coroutine_ctx,
                 &coroutine_fn));
 
+    /* the coroutine fiber's state is created. */
+    TEST_ASSERT(FIBER_STATE_CREATED == fiber_state_get(coroutine));
+
     /* set coroutine context values. */
     coroutine_ctx.coroutine = coroutine;
     coroutine_ctx.sched = sched;
@@ -204,8 +215,21 @@ TEST(coroutine)
             STATUS_SUCCESS ==
                 fiber_read_int(sched, &val));
 
+        /* the coroutine fiber's state is running. */
+        TEST_ASSERT(FIBER_STATE_RUNNING == fiber_state_get(coroutine));
+
         TEST_ASSERT(val == i);
     }
+
+    /* call fiber_read_int one last time to stop the coroutine fiber. */
+    int64_t val;
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            fiber_read_int(sched, &val));
+    TEST_ASSERT(-1 == val);
+
+    /* the coroutine state should now be stopped. */
+    TEST_ASSERT(FIBER_STATE_STOPPED == fiber_state_get(coroutine));
 
     /* we should be able to release the fiber scheduler instance. */
     TEST_ASSERT(

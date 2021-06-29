@@ -26,8 +26,14 @@ RCPR_IMPORT_uuid;
 status RCPR_SYM(fiber_entry)(
     RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib)
 {
+    /* this fiber is now running. */
+    fib->fiber_state = FIBER_STATE_RUNNING;
+
     /* enter the user function for this fiber. */
     status retval = fib->fn(fib->context);
+
+    /* this fiber is now stopped. */
+    fib->fiber_state = FIBER_STATE_STOPPED;
 
     /* notify the scheduler that this fiber has completed. */
     const rcpr_uuid* resume_id = &FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
