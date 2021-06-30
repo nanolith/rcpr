@@ -314,6 +314,12 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_predecessor_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_predecessor_node)(x,y); } \
+    static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_nil_node( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_nil_node)(x); } \
+    static inline RCPR_SYM(resource)* sym ## _ ## rbtree_node_value( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_node_value)(x,y); } \
     static inline RCPR_SYM(resource)* sym ## _ ## rbtree_resource_handle( \
         RCPR_SYM(rbtree)* x) { \
             return RCPR_SYM(rbtree_resource_handle)(x); } \
@@ -352,6 +358,12 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline RCPR_SYM(rbtree_node)* rbtree_predecessor_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_predecessor_node)(x,y); } \
+    static inline RCPR_SYM(rbtree_node)* rbtree_nil_node( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_nil_node)(x); } \
+    static inline RCPR_SYM(resource)* rbtree_node_value( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_node_value)(x,y); } \
     static inline RCPR_SYM(resource)* rbtree_resource_handle( \
         RCPR_SYM(rbtree)* x) { \
             return RCPR_SYM(rbtree_resource_handle)(x); } \
