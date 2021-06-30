@@ -230,6 +230,17 @@ RCPR_SYM(rbtree_predecessor_node)(
     RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
 
 /**
+ * \brief Return the nil node pointer for the tree.
+ *
+ * \param tree          The \ref rbtree instance.
+ *
+ * \returns the nil pointer for this tree.
+ */
+RCPR_SYM(rbtree_node)*
+RCPR_SYM(rbtree_nil_node)(
+    RCPR_SYM(rbtree)* tree);
+
+/**
  * \brief Return the value associated with a given rbtree node.
  *
  * \note Ownership of this value remains with the \ref rbtree_node.
