@@ -230,6 +230,20 @@ RCPR_SYM(rbtree_predecessor_node)(
     RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
 
 /**
+ * \brief Return the value associated with a given rbtree node.
+ *
+ * \note Ownership of this value remains with the \ref rbtree_node.
+ *
+ * \param tree          The \ref rbtree instance.
+ * \param node          The \ref rbtree_node accessed.
+ *
+ * \returns the resource associated with this node.
+ */
+RCPR_SYM(resource)*
+RCPR_SYM(rbtree_node_value)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* node);
+
+/**
  * \brief Given a \ref rbtree instance, return the resource handle for this
  * \ref rbtree instance.
  *
