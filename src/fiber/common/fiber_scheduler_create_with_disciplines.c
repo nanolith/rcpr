@@ -48,6 +48,18 @@ static status fiber_scheduler_disciplined_resource_release_callback_handler(
 static status
 fiber_scheduler_disciplined_management_yield_event_callback_handler(
     void* context, fiber* yield_fib, int yield_event, void* yield_param);
+static status
+fiber_scheduler_disciplined_management_quiesce_event_callback_handler(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+static status
+fiber_scheduler_disciplined_management_terminate_event_callback_handler(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+static status
+fiber_scheduler_disciplined_management_quiesce_all_callback_handler(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param);
+static status
+fiber_scheduler_disciplined_management_terminate_all_callback_handler(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_disciplined_context);
 
@@ -237,12 +249,16 @@ RCPR_SYM(fiber_scheduler_create_with_disciplines)(
     tmp->disciplined = true;
 
     /* create the management discipline for this scheduler. */
-    fiber_scheduler_discipline_callback_fn callbacks[1] = {
-        &fiber_scheduler_disciplined_management_yield_event_callback_handler };
+    fiber_scheduler_discipline_callback_fn callbacks[5] = {
+      &fiber_scheduler_disciplined_management_yield_event_callback_handler,
+      &fiber_scheduler_disciplined_management_quiesce_event_callback_handler,
+      &fiber_scheduler_disciplined_management_terminate_event_callback_handler,
+      &fiber_scheduler_disciplined_management_quiesce_all_callback_handler,
+      &fiber_scheduler_disciplined_management_terminate_all_callback_handler};
     retval =
         fiber_scheduler_discipline_create(
             &ctx->management_discipline, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
-            ctx->alloc, ctx, 1, callbacks);
+            ctx->alloc, ctx, 3, callbacks);
     if (STATUS_SUCCESS != retval)
     {
         goto cleanup_scheduler;
@@ -981,4 +997,271 @@ fiber_scheduler_disciplined_management_yield_event_callback_handler(
 
     /* success. Run the next fiber on the queue, or the idle fiber. */
     return STATUS_SUCCESS;
+}
+
+/**
+ * \brief Handle the management discipline quiesce event.
+ *
+ * \param context       The user context for this
+ *                      \ref fiber_scheduler_discipline.
+ * \param yield_fib     The yielding fiber.
+ * \param yield_event   The event causing the fiber to yield.
+ * \param yield_param   The fiber to send the quiesce event to.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS is returned when this discipline callback succeeded.
+ *      - any other non-zero status code will result in thread termination and
+ *        the process aborting.
+ */
+static status
+fiber_scheduler_disciplined_management_quiesce_event_callback_handler(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param)
+{
+    status retval;
+    fiber_scheduler_disciplined_context* ctx =
+        (fiber_scheduler_disciplined_context*)context;
+    fiber* fib = (fiber*)yield_param;
+
+    /* parameter sanity checks. */
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
+
+    /* ignore parameters. */
+    (void)yield_event;
+
+    /* is the fiber running? */
+    if (FIBER_STATE_RUNNING != fib->fiber_state)
+    {
+        /* resume the calling fiber with an error code. */
+        retval = disciplined_fiber_scheduler_set_next_fiber_to_run(
+            ctx->sched, yield_fib, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
+            FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_REQUEST_RESULT,
+            (void*)ERROR_FIBER_INVALID_STATE);
+        if (STATUS_SUCCESS != retval)
+        {
+            return retval;
+        }
+    }
+    else
+    {
+        /* resume the calling fiber with a success code. */
+        retval = disciplined_fiber_scheduler_set_next_fiber_to_run(
+            ctx->sched, yield_fib, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
+            FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_REQUEST_RESULT,
+            (void*)STATUS_SUCCESS);
+        if (STATUS_SUCCESS != retval)
+        {
+            return retval;
+        }
+
+        /* Instruct the fiber to quiesce. */
+        retval = disciplined_fiber_scheduler_set_next_fiber_to_run(
+            ctx->sched, fib, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
+            FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_QUIESCE_REQUEST,
+            NULL);
+        if (STATUS_SUCCESS != retval)
+        {
+            return retval;
+        }
+    }
+
+    /* success. Run the next fiber on the queue, or the idle fiber. */
+    return STATUS_SUCCESS;
+}
+
+/**
+ * \brief Handle the management discipline terminate event.
+ *
+ * \param context       The user context for this
+ *                      \ref fiber_scheduler_discipline.
+ * \param yield_fib     The yielding fiber.
+ * \param yield_event   The event causing the fiber to yield.
+ * \param yield_param   The fiber to send the terminate event to.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS is returned when this discipline callback succeeded.
+ *      - any other non-zero status code will result in thread termination and
+ *        the process aborting.
+ */
+static status
+fiber_scheduler_disciplined_management_terminate_event_callback_handler(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param)
+{
+    status retval;
+    fiber_scheduler_disciplined_context* ctx =
+        (fiber_scheduler_disciplined_context*)context;
+    fiber* fib = (fiber*)yield_param;
+
+    /* parameter sanity checks. */
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
+
+    /* ignore parameters. */
+    (void)yield_event;
+
+    /* is the fiber running? */
+    if (FIBER_STATE_RUNNING != fib->fiber_state)
+    {
+        /* resume the calling fiber with an error code. */
+        retval = disciplined_fiber_scheduler_set_next_fiber_to_run(
+            ctx->sched, yield_fib, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
+            FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_REQUEST_RESULT,
+            (void*)ERROR_FIBER_INVALID_STATE);
+        if (STATUS_SUCCESS != retval)
+        {
+            return retval;
+        }
+    }
+    else
+    {
+        /* resume the calling fiber with a success code. */
+        retval = disciplined_fiber_scheduler_set_next_fiber_to_run(
+            ctx->sched, yield_fib, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
+            FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_REQUEST_RESULT,
+            (void*)STATUS_SUCCESS);
+        if (STATUS_SUCCESS != retval)
+        {
+            return retval;
+        }
+
+        /* Instruct the fiber to terminate. */
+        retval = disciplined_fiber_scheduler_set_next_fiber_to_run(
+            ctx->sched, fib, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
+            FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_TERMINATION_REQUEST,
+            NULL);
+        if (STATUS_SUCCESS != retval)
+        {
+            return retval;
+        }
+    }
+
+    /* success. Run the next fiber on the queue, or the idle fiber. */
+    return STATUS_SUCCESS;
+}
+
+/**
+ * \brief Handle the management discipline quiesce all event.
+ *
+ * \param context       The user context for this
+ *                      \ref fiber_scheduler_discipline.
+ * \param yield_fib     The yielding fiber.
+ * \param yield_event   The event causing the fiber to yield.
+ * \param yield_param   Not used.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS is returned when this discipline callback succeeded.
+ *      - any other non-zero status code will result in thread termination and
+ *        the process aborting.
+ */
+static status
+fiber_scheduler_disciplined_management_quiesce_all_callback_handler(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param)
+{
+    status retval;
+    fiber_scheduler_disciplined_context* ctx =
+        (fiber_scheduler_disciplined_context*)context;
+
+    /* parameter sanity checks. */
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+
+    /* ignore parameters. */
+    (void)yield_event;
+    (void)yield_param;
+
+    /* iterate through all fibers. */
+    const rbtree_node* nil = rbtree_nil_node(ctx->fibers_by_pointer);
+    rbtree_node* root = rbtree_root_node(ctx->fibers_by_pointer);
+    for (rbtree_node* node = rbtree_minimum_node(ctx->fibers_by_pointer, root);
+         nil != node;
+         node = rbtree_successor_node(ctx->fibers_by_pointer, node))
+    {
+        /* if this is a valid fiber and IS NOT the requesting fiber, send it a
+         * quiesce request. */
+        fiber* fib = (fiber*)rbtree_node_value(ctx->fibers_by_pointer, node);
+        if (NULL != fib && yield_fib != fib
+         && FIBER_STATE_RUNNING == fiber_state_get(fib))
+        {
+            /* resume this fiber with a quiesce request. */
+            retval = disciplined_fiber_scheduler_add_fiber_to_run_queue(
+                ctx->sched, fib, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
+                FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_QUIESCE_REQUEST, NULL);
+            if (STATUS_SUCCESS != retval)
+            {
+                return retval;
+            }
+        }
+    }
+
+    /* resume the calling fiber with a success code. */
+    return 
+        disciplined_fiber_scheduler_add_fiber_to_run_queue(
+            ctx->sched, yield_fib, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
+            FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_REQUEST_RESULT,
+            (void*)STATUS_SUCCESS);
+}
+
+/**
+ * \brief Handle the management discipline terminate all event.
+ *
+ * \param context       The user context for this
+ *                      \ref fiber_scheduler_discipline.
+ * \param yield_fib     The yielding fiber.
+ * \param yield_event   The event causing the fiber to yield.
+ * \param yield_param   Not used.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS is returned when this discipline callback succeeded.
+ *      - any other non-zero status code will result in thread termination and
+ *        the process aborting.
+ */
+static status
+fiber_scheduler_disciplined_management_terminate_all_callback_handler(
+    void* context, fiber* yield_fib, int yield_event, void* yield_param)
+{
+    status retval;
+    fiber_scheduler_disciplined_context* ctx =
+        (fiber_scheduler_disciplined_context*)context;
+
+    /* parameter sanity checks. */
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_disciplined_context_valid(ctx));
+
+    /* ignore parameters. */
+    (void)yield_event;
+    (void)yield_param;
+
+    /* iterate through all fibers. */
+    const rbtree_node* nil = rbtree_nil_node(ctx->fibers_by_pointer);
+    rbtree_node* root = rbtree_root_node(ctx->fibers_by_pointer);
+    for (rbtree_node* node = rbtree_minimum_node(ctx->fibers_by_pointer, root);
+         nil != node;
+         node = rbtree_successor_node(ctx->fibers_by_pointer, node))
+    {
+        /* if this is a valid fiber and IS NOT the requesting fiber, send it a
+         * termination request. */
+        fiber* fib = (fiber*)rbtree_node_value(ctx->fibers_by_pointer, node);
+        if (NULL != fib && yield_fib != fib
+         && FIBER_STATE_RUNNING == fiber_state_get(fib))
+        {
+            /* resume this fiber with a termination request. */
+            retval = disciplined_fiber_scheduler_add_fiber_to_run_queue(
+                ctx->sched, fib, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
+                FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_TERMINATION_REQUEST,
+                NULL);
+            if (STATUS_SUCCESS != retval)
+            {
+                return retval;
+            }
+        }
+    }
+
+    /* resume the calling fiber with a success code. */
+    return 
+        disciplined_fiber_scheduler_add_fiber_to_run_queue(
+            ctx->sched, yield_fib, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
+            FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_REQUEST_RESULT,
+            (void*)STATUS_SUCCESS);
 }

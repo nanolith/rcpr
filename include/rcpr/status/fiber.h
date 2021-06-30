@@ -55,3 +55,15 @@
  */
 #define ERROR_FIBER_SCHEDULER_EXHAUSTED \
     STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0006)
+
+/**
+ * \brief The fiber was interrupted with an unexpected resume event.
+ */
+#define ERROR_FIBER_UNEXPECTED_RESUME_EVENT \
+    STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0007)
+
+/**
+ * \brief An attempt was made to resume a fiber in an invalid state.
+ */
+#define ERROR_FIBER_INVALID_STATE \
+    STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0008)

@@ -836,6 +836,90 @@ RCPR_SYM(disciplined_fiber_scheduler_receive_management_event)(
     int* resume_event, void** resume_param);
 
 /**
+ * \brief Tell the fiber scheduler to send a quiesce request to the given \ref
+ *        fiber.
+ *
+ * \param sched         The scheduler.
+ * \param fib           The fiber to instruct to quiesce.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *      - \p fib is a pointer to a valid \ref fiber instance.
+ *
+ * \post
+ *      - On success, the fiber has been instructed to quiesce.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(disciplined_fiber_scheduler_send_quiesce_request_to_fiber)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib);
+
+/**
+ * \brief Tell the fiber scheduler to send a terminate request to the given \ref
+ *        fiber.
+ *
+ * \param sched         The scheduler.
+ * \param fib           The fiber to instruct to terminate.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *      - \p fib is a pointer to a valid \ref fiber instance.
+ *
+ * \post
+ *      - On success, the fiber has been instructed to terminate.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(disciplined_fiber_scheduler_send_terminate_request_to_fiber)(
+    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(fiber)* fib);
+
+/**
+ * \brief Tell the fiber scheduler to send a quiesce request to all running
+ *        fibers.
+ *
+ * \param sched         The scheduler.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *
+ * \post
+ *      - On success, all running fibers have been instructed to quiesce.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(disciplined_fiber_scheduler_send_quiesce_request_to_all)(
+    RCPR_SYM(fiber_scheduler)* sched);
+
+/**
+ * \brief Tell the fiber scheduler to send a terminate request to all running
+ *        fibers.
+ *
+ * \param sched         The scheduler.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *
+ * \post
+ *      - On success, all running fibers have been instructed to terminate.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(disciplined_fiber_scheduler_send_terminate_request_to_all)(
+    RCPR_SYM(fiber_scheduler)* sched);
+
+/**
  * \brief Remove the given fiber pointer from the disciplined fiber scheduler,
  *        transferring ownership to the caller.
  *
@@ -1065,6 +1149,34 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
                 RCPR_SYM(disciplined_fiber_scheduler_receive_management_event)(\
                     w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## disciplined_fiber_scheduler_send_quiesce_request_to_fiber( \
+        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
+            return \
+                RCPR_SYM( \
+                    disciplined_fiber_scheduler_send_quiesce_request_to_fiber)(\
+                        x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## disciplined_fiber_scheduler_send_terminate_request_to_fiber( \
+        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
+            return \
+                RCPR_SYM( \
+                  disciplined_fiber_scheduler_send_terminate_request_to_fiber)(\
+                        x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## disciplined_fiber_scheduler_send_quiesce_request_to_all( \
+        RCPR_SYM(fiber_scheduler)* x) { \
+            return \
+                RCPR_SYM(\
+                    disciplined_fiber_scheduler_send_quiesce_request_to_all)( \
+                        x); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## disciplined_fiber_scheduler_send_terminate_request_to_all( \
+        RCPR_SYM(fiber_scheduler)* x) { \
+            return \
+                RCPR_SYM( \
+                    disciplined_fiber_scheduler_send_terminate_request_to_all)(\
+                        x); } \
+    static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## disciplined_fiber_scheduler_remove_fiber( \
         RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
             return RCPR_SYM(disciplined_fiber_scheduler_remove_fiber)(x,y); } \
@@ -1184,6 +1296,34 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
             return \
                 RCPR_SYM(disciplined_fiber_scheduler_receive_management_event)(\
                     w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    disciplined_fiber_scheduler_send_quiesce_request_to_fiber( \
+        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
+            return \
+                RCPR_SYM( \
+                    disciplined_fiber_scheduler_send_quiesce_request_to_fiber)(\
+                        x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    disciplined_fiber_scheduler_send_terminate_request_to_fiber( \
+        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
+            return \
+                RCPR_SYM( \
+                  disciplined_fiber_scheduler_send_terminate_request_to_fiber)(\
+                        x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    disciplined_fiber_scheduler_send_quiesce_request_to_all( \
+        RCPR_SYM(fiber_scheduler)* x) { \
+            return \
+                RCPR_SYM(\
+                    disciplined_fiber_scheduler_send_quiesce_request_to_all)( \
+                        x); } \
+    static inline status FN_DECL_MUST_CHECK \
+    disciplined_fiber_scheduler_send_terminate_request_to_all( \
+        RCPR_SYM(fiber_scheduler)* x) { \
+            return \
+                RCPR_SYM( \
+                    disciplined_fiber_scheduler_send_terminate_request_to_all)(\
+                        x); } \
     static inline status FN_DECL_MUST_CHECK \
     disciplined_fiber_scheduler_remove_fiber( \
         RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
