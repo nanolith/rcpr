@@ -241,6 +241,17 @@ RCPR_SYM(rbtree_nil_node)(
     RCPR_SYM(rbtree)* tree);
 
 /**
+ * \brief Return the root node pointer for the tree.
+ *
+ * \param tree          The \ref rbtree instance.
+ *
+ * \returns the root pointer for this tree.
+ */
+RCPR_SYM(rbtree_node)*
+RCPR_SYM(rbtree_root_node)(
+    RCPR_SYM(rbtree)* tree);
+
+/**
  * \brief Return the value associated with a given rbtree node.
  *
  * \note Ownership of this value remains with the \ref rbtree_node.
@@ -317,6 +328,9 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_nil_node( \
         RCPR_SYM(rbtree)* x) { \
             return RCPR_SYM(rbtree_nil_node)(x); } \
+    static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_root_node( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_root_node)(x); } \
     static inline RCPR_SYM(resource)* sym ## _ ## rbtree_node_value( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_node_value)(x,y); } \
@@ -361,6 +375,9 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline RCPR_SYM(rbtree_node)* rbtree_nil_node( \
         RCPR_SYM(rbtree)* x) { \
             return RCPR_SYM(rbtree_nil_node)(x); } \
+    static inline RCPR_SYM(rbtree_node)* rbtree_root_node( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_root_node)(x); } \
     static inline RCPR_SYM(resource)* rbtree_node_value( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_node_value)(x,y); } \
