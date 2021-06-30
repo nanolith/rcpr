@@ -22,8 +22,6 @@ extern "C" {
 #define RBTREE_RED true
 #define RBTREE_BLACK false
 
-typedef struct RCPR_SYM(rbtree_node) RCPR_SYM(rbtree_node);
-
 struct RCPR_SYM(rbtree_node)
 {
     RCPR_SYM(resource) hdr;
@@ -98,54 +96,6 @@ RCPR_SYM(rbtree_insert_fixup)(
 void
 RCPR_SYM(rbtree_transplant)(
     RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* u, RCPR_SYM(rbtree_node)* v);
-
-/**
- * \brief Return the minimum node in an rbtree subtree.
- *
- * \param tree          The \ref rbtree instance.
- * \param x             The \ref rbtree_node from which the search should start.
- *
- * \returns the minimum node in this subtree.
- */
-RCPR_SYM(rbtree_node)*
-RCPR_SYM(rbtree_minimum_node)(
-    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
-
-/**
- * \brief Return the maximum node in an rbtree subtree.
- *
- * \param tree          The \ref rbtree instance.
- * \param x             The \ref rbtree_node from which the search should start.
- *
- * \returns the maximum node in this subtree.
- */
-RCPR_SYM(rbtree_node)*
-RCPR_SYM(rbtree_maximum_node)(
-    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
-
-/**
- * \brief Return the in-order successor node of the given node.
- *
- * \param tree          The \ref rbtree instance.
- * \param x             The \ref rbtree_node from which a successor is found.
- *
- * \returns the successor node of this node, or tree->nil if none is found.
- */
-RCPR_SYM(rbtree_node)*
-RCPR_SYM(rbtree_successor_node)(
-    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
-
-/**
- * \brief Return the in-order predecessor node of the given node.
- *
- * \param tree          The \ref rbtree instance.
- * \param x             The \ref rbtree_node from which a predecessor is found.
- *
- * \returns the predecessor node of this node, or tree->nil if none is found.
- */
-RCPR_SYM(rbtree_node)*
-RCPR_SYM(rbtree_predecessor_node)(
-    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
 
 /**
  * \brief Perform a post-delete fixup of the given \ref rbtree instance.
@@ -257,7 +207,6 @@ RCPR_SYM(prop_rbtree_node_valid)(
 /******************************************************************************/
 #define RCPR_IMPORT_rbtree_internal \
     RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(rbtree_node) rbtree_node; \
     static inline void rbtree_left_rotate( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             RCPR_SYM(rbtree_left_rotate)(x,y); } \
@@ -271,18 +220,6 @@ RCPR_SYM(prop_rbtree_node_valid)(
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y, \
         RCPR_SYM(rbtree_node)* z) { \
             RCPR_SYM(rbtree_transplant)(x,y,z); } \
-    static inline RCPR_SYM(rbtree_node)* rbtree_minimum_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_minimum_node)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* rbtree_maximum_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_maximum_node)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* rbtree_successor_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_successor_node)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* rbtree_predecessor_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_predecessor_node)(x,y); } \
     static inline void rbtree_delete_fixup( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             RCPR_SYM(rbtree_delete_fixup)(x,y); } \
