@@ -52,7 +52,14 @@ RCPR_SYM(mailbox_close)(
         return retval;
     }
 
-    /* TODO - add support for out-of-band events. */
-
-    return STATUS_SUCCESS;
+    if (FIBER_SCHEDULER_MESSAGE_RESUME_EVENT_MAILBOX_CLOSE == resume_event)
+    {
+        retval = (status)(ptrdiff_t)resume_param;
+        return retval;
+    }
+    else
+    {
+        /* TODO - add support for out-of-band events. */
+        return ERROR_MESSAGE_UNKNOWN_ERROR;
+    }
 }
