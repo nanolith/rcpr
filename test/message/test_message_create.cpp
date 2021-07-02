@@ -32,7 +32,7 @@ TEST(create)
 
     /* we should be able to create a dummy allocator for our payload. */
     TEST_ASSERT(
-        STATUS_SUCCESS == malloc_allocator_create(&alloc));
+        STATUS_SUCCESS == malloc_allocator_create(&payload_allocator));
 
     /* convert the payload allocator to a resource. */
     payload = allocator_resource_handle(payload_allocator);

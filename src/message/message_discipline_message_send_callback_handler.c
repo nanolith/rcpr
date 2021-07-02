@@ -69,7 +69,7 @@ status RCPR_SYM(message_discipline_message_send_callback_handler)(
     RCPR_MODEL_ASSERT(prop_mailbox_valid(mbox));
 
     /* append the message to the end of the mail queue. */
-    retval = queue_append(mbox->message_queue, &mbox->hdr);
+    retval = queue_append(mbox->message_queue, &msg->hdr);
     if (STATUS_SUCCESS != retval)
     {
         goto resume_fail;

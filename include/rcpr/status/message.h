@@ -16,3 +16,9 @@
  */
 #define ERROR_MESSAGE_ALREADY_BLOCKED \
     STATUS_CODE(1, RCPR_COMPONENT_MESSAGE, 0x0000)
+
+/**
+ * \brief An unknown error has occurred.
+ */
+#define ERROR_MESSAGE_UNKNOWN_ERROR \
+    STATUS_CODE(1, RCPR_COMPONENT_MESSAGE, 0x0001)

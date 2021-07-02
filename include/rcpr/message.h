@@ -170,6 +170,7 @@ RCPR_SYM(mailbox_close)(
  * \param sendaddr      The \ref mailbox_address to which this message should be
  *                      sent.
  * \param msg           The \ref message to send to this address.
+ * \param msgdisc       The messaging discipline.
  *
  * \note On success, the ownership of this \ref message is transferred to the
  * messaging discipline.  On failure, the ownership of this \ref message remains
@@ -181,7 +182,8 @@ RCPR_SYM(mailbox_close)(
  */
 status FN_DECL_MUST_CHECK
 RCPR_SYM(message_send)(
-    RCPR_SYM(mailbox_address) sendaddr, RCPR_SYM(message)* msg);
+    RCPR_SYM(mailbox_address) sendaddr, RCPR_SYM(message)* msg,
+    RCPR_SYM(fiber_scheduler_discipline)* msgdisc);
 
 /**
  * \brief Receive a \ref message from the mailbox.
@@ -189,6 +191,7 @@ RCPR_SYM(message_send)(
  * \param recvaddr      The \ref mailbox_address from which a message should be
  *                      received.
  * \param msg           Pointer to a \ref message pointer to receive a message.
+ * \param msgdisc       The messaging discipline.
  *
  * \note This call blocks until a message is available to receive, or until this
  * call is interrupted by an out-of-bound event.  On success, a \ref message is
@@ -204,7 +207,8 @@ RCPR_SYM(message_send)(
  */
 status FN_DECL_MUST_CHECK
 RCPR_SYM(message_receive)(
-    RCPR_SYM(mailbox_address) recvaddr, RCPR_SYM(message)** msg);
+    RCPR_SYM(mailbox_address) recvaddr, RCPR_SYM(message)** msg,
+    RCPR_SYM(fiber_scheduler_discipline)* msgdisc);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -298,11 +302,13 @@ RCPR_SYM(prop_message_valid)(
         RCPR_SYM(mailbox_address) x, RCPR_SYM(fiber_scheduler_discipline)* y) {\
             return RCPR_SYM(mailbox_close)(x,y); } \
     static inline status FN_DECL_MUST_CHECK sym ## _ ## message_send( \
-        RCPR_SYM(mailbox_address) x, RCPR_SYM(message)* y) { \
-            return RCPR_SYM(message_send)(x,y); } \
+        RCPR_SYM(mailbox_address) x, RCPR_SYM(message)* y, \
+        RCPR_SYM(fiber_scheduler_discipline)* z) { \
+            return RCPR_SYM(message_send)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK sym ## _ ## message_receive( \
-        RCPR_SYM(mailbox_address) x, RCPR_SYM(message)** y) { \
-            return RCPR_SYM(message_receive)(x,y); } \
+        RCPR_SYM(mailbox_address) x, RCPR_SYM(message)** y, \
+        RCPR_SYM(fiber_scheduler_discipline)* z) { \
+            return RCPR_SYM(message_receive)(x,y,z); } \
     static inline RCPR_SYM(resource)* sym ## _ ## message_resource_handle( \
         RCPR_SYM(message)* x) { \
             return RCPR_SYM(message_resource_handle)(x); } \
@@ -341,11 +347,13 @@ RCPR_SYM(prop_message_valid)(
         RCPR_SYM(mailbox_address) x, RCPR_SYM(fiber_scheduler_discipline)* y) {\
             return RCPR_SYM(mailbox_close)(x,y); } \
     static inline status FN_DECL_MUST_CHECK message_send( \
-        RCPR_SYM(mailbox_address) x, RCPR_SYM(message)* y) { \
-            return RCPR_SYM(message_send)(x,y); } \
+        RCPR_SYM(mailbox_address) x, RCPR_SYM(message)* y, \
+        RCPR_SYM(fiber_scheduler_discipline)* z) { \
+            return RCPR_SYM(message_send)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK message_receive( \
-        RCPR_SYM(mailbox_address) x, RCPR_SYM(message)** y) { \
-            return RCPR_SYM(message_receive)(x,y); } \
+        RCPR_SYM(mailbox_address) x, RCPR_SYM(message)** y, \
+        RCPR_SYM(fiber_scheduler_discipline)* z) { \
+            return RCPR_SYM(message_receive)(x,y,z); } \
     static inline RCPR_SYM(resource)* message_resource_handle( \
         RCPR_SYM(message)* x) { \
             return RCPR_SYM(message_resource_handle)(x); } \

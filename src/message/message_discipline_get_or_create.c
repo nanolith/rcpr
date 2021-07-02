@@ -77,7 +77,7 @@ RCPR_SYM(message_discipline_get_or_create)(
     /* create the discipline. */
     retval =
         fiber_scheduler_discipline_create(
-            msgdisc, &FIBER_SCHEDULER_MESSAGE_DISCIPLINE, alloc, ctx, 2,
+            msgdisc, &FIBER_SCHEDULER_MESSAGE_DISCIPLINE, alloc, ctx, 4,
             callbacks);
     if (STATUS_SUCCESS != retval)
     {
