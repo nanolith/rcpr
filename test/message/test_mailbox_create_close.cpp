@@ -1,7 +1,7 @@
 /**
- * \file test/message/test_message_discipline_get_or_create.cpp
+ * \file test/message/test_mailbox_create_close.cpp
  *
- * \brief Unit tests for message_discipline_get_or_create.
+ * \brief Unit tests for mailbox_create and mailbox_close.
  */
 
 #include <minunit/minunit.h>
@@ -13,20 +13,18 @@ RCPR_IMPORT_fiber;
 RCPR_IMPORT_message;
 RCPR_IMPORT_resource;
 
-TEST_SUITE(message_discipline_get_or_create);
-
 /**
- * Verify that we can create a message discipline instance.
+ * Verify that we can create a mailbox instance.
  */
 TEST(create)
 {
     allocator* alloc = nullptr;
     fiber_scheduler* sched = nullptr;
-    fiber_scheduler_discipline* disc = nullptr;
+    fiber_scheduler_discipline* msgdisc = nullptr;
+    mailbox_address addr = -1;
 
     /* we should be able to create a malloc allocator. */
-    TEST_ASSERT(
-        STATUS_SUCCESS == malloc_allocator_create(&alloc));
+    TEST_ASSERT(STATUS_SUCCESS == malloc_allocator_create(&alloc));
 
     /* we should be able to create a disciplined fiber scheduler. */
     TEST_ASSERT(
@@ -36,10 +34,12 @@ TEST(create)
     /* we should be able to create the message discipline. */
     TEST_ASSERT(
         STATUS_SUCCESS ==
-            message_discipline_get_or_create(&disc, alloc, sched));
+            message_discipline_get_or_create(&msgdisc, alloc, sched));
 
-    /* the discipline should not be NULL. */
-    TEST_EXPECT(nullptr != disc);
+    /* we should be able to create a mailbox. */
+    TEST_EXPECT(
+        STATUS_SUCCESS ==
+            mailbox_create(&addr, msgdisc));
 
     /* clean up. */
     TEST_ASSERT(
@@ -51,18 +51,17 @@ TEST(create)
 }
 
 /**
- * Verify that the second call to get_or_create returns the same discipline.
+ * Verify that we can close a mailbox instance.
  */
-TEST(get)
+TEST(close)
 {
     allocator* alloc = nullptr;
     fiber_scheduler* sched = nullptr;
-    fiber_scheduler_discipline* disc = nullptr;
-    fiber_scheduler_discipline* disc2 = nullptr;
+    fiber_scheduler_discipline* msgdisc = nullptr;
+    mailbox_address addr = -1;
 
     /* we should be able to create a malloc allocator. */
-    TEST_ASSERT(
-        STATUS_SUCCESS == malloc_allocator_create(&alloc));
+    TEST_ASSERT(STATUS_SUCCESS == malloc_allocator_create(&alloc));
 
     /* we should be able to create a disciplined fiber scheduler. */
     TEST_ASSERT(
@@ -72,21 +71,17 @@ TEST(get)
     /* we should be able to create the message discipline. */
     TEST_ASSERT(
         STATUS_SUCCESS ==
-            message_discipline_get_or_create(&disc, alloc, sched));
+            message_discipline_get_or_create(&msgdisc, alloc, sched));
 
-    /* the discipline should not be NULL. */
-    TEST_EXPECT(nullptr != disc);
-
-    /* we can call get_or_create a second time. */
+    /* we should be able to create a mailbox. */
     TEST_ASSERT(
         STATUS_SUCCESS ==
-            message_discipline_get_or_create(&disc2, alloc, sched));
+            mailbox_create(&addr, msgdisc));
 
-    /* the discipline should not be NULL. */
-    TEST_EXPECT(nullptr != disc2);
-
-    /* the two disciplines are the same. */
-    TEST_EXPECT(disc == disc2);
+    /* we should be able to close a mailbox. */
+    TEST_EXPECT(
+        STATUS_SUCCESS ==
+            mailbox_close(addr, msgdisc));
 
     /* clean up. */
     TEST_ASSERT(
