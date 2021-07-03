@@ -278,6 +278,7 @@ RCPR_SYM(fiber_create)(
  *
  * \param fib           Pointer to the \ref fiber pointer to receive this
  *                      resource on success.
+ * \param sched         Pointer to the fiber scheduler to use for this fiber.
  * \param a             Pointer to the allocator to use for creating this \ref
  *                      fiber resource.
  *
@@ -308,7 +309,8 @@ RCPR_SYM(fiber_create)(
  */
 status FN_DECL_MUST_CHECK
 RCPR_SYM(fiber_create_for_thread)(
-    RCPR_SYM(fiber)** fib, RCPR_SYM(allocator)* a);
+    RCPR_SYM(fiber)** fib, RCPR_SYM(fiber_scheduler)* sched,
+    RCPR_SYM(allocator)* a);
 
 /**
  * \brief Create a \ref fiber_scheduler instance.
@@ -1068,8 +1070,9 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
             return RCPR_SYM(fiber_create)(u,v,w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## fiber_create_for_thread( \
-        RCPR_SYM(fiber)** x, RCPR_SYM(allocator)* y) { \
-            return RCPR_SYM(fiber_create_for_thread)(x,y); } \
+        RCPR_SYM(fiber)** x, RCPR_SYM(fiber_scheduler)* y, \
+        RCPR_SYM(allocator)* z) { \
+            return RCPR_SYM(fiber_create_for_thread)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## fiber_scheduler_create( \
         RCPR_SYM(fiber_scheduler)** w, RCPR_SYM(allocator)* x, void* y, \
@@ -1224,8 +1227,9 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
         RCPR_SYM(fiber_fn) z) { \
             return RCPR_SYM(fiber_create)(u,v,w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK fiber_create_for_thread( \
-        RCPR_SYM(fiber)** x, RCPR_SYM(allocator)* y) { \
-            return RCPR_SYM(fiber_create_for_thread)(x,y); } \
+        RCPR_SYM(fiber)** x, RCPR_SYM(fiber_scheduler)* y, \
+        RCPR_SYM(allocator)* z) { \
+            return RCPR_SYM(fiber_create_for_thread)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK fiber_scheduler_create( \
         RCPR_SYM(fiber_scheduler)** w, RCPR_SYM(allocator)* x, void* y, \
         RCPR_SYM(fiber_scheduler_callback_fn) z) { \

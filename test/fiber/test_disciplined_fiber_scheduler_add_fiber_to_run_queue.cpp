@@ -45,7 +45,7 @@ TEST(add)
     /* we should be able to create a dummy thread fiber. */
     TEST_ASSERT(
         STATUS_SUCCESS ==
-            fiber_create_for_thread(&fib, alloc));
+            fiber_create_for_thread(&fib, sched, alloc));
 
     /* PRECONDITION: the run queue is empty. */
     ctx = (fiber_scheduler_disciplined_context*)sched->context;

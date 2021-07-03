@@ -101,7 +101,7 @@ RCPR_SYM(fiber_scheduler_create)(
     tmp->fn = fn;
 
     /* create the main fiber. */
-    retval = fiber_create_for_thread(&tmp->main_fiber, tmp->alloc);
+    retval = fiber_create_for_thread(&tmp->main_fiber, tmp, tmp->alloc);
     if (STATUS_SUCCESS != retval)
     {
         goto cleanup_fiber_scheduler;

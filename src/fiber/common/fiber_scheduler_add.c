@@ -51,6 +51,9 @@ RCPR_SYM(fiber_scheduler_add)(
     RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
     RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
 
+    /* set the fiber's scheduler to the scheduler. */
+    fib->sched = sched;
+
     /* call the callback function to add this fiber. */
     fiber* resume_fib;
     const rcpr_uuid* resume_id = &FIBER_SCHEDULER_INTERNAL_DISCIPLINE;
