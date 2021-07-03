@@ -102,7 +102,8 @@ TEST(add)
 
     /* create a dummy fiber to add. */
     fiber* dummy = nullptr;
-    TEST_ASSERT(STATUS_SUCCESS == fiber_create_for_thread(&dummy, alloc));
+    TEST_ASSERT(
+        STATUS_SUCCESS == fiber_create_for_thread(&dummy, sched, alloc));
 
     /* POSTCONDITIONS: one call was made to cache the main fiber. */
     TEST_EXPECT(1 == ctx.calls);

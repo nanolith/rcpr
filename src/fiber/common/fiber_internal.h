@@ -40,6 +40,7 @@ struct RCPR_SYM(fiber)
     uint64_t restore_reason_code;
     void* restore_param;
     uint64_t fiber_state;
+    RCPR_SYM(fiber_scheduler)* sched;
 };
 
 struct RCPR_SYM(fiber_scheduler)

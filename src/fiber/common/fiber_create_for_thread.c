@@ -25,6 +25,7 @@ RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber);
  *
  * \param fib           Pointer to the \ref fiber pointer to receive this
  *                      resource on success.
+ * \param sched         Pointer to the fiber scheduler to use for this fiber.
  * \param a             Pointer to the allocator to use for creating this \ref
  *                      fiber resource.
  *
@@ -55,7 +56,8 @@ RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber);
  */
 status FN_DECL_MUST_CHECK
 RCPR_SYM(fiber_create_for_thread)(
-    RCPR_SYM(fiber)** fib, RCPR_SYM(allocator)* a)
+    RCPR_SYM(fiber)** fib, RCPR_SYM(fiber_scheduler)* sched,
+    RCPR_SYM(allocator)* a)
 {
     fiber* tmp;
     status retval;
@@ -93,6 +95,9 @@ RCPR_SYM(fiber_create_for_thread)(
 
     /* the thread fiber state is running. */
     tmp->fiber_state = FIBER_STATE_RUNNING;
+
+    /* save the scheduler. */
+    tmp->sched = sched;
 
     /* set the return pointer. */
     *fib = tmp;

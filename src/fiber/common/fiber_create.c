@@ -120,6 +120,9 @@ RCPR_SYM(fiber_create)(
     /* the fiber has been created. */
     tmp->fiber_state = FIBER_STATE_CREATED;
 
+    /* save the scheduler. */
+    tmp->sched = sched;
+
     /* set the return pointer. */
     *fib = tmp;
     retval = STATUS_SUCCESS;
