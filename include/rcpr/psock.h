@@ -1020,6 +1020,28 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(psock_read_block)(RCPR_SYM(psock)* sock);
 
 /**
+ * \brief Block until the socket is available for writing.
+ *
+ * \param sock          Pointer to the \ref psock pointer on which to block.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_PSOCK_UNSUPPORTED_TYPE if this \ref psock instance is not a
+ *        non-blocking instance.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *
+ * \post
+ *      - On success, this \ref psock instance is available for write, or
+ *        the peer has closed this \ref psock instance, or a connection error on
+ *        this \ref psock instance has occurred.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(psock_write_block)(RCPR_SYM(psock)* sock);
+
+/**
  * \brief Read a raw value from the given \ref psock instance that was
  * written to the remote end of this socket by the peer calling \ref
  * psock_write_raw_int64.
@@ -1881,6 +1903,10 @@ enum psock_boxed_type
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_read_block)(x); } \
     static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_block( \
+        RCPR_SYM(psock)* x) { \
+            return RCPR_SYM(psock_write_block)(x); } \
+    static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## psock_read_raw_int64( \
         RCPR_SYM(psock)* x, int64_t* y) { \
             return RCPR_SYM(psock_read_raw_int64)(x,y); } \
@@ -2068,6 +2094,9 @@ enum psock_boxed_type
     static inline status FN_DECL_MUST_CHECK psock_read_block( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_read_block)(x); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_block( \
+        RCPR_SYM(psock)* x) { \
+            return RCPR_SYM(psock_write_block)(x); } \
     static inline status FN_DECL_MUST_CHECK psock_read_raw_int64( \
         RCPR_SYM(psock)* x, int64_t* y) { \
             return RCPR_SYM(psock_read_raw_int64)(x,y); } \
