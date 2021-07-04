@@ -49,9 +49,6 @@ RCPR_SYM(psock_wrap_async_write)(
     psock_wrap_async* s = (psock_wrap_async*)sock;
     RCPR_MODEL_ASSERT(prop_psock_valid(s->wrapped));
 
-    /* get the underlying descriptor psock instance. */
-    psock_from_descriptor* desc = (psock_from_descriptor*)s->wrapped;
-
     /* loop through until all bytes are written. */
     size_t write_size = *size;
     const uint8_t* dptr = (uint8_t*)data;
@@ -65,48 +62,11 @@ RCPR_SYM(psock_wrap_async_write)(
             tmp_size = 0;
 
             /* yield to the psock I/O discipline. */
-            const rcpr_uuid* resume_id;
-            int resume_event;
-            void* resume_param;
-            retval =
-                fiber_discipline_yield(
-                    s->psock_discipline,
-                    FIBER_SCHEDULER_PSOCK_IO_YIELD_EVENT_WAIT_WRITE,
-                    (void*)((ptrdiff_t)desc->descriptor),
-                    &resume_id, &resume_event, &resume_param);
+            retval = psock_write_block(sock);
             if (STATUS_SUCCESS != retval)
             {
                 return retval;
             }
-
-            /* if the resume discipline doesn't match, maybe call the unexpected
-             * handler. */
-            if (
-                memcmp(
-                    resume_id, &FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE,
-                    sizeof(rcpr_uuid)))
-            {
-                /* if the unexpected handler is set, call it. */
-                if (NULL != s->unexpected)
-                {
-                    retval =
-                        s->unexpected(
-                            &s->hdr, NULL, s->context, true,
-                            resume_id, resume_event, resume_param);
-                }
-                /* otherwise, fail with an unexpected event error. */
-                else
-                {
-                    retval = ERROR_PSOCK_UNEXPECTED_EVENT;
-                }
-
-                /* handle an error condition. */
-                if (STATUS_SUCCESS != retval)
-                {
-                    return retval;
-                }
-            }
-
         }
         /* if a different error occurred in the write, return it.*/
         else if (STATUS_SUCCESS != retval)
@@ -126,5 +86,4 @@ RCPR_SYM(psock_wrap_async_write)(
     }
 
     return STATUS_SUCCESS;
-
 }
