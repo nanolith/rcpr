@@ -1018,6 +1018,20 @@ RCPR_SYM(fiber_scheduler_discipline_resource_handle)(
     RCPR_SYM(fiber_scheduler_discipline)* disc);
 
 /**
+ * \brief Given a \ref fiber instance, return the \ref fiber_scheduler assigned
+ * to that instance.
+ *
+ * \param fib           The \ref fiber instance from which the 
+ *                      \ref fiber_scheduler instance is returned.
+ *
+ * \returns the \ref fiber_scheduler instance assigned to this \ref fiber
+ *          instance.
+ */
+RCPR_SYM(fiber_scheduler)*
+RCPR_SYM(fiber_scheduler_from_fiber_get)(
+    RCPR_SYM(fiber)* fib);
+
+/**
  * \brief Given a \ref fiber instance, return its current state.
  *
  * \param fib           The \ref fiber instance.
@@ -1205,6 +1219,10 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
     static inline uint64_t sym ## _ ## fiber_state_get( \
         const RCPR_SYM(fiber)* x) { \
             return RCPR_SYM(fiber_state_get)(x); } \
+    static inline RCPR_SYM(fiber_scheduler)* \
+    sym ## _ ## fiber_scheduler_from_fiber_get( \
+        RCPR_SYM(fiber)* x) { \
+            return RCPR_SYM(fiber_scheduler_from_fiber_get)(x); } \
     static inline bool sym ## _ ## prop_fiber_valid( \
         const RCPR_SYM(fiber)* x) { \
             return RCPR_SYM(prop_fiber_valid)(x); } \
@@ -1354,6 +1372,9 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
     static inline uint64_t fiber_state_get( \
         const RCPR_SYM(fiber)* x) { \
             return RCPR_SYM(fiber_state_get)(x); } \
+    static inline RCPR_SYM(fiber_scheduler)* fiber_scheduler_from_fiber_get( \
+        RCPR_SYM(fiber)* x) { \
+            return RCPR_SYM(fiber_scheduler_from_fiber_get)(x); } \
     static inline bool prop_fiber_valid( \
         const RCPR_SYM(fiber)* x) { \
             return RCPR_SYM(prop_fiber_valid)(x); } \
