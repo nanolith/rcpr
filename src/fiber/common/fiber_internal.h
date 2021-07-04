@@ -36,6 +36,7 @@ struct RCPR_SYM(fiber)
     void* context;
     RCPR_SYM(fiber_fn) fn;
     RCPR_SYM(fiber_unexpected_event_callback_fn) unexpected_fn;
+    void* unexpected_context;
     const RCPR_SYM(rcpr_uuid)* restore_discipline_id;
     uint64_t restore_reason_code;
     void* restore_param;

@@ -21,6 +21,8 @@ fiber_context_ptr:
     .struct fiber_context_ptr + 8
 fiber_user_function_ptr:
     .struct fiber_user_function_ptr + 8
+fiber_user_function_context_ptr:
+    .struct fiber_user_function_context_ptr + 8
 fiber_unexpected_event_ptr:
     .struct fiber_unexpected_event_ptr + 8;
 fiber_restore_discipline_id:
