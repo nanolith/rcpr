@@ -17,6 +17,8 @@
  *
  * \param fib           The fiber to which this event handler should be added.
  * \param fn            The unexpected event handler callback function.
+ * \param context       The optional context data to pass to the unexpected
+ *                      event handler.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
@@ -33,7 +35,8 @@
  */
 status FN_DECL_MUST_CHECK
 RCPR_SYM(fiber_unexpected_event_callback_add)(
-    RCPR_SYM(fiber)* fib, RCPR_SYM(fiber_unexpected_event_callback_fn) fn)
+    RCPR_SYM(fiber)* fib, RCPR_SYM(fiber_unexpected_event_callback_fn) fn,
+    void* context)
 {
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
@@ -41,6 +44,7 @@ RCPR_SYM(fiber_unexpected_event_callback_add)(
 
     /* assign the callback function. */
     fib->unexpected_fn = fn;
+    fib->unexpected_context = context;
 
     return STATUS_SUCCESS;
 }
