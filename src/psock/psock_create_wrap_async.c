@@ -38,9 +38,11 @@ RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
  *                      resource on success.
  * \param a             Pointer to the allocator to use for creating this
  *                      wrapping \ref psock resource.
- * \param sched         The \ref fiber_scheduler to yield on a read / write call
- *                      that would block.  This must be a disciplined fiber
- *                      scheduler.
+ * \param fib           The \ref fiber instance that will be using this \ref
+ *                      psock instance. Its assigned \ref fiber_scheduler
+ *                      instance will be used to yield on any read / write calls
+ *                      that would block.  The assigned \ref fiber_scheduler
+ *                      instance  must be a disciplined fiber scheduler.
  * \param child         The child \ref psock instance that this \ref psock
  *                      instance wraps.
  *
@@ -75,8 +77,10 @@ RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
  *      - \p sock must be a pointer to a pointer to a \ref psock instance
  *        and must not be NULL.
  *      - \p a must reference a valid \ref allocator and must not be NULL.
- *      - \p sched must reference a valid \ref fiber_scheduler and must not be
+ *      - \p fib must reference a valid \ref fiber instance and must not be
  *        NULL.
+ *      - \p fib must be assigned to a disciplined \ref fiber_scheduler
+ *        instance.
  *      - \p child must reference a valid \ref psock instance and must not be
  *        NULL.
  *
@@ -89,7 +93,7 @@ RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
 status FN_DECL_MUST_CHECK
 RCPR_SYM(psock_create_wrap_async)(
     RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a,
-    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(psock)* child)
+    RCPR_SYM(fiber)* fib, RCPR_SYM(psock)* child)
 {
     status retval, release_retval;
     fiber_scheduler_discipline* disc;
@@ -97,7 +101,7 @@ RCPR_SYM(psock_create_wrap_async)(
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(NULL != sock);
     RCPR_MODEL_ASSERT(prop_allocator_valid(a));
-    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
     RCPR_MODEL_ASSERT(prop_psock_valid(child));
     RCPR_MODEL_ASSERT(PSOCK_TYPE_DESCRIPTOR == child->type);
 
@@ -110,6 +114,10 @@ RCPR_SYM(psock_create_wrap_async)(
 
     /* get the real descriptor psock instance. */
     psock_from_descriptor* pchild = (psock_from_descriptor*)child;
+
+    /* get the fiber_scheduler instance from the fiber instance. */
+    fiber_scheduler* sched = fiber_scheduler_from_fiber_get(fib);
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
 
     /* Check the scheduler to see if the psock I/O discipline exists. */
     retval =
@@ -156,8 +164,8 @@ RCPR_SYM(psock_create_wrap_async)(
     /* save the child psock. */
     ps->wrapped = child;
 
-    /* save the scheduler. */
-    ps->sched = sched;
+    /* save the fiber. */
+    ps->fib = fib;
 
     /* add the discipline reference to the async wrap. */
     ps->psock_discipline = disc;

@@ -61,7 +61,7 @@ struct RCPR_SYM(psock_wrap_async)
 {
     RCPR_SYM(psock) hdr;
     RCPR_SYM(psock)* wrapped;
-    RCPR_SYM(fiber_scheduler)* sched;
+    RCPR_SYM(fiber)* fib;
     RCPR_SYM(fiber_scheduler_discipline)* psock_discipline;
     RCPR_SYM(psock_unexpected_handler_callback_fn) unexpected;
     void* context;

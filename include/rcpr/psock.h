@@ -120,9 +120,11 @@ RCPR_SYM(psock_create_from_descriptor)(
  *                      resource on success.
  * \param a             Pointer to the allocator to use for creating this
  *                      wrapping \ref psock resource.
- * \param sched         The \ref fiber_scheduler to yield on a read / write call
- *                      that would block.  This must be a disciplined fiber
- *                      scheduler.
+ * \param fib           The \ref fiber instance that will be using this \ref
+ *                      psock instance. Its assigned \ref fiber_scheduler
+ *                      instance will be used to yield on any read / write calls
+ *                      that would block.  The assigned \ref fiber_scheduler
+ *                      instance  must be a disciplined fiber scheduler.
  * \param child         The child \ref psock instance that this \ref psock
  *                      instance wraps.
  *
@@ -157,8 +159,10 @@ RCPR_SYM(psock_create_from_descriptor)(
  *      - \p sock must be a pointer to a pointer to a \ref psock instance
  *        and must not be NULL.
  *      - \p a must reference a valid \ref allocator and must not be NULL.
- *      - \p sched must reference a valid \ref fiber_scheduler and must not be
+ *      - \p fib must reference a valid \ref fiber instance and must not be
  *        NULL.
+ *      - \p fib must be assigned to a disciplined \ref fiber_scheduler
+ *        instance.
  *      - \p child must reference a valid \ref psock instance and must not be
  *        NULL.
  *
@@ -171,7 +175,7 @@ RCPR_SYM(psock_create_from_descriptor)(
 status FN_DECL_MUST_CHECK
 RCPR_SYM(psock_create_wrap_async)(
     RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a,
-    RCPR_SYM(fiber_scheduler)* sched, RCPR_SYM(psock)* child);
+    RCPR_SYM(fiber)* fib, RCPR_SYM(psock)* child);
 
 /**
  * \brief Create a \ref psock instance backed by a listen socket bound to the
@@ -1794,7 +1798,7 @@ enum psock_boxed_type
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## psock_create_wrap_async( \
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
-        RCPR_SYM(fiber_scheduler)* y, RCPR_SYM(psock)* z) { \
+        RCPR_SYM(fiber)* y, RCPR_SYM(psock)* z) { \
             return RCPR_SYM(psock_create_wrap_async)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## psock_create_from_listen_address( \
@@ -2011,7 +2015,7 @@ enum psock_boxed_type
             return RCPR_SYM(psock_create_from_descriptor)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK psock_create_wrap_async( \
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
-        RCPR_SYM(fiber_scheduler)* y, RCPR_SYM(psock)* z) { \
+        RCPR_SYM(fiber)* y, RCPR_SYM(psock)* z) { \
             return RCPR_SYM(psock_create_wrap_async)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK psock_create_from_listen_address( \
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \

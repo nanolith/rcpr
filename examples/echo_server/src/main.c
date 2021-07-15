@@ -106,8 +106,16 @@ int main(int argc, char* argv[])
         goto cleanup_scheduler;
     }
 
+    /* get the main fiber. */
+    fiber* mainfib = NULL;
+    retval = disciplined_fiber_scheduler_main_fiber_get(&mainfib, sched);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto cleanup_scheduler;
+    }
+
     /* wrap the listen socket to make it async. */
-    retval = psock_create_wrap_async(&listen_async, alloc, sched, listen);
+    retval = psock_create_wrap_async(&listen_async, alloc, mainfib, listen);
     if (STATUS_SUCCESS != retval)
     {
         printf("Error creating async socket from listen socket.\n");
@@ -206,22 +214,12 @@ dispatch(int desc, allocator* alloc, fiber_scheduler* sched)
         goto done;
     }
 
-    /* create an async psock for this descriptor. */
-    retval = psock_create_wrap_async(&sock_async, alloc, sched, sock);
+    /* create the fiber context for our dispatch fiber. */
+    retval =
+        dispatch_context_create(&dispatch_ctx, alloc, sched, NULL);
     if (STATUS_SUCCESS != retval)
     {
         goto cleanup_sock;
-    }
-
-    /* we will no longer use sock. */
-    sock = NULL;
-
-    /* create the fiber context for our dispatch fiber. */
-    retval =
-        dispatch_context_create(&dispatch_ctx, alloc, sched, sock_async);
-    if (STATUS_SUCCESS != retval)
-    {
-        goto cleanup_sock_async;
     }
 
     /* create the fiber to run this dispatch. */
@@ -233,6 +231,19 @@ dispatch(int desc, allocator* alloc, fiber_scheduler* sched)
     {
         goto cleanup_dispatch_context;
     }
+
+    /* create an async psock for this descriptor. */
+    retval = psock_create_wrap_async(&sock_async, alloc, dispatch_fiber, sock);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto cleanup_dispatch_fiber;
+    }
+
+    /* we will no longer use sock. */
+    sock = NULL;
+
+    /* move the async socket to the dispatch context. */
+    dispatch_ctx->sock = sock_async;
 
     /* add this fiber to the scheduler. */
     retval = fiber_scheduler_add(sched, dispatch_fiber);
@@ -252,15 +263,18 @@ cleanup_dispatch_fiber:
         retval = release_retval;
     }
 
-cleanup_dispatch_context:
-    release_retval = resource_release(&dispatch_ctx->hdr);
+    /* if we have made it this far, sock_async is owned by dispatch_context. */
+    goto cleanup_dispatch_context;
+
+cleanup_sock_async:
+    release_retval = resource_release(psock_resource_handle(sock_async));
     if (STATUS_SUCCESS != release_retval)
     {
         retval = release_retval;
     }
 
-cleanup_sock_async:
-    release_retval = resource_release(psock_resource_handle(sock_async));
+cleanup_dispatch_context:
+    release_retval = resource_release(&dispatch_ctx->hdr);
     if (STATUS_SUCCESS != release_retval)
     {
         retval = release_retval;
@@ -305,7 +319,6 @@ dispatch_context_create(
     RCPR_MODEL_ASSERT(NULL != ctx);
     RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
     RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
-    RCPR_MODEL_ASSERT(prop_psock_valid(sock));
 
     /* allocate memory for the dispatch context. */
     retval = allocator_allocate(alloc, (void**)&tmp, sizeof(dispatch_context));
