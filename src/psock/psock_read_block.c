@@ -89,21 +89,12 @@ RCPR_SYM(psock_read_block)(
                 resume_id, &FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE,
                 sizeof(rcpr_uuid)))
         {
-            /* if the unexpected handler is set, call it. */
-            if (NULL != s->unexpected)
-            {
-                retval =
-                    s->unexpected(
-                        &s->hdr, NULL, s->context, false,
-                        resume_id, resume_event, resume_param);
-            }
-            /* otherwise, fail with an unexpected event error. */
-            else
-            {
-                retval = ERROR_PSOCK_UNEXPECTED_EVENT;
-            }
-
-            /* handle an error condition. */
+            /* try to call the unexpected event handler. */
+            retval =
+                fiber_unexpected_event(
+                    s->fib, resume_id, resume_event, resume_param,
+                    &FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE,
+                    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_AVAILABLE_READ);
             if (STATUS_SUCCESS != retval)
             {
                 return retval;
