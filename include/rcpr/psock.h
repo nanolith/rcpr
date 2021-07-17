@@ -33,38 +33,6 @@ extern "C" {
  */
 typedef struct RCPR_SYM(psock) RCPR_SYM(psock);
 
-/**
- * \brief An unexpected message handler callback function.
- *
- * \param sock          The socket on which the unexpected message was received.
- * \param f             The fiber that received the unexpected message.
- * \param context       The context pointer for this handler.
- * \param write         This flag is set to true on a write, and is false on a
- *                      read.
- * \param resume_id     The resume discipline id.
- * \param resume_event  The resume event that was received.
- * \param resume_param  The resume parameter that was received.
- *
- * The unexpected message handler is called when a simulated blocking read or
- * write receives an unexpected resume event.  This allows for out-of-band
- * messaging between fibers using the I/O abstraction layer.  This handler
- * should return the status that is expected to be returned to the caller of the
- * read/write.  A special return code, \ref ERROR_PSOCK_SHOULD_RETRY, should be
- * returned if the I/O abstraction layer should resume reading or writing as
- * before the out-of-band message was received.
- *
- * \returns a status code indicating success or failure.
- *      - STATUS_SUCCESS on success.
- *      - ERROR_PSOCK_SHOULD_RETRY if the I/O abstraction layer should resume
- *        its previosu read/write operation.
- *      - a non-zero error code on failure which is bubbled up from the I/O
- *        abstraction layer read/write as if that was returned from the
- *        simulated read/write.
- */
-typedef status (*RCPR_SYM(psock_unexpected_handler_callback_fn))(
-    RCPR_SYM(psock)* sock, RCPR_SYM(fiber)* f, void* context, bool write,
-    const RCPR_SYM(rcpr_uuid)* resume_id, int resume_event, void* resume_param);
-
 /******************************************************************************/
 /* Start of constructors.                                                     */
 /******************************************************************************/
@@ -225,41 +193,6 @@ RCPR_SYM(psock_create_from_listen_address)(
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
-
-/**
- * \brief Set the unexpected handler for a \ref psock instance,
- * to allow for custom out-of-band messages to be sent to a fiber.
- *
- * \param sock          Pointer to the \ref psock pointer on which this
- *                      operation occurs.
- * \param fn            Pointer to the unexpected handler to be installed.
- * \param context       Pointer to a context structure to be given to the
- *                      unexpected handler when called.
- *
- * By default, when an unexpected message is received during a psock read or
- * write request, an error is returned to the caller indicating an interrupt.
- * This may be sufficient for killing a fiber, but if a more fine-grained
- * out-of-band messaging mechanism is required, the unexpected handler can be
- * used.
- *
- * \returns a status code indicating success or failure.
- *      - STATUS_SUCCESS on success.
- *      - an error code indicating a specific failure condition.
- *
- * \pre
- *      - \p sock must be a pointer to a valid \ref psock instance and must not
- *        be NULL.
- *      - \p fn must be a pointer to a valid function and must not be NULL.
- *
- * \post
- *      - On success, \p fn is installed as the new unexpected handler for this
- *        \ref psock instance.
- *      - On failure, the unexpected handler is not changed.
- */
-status FN_DECL_MUST_CHECK
-RCPR_SYM(psock_wrap_async_unexpected_handler_set)(
-    RCPR_SYM(psock)* sock, RCPR_SYM(psock_unexpected_handler_callback_fn) fn,
-    void* context);
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -1789,8 +1722,6 @@ enum psock_boxed_type
 #define RCPR_IMPORT_psock_as(sym) \
     RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(psock) sym ## _ ## psock; \
-    typedef RCPR_SYM(psock_unexpected_handler_callback_fn) \
-    sym ## _ ## psock_unexpected_handler_callback_fn; \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## psock_create_from_descriptor( \
         RCPR_SYM(psock)** x, RCPR_SYM(allocator)* y, int z) { \
@@ -1805,11 +1736,6 @@ enum psock_boxed_type
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
         const struct sockaddr* y, socklen_t z) { \
             return RCPR_SYM(psock_create_from_listen_address)(w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_wrap_async_unexpected_handler_set( \
-        RCPR_SYM(psock)* x, RCPR_SYM(psock_unexpected_handler_callback_fn) y, \
-        void* z) { \
-            return RCPR_SYM(psock_wrap_async_unexpected_handler_set)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## psock_read_boxed_int64( \
         RCPR_SYM(psock)* x, int64_t* y) { \
@@ -2008,8 +1934,6 @@ enum psock_boxed_type
 #define RCPR_IMPORT_psock \
     RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(psock) psock; \
-    typedef RCPR_SYM(psock_unexpected_handler_callback_fn) \
-    psock_unexpected_handler_callback_fn; \
     static inline status FN_DECL_MUST_CHECK psock_create_from_descriptor( \
         RCPR_SYM(psock)** x, RCPR_SYM(allocator)* y, int z) { \
             return RCPR_SYM(psock_create_from_descriptor)(x,y,z); } \
@@ -2021,11 +1945,6 @@ enum psock_boxed_type
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
         const struct sockaddr* y, socklen_t z) { \
             return RCPR_SYM(psock_create_from_listen_address)(w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    psock_wrap_async_unexpected_handler_set( \
-        RCPR_SYM(psock)* x, RCPR_SYM(psock_unexpected_handler_callback_fn) y, \
-        void* z) { \
-            return RCPR_SYM(psock_wrap_async_unexpected_handler_set)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK psock_read_boxed_int64( \
         RCPR_SYM(psock)* x, int64_t* y) { \
             return RCPR_SYM(psock_read_boxed_int64)(x,y); } \

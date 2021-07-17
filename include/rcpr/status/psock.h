@@ -74,86 +74,80 @@
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0009)
 
 /**
- * \brief An unexpected event occurred when doing a psock read / write.
- */
-#define ERROR_PSOCK_UNEXPECTED_EVENT \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000a)
-
-/**
  * \brief An unsupported psock type was encountered.
  */
 #define ERROR_PSOCK_UNSUPPORTED_TYPE \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000b)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000a)
 
 /**
  * \brief This accept returned because it would block and the socket is
  * non-blocking.
  */
 #define ERROR_PSOCK_ACCEPT_WOULD_BLOCK \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000c)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000b)
 
 /**
  * \brief This accept returned because of an unspecified error.
  */
 #define ERROR_PSOCK_ACCEPT_GENERAL \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000d)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000c)
 
 /**
  * \brief Couldn't create a socket.
  */
 #define ERROR_PSOCK_CREATE_FROM_ADDRESS_SOCKET_CREATE \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000e)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000d)
 
 /**
  * \brief Couldn't bind the socket to an address.
  */
 #define ERROR_PSOCK_CREATE_FROM_ADDRESS_BIND \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000f)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000e)
 
 /**
  * \brief Couldn't start listening to the socket.
  */
 #define ERROR_PSOCK_CREATE_FROM_ADDRESS_LISTEN \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0010)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x000f)
 
 /**
  * \brief Couldn't close a socket.
  */
 #define ERROR_PSOCK_CREATE_FROM_ADDRESS_CLOSE \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0011)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0010)
 
 /**
  * \brief EOF encountered on read.
  */
 #define ERROR_PSOCK_READ_EOF \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0012)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0011)
 
 /**
  * \brief EOF encountered on write.
  */
 #define ERROR_PSOCK_WRITE_EOF \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0013)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0012)
 
 /**
  * \brief psock epoll_create init failed.
  */
 #define ERROR_PSOCK_EPOLL_CREATE_FAILED \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0014)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0013)
 
 /**
  * \brief psock epoll_ctl call failed.
  */
 #define ERROR_PSOCK_EPOLL_CTL_FAILED \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0015)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0014)
 
 /**
  * \brief psock epoll_wait call failed.
  */
 #define ERROR_PSOCK_EPOLL_WAIT_FAILED \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0016)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0015)
 
 /**
  * \brief psock poll call failed.
  */
 #define ERROR_PSOCK_POLL_FAILED \
-    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0017)
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0016)
