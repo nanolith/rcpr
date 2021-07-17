@@ -207,11 +207,18 @@ typedef status (*RCPR_SYM(fiber_scheduler_discipline_callback_fn))(
  * This functionality allows user code to handle out-of-band or unexpected
  * events in a centralized way.
  *
- * \param context           The user context for this \ref fiber.
- * \param resume_disc_id    The discipline id that originated this event.
- * \param resume_event      The unexpected event code.
- * \param resume_param      An optional parameter for this unexpected event
- *                          code.
+ * \param context                   The user context for this \ref fiber.
+ * \param fib                       The fiber that received this unexpected
+ *                                  message.
+ * \param resume_disc_id            The discipline id that originated this
+ *                                  event.
+ * \param resume_event              The unexpected event code.
+ * \param resume_param              An optional parameter for this unexpected
+ *                                  event code.
+ * \param expected_resume_disc_id   The discipline id that the caller was
+ *                                  expecting.
+ * \param expected_resume_event     The resume event that the caller was
+ *                                  expecting.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS is returned when the yielding function should retry.
@@ -219,8 +226,10 @@ typedef status (*RCPR_SYM(fiber_scheduler_discipline_callback_fn))(
  *        error code from the yielding function.
  */
 typedef status (*RCPR_SYM(fiber_unexpected_event_callback_fn))(
-    void* context, const RCPR_SYM(rcpr_uuid)* resume_disc_id, int resume_event,
-    void* resume_param);
+    void* context, RCPR_SYM(fiber)* fib,
+    const RCPR_SYM(rcpr_uuid)* resume_disc_id, int resume_event,
+    void* resume_param, const RCPR_SYM(rcpr_uuid)* expected_resume_disc_id,
+    int expected_resume_event);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
