@@ -67,3 +67,10 @@
  */
 #define ERROR_FIBER_INVALID_STATE \
     STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0008)
+
+/**
+ * \brief An attempt was made to call the unexpected handler, but the unexpected
+ * handler is not set.
+ */
+#define ERROR_FIBER_NO_UNEXPECTED_HANDLER \
+    STATUS_CODE(1, RCPR_COMPONENT_FIBER, 0x0009)

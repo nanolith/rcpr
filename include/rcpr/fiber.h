@@ -705,6 +705,36 @@ RCPR_SYM(fiber_unexpected_event_callback_add)(
     RCPR_SYM(fiber)* fib, RCPR_SYM(fiber_unexpected_event_callback_fn) fn,
     void* context);
 
+/**
+ * \brief Notify the fiber of an unexpected event, calling the unexpected event
+ * handler if set.
+ *
+ * \param fib                       The fiber for which the unexpected handler
+ *                                  should be called.
+ * \param resume_disc_id            The resume discipline id received by the
+ *                                  caller.
+ * \param resume_event              The resume discipline event received by the
+ *                                  caller.
+ * \param resume_param              The resume parameter received by the caller.
+ * \param expected_resume_disc_id   The discipline ID that the caller expected
+ *                                  to receive on resume.
+ * \param expected_resume_event     The resume event that the caller expected to
+ *                                  receive.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS is returned when the yielding function should retry.
+ *      - ERROR_FIBER_NO_UNEXPECTED_HANDLER if the unexpected handler was not
+ *        set.
+ *      - any other non-zero status code is an error code from the yielding
+ *        function.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(fiber_unexpected_event)(
+    RCPR_SYM(fiber)* fib, const RCPR_SYM(rcpr_uuid)* resume_disc_id,
+    int resume_event, void* resume_param,
+    const RCPR_SYM(rcpr_uuid)* expected_resume_disc_id,
+    int expected_resume_event);
+
 /******************************************************************************/
 /* Start of protected methods.                                                */
 /*                                                                            */
@@ -1148,6 +1178,11 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
         void* z) { \
             return RCPR_SYM(fiber_unexpected_event_callback_add)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## fiber_unexpected_event( \
+        RCPR_SYM(fiber)* u, const RCPR_SYM(rcpr_uuid)* v, int w, void* x, \
+        const RCPR_SYM(rcpr_uuid)* y, int z) { \
+            return RCPR_SYM(fiber_unexpected_event)(u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## disciplined_fiber_scheduler_add_fiber_to_run_queue( \
         RCPR_SYM(fiber_scheduler)* v, RCPR_SYM(fiber)* w, \
         const RCPR_SYM(rcpr_uuid)* x, int y, void* z) { \
@@ -1301,6 +1336,11 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
         RCPR_SYM(fiber)* x, RCPR_SYM(fiber_unexpected_event_callback_fn) y, \
         void* z) { \
             return RCPR_SYM(fiber_unexpected_event_callback_add)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    fiber_unexpected_event( \
+        RCPR_SYM(fiber)* u, const RCPR_SYM(rcpr_uuid)* v, int w, void* x, \
+        const RCPR_SYM(rcpr_uuid)* y, int z) { \
+            return RCPR_SYM(fiber_unexpected_event)(u,v,w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
     disciplined_fiber_scheduler_add_fiber_to_run_queue( \
         RCPR_SYM(fiber_scheduler)* v, RCPR_SYM(fiber)* w, \
