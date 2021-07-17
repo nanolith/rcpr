@@ -19,7 +19,7 @@ RCPR_IMPORT_uuid;
 TEST_SUITE(fiber_unexpected_event_callback_add);
 
 static status dummy_event(
-    void*, const rcpr_uuid*, int, void*)
+    void*, fiber*, const rcpr_uuid*, int, void*, const rcpr_uuid*, int)
 {
     return STATUS_SUCCESS;
 }
