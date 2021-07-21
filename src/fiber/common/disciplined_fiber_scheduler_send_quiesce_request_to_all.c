@@ -55,7 +55,7 @@ RCPR_SYM(disciplined_fiber_scheduler_send_quiesce_request_to_all)(
     retval =
         fiber_discipline_yield(
             ctx->management_discipline,
-            FIBER_SCHEDULER_MANAGEMENT_YIELD_EVENT_QUIESCE_REQUEST, NULL,
+            FIBER_SCHEDULER_MANAGEMENT_YIELD_EVENT_QUIESCE_ALL_REQUEST, NULL,
             &resume_id, &resume_event, &resume_param);
     if (STATUS_SUCCESS != retval)
     {
