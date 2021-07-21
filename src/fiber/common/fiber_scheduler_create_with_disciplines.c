@@ -1190,10 +1190,10 @@ fiber_scheduler_disciplined_management_quiesce_all_callback_handler(
          nil != node;
          node = rbtree_successor_node(ctx->fibers_by_pointer, node))
     {
-        /* if this is a valid fiber and IS NOT the requesting fiber, send it a
-         * quiesce request. */
+        /* if this is a valid fiber and IS NOT the requesting fiber OR the
+         * management fiber, send it a quiesce request. */
         fiber* fib = (fiber*)rbtree_node_value(ctx->fibers_by_pointer, node);
-        if (NULL != fib && yield_fib != fib
+        if (NULL != fib && yield_fib != fib && ctx->management_fiber != fib
          && FIBER_STATE_RUNNING == fiber_state_get(fib))
         {
             /* resume this fiber with a quiesce request. */
@@ -1252,10 +1252,10 @@ fiber_scheduler_disciplined_management_terminate_all_callback_handler(
          nil != node;
          node = rbtree_successor_node(ctx->fibers_by_pointer, node))
     {
-        /* if this is a valid fiber and IS NOT the requesting fiber, send it a
-         * termination request. */
+        /* if this is a valid fiber and IS NOT the requesting fiber OR the
+         * management fiber, send it a termination request. */
         fiber* fib = (fiber*)rbtree_node_value(ctx->fibers_by_pointer, node);
-        if (NULL != fib && yield_fib != fib
+        if (NULL != fib && yield_fib != fib && ctx->management_fiber != fib
          && FIBER_STATE_RUNNING == fiber_state_get(fib))
         {
             /* resume this fiber with a termination request. */
