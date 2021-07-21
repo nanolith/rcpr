@@ -31,16 +31,16 @@ enum fiber_scheduler_management_discipline_yield_events
     FIBER_SCHEDULER_MANAGEMENT_YIELD_EVENT_RECEIVE_EVENT            = 0x0000,
 
     /** \brief Send a quiesce request to the given fiber. */
-    FIBER_SCHEDULER_MANAGEMENT_YIELD_EVENT_QUIESCE_REQUEST          = 0x0002,
+    FIBER_SCHEDULER_MANAGEMENT_YIELD_EVENT_QUIESCE_REQUEST          = 0x0001,
 
     /** \brief Send a termination request to the given fiber. */
-    FIBER_SCHEDULER_MANAGEMENT_YIELD_EVENT_TERMINATION_REQUEST      = 0x0003,
+    FIBER_SCHEDULER_MANAGEMENT_YIELD_EVENT_TERMINATION_REQUEST      = 0x0002,
 
     /** \brief Send a quiesce request to all fibers. */
-    FIBER_SCHEDULER_MANAGEMENT_YIELD_EVENT_QUIESCE_ALL_REQUEST      = 0x0004,
+    FIBER_SCHEDULER_MANAGEMENT_YIELD_EVENT_QUIESCE_ALL_REQUEST      = 0x0003,
 
     /** \brief Send a termination request to all fibers. */
-    FIBER_SCHEDULER_MANAGEMENT_YIELD_EVENT_TERMINATION_ALL_REQUEST  = 0x0005,
+    FIBER_SCHEDULER_MANAGEMENT_YIELD_EVENT_TERMINATION_ALL_REQUEST  = 0x0004,
 };
 
 /**
