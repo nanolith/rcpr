@@ -58,6 +58,7 @@ struct listen_context
     fiber* fib;
     fiber_scheduler* sched;
     uint16_t port;
+    bool quiesce;
 };
 
 /**
@@ -94,6 +95,10 @@ static status signal_thread_context_release(resource* r);
 static status management_fiber_add(allocator* alloc, fiber_scheduler* sched);
 static status listen_fiber_add(
     allocator* alloc, fiber_scheduler* sched, uint16_t port);
+static status listen_fiber_unexpected_handler(
+    void* context, fiber* fib, const rcpr_uuid* resume_disc_id,
+    int resume_event, void* resume_param,
+    const rcpr_uuid* expected_resume_disc_id, int expected_resume_event);
 static status fiber_manager_entry(void* vsched);
 static status listen_entry(void* context);
 static status echo_entry(void* context);
@@ -677,6 +682,15 @@ static status listen_fiber_add(
     /* set the listen fiber. */
     ctx->fib = listen;
 
+    /* set the unexpected handler for the listen fiber. */
+    retval =
+        fiber_unexpected_event_callback_add(
+            listen, &listen_fiber_unexpected_handler, ctx);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto cleanup_listen_fiber;
+    }
+
     /* add the listen fiber to the scheduler. */
     retval = fiber_scheduler_add(sched, listen);
     if (STATUS_SUCCESS != retval)
@@ -745,6 +759,48 @@ listen_context_release(resource* r)
     {
         return STATUS_SUCCESS;
     }
+}
+
+/**
+ * \brief Handle unexpected resume events in the listen fiber.
+ *
+ * \param context                   The user context for this callback.
+ * \param fib                       The fiber that received this unexpected
+ *                                  event.
+ * \param resume_disc_id            The unexpected resume discipline id.
+ * \param resume_event              The unexpected resume event.
+ * \param resume_param              The unexpected resume parameter.
+ * \param expected_resume_disc_id   The expected discipline id.
+ * \param expected_resume_event     The expected resume event.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS if the fiber should retry the yield.
+ *      - a non-zero error code if the fiber should exit.
+ */
+static status listen_fiber_unexpected_handler(
+    void* context, fiber* fib, const rcpr_uuid* resume_disc_id,
+    int resume_event, void* resume_param,
+    const rcpr_uuid* expected_resume_disc_id, int expected_resume_event)
+{
+    listen_context* ctx = (listen_context*)context;
+
+    if (
+        !memcmp(
+            resume_disc_id, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
+            sizeof(rcpr_uuid)))
+    {
+        /* retry on quiesce. */
+        if (
+            FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_QUIESCE_REQUEST
+                == resume_event)
+        {
+            ctx->quiesce = true;
+            return STATUS_SUCCESS;
+        }
+    }
+
+    /* for any other resume event, terminate the listen fiber. */
+    return ERROR_FIBER_INVALID_STATE;
 }
 
 /**
@@ -995,6 +1051,13 @@ static status listen_entry(void* context)
         {
             printf("Error accepting socket.\n");
             goto cleanup_listen_async;
+        }
+
+        /* on quiesce, close this connection socket. */
+        if (ctx->quiesce)
+        {
+            close(desc);
+            continue;
         }
 
         /* convert the address to a printable format. */
