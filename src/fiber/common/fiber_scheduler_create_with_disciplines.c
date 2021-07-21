@@ -478,6 +478,7 @@ static status fiber_scheduler_disciplined_context_resource_release(resource* r)
     status disciplines_by_uuid_retval = STATUS_SUCCESS;
     status run_queue_tmp_retval = STATUS_SUCCESS;
     status run_queue_retval = STATUS_SUCCESS;
+    status idle_fiber_retval = STATUS_SUCCESS;
     status callback_vector_retval = STATUS_SUCCESS;
     status context_vector_retval = STATUS_SUCCESS;
 
@@ -519,6 +520,13 @@ static status fiber_scheduler_disciplined_context_resource_release(resource* r)
         run_queue_retval = run_queue_tmp_retval;
     }
 
+    /* release the idle fiber. */
+    if (NULL != ctx->idle_fiber)
+    {
+        idle_fiber_retval =
+            resource_release(fiber_resource_handle(ctx->idle_fiber));
+    }
+
     /* if the callback vector is allocated, reclaim it. */
     if (NULL != ctx->callback_vector)
     {
@@ -545,6 +553,10 @@ static status fiber_scheduler_disciplined_context_resource_release(resource* r)
     else if (STATUS_SUCCESS != run_queue_retval)
     {
         return run_queue_retval;
+    }
+    else if (STATUS_SUCCESS != idle_fiber_retval)
+    {
+        return idle_fiber_retval;
     }
     else if (STATUS_SUCCESS != callback_vector_retval)
     {

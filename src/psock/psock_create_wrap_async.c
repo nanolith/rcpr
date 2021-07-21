@@ -299,13 +299,6 @@ static status psock_create_wrap_async_add_psock_discipline(
         goto done;
     }
 
-    /* add the idle fiber to the scheduler. */
-    retval = fiber_scheduler_add(sched, idle_fiber);
-    if (STATUS_SUCCESS != retval)
-    {
-        goto cleanup_idle_fiber;
-    }
-
     /* set the idle fiber. */
     retval = disciplined_fiber_scheduler_set_idle_fiber(sched, idle_fiber);
     if (STATUS_SUCCESS != retval)
@@ -313,7 +306,7 @@ static status psock_create_wrap_async_add_psock_discipline(
         /* note: if we've added the fiber, we can no longer clean it up. But,
          * the add won't fail. */
         /* TODO - make set idle fiber return void. */
-        goto done;
+        goto cleanup_idle_fiber;
     }
 
     /* success. */
