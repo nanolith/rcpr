@@ -258,7 +258,7 @@ RCPR_SYM(fiber_scheduler_create_with_disciplines)(
     retval =
         fiber_scheduler_discipline_create(
             &ctx->management_discipline, &FIBER_SCHEDULER_MANAGEMENT_DISCIPLINE,
-            ctx->alloc, ctx, 3, callbacks);
+            ctx->alloc, ctx, 5, callbacks);
     if (STATUS_SUCCESS != retval)
     {
         goto cleanup_scheduler;
