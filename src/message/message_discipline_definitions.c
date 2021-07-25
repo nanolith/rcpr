@@ -1,7 +1,7 @@
 /**
  * \file message/message_discipline_definitions.c
  *
- * \brief Definitions for the psock io discipline.
+ * \brief Definitions for the message discipline.
  *
  * \copyright 2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
