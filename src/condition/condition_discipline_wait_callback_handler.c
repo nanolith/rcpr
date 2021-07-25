@@ -16,6 +16,8 @@ RCPR_IMPORT_fiber;
 RCPR_IMPORT_condition;
 RCPR_IMPORT_condition_internal;
 RCPR_IMPORT_rbtree;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_slist;
 
 /**
  * \brief The callback handler for a conditional wait request.
@@ -33,10 +35,44 @@ status RCPR_SYM(condition_discipline_wait_callback_handler)(
     void* context, RCPR_SYM(fiber)* yield_fib, int yield_event,
     void* yield_param)
 {
-    (void)context;
-    (void)yield_fib;
-    (void)yield_event;
-    (void)yield_param;
+    status retval;
+    condition_barrier* cond;
+    conditional handle;
 
-    return -1;
+    /* ignore yield event. */
+    (void)yield_event;
+
+    /* get the condition discipline context. */
+    condition_discipline_context* ctx = (condition_discipline_context*)context;
+
+    /* get the handle. */
+    handle = (conditional)((ptrdiff_t)yield_param);
+
+    /* look up the condition barrier. */
+    retval = rbtree_find((resource**)&cond, ctx->condition_barriers, &handle);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto resume_fail;
+    }
+
+    /* condition barrier sanity check. */
+    RCPR_MODEL_ASSERT(prop_condition_barrier_valid(cond));
+
+    /* add this fiber to the wait list. */
+    retval =
+        slist_append_tail(cond->wait_list, fiber_resource_handle(yield_fib));
+    if (STATUS_SUCCESS != retval)
+    {
+        goto resume_fail;
+    }
+
+    /* success. */
+    return STATUS_SUCCESS;
+
+resume_fail:
+    return
+        disciplined_fiber_scheduler_set_next_fiber_to_run(
+            ctx->sched, yield_fib, &FIBER_SCHEDULER_CONDITION_DISCIPLINE,
+            FIBER_SCHEDULER_CONDITION_RESUME_EVENT_WAIT_FAILURE,
+            (void*)((ptrdiff_t)retval));
 }
