@@ -13,6 +13,8 @@ RCPR_IMPORT_fiber;
 RCPR_IMPORT_message;
 RCPR_IMPORT_resource;
 
+TEST_SUITE(mailbox_create_close);
+
 /**
  * Verify that we can create a mailbox instance.
  */
