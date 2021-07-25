@@ -115,6 +115,23 @@ RCPR_SYM(conditional_wait)(
     RCPR_SYM(conditional) handle,
     RCPR_SYM(fiber_scheduler_discipline)* condisc);
 
+/**
+ * \brief Notify one fiber waiting on a \ref conditional to resume.
+ *
+ * \param handle        The \ref conditional handle.
+ * \param condisc       Pointer to the condition discipline.
+ *
+ * \note This fiber will resume AFTER the notified fiber.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(conditional_notify_one)(
+    RCPR_SYM(conditional) handle,
+    RCPR_SYM(fiber_scheduler_discipline)* condisc);
+
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
@@ -136,6 +153,10 @@ RCPR_SYM(conditional_wait)(
     static inline status FN_DECL_MUST_CHECK sym ## _ ## conditional_wait( \
         RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
             return RCPR_SYM(conditional_wait)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## conditional_notify_one( \
+        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
+            return RCPR_SYM(conditional_notify_one)(x,y); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
@@ -157,6 +178,9 @@ RCPR_SYM(conditional_wait)(
     static inline status FN_DECL_MUST_CHECK conditional_wait( \
         RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
             return RCPR_SYM(conditional_wait)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK conditional_notify_one( \
+        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
+            return RCPR_SYM(conditional_notify_one)(x,y); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
