@@ -34,7 +34,7 @@ typedef uint64_t RCPR_SYM(conditional);
 /**
  * \brief Create a \ref conditional using the condition discipline.
  *
- * \param addr          Pointer to the \ref conditional handle to receive
+ * \param handle        Pointer to the \ref conditional handle to receive
  *                      this new instance handle.
  * \param condisc       Pointer to the condition discipline.
  *
@@ -86,7 +86,7 @@ RCPR_SYM(condition_discipline_get_or_create)(
  * \param handle        The \ref conditional handle to close.
  * \param condisc       Pointer to the condition discipline.
  *
- * \note The \ref conditional handle pointed to by \p addr will be closed.  No
+ * \note The \ref conditional handle pointed to by \p handle will be closed.  No
  * other fibers can wait or notify using this handle once it has been closed.
  *
  * \returns a status code indicating success or failure.
