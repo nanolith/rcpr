@@ -1,7 +1,7 @@
 /**
- * \file condition/conditional_create.c
+ * \file condition/conditional_close.c
  *
- * \brief Create a conditional using the condition discipline.
+ * \brief Close a conditional using the condition discipline.
  *
  * \copyright 2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
@@ -17,24 +17,21 @@ RCPR_IMPORT_condition;
 RCPR_IMPORT_uuid;
 
 /**
- * \brief Create a \ref conditional using the condition discipline.
+ * \brief Close a \ref conditional handle using the condition discipline.
  *
- * \param handle        Pointer to the \ref conditional handle to receive
- *                      this new instance handle.
+ * \param handle        The \ref conditional handle to close.
  * \param condisc       Pointer to the condition discipline.
  *
- * \note This \ref conditional is a unique handle that references a condition
- * barrier created by the condition discipline.  This is an abstract resource
- * that must be released by calling \ref conditional_close when it is no longer
- * needed.
+ * \note The \ref conditional handle pointed to by \p handle will be closed.  No
+ * other fibers can wait or notify using this handle once it has been closed.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
 status FN_DECL_MUST_CHECK
-RCPR_SYM(conditional_create)(
-    RCPR_SYM(conditional)* handle,
+RCPR_SYM(conditional_close)(
+    RCPR_SYM(conditional) handle,
     RCPR_SYM(fiber_scheduler_discipline)* condisc)
 {
     status retval;
@@ -43,31 +40,24 @@ RCPR_SYM(conditional_create)(
     void* resume_param;
 
     /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != handle);
+    RCPR_MODEL_ASSERT(handle > 0);
     RCPR_MODEL_ASSERT(prop_fiber_scheduler_discipline_valid(condisc));
 
     retval =
         fiber_discipline_yield(
-            condisc, FIBER_SCHEDULER_CONDITION_YIELD_EVENT_CREATE, NULL,
-            &resume_id, &resume_event, &resume_param);
+            condisc, FIBER_SCHEDULER_CONDITION_YIELD_EVENT_CLOSE,
+            (void*)(ptrdiff_t)handle, &resume_id, &resume_event, &resume_param);
     if (STATUS_SUCCESS != retval)
     {
         return retval;
     }
 
     if (
-        FIBER_SCHEDULER_CONDITION_RESUME_EVENT_CREATE_FAILURE
-            == resume_event)
+        FIBER_SCHEDULER_CONDITION_RESUME_EVENT_CLOSE_FAILURE == resume_event
+     || FIBER_SCHEDULER_CONDITION_RESUME_EVENT_CLOSE_SUCCESS == resume_event)
     {
         retval = (status)(ptrdiff_t)resume_param;
         return retval;
-    }
-    else if (
-        FIBER_SCHEDULER_CONDITION_RESUME_EVENT_CREATE_SUCCESS
-            == resume_event)
-    {
-        *handle = (conditional)(resume_param);
-        return STATUS_SUCCESS;
     }
     else
     {
