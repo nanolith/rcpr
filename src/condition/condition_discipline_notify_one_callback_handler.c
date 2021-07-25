@@ -85,6 +85,9 @@ status RCPR_SYM(condition_discipline_notify_one_callback_handler)(
         }
     }
 
+    /* success. */
+    goto resume_success;
+
 resume_fail:
     resume_event = FIBER_SCHEDULER_CONDITION_RESUME_EVENT_NOTIFY_FAILURE;
     resume_param = (void*)((ptrdiff_t)retval);
