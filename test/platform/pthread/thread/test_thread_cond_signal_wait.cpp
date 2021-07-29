@@ -223,8 +223,8 @@ TEST(wait_signal_all)
     TEST_ASSERT(
         STATUS_SUCCESS == thread_cond_signal_all(cond));
 
-    /* sleep 1 ms. */
-    usleep(1000);
+    /* sleep 100 ms. */
+    usleep(100000);
 
     /* val is three. */
     TEST_ASSERT(ts.val == 3);
