@@ -177,6 +177,20 @@ RCPR_SYM(rbtree_node_create)(
     RCPR_SYM(resource)* r);
 
 /**
+ * \brief Delete all nodes in this subtree, including this node.
+ *
+ * \param tree      The tree to which this subtree belongs.
+ * \param n         The subtree to delete.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(rbtree_delete_nodes)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* n);
+
+/**
  * \brief Given a \ref rbtree_node instance, return the resource handle for this
  * \ref rbtree_node instance.
  *
@@ -236,6 +250,10 @@ RCPR_SYM(prop_rbtree_node_valid)(
         RCPR_SYM(rbtree_node)** x, RCPR_SYM(rbtree)* y, \
         RCPR_SYM(resource)* z) { \
             return RCPR_SYM(rbtree_node_create)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK rbtree_delete_nodes( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_delete_nodes)(x,y); \
+        } \
     static inline RCPR_SYM(resource)* rbtree_node_resource_handle( \
         RCPR_SYM(rbtree_node)* x) { \
             return RCPR_SYM(rbtree_node_resource_handle)(x); } \
