@@ -177,6 +177,30 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(rbtree_delete)(
     RCPR_SYM(resource)** r, RCPR_SYM(rbtree)* tree, const void* key);
 
+/**
+ * \brief Clear all entries from an rbtree instance, releasing resources held by
+ * all nodes.
+ *
+ * \param tree          Pointer to the \ref rbtree for the clear operation.
+ *
+ * \note After a successful clear, all resources associated with nodes in this
+ * \ref rbtree instance are released.  All nodes are pruned.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p tree must be a valid \ref rbtree instance.
+ *
+ * \post
+ *      - On success, all nodes in \p tree as well as all resources held by
+ *        those nodes are released.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(rbtree_clear)(
+    RCPR_SYM(rbtree)* tree);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
@@ -313,6 +337,9 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_delete( \
         RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
             return RCPR_SYM(rbtree_delete)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_clear( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_clear)(x); } \
     static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_minimum_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_minimum_node)(x,y); } \
@@ -360,6 +387,9 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline status FN_DECL_MUST_CHECK rbtree_delete( \
         RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
             return RCPR_SYM(rbtree_delete)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK rbtree_clear( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_clear)(x); } \
     static inline RCPR_SYM(rbtree_node)* rbtree_minimum_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_minimum_node)(x,y); } \
