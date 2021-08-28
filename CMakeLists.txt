@@ -191,7 +191,7 @@ FILE(
     "${CMAKE_CURRENT_SOURCE_DIR}/include/rcpr/fiber/disciplines/*.h")
 FILE(
     GLOB RCPR_RESOURCE_INCLUDES
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/rcpr/fiber/resource/*.h")
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/rcpr/resource/*.h")
 INSTALL(FILES ${RCPR_INCLUDES} DESTINATION include/rcpr)
 INSTALL(FILES ${RCPR_STATUS_INCLUDES} DESTINATION include/rcpr/status)
 INSTALL(FILES ${RCPR_SHADOW_INCLUDES} DESTINATION include/rcpr/shadow)
