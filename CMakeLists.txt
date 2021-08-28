@@ -177,7 +177,29 @@ INSTALL(FILES ${RCPR_PC} DESTINATION lib/pkgconfig)
 
 #Install headers
 FILE(GLOB RCPR_INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/include/rcpr/*.h")
+FILE(
+    GLOB RCPR_STATUS_INCLUDES
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/rcpr/status/*.h")
+FILE(
+    GLOB RCPR_SHADOW_INCLUDES
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/rcpr/shadow/*.h")
+FILE(
+    GLOB RCPR_FIBER_INCLUDES
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/rcpr/fiber/*.h")
+FILE(
+    GLOB RCPR_FIBER_DISCIPLINE_INCLUDES
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/rcpr/fiber/disciplines/*.h")
+FILE(
+    GLOB RCPR_RESOURCE_INCLUDES
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/rcpr/fiber/resource/*.h")
 INSTALL(FILES ${RCPR_INCLUDES} DESTINATION include/rcpr)
+INSTALL(FILES ${RCPR_STATUS_INCLUDES} DESTINATION include/rcpr/status)
+INSTALL(FILES ${RCPR_SHADOW_INCLUDES} DESTINATION include/rcpr/shadow)
+INSTALL(FILES ${RCPR_FIBER_INCLUDES} DESTINATION include/rcpr/fiber)
+INSTALL(
+    FILES ${RCPR_FIBER_DISCIPLINE_INCLUDES}
+    DESTINATION include/rcpr/fiber/disciplines)
+INSTALL(FILES ${RCPR_RESOURCE_INCLUDES} DESTINATION include/rcpr/resource)
 INSTALL(FILES ${CMAKE_BINARY_DIR}/include/rcpr/config.h DESTINATION include/rcpr)
 
 #Install library
