@@ -190,6 +190,51 @@ RCPR_SYM(psock_create_from_listen_address)(
     RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a,
     const struct sockaddr* name, socklen_t namelen);
 
+/**
+ * \brief Create a \ref psock instance backed by a given string buffer.
+ *
+ * \param sock          Pointer to the \ref psock pointer to receive this
+ *                      resource on success.
+ * \param a             Pointer to the allocator to use for creating this \ref
+ *                      psock resource.
+ * \param buffer        The buffer backing this psock instance.
+ * \param size          The size of this buffer.
+ *
+ * \note This \ref psock is a \ref resource that must be released by calling
+ * \ref resource_release on its resource handle when it is no longer needed by
+ * the caller.  The resource handle can be accessed by calling
+ * \ref psock_resource_handle on this \ref psock instance.  The \ref psock
+ * instance owns the descriptor, which will be closed when this resource is
+ * released.
+ *
+ * The \ref psock instance created is backed by a string buffer. Reads will
+ * start at the beginning of this buffer. Writes will also start at the
+ * beginning of this buffer. Reads past the end of the buffer will
+ * result in EOF.  Writes past the end of the buffer will extend the buffer to a
+ * larger size.  As such, the contents of the buffer are copied to memory. If
+ * buffer is NULL, then a new output-only buffer is created.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p sock must not reference a valid sock instance and must not be NULL.
+ *      - \p a must reference a valid \ref allocator and must not be NULL.
+ *      - \p buffer must be the given size or NULL.
+ *
+ * \post
+ *      - On success, \p sock is set to a pointer to a valid \ref psock
+ *        instance, which is a \ref resource owned by the caller that must be
+ *        released.
+ *      - On failure, \p sock is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(psock_create_from_buffer)(
+    RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a,
+    const char* buffer, size_t size);
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
