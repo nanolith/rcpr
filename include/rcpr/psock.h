@@ -1782,6 +1782,11 @@ enum psock_boxed_type
         const struct sockaddr* y, socklen_t z) { \
             return RCPR_SYM(psock_create_from_listen_address)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_create_from_buffer( \
+        RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
+        const char* y, size_t z) { \
+            return RCPR_SYM(psock_create_from_buffer)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## psock_read_boxed_int64( \
         RCPR_SYM(psock)* x, int64_t* y) { \
             return RCPR_SYM(psock_read_boxed_int64)(x,y); } \
@@ -1990,6 +1995,10 @@ enum psock_boxed_type
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
         const struct sockaddr* y, socklen_t z) { \
             return RCPR_SYM(psock_create_from_listen_address)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_create_from_buffer( \
+        RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
+        const char* y, size_t z) { \
+            return RCPR_SYM(psock_create_from_buffer)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK psock_read_boxed_int64( \
         RCPR_SYM(psock)* x, int64_t* y) { \
             return RCPR_SYM(psock_read_boxed_int64)(x,y); } \
