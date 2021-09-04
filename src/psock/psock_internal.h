@@ -13,6 +13,7 @@
 #include <rcpr/model_assert.h>
 #include <rcpr/psock.h>
 #include <rcpr/resource.h>
+#include <rcpr/queue.h>
 #include <sys/socket.h>
 
 #include "../resource/resource_internal.h"
@@ -25,7 +26,8 @@ extern "C" {
 enum psock_type
 {
     PSOCK_TYPE_DESCRIPTOR               = 0x0001,
-    PSOCK_TYPE_WRAP_ASYNC               = 0x0002,
+    PSOCK_TYPE_BUFFER                   = 0x0002,
+    PSOCK_TYPE_WRAP_ASYNC               = 0x0003,
 };
 
 struct RCPR_SYM(psock)
@@ -64,6 +66,42 @@ struct RCPR_SYM(psock_wrap_async)
     RCPR_SYM(fiber)* fib;
     RCPR_SYM(fiber_scheduler_discipline)* psock_discipline;
     int flags;
+};
+
+#define PSOCK_BUFFER_SIZE 4096
+
+/* forward decls for psock_from_buffer. */
+typedef struct RCPR_SYM(psock_from_buffer) RCPR_SYM(psock_from_buffer);
+
+struct RCPR_SYM(psock_from_buffer)
+{
+    RCPR_SYM(psock) hdr;
+    char* input_buffer;
+    size_t input_buffer_size;
+    char* output_curr_buffer;
+    RCPR_SYM(queue)* output_queue;
+    size_t output_buffer_size;
+    size_t output_buffer_total_size;
+    size_t buffer_read_offset;
+    size_t buffer_write_offset;
+};
+
+/* forward decl for output buffer node. */
+typedef struct RCPR_SYM(psock_output_buffer_node)
+RCPR_SYM(psock_output_buffer_node);
+
+struct RCPR_SYM(psock_output_buffer_node)
+{
+    RCPR_SYM(resource) hdr;
+    char* buffer;
+    size_t size;
+};
+
+/* enumeration for buffer flags. */
+enum psock_from_buffer_flags
+{
+    PSOCK_FROM_BUFFER_FLAG_READ     =   0x0001,
+    PSOCK_FROM_BUFFER_FLAG_WRITE    =   0x0002,
 };
 
 /**
@@ -270,6 +308,65 @@ status RCPR_SYM(psock_fiber_scheduler_discipline_context_create)(
 void RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)(
     RCPR_SYM(fiber_scheduler_discipline)* disc, RCPR_SYM(resource)* context);
 
+/**
+ * \brief Read data from the given \ref psock instance.
+ *
+ * \param sock          The \ref psock instance from which to read.
+ * \param data          Pointer to the buffer into which data should be read.
+ * \param size          Pointer to the size to read, updated with the size read.
+ * \param block         Ignored for raw buffer reads.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status RCPR_SYM(psock_from_buffer_read)(
+    RCPR_SYM(psock)* sock, void* data, size_t* size, bool block);
+
+/**
+ * \brief Write data to the given \ref psock instance.
+ *
+ * \param sock          The \ref psock instance to which to write.
+ * \param data          Pointer to the buffer from which data should be written.
+ * \param size          Pointer to the size to write, updated with the size
+ *                      written.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status RCPR_SYM(psock_from_buffer_write)(
+    RCPR_SYM(psock)* sock, const void* data, size_t* size);
+
+/**
+ * \brief Dummy accept method.  We can't accept from a buffer.
+ *
+ * \param sock          The \ref psock instance to which to accept a socket.
+ * \param desc          Pointer to the integer field to hold the accepted
+ *                      descriptor.
+ * \param addr          The address of the accepted socket.
+ * \param addrlen       On input, the max size of the address field; on output,
+ *                      the size of the address field.
+ *
+ * \returns a status code indicating success or failure.
+ *      - ERROR_PSOCK_UNSUPPORTED_TYPE - accept is unsupported in buffer socks.
+ */
+status RCPR_SYM(psock_from_buffer_accept)(
+    RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+    socklen_t* addrlen);
+
+/**
+ * \brief Release a psock_from_buffer resource.
+ *
+ * \param r             Pointer to the psock_from_buffer resource to be
+ *                      released.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code on failure.
+ */
+status RCPR_SYM(psock_from_buffer_release)(RCPR_SYM(resource)* r);
+
 /******************************************************************************/
 /* Start of private exports.                                                  */
 /******************************************************************************/
@@ -277,6 +374,7 @@ void RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)(
     RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(psock_from_descriptor) psock_from_descriptor; \
     typedef RCPR_SYM(psock_wrap_async) psock_wrap_async; \
+    typedef RCPR_SYM(psock_from_buffer) psock_from_buffer; \
     static inline status psock_from_descriptor_read( \
         RCPR_SYM(psock)* w, void* x, size_t* y, bool z) { \
             return RCPR_SYM(psock_from_descriptor_read)(w,x,y,z); } \
@@ -329,6 +427,18 @@ void RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)(
         RCPR_SYM(fiber_scheduler_discipline)* x, RCPR_SYM(resource)* y) { \
             RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)( \
                 x,y); } \
+    static inline status psock_from_buffer_read( \
+        RCPR_SYM(psock)* w, void* x, size_t* y, bool z) { \
+            return RCPR_SYM(psock_from_buffer_read)(w,x,y,z); } \
+    static inline status psock_from_buffer_write( \
+        RCPR_SYM(psock)* x, const void* y, size_t* z) { \
+            return RCPR_SYM(psock_from_buffer_write)(x,y,z); } \
+    static inline status psock_from_buffer_accept( \
+        RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
+            return RCPR_SYM(psock_from_buffer_accept)(w,x,y,z); } \
+    static inline status psock_from_buffer_release( \
+        RCPR_SYM(resource)* x) { \
+            return RCPR_SYM(psock_from_buffer_release)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
