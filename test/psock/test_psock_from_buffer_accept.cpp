@@ -1,7 +1,7 @@
 /**
- * \file test/test_psock_create_from_buffer.cpp
+ * \file test/test_psock_from_buffer_accept.cpp
  *
- * \brief Unit tests for psock_create_from_buffer.
+ * \brief Unit tests for psock_from_buffer_accept.
  */
 
 #include <cstring>
@@ -19,18 +19,20 @@ RCPR_IMPORT_psock;
 RCPR_IMPORT_resource;
 RCPR_IMPORT_socket_utilities;
 
-TEST_SUITE(psock_create_from_buffer);
+TEST_SUITE(psock_from_buffer_accept);
 
 /**
- * Verify that we can create and release a psock instance created from a
- * buffer.
+ * Verify that attempting to accept a socket from a buffer psock always fails.
  */
-TEST(create)
+TEST(accept)
 {
     allocator* alloc = nullptr;
     psock* s = nullptr;
     const char* buffer = "this is a test.";
     size_t buffer_size = strlen(buffer);
+    int desc;
+    struct sockaddr addr;
+    socklen_t addrlen;
 
     /* we should be able to create a malloc allocator. */
     TEST_ASSERT(
@@ -41,6 +43,11 @@ TEST(create)
         STATUS_SUCCESS ==
             psock_create_from_buffer(
                 &s, alloc, buffer, buffer_size));
+
+    /* accept always fails. */
+    TEST_EXPECT(
+        ERROR_PSOCK_UNSUPPORTED_TYPE
+            == psock_accept(s, &desc, &addr, &addrlen));
 
     /* we should be able to release the socket, which in turn will close the lhs
      * descriptor. */

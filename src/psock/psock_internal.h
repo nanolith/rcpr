@@ -97,13 +97,6 @@ struct RCPR_SYM(psock_output_buffer_node)
     size_t size;
 };
 
-/* enumeration for buffer flags. */
-enum psock_from_buffer_flags
-{
-    PSOCK_FROM_BUFFER_FLAG_READ     =   0x0001,
-    PSOCK_FROM_BUFFER_FLAG_WRITE    =   0x0002,
-};
-
 /**
  * \brief Read data from the given \ref psock instance.
  *
