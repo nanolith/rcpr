@@ -944,7 +944,9 @@ RCPR_SYM(psock_write_boxed_data)(
  * function will return fewer bytes (updating \p data_size accordingly) if no
  * more bytes are currently available.  In this case, this function will return
  * \ref ERROR_PSOCK_READ_WOULD_BLOCK, and it's up to the caller to decide
- * whether to block on more bytes by calling \ref psock_read_block.
+ * whether to block on more bytes by calling \ref psock_read_block. If the
+ * descriptor reaches a natural end, such as the end of a file,
+ * \ref STATUS_SUCCESS will be returned.
  *
  * \param sock          Pointer to the \ref psock pointer on which this
  *                      operation occurs.
