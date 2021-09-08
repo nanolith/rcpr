@@ -1712,6 +1712,49 @@ RCPR_SYM(psock_accept)(
     RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
     socklen_t* addrlen);
 
+/**
+ * \brief For an output buffer backed psock, get a copy of the buffer. This
+ * buffer belongs to the caller and must be reclaimed using the allocator passed
+ * as a parameter.
+ *
+ * \param sock          Pointer to the \ref psock on which this operation
+ *                      occurs.
+ * \param a             The allocator to be used to allocate memory for the
+ *                      buffer copy.
+ * \param buffer        Pointer to the buffer pointer to be set with the copied
+ *                      buffer on success.
+ * \param buffer_size   Pointer to a variable to be set to the length of this
+ *                      buffer on success.
+ *
+ * The \ref psock_from_buffer_get_output_buffer method creates a copy of the
+ * current output buffer and returns it to the caller.  This copy is contiguous
+ * in memory, whereas the output buffer written to by the psock may not be.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *      - \p a must be a pointer to a valid \ref allocator instance and must not
+ *        be NULL.
+ *      - \p buffer must be a pointer to a valid pointer and must not be NULL.
+ *      - \p buffer_size must be a pointer to a size_t value and must not be
+ *        NULL.
+ *
+ * \post
+ *      - On success, \p buffer is set to a buffer containing a copy of the data
+ *        written to this psock instance.
+ *      - On success, \p buffer_size is set to the length of the buffer.
+ *      - On failure, \p data is unchanged and an error status is returned.
+ *      - On failure, \p data_size is unchanged.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(psock_from_buffer_get_output_buffer)(
+    RCPR_SYM(psock)* sock, RCPR_SYM(allocator)* a, void** buffer,
+    size_t* buffer_size);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
