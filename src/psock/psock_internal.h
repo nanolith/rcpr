@@ -13,7 +13,7 @@
 #include <rcpr/model_assert.h>
 #include <rcpr/psock.h>
 #include <rcpr/resource.h>
-#include <rcpr/queue.h>
+#include <rcpr/slist.h>
 #include <sys/socket.h>
 
 #include "../resource/resource_internal.h"
@@ -79,7 +79,7 @@ struct RCPR_SYM(psock_from_buffer)
     char* input_buffer;
     size_t input_buffer_size;
     char* output_curr_buffer;
-    RCPR_SYM(queue)* output_queue;
+    RCPR_SYM(slist)* output_queue;
     size_t output_buffer_size;
     size_t output_buffer_total_size;
     size_t buffer_read_offset;
