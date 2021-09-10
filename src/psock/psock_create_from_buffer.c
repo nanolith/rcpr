@@ -21,7 +21,7 @@ RCPR_IMPORT_allocator;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
 RCPR_IMPORT_resource;
-RCPR_IMPORT_queue;
+RCPR_IMPORT_slist;
 
 /**
  * \brief Create a \ref psock instance backed by a given string buffer.
@@ -129,7 +129,7 @@ RCPR_SYM(psock_create_from_buffer)(
     else
     {
         /* create the queue for holding the output buffer. */
-        retval = queue_create(&ps->output_queue, ps->hdr.alloc);
+        retval = slist_create(&ps->output_queue, ps->hdr.alloc);
         if (STATUS_SUCCESS != retval)
         {
             goto cleanup_psock;

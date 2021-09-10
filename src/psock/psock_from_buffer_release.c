@@ -18,7 +18,7 @@ RCPR_IMPORT_allocator;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
 RCPR_IMPORT_resource;
-RCPR_IMPORT_queue;
+RCPR_IMPORT_slist;
 
 /**
  * \brief Release a psock_from_buffer resource.
@@ -61,7 +61,7 @@ status RCPR_SYM(psock_from_buffer_release)(RCPR_SYM(resource)* r)
     if (NULL != ps->output_queue)
     {
         output_queue_retval =
-            resource_release(queue_resource_handle(ps->output_queue));
+            resource_release(slist_resource_handle(ps->output_queue));
     }
 
     /* clean up the struct. */
