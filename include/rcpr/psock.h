@@ -2015,6 +2015,10 @@ enum psock_boxed_type
     sym ## _ ## psock_accept( \
         RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
             return RCPR_SYM(psock_accept)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_from_buffer_get_output_buffer( \
+        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t* z) { \
+            return RCPR_SYM(psock_from_buffer_get_output_buffer)(w,x,y,z); } \
     static inline RCPR_SYM(resource)* \
     sym ## _ ## psock_resource_handle( \
         RCPR_SYM(psock)* x) { \
@@ -2182,6 +2186,10 @@ enum psock_boxed_type
     static inline status FN_DECL_MUST_CHECK psock_accept( \
         RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
             return RCPR_SYM(psock_accept)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    psock_from_buffer_get_output_buffer( \
+        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t* z) { \
+            return RCPR_SYM(psock_from_buffer_get_output_buffer)(w,x,y,z); } \
     static inline RCPR_SYM(resource)* psock_resource_handle( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_resource_handle)(x); } \
