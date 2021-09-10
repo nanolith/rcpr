@@ -93,6 +93,7 @@ RCPR_SYM(psock_output_buffer_node);
 struct RCPR_SYM(psock_output_buffer_node)
 {
     RCPR_SYM(resource) hdr;
+    RCPR_SYM(allocator)* alloc;
     char* buffer;
     size_t size;
 };

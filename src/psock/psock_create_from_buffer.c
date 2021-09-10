@@ -144,6 +144,9 @@ RCPR_SYM(psock_create_from_buffer)(
         {
             goto cleanup_psock;
         }
+
+        /* set the output buffer size. */
+        ps->output_buffer_size = PSOCK_BUFFER_SIZE;
     }
 
     /* set the socket. */
