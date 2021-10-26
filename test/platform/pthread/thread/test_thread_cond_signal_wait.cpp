@@ -223,12 +223,6 @@ TEST(wait_signal_all)
     TEST_ASSERT(
         STATUS_SUCCESS == thread_cond_signal_all(cond));
 
-    /* sleep 100 ms. */
-    usleep(100000);
-
-    /* val is three. */
-    TEST_ASSERT(ts.val == 3);
-
     /* release (join) thread one. */
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(thread_resource_handle(one)));
@@ -240,6 +234,9 @@ TEST(wait_signal_all)
     /* release (join) thread three. */
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(thread_resource_handle(three)));
+
+    /* val is three. */
+    TEST_ASSERT(ts.val == 3);
 
     /* release the mutex. */
     TEST_ASSERT(
