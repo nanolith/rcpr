@@ -11,9 +11,9 @@
 
 #include "../../../src/list/list_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(list_node);
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(list_node);
 
 void list_node_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(list_node);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(list_node);
 }

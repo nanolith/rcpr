@@ -6,7 +6,7 @@ ALL:
 	--drop-unused-functions \
 	--unwind 10 --unwinding-assertions \
 	--unwindset list_release.0:4,list_release:4,list_node_release:2,resource_release:2 \
-	-I ../include \
+	-I ../include -I ../build/include \
 	../models/shadow/allocator/allocator.c \
 	../models/shadow/allocator/allocator_struct_tag_init.c \
 	../models/shadow/allocator/prop_allocator_valid.c \

@@ -11,7 +11,11 @@
 
 #include "../../../src/list/list_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(list);
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_list;
+RCPR_IMPORT_resource;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(list);
 
 /**
  * \brief Valid \ref list property.
@@ -20,11 +24,11 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(list);
  *
  * \returns true if the \ref list instance is valid.
  */
-bool prop_list_valid(const list* l)
+bool RCPR_SYM(prop_list_valid)(const list* l)
 {
-    MODEL_ASSERT(NULL != l);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        l->MODEL_STRUCT_TAG_REF(list), list);
+    RCPR_MODEL_ASSERT(NULL != l);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        l->RCPR_MODEL_STRUCT_TAG_REF(list), list);
 
     return
         prop_resource_valid(&l->hdr)

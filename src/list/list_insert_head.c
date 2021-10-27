@@ -16,6 +16,7 @@
 
 RCPR_IMPORT_list;
 RCPR_IMPORT_list_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Insert the given \ref resource in the front of the \ref list.
