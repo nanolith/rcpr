@@ -22,7 +22,8 @@ struct threadstuff
 {
     thread_mutex* mut;
     thread_cond* cond;
-    volatile int val;
+    int val;
+    int waiters;
 };
 
 /* simple thread context function. */
@@ -39,6 +40,9 @@ static status incr(void* context)
         goto done;
     }
 
+    /* increment the number of waiters. */
+    ++(ts->waiters);
+
     /* wait on a signal. */
     retval = thread_cond_wait(&lock, ts->cond);
     if (STATUS_SUCCESS != retval)
@@ -46,10 +50,159 @@ static status incr(void* context)
         goto release_lock;
     }
 
+    /* decrement the number of waiters. */
+    --(ts->waiters);
+
     /* increment val on signal. */
-    ts->val = ts->val + 1;
+    ++(ts->val);
 
     /* success. */
+    retval = STATUS_SUCCESS;
+    goto release_lock;
+
+release_lock:
+    cleanup_retval = resource_release(thread_mutex_lock_resource_handle(lock));
+    if (STATUS_SUCCESS != cleanup_retval)
+    {
+        retval = cleanup_retval;
+    }
+
+done:
+    return retval;
+}
+
+static int read_val(threadstuff* ts, int* val)
+{
+    int cleanup_retval = 0, retval = 0;
+    thread_mutex_lock* lock = nullptr;
+
+    /* acquire the mutex lock. */
+    retval = thread_mutex_lock_acquire(&lock, ts->mut);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto done;
+    }
+
+    /* get val. */
+    *val = ts->val;
+
+    retval = STATUS_SUCCESS;
+    goto release_lock;
+
+release_lock:
+    cleanup_retval = resource_release(thread_mutex_lock_resource_handle(lock));
+    if (STATUS_SUCCESS != cleanup_retval)
+    {
+        retval = cleanup_retval;
+    }
+
+done:
+    return retval;
+}
+
+static int read_waiters(threadstuff* ts, int* waiters)
+{
+    int cleanup_retval = 0, retval = 0;
+    thread_mutex_lock* lock = nullptr;
+
+    /* acquire the mutex lock. */
+    retval = thread_mutex_lock_acquire(&lock, ts->mut);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto done;
+    }
+
+    /* get waiters. */
+    *waiters = ts->waiters;
+
+    retval = STATUS_SUCCESS;
+    goto release_lock;
+
+release_lock:
+    cleanup_retval = resource_release(thread_mutex_lock_resource_handle(lock));
+    if (STATUS_SUCCESS != cleanup_retval)
+    {
+        retval = cleanup_retval;
+    }
+
+done:
+    return retval;
+}
+
+static int wait_on_waiters(threadstuff* ts, const int num_waiters)
+{
+    int retval = 0;
+    int waiters = 0;
+
+    /* wait until the thread is blocking. */
+    do
+    {
+        /* block for a bit. */
+        usleep(1000);
+
+        /* check the waiters value. */
+        retval = read_waiters(ts, &waiters);
+        if (STATUS_SUCCESS != retval)
+        {
+            return retval;
+        }
+    } while (num_waiters != waiters);
+
+    return STATUS_SUCCESS;
+}
+
+static int signal_one_thread(threadstuff* ts)
+{
+    int cleanup_retval = 0, retval = 0;
+    thread_mutex_lock* lock = nullptr;
+
+    /* acquire the mutex lock. */
+    retval = thread_mutex_lock_acquire(&lock, ts->mut);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto done;
+    }
+
+    /* signal a single thread. */
+    retval = thread_cond_signal_one(ts->cond);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto release_lock;
+    }
+
+    retval = STATUS_SUCCESS;
+    goto release_lock;
+
+release_lock:
+    cleanup_retval = resource_release(thread_mutex_lock_resource_handle(lock));
+    if (STATUS_SUCCESS != cleanup_retval)
+    {
+        retval = cleanup_retval;
+    }
+
+done:
+    return retval;
+}
+
+static int signal_all_threads(threadstuff* ts)
+{
+    int cleanup_retval = 0, retval = 0;
+    thread_mutex_lock* lock = nullptr;
+
+    /* acquire the mutex lock. */
+    retval = thread_mutex_lock_acquire(&lock, ts->mut);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto done;
+    }
+
+    /* signal all threads. */
+    retval = thread_cond_signal_all(ts->cond);
+    if (STATUS_SUCCESS != retval)
+    {
+        goto release_lock;
+    }
+
     retval = STATUS_SUCCESS;
     goto release_lock;
 
@@ -76,6 +229,8 @@ TEST(wait_signal_one)
     thread_mutex* mut = nullptr;
     thread_cond* cond = nullptr;
     threadstuff ts;
+    int waiters;
+    int val;
 
     /* clear thread context. */
     memset(&ts, 0, sizeof(ts));
@@ -94,47 +249,56 @@ TEST(wait_signal_one)
     ts.cond = cond;
 
     /* precondition: val is 0. */
-    TEST_ASSERT(ts.val == 0);
+    TEST_ASSERT(STATUS_SUCCESS == read_val(&ts, &val));
+    TEST_ASSERT(0 == val);
+
+    /* precondition: there are no waiters. */
+    TEST_ASSERT(STATUS_SUCCESS == read_waiters(&ts, &waiters));
+    TEST_ASSERT(0 == waiters);
 
     /* create thread one. */
     TEST_ASSERT(
         STATUS_SUCCESS == thread_create(&one, alloc, 16384, &ts, &incr));
 
-    /* sleep 1 ms. */
-    usleep(1000);
+    /* wait until the thread is blocking. */
+    TEST_ASSERT(STATUS_SUCCESS == wait_on_waiters(&ts, 1));
 
     /* val is still zero. */
-    TEST_ASSERT(ts.val == 0);
+    TEST_ASSERT(STATUS_SUCCESS == read_val(&ts, &val));
+    TEST_ASSERT(0 == val);
 
     /* create thread two. */
     TEST_ASSERT(
         STATUS_SUCCESS == thread_create(&two, alloc, 16384, &ts, &incr));
 
-    /* sleep 1 ms. */
-    usleep(1000);
+    /* wait until the thread is blocking. */
+    TEST_ASSERT(STATUS_SUCCESS == wait_on_waiters(&ts, 2));
 
     /* val is still zero. */
-    TEST_ASSERT(ts.val == 0);
+    TEST_ASSERT(STATUS_SUCCESS == read_val(&ts, &val));
+    TEST_ASSERT(0 == val);
 
     /* signal a thread. */
     TEST_ASSERT(
-        STATUS_SUCCESS == thread_cond_signal_one(cond));
+        STATUS_SUCCESS == signal_one_thread(&ts));
 
-    /* sleep 1 ms. */
-    usleep(1000);
+    /* wait until the thread is unblocked. */
+    TEST_ASSERT(STATUS_SUCCESS == wait_on_waiters(&ts, 1));
 
     /* val is one. */
-    TEST_ASSERT(ts.val == 1);
+    TEST_ASSERT(STATUS_SUCCESS == read_val(&ts, &val));
+    TEST_ASSERT(1 == val);
 
     /* signal a thread. */
     TEST_ASSERT(
-        STATUS_SUCCESS == thread_cond_signal_one(cond));
+        STATUS_SUCCESS == signal_one_thread(&ts));
 
-    /* sleep 1 ms. */
-    usleep(1000);
+    /* wait until the thread is unblocked. */
+    TEST_ASSERT(STATUS_SUCCESS == wait_on_waiters(&ts, 0));
 
     /* val is two. */
-    TEST_ASSERT(ts.val == 2);
+    TEST_ASSERT(STATUS_SUCCESS == read_val(&ts, &val));
+    TEST_ASSERT(2 == val);
 
     /* release (join) thread one. */
     TEST_ASSERT(
@@ -169,6 +333,8 @@ TEST(wait_signal_all)
     thread_mutex* mut = nullptr;
     thread_cond* cond = nullptr;
     threadstuff ts;
+    int waiters;
+    int val;
 
     /* clear thread context. */
     memset(&ts, 0, sizeof(ts));
@@ -187,41 +353,56 @@ TEST(wait_signal_all)
     ts.cond = cond;
 
     /* precondition: val is 0. */
-    TEST_ASSERT(ts.val == 0);
+    TEST_ASSERT(STATUS_SUCCESS == read_val(&ts, &val));
+    TEST_ASSERT(0 == val);
+
+    /* precondition: there are no waiters. */
+    TEST_ASSERT(STATUS_SUCCESS == read_waiters(&ts, &waiters));
+    TEST_ASSERT(0 == waiters);
 
     /* create thread one. */
     TEST_ASSERT(
         STATUS_SUCCESS == thread_create(&one, alloc, 16384, &ts, &incr));
 
-    /* sleep 1 ms. */
-    usleep(1000);
+    /* wait until the thread is blocking. */
+    TEST_ASSERT(STATUS_SUCCESS == wait_on_waiters(&ts, 1));
 
     /* val is still zero. */
-    TEST_ASSERT(ts.val == 0);
+    TEST_ASSERT(STATUS_SUCCESS == read_val(&ts, &val));
+    TEST_ASSERT(0 == val);
 
     /* create thread two. */
     TEST_ASSERT(
         STATUS_SUCCESS == thread_create(&two, alloc, 16384, &ts, &incr));
 
-    /* sleep 1 ms. */
-    usleep(1000);
+    /* wait until the thread is blocking. */
+    TEST_ASSERT(STATUS_SUCCESS == wait_on_waiters(&ts, 2));
 
     /* val is still zero. */
-    TEST_ASSERT(ts.val == 0);
+    TEST_ASSERT(STATUS_SUCCESS == read_val(&ts, &val));
+    TEST_ASSERT(0 == val);
 
     /* create thread three. */
     TEST_ASSERT(
         STATUS_SUCCESS == thread_create(&three, alloc, 16384, &ts, &incr));
 
-    /* sleep 1 ms. */
-    usleep(1000);
+    /* wait until the thread is blocking. */
+    TEST_ASSERT(STATUS_SUCCESS == wait_on_waiters(&ts, 3));
 
     /* val is still zero. */
-    TEST_ASSERT(ts.val == 0);
+    TEST_ASSERT(STATUS_SUCCESS == read_val(&ts, &val));
+    TEST_ASSERT(0 == val);
 
     /* signal all threads. */
     TEST_ASSERT(
-        STATUS_SUCCESS == thread_cond_signal_all(cond));
+        STATUS_SUCCESS == signal_all_threads(&ts));
+
+    /* wait until all threads are unblocked. */
+    TEST_ASSERT(STATUS_SUCCESS == wait_on_waiters(&ts, 0));
+
+    /* val is three. */
+    TEST_ASSERT(STATUS_SUCCESS == read_val(&ts, &val));
+    TEST_ASSERT(3 == val);
 
     /* release (join) thread one. */
     TEST_ASSERT(
@@ -234,9 +415,6 @@ TEST(wait_signal_all)
     /* release (join) thread three. */
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(thread_resource_handle(three)));
-
-    /* val is three. */
-    TEST_ASSERT(ts.val == 3);
 
     /* release the mutex. */
     TEST_ASSERT(
