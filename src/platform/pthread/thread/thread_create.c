@@ -169,9 +169,6 @@ static void* thread_start(void* ctx)
     /* the thread function is done, so set running to false. */
     th->running = false;
 
-    /* exit with the exit code from the thread function. */
-    pthread_exit(&th->exit_code);
-
     /* we'll never hit this point, but follow the spec. */
     return NULL;
 }
