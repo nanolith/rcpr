@@ -11,7 +11,11 @@
 
 #include "../../../../../src/platform/pthread/thread/thread_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_cond);
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_thread;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_cond);
 
 /**
  * \brief Valid \ref thread property.
@@ -20,11 +24,11 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_cond);
  *
  * \returns true if the \ref thread_cond instance is valid.
  */
-bool prop_thread_cond_valid(const thread_cond* cond)
+bool RCPR_SYM(prop_thread_cond_valid)(const RCPR_SYM(thread_cond)* cond)
 {
-    MODEL_ASSERT(NULL != cond);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        cond->MODEL_STRUCT_TAG_REF(thread_cond), thread_cond);
+    RCPR_MODEL_ASSERT(NULL != cond);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        cond->RCPR_MODEL_STRUCT_TAG_REF(thread_cond), thread_cond);
 
     return
         prop_allocator_valid(cond->alloc)

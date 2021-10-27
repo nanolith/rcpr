@@ -9,6 +9,8 @@
 
 #include "allocator_internal.h"
 
+RCPR_IMPORT_allocator;
+
 /**
  * \brief Instruct the allocator instance to reclaim the given memory region.
  *

@@ -11,9 +11,9 @@
 
 #include "../../../../../src/platform/pthread/thread/thread_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(thread);
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(thread);
 
 void thread_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(thread);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(thread);
 }

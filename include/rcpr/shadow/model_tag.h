@@ -23,7 +23,7 @@
 # define RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(name) \
     int nondet_ ## name ## _tag(); \
     RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(name) = nondet_ ## name ## _tag(); \
-    RCPR_MODEL_ASSUME(MODEL_STRUCT_TAG_GLOBAL_REF(name) != 0)
+    RCPR_MODEL_ASSUME(RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(name) != 0)
 # define RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(name) \
     extern int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(name)
 # define RCPR_MODEL_STRUCT_TAG_INIT(var, name) \

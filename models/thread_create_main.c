@@ -3,6 +3,10 @@
 #include <rcpr/resource.h>
 #include <rcpr/thread.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_thread;
+
 void allocator_struct_tag_init();
 void resource_struct_tag_init();
 void thread_struct_tag_init();

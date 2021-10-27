@@ -11,9 +11,11 @@
 
 #include "../../../../../src/platform/pthread/thread/thread_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(thread_mutex);
+RCPR_IMPORT_thread;
+
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(thread_mutex);
 
 void thread_mutex_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(thread_mutex);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(thread_mutex);
 }

@@ -11,6 +11,8 @@
 
 #include "resource_internal.h"
 
+RCPR_IMPORT_resource;
+
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(resource);
 
 /**

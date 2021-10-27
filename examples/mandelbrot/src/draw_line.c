@@ -125,7 +125,7 @@ status draw_line(void* context)
                     info->done = true;
 
                     /* signal the main thread that we are done. */
-                    retval = thread_cond_signal_one(info->main_cond);
+                    retval = thread_cond_signal_one(lock, info->main_cond);
                     if (STATUS_SUCCESS != retval)
                     {
                         info->quiesce = true;

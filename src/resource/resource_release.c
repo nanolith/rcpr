@@ -11,6 +11,8 @@
 
 #include "resource_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Release a resource back to the system or API from which it was
  * acquired.

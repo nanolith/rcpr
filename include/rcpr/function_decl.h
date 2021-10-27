@@ -35,6 +35,11 @@
 #define RCPR_UNIQUE_NAME u0ec71e88_25af_40aa_8dd9_990d596b60de
 
 /*
+ * Simple concat macro.
+ */
+#define RCPR_CONCAT(x,y) x ## y
+
+/*
  * Symbol expansion and combination macro.
  */
 #define RCPR_SYM_COMBINE(x, y, z) rcpr ## _ ## x ## _ ## y ## _ ## z

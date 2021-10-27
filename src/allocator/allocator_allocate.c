@@ -9,6 +9,8 @@
 
 #include "allocator_internal.h"
 
+RCPR_IMPORT_allocator;
+
 /**
  * \brief Allocate memory using the given allocator instance.
  *

@@ -164,7 +164,7 @@ static int signal_one_thread(threadstuff* ts)
     }
 
     /* signal a single thread. */
-    retval = thread_cond_signal_one(ts->cond);
+    retval = thread_cond_signal_one(lock, ts->cond);
     if (STATUS_SUCCESS != retval)
     {
         goto release_lock;
@@ -197,7 +197,7 @@ static int signal_all_threads(threadstuff* ts)
     }
 
     /* signal all threads. */
-    retval = thread_cond_signal_all(ts->cond);
+    retval = thread_cond_signal_all(lock, ts->cond);
     if (STATUS_SUCCESS != retval)
     {
         goto release_lock;

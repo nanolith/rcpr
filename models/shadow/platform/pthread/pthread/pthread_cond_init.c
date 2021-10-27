@@ -7,7 +7,7 @@ int pthread_cond_init(
     pthread_cond_t *cond,
     const pthread_condattr_t *attr)
 {
-    MODEL_ASSERT(NULL != cond);
+    RCPR_MODEL_ASSERT(NULL != cond);
 
     *cond = (struct pthread_cond*)malloc(sizeof(struct pthread_cond));
 

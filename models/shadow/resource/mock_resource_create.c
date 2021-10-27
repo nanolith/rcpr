@@ -12,7 +12,7 @@
 
 #include "../../../src/resource/resource_internal.h"
 
-status mock_resource_release(resource* r);
+status mock_resource_release(RCPR_SYM(resource)* r);
 
 /**
  * \brief Create a mock resource.
@@ -21,18 +21,18 @@ status mock_resource_release(resource* r);
  *
  * \returns a status code indicating success or failure.
  */
-status mock_resource_create(resource** r)
+status mock_resource_create(RCPR_SYM(resource)** r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != r);
+    RCPR_MODEL_ASSERT(NULL != r);
 
-    *r = (resource*)malloc(sizeof(resource));
+    *r = (RCPR_SYM(resource)*)malloc(sizeof(RCPR_SYM(resource)));
     if (NULL == *r)
     {
         return ERROR_GENERAL_OUT_OF_MEMORY;
     }
 
-    resource_init(*r, &mock_resource_release);
+    RCPR_SYM(resource_init)(*r, &mock_resource_release);
 
     return STATUS_SUCCESS;
 }

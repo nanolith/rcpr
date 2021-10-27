@@ -21,7 +21,7 @@ struct RCPR_SYM(resource)
 {
     RCPR_SYM(resource_release_fn) release;
 
-    RCPR_MODEL_STRUCT_TAG(RCPR_SYM(resource));
+    RCPR_MODEL_STRUCT_TAG(resource);
 };
 
 /* C++ compatibility. */

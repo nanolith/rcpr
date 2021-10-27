@@ -5,12 +5,11 @@
 
 static int nondet_return_value();
 
-int pthread_join(pthread_t *thread, void** value)
+int pthread_join(pthread_t thread, void** value)
 {
-    MODEL_ASSERT(NULL != thread);
-    MODEL_ASSERT(NULL != *thread);
+    RCPR_MODEL_ASSERT(NULL != thread);
 
-    free((void*)*thread);
+    free((void*)thread);
 
     return nondet_return_value();
 }
