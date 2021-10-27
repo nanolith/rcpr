@@ -11,6 +11,8 @@
 
 #include "fiber_internal.h"
 
+RCPR_IMPORT_fiber;
+
 /**
  * \brief Given a \ref fiber_scheduler instance, return the resource handle for
  * this \ref fiber_scheduler instance.

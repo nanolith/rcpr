@@ -6,13 +6,17 @@
 
 #include "../../../src/stack/stack_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_stack;
+
 /* forward decls. */
 static status stack_release(resource*);
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(stack);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(stack);
 
 status FN_DECL_MUST_CHECK
-stack_create(
+RCPR_SYM(stack_create)(
     stack** st, allocator* a, size_t stack_size)
 {
     status retval, reclaim_retval;
@@ -20,9 +24,9 @@ stack_create(
     stack* tmp = NULL;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != st);
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(stack_size > 0);
+    RCPR_MODEL_ASSERT(NULL != st);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(stack_size > 0);
 
     /* attempt to allocate memory for this stack. */
     tmp = malloc(sizeof(stack));
@@ -36,11 +40,11 @@ stack_create(
     memset(tmp, 0, sizeof(stack));
 
     /* the tag is not set by default. */
-    MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(stack), stack);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(stack), stack);
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(stack), stack);
+    RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(stack), stack);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &stack_release);
@@ -65,7 +69,7 @@ stack_create(
     retval = STATUS_SUCCESS;
 
     /* verify that this stack is now valid. */
-    MODEL_ASSERT(prop_stack_valid(*st));
+    RCPR_MODEL_ASSERT(prop_stack_valid(*st));
 
     /* success. */ 
     goto done;
@@ -84,7 +88,7 @@ static status stack_release(resource* r)
 {
     status retval;
     stack* st = (stack*)r;
-    MODEL_ASSERT(prop_stack_valid(st));
+    RCPR_MODEL_ASSERT(prop_stack_valid(st));
 
     /* free the stack. */
     free(st->region);

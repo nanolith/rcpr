@@ -3,6 +3,11 @@
 #include <rcpr/resource.h>
 #include <rcpr/fiber.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
+
 void allocator_struct_tag_init();
 void fiber_struct_tag_init();
 void fiber_scheduler_struct_tag_init();
@@ -10,9 +15,10 @@ void stack_struct_tag_init();
 
 static status callback(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
-    fiber** resume_fib, int* resume_event, void** resume_param)
+    fiber** resume_fib, const rcpr_uuid* resume_id, int* resume_event,
+    void** resume_param)
 {
-    MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
 
     *resume_fib = yield_fib;
     *resume_param = NULL;
@@ -62,23 +68,24 @@ int main(int argc, char* argv[])
     if (STATUS_SUCCESS != retval)
     {
         /* the only reason why it could fail is due to a memory issue. */
-        MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
 
         goto cleanup_allocator;
     }
 
     /* yield to the scheduler... */
+    rcpr_uuid* resume_id;
     int resume_event;
     void* resume_param;
-    MODEL_ASSERT(
+    RCPR_MODEL_ASSERT(
         STATUS_SUCCESS ==
             fiber_scheduler_yield(
-                sched, 0x8215, NULL, &resume_event, &resume_param));
+                sched, 0x8215, NULL, &resume_id, &resume_event, &resume_param));
 
 cleanup_fiber_scheduler:
     /* release the fiber_scheduler. */
     retval = resource_release(fiber_scheduler_resource_handle(sched));
-    MODEL_ASSERT(STATUS_SUCCESS == retval);
+    RCPR_MODEL_ASSERT(STATUS_SUCCESS == retval);
 
 cleanup_allocator:
     /* release the allocator. */

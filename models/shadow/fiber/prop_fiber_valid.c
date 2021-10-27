@@ -11,7 +11,12 @@
 
 #include "../../../src/fiber/common/fiber_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber);
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_stack;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber);
 
 /**
  * \brief Valid \ref fiber property.
@@ -20,35 +25,24 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber);
  *
  * \returns true if the \ref fiber instance is valid.
  */
-bool prop_fiber_valid(const fiber* fib)
+bool RCPR_SYM(prop_fiber_valid)(const fiber* fib)
 {
-    MODEL_ASSERT(NULL != fib);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        fib->MODEL_STRUCT_TAG_REF(fiber), fiber);
+    RCPR_MODEL_ASSERT(NULL != fib);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        fib->RCPR_MODEL_STRUCT_TAG_REF(fiber), fiber);
 
-    MODEL_ASSERT(prop_resource_valid(&fib->hdr));
-    MODEL_ASSERT(prop_allocator_valid(fib->alloc));
+    RCPR_MODEL_ASSERT(prop_resource_valid(&fib->hdr));
+    RCPR_MODEL_ASSERT(prop_allocator_valid(fib->alloc));
     if (NULL != fib->st)
     {
-        MODEL_ASSERT(prop_stack_valid(fib->st));
-        MODEL_ASSERT(NULL != fib->fn);
+        RCPR_MODEL_ASSERT(prop_stack_valid(fib->st));
+        RCPR_MODEL_ASSERT(NULL != fib->fn);
     }
     else
     {
-        MODEL_ASSERT(NULL == fib->fn);
-        MODEL_ASSERT(NULL == fib->context);
+        RCPR_MODEL_ASSERT(NULL == fib->fn);
+        RCPR_MODEL_ASSERT(NULL == fib->context);
     }
 
     return true;
-/*
-    return
-        prop_resource_valid(&fib->hdr)
-     && prop_allocator_valid(fib->alloc)
-     && (       (NULL != fib->st
-              && prop_stack_valid(fib->st)
-              && NULL != fib->fn)
-         ||     (NULL == fib->st
-              && NULL == fib->fn
-              && NULL == fib->context));
-*/
 }

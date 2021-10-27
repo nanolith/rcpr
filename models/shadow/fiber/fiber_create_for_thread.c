@@ -3,19 +3,25 @@
 
 #include "../../../src/fiber/common/fiber_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_fiber_internal;
+RCPR_IMPORT_resource;
+
 /* forward decls. */
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber);
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber);
 
 status FN_DECL_MUST_CHECK
-fiber_create_for_thread(
-    fiber** fib, allocator* a)
+RCPR_SYM(fiber_create_for_thread)(
+    fiber** fib, fiber_scheduler* sched, allocator* a)
 {
     fiber* tmp;
     status retval;
 
     /* parameter sanity checks. */
-    MODEL_ASSERT(prop_allocator_valid(a));
-    MODEL_ASSERT(NULL != fib);
+    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    RCPR_MODEL_ASSERT(prop_fiber_scheduler_valid(sched));
+    RCPR_MODEL_ASSERT(NULL != fib);
 
     /* attempt to allocate memory for this fiber. */
     tmp = malloc(sizeof(fiber));
@@ -26,7 +32,7 @@ fiber_create_for_thread(
     }
 
     /* set the tag. */
-    MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(fiber), fiber);
+    RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(fiber), fiber);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &fiber_resource_release);
@@ -43,7 +49,7 @@ fiber_create_for_thread(
     retval = STATUS_SUCCESS;
 
     /* verify that this structure is now valid. */
-    MODEL_ASSERT(prop_fiber_valid(*fib));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(*fib));
 
     /* success. */
     goto done;

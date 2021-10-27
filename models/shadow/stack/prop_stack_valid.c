@@ -11,7 +11,11 @@
 
 #include "../../../src/stack/stack_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(stack);
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_stack;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(stack);
 
 /**
  * \brief Valid \ref stack property.
@@ -20,11 +24,11 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(stack);
  *
  * \returns true if the \ref stack instance is valid.
  */
-bool prop_stack_valid(const stack* st)
+bool RCPR_SYM(prop_stack_valid)(const stack* st)
 {
-    MODEL_ASSERT(NULL != st);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        st->MODEL_STRUCT_TAG_REF(stack), stack);
+    RCPR_MODEL_ASSERT(NULL != st);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        st->RCPR_MODEL_STRUCT_TAG_REF(stack), stack);
 
     return
         prop_resource_valid(&st->hdr)
