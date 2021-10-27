@@ -14,6 +14,8 @@
 
 #include "list_internal.h"
 
+RCPR_IMPORT_list;
+
 /**
  * \brief Get the head of a \ref list.
  *

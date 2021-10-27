@@ -75,10 +75,11 @@ RCPR_SYM(list_node_create)(
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        n->MODEL_STRUCT_TAG_REF(list_node), list_node);
+        n->RCPR_MODEL_STRUCT_TAG_REF(list_node), list_node);
 
     /* set the tag. */
-    RCPR_MODEL_STRUCT_TAG_INIT(n->MODEL_STRUCT_TAG_REF(list_node), list_node);
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        n->RCPR_MODEL_STRUCT_TAG_REF(list_node), list_node);
 
     /* set the release method. */
     resource_init(&n->hdr, &list_node_release);

@@ -14,6 +14,8 @@
 
 #include "list_internal.h"
 
+RCPR_IMPORT_list;
+
 /**
  * \brief Given a \ref list_node instance, return the resource handle for this
  * \ref list_node instance.

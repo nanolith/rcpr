@@ -16,6 +16,7 @@
 
 RCPR_IMPORT_list;
 RCPR_IMPORT_list_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Append the given \ref resource to the next value of the given \ref

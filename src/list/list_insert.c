@@ -15,6 +15,7 @@
 #include "list_internal.h"
 
 RCPR_IMPORT_list;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Insert the given \ref resource before the given \ref list_node.
