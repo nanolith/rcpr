@@ -11,9 +11,9 @@
 
 #include "../../../src/bigint/bigint_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(bigint);
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(bigint);
 
 void bigint_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(bigint);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(bigint);
 }

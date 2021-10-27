@@ -14,6 +14,8 @@
 
 #include "bigint_internal.h"
 
+RCPR_IMPORT_bigint;
+
 /**
  * \brief Given a \ref bigint instance, return the resource handle for this
  * \ref bigint instance.
