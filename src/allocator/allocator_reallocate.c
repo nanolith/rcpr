@@ -9,6 +9,8 @@
 
 #include "allocator_internal.h"
 
+RCPR_IMPORT_allocator;
+
 /**
  * \brief Attempt to resize a previously allocated memory region, either growing
  * or shrinking it.
