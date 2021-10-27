@@ -106,10 +106,10 @@ RCPR_SYM(bigint_create_zero)(
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(bigint), bigint);
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(bigint), bigint);
 
     /* set the tag. */
-    RCPR_MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(bigint), bigint);
+    RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(bigint), bigint);
 
     /* set the release method. */
     resource_init(&tmp->hdr, &bigint_release);

@@ -11,7 +11,11 @@
 
 #include "../../../src/bigint/bigint_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(bigint);
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_bigint;
+RCPR_IMPORT_resource;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(bigint);
 
 /**
  * \brief Valid \ref bigint property.
@@ -20,15 +24,15 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(bigint);
  *
  * \returns true if the \ref bigint instance is valid.
  */
-bool prop_bigint_valid(const bigint* i)
+bool RCPR_SYM(prop_bigint_valid)(const bigint* i)
 {
-    MODEL_ASSERT(NULL != i);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        i->MODEL_STRUCT_TAG_REF(bigint), bigint);
-    MODEL_ASSERT(i->length > 0);
-    MODEL_ASSERT(NULL != i->array);
-    MODEL_ASSERT(i->array[0] == i->array[0]);
-    MODEL_ASSERT(i->array[i->length - 1] == i->array[i->length - 1]);
+    RCPR_MODEL_ASSERT(NULL != i);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        i->RCPR_MODEL_STRUCT_TAG_REF(bigint), bigint);
+    RCPR_MODEL_ASSERT(i->length > 0);
+    RCPR_MODEL_ASSERT(NULL != i->array);
+    RCPR_MODEL_ASSERT(i->array[0] == i->array[0]);
+    RCPR_MODEL_ASSERT(i->array[i->length - 1] == i->array[i->length - 1]);
 
     return
         prop_resource_valid(&i->hdr)

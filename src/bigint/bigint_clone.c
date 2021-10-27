@@ -75,7 +75,7 @@ RCPR_SYM(bigint_clone)(
     tmp->a = a;
     /* force struct tag invariant to be false, since this is a new value. */
     #ifdef CBMC
-    tmp->MODEL_STRUCT_TAG_REF(bigint) = 0;
+    tmp->RCPR_MODEL_STRUCT_TAG_REF(bigint) = 0;
     #endif
 
     /* attempt to allocate memory for the integer array. */
@@ -93,10 +93,10 @@ RCPR_SYM(bigint_clone)(
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        tmp->MODEL_STRUCT_TAG_REF(bigint), bigint);
+        tmp->RCPR_MODEL_STRUCT_TAG_REF(bigint), bigint);
 
     /* set the tag. */
-    RCPR_MODEL_STRUCT_TAG_INIT(tmp->MODEL_STRUCT_TAG_REF(bigint), bigint);
+    RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(bigint), bigint);
 
     /* set the array. */
     tmp->array = int_bytes;
