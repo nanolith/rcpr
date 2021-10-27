@@ -11,9 +11,9 @@
 
 #include "../../../src/allocator/allocator_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(allocator);
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(allocator);
 
 void allocator_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(allocator);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(allocator);
 }

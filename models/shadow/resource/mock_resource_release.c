@@ -17,10 +17,10 @@
  *
  * \returns a status code indicating success or failure.
  */
-status mock_resource_release(resource* r)
+status mock_resource_release(RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != r);
+    RCPR_MODEL_ASSERT(NULL != r);
 
     free(r);
 

@@ -7,8 +7,8 @@ static int nondet_return_value();
 
 int pthread_cond_destroy(pthread_cond_t *cond)
 {
-    MODEL_ASSERT(NULL != cond);
-    MODEL_ASSERT(NULL != *cond);
+    RCPR_MODEL_ASSERT(NULL != cond);
+    RCPR_MODEL_ASSERT(NULL != *cond);
 
     free((void*)*cond);
 

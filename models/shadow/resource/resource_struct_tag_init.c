@@ -11,9 +11,11 @@
 
 #include "../../../src/resource/resource_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(resource);
+RCPR_IMPORT_resource;
+
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(resource);
 
 void resource_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(resource);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(resource);
 }

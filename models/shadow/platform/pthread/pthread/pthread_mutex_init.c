@@ -7,7 +7,7 @@ int pthread_mutex_init(
     pthread_mutex_t *mutex,
     const pthread_mutexattr_t *attr)
 {
-    MODEL_ASSERT(NULL != mutex);
+    RCPR_MODEL_ASSERT(NULL != mutex);
 
     *mutex = (struct pthread_mutex*)malloc(sizeof(struct pthread_mutex));
 

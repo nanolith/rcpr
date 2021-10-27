@@ -9,6 +9,8 @@
 
 #include "allocator_internal.h"
 
+RCPR_IMPORT_resource;
+
 /**
  * \brief Given an allocator instance, return the resource handle for this
  * allocator instance.

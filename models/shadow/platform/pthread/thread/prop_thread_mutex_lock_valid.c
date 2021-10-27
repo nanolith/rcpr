@@ -11,7 +11,9 @@
 
 #include "../../../../../src/platform/pthread/thread/thread_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex_lock);
+RCPR_IMPORT_thread;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex_lock);
 
 /**
  * \brief Valid \ref thread_mutex_lock property.
@@ -20,11 +22,11 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex_lock);
  *
  * \returns true if the \ref thread_mutex_lock instance is valid.
  */
-bool prop_thread_mutex_lock_valid(const thread_mutex_lock* lock)
+bool RCPR_SYM(prop_thread_mutex_lock_valid)(const thread_mutex_lock* lock)
 {
-    MODEL_ASSERT(NULL != lock);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        lock->MODEL_STRUCT_TAG_REF(thread_mutex_lock), thread_mutex_lock);
+    RCPR_MODEL_ASSERT(NULL != lock);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        lock->RCPR_MODEL_STRUCT_TAG_REF(thread_mutex_lock), thread_mutex_lock);
 
     return
         prop_thread_mutex_valid(lock->parent);

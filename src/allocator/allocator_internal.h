@@ -24,7 +24,7 @@ struct RCPR_SYM(allocator)
 {
     RCPR_SYM(resource) hdr;
 
-    RCPR_MODEL_STRUCT_TAG(RCPR_SYM(allocator));
+    RCPR_MODEL_STRUCT_TAG(allocator);
 
     status (*allocate_fn)(
         RCPR_SYM(allocator* alloc), void** ptr, size_t size);

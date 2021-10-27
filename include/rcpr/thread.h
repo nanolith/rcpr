@@ -242,6 +242,10 @@ RCPR_SYM(thread_cond_wait)(
 /**
  * \brief Notify a single thread waiting on the condition variable.
  *
+ * \param lock          A \ref thread_mutex_lock instance that must be held
+ *                      prior to signaling other threads. This lock must be on
+ *                      the same mutex under which other threads went into
+ *                      conditional wait, otherwise, this call can be unstable.
  * \param cond          The \ref thread_cond variable to signal.
  *
  * This method notifies a single thread waiting on the given condition variable
@@ -251,20 +255,28 @@ RCPR_SYM(thread_cond_wait)(
  *      - STATUS_SUCCESS on success.
  *
  * \pre
+ *      - \p lock must be an acquired lock from a \ref thread_mutex and must not
+ *        be NULL.
  *      - \p cond must be a valid \ref thread_cond variable and must not be
  *        NULL.
  *
  * \post
  *      - On success, a single thread waiting on the given condition variable
  *        will be signaled and will wake.
+ *      - The caller still owns \p lock and must release it to release the lock
+ *        on the mutex.
  */
 status FN_DECL_MUST_CHECK
 RCPR_SYM(thread_cond_signal_one)(
-    RCPR_SYM(thread_cond)* cond);
+    RCPR_SYM(thread_mutex_lock)* lock, RCPR_SYM(thread_cond)* cond);
 
 /**
  * \brief Notify all threads waiting on the condition variable.
  *
+ * \param lock          A \ref thread_mutex_lock instance that must be held
+ *                      prior to signaling other threads. This lock must be on
+ *                      the same mutex under which other threads went into
+ *                      conditional wait, otherwise, this call can be unstable.
  * \param cond          The \ref thread_cond variable to signal.
  *
  * This method notifies all threads waiting on the given condition variable
@@ -274,16 +286,20 @@ RCPR_SYM(thread_cond_signal_one)(
  *      - STATUS_SUCCESS on success.
  *
  * \pre
+ *      - \p lock must be an acquired lock from a \ref thread_mutex and must not
+ *      be NULL.
  *      - \p cond must be a valid \ref thread_cond variable and must not be
  *        NULL.
  *
  * \post
  *      - On success, all threads waiting on the given condition variable
  *        will be signaled and will wake.
+ *      - The caller still owns \p lock and must release it to release the lock
+ *        on the mutex.
  */
 status FN_DECL_MUST_CHECK
 RCPR_SYM(thread_cond_signal_all)(
-    RCPR_SYM(thread_cond)* cond);
+    RCPR_SYM(thread_mutex_lock)* lock, RCPR_SYM(thread_cond)* cond);
 
 /******************************************************************************/
 /* Start of accessors.                                                        */
@@ -418,12 +434,12 @@ RCPR_SYM(prop_thread_mutex_lock_valid)(
             return RCPR_SYM(thread_cond_wait)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## thread_cond_signal_one( \
-        RCPR_SYM(thread_cond)* x) { \
-            return RCPR_SYM(thread_cond_signal_one)(x); } \
+        RPCR_SYM(thread_mutex_lock)* x, RCPR_SYM(thread_cond)* y) { \
+            return RCPR_SYM(thread_cond_signal_one)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## thread_cond_signal_all( \
-        RCPR_SYM(thread_cond)* x) { \
-            return RCPR_SYM(thread_cond_signal_all)(x); } \
+        RCPR_SYM(thread_mutex_lock)* x, RCPR_SYM(thread_cond)* y) { \
+            return RCPR_SYM(thread_cond_signal_all)(x,y); } \
     static inline RCPR_SYM(resource)* sym ## _ ## thread_resource_handle( \
         RCPR_SYM(thread)* x) { \
             return RCPR_SYM(thread_resource_handle)(x); } \
@@ -477,11 +493,11 @@ RCPR_SYM(prop_thread_mutex_lock_valid)(
         RCPR_SYM(thread_mutex_lock)** x, RCPR_SYM(thread_cond)* y) { \
             return RCPR_SYM(thread_cond_wait)(x,y); } \
     static inline status FN_DECL_MUST_CHECK thread_cond_signal_one( \
-        RCPR_SYM(thread_cond)* x) { \
-            return RCPR_SYM(thread_cond_signal_one)(x); } \
+        RCPR_SYM(thread_mutex_lock)* x, RCPR_SYM(thread_cond)* y) { \
+            return RCPR_SYM(thread_cond_signal_one)(x,y); } \
     static inline status FN_DECL_MUST_CHECK thread_cond_signal_all( \
-        RCPR_SYM(thread_cond)* x) { \
-            return RCPR_SYM(thread_cond_signal_all)(x); } \
+        RCPR_SYM(thread_mutex_lock)* x, RCPR_SYM(thread_cond)* y) { \
+            return RCPR_SYM(thread_cond_signal_all)(x,y); } \
     static inline RCPR_SYM(resource)* thread_resource_handle( \
         RCPR_SYM(thread)* x) { \
             return RCPR_SYM(thread_resource_handle)(x); } \

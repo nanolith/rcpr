@@ -7,8 +7,8 @@ int pthread_create(
     pthread_t *thread, const pthread_attr_t *attr,
     void *(*start_routine)(void *), void *arg)
 {
-    MODEL_ASSERT(NULL != thread);
-    MODEL_ASSERT(NULL != start_routine);
+    RCPR_MODEL_ASSERT(NULL != thread);
+    RCPR_MODEL_ASSERT(NULL != start_routine);
 
     *thread = (struct pthread*)malloc(sizeof(struct pthread));
 

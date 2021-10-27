@@ -11,7 +11,9 @@
 
 #include "../../../src/resource/resource_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(resource);
+RCPR_IMPORT_resource;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(resource);
 
 /**
  * \brief Valid resource property.
@@ -20,12 +22,12 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(resource);
  *
  * \returns true if the resource instance is valid.
  */
-bool prop_resource_valid(const resource* r)
+bool RCPR_SYM(prop_resource_valid)(const RCPR_SYM(resource)* r)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(NULL != r);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        r->MODEL_STRUCT_TAG_REF(resource), resource);
+    RCPR_MODEL_ASSERT(NULL != r);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        r->RCPR_MODEL_STRUCT_TAG_REF(resource), resource);
 
     return
            NULL != r

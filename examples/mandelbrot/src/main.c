@@ -175,7 +175,7 @@ int main(int argc, char* argv[])
         info.lines_written = 0;
 
         /* wake up the threads. */
-        retval = thread_cond_signal_all(info.worker_cond);
+        retval = thread_cond_signal_all(lock, info.worker_cond);
         if (STATUS_SUCCESS != retval)
         {
             errorcode = 10;
@@ -257,10 +257,31 @@ cleanup_threads:
     /* We can't simulate in CBMC yet. */
     #ifndef CBMC
     info.quiesce = true;
-    if (STATUS_SUCCESS != thread_cond_signal_all(info.worker_cond))
+
+    /* acquire the lock. */
+    if (STATUS_SUCCESS != thread_mutex_lock_acquire(&lock, info.mutex))
+    {
+        errorcode = 99;
+
+        /* we can't do any further cleanup if this happens. */
+        exit(errorcode);
+    }
+
+    /* signal all workers. */
+    if (STATUS_SUCCESS != thread_cond_signal_all(lock, info.worker_cond))
     {
         if (0 == errorcode)
             errorcode = 96;
+
+        /* we can't do any further cleanup if this happens. */
+        exit(errorcode);
+    }
+
+    /* release the lock. */
+    if (STATUS_SUCCESS !=
+            resource_release(thread_mutex_lock_resource_handle(lock)))
+    {
+        errorcode = 97;
 
         /* we can't do any further cleanup if this happens. */
         exit(errorcode);

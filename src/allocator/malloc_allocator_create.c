@@ -22,7 +22,7 @@ static status malloc_allocator_allocate(allocator*, void**, size_t);
 static status malloc_allocator_reclaim(allocator*, void*);
 static status malloc_allocator_reallocate(allocator*, void**, size_t);
 
-RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(RCPR_SYM(allocator));
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(allocator);
 
 /**
  * \brief Create an allocator backed by malloc / free.
@@ -64,11 +64,11 @@ RCPR_SYM(malloc_allocator_create)(
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
-        (*alloc)->MODEL_STRUCT_TAG_REF(allocator), allocator);
+        (*alloc)->RCPR_MODEL_STRUCT_TAG_REF(allocator), allocator);
 
     /* set the tag. */
     RCPR_MODEL_STRUCT_TAG_INIT(
-        (*alloc)->MODEL_STRUCT_TAG_REF(allocator), allocator);
+        (*alloc)->RCPR_MODEL_STRUCT_TAG_REF(allocator), allocator);
 
     /* set the release method. */
     resource_init(&(*alloc)->hdr, &malloc_allocator_release);

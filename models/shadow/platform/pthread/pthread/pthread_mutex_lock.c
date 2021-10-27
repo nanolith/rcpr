@@ -5,9 +5,9 @@
 
 int pthread_mutex_lock(pthread_mutex_t* mutex)
 {
-    MODEL_ASSERT(NULL != mutex);
-    MODEL_ASSERT(NULL != *mutex);
-    MODEL_ASSERT(NULL == (*mutex)->lock);
+    RCPR_MODEL_ASSERT(NULL != mutex);
+    RCPR_MODEL_ASSERT(NULL != *mutex);
+    RCPR_MODEL_ASSERT(NULL == (*mutex)->lock);
 
     (*mutex)->lock =
         (struct pthread_mutex_lock*)malloc(sizeof(struct pthread_mutex_lock));

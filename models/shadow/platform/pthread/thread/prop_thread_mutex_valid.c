@@ -11,7 +11,11 @@
 
 #include "../../../../../src/platform/pthread/thread/thread_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex);
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_thread;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex);
 
 /**
  * \brief Valid \ref thread property.
@@ -20,11 +24,11 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex);
  *
  * \returns true if the \ref thread_mutex instance is valid.
  */
-bool prop_thread_mutex_valid(const thread_mutex* mut)
+bool RCPR_SYM(prop_thread_mutex_valid)(const thread_mutex* mut)
 {
-    MODEL_ASSERT(NULL != mut);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        mut->MODEL_STRUCT_TAG_REF(thread_mutex), thread_mutex);
+    RCPR_MODEL_ASSERT(NULL != mut);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        mut->RCPR_MODEL_STRUCT_TAG_REF(thread_mutex), thread_mutex);
 
     return
         prop_allocator_valid(mut->alloc)

@@ -45,6 +45,6 @@ void* cbmc_malloc(size_t size)
  */
 void cbmc_free(void* ptr)
 {
-    MODEL_ASSERT(NULL != ptr);
+    RCPR_MODEL_ASSERT(NULL != ptr);
     free(ptr);
 }

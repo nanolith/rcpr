@@ -5,7 +5,7 @@
 
 int pthread_attr_init(pthread_attr_t *attr)
 {
-    MODEL_ASSERT(NULL != attr);
+    RCPR_MODEL_ASSERT(NULL != attr);
 
     *attr = (struct pthread_attr*)malloc(sizeof(struct pthread_attr));
 
