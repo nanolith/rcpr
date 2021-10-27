@@ -3,6 +3,11 @@
 #include <rcpr/resource.h>
 #include <rcpr/fiber.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
+
 void allocator_struct_tag_init();
 void fiber_struct_tag_init();
 void fiber_scheduler_struct_tag_init();
@@ -12,13 +17,14 @@ status FN_DECL_MUST_CHECK
 dummy_fiber_create(
     fiber** fib, allocator* a, fiber_fn fn);
 
-status fiber_entry(fiber_scheduler* sched, fiber* fib);
+status RCPR_SYM(fiber_entry)(fiber_scheduler* sched, fiber* fib);
 
 static status callback(
     void* context, fiber* yield_fib, int yield_event, void* yield_param,
-    fiber** resume_fib, int* resume_event, void** resume_param)
+    fiber** resume_fib, const rcpr_uuid* resume_id, int* resume_event,
+    void** resume_param)
 {
-    MODEL_ASSERT(prop_fiber_valid(yield_fib));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
 
     *resume_fib = yield_fib;
     *resume_param = NULL;
@@ -74,7 +80,7 @@ int main(int argc, char* argv[])
     if (STATUS_SUCCESS != retval)
     {
         /* the only reason why it could fail is due to a memory issue. */
-        MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
 
         goto cleanup_allocator;
     }
@@ -87,7 +93,7 @@ int main(int argc, char* argv[])
     }
 
     /* call fiber_entry. */
-    retval = fiber_entry(sched, fib);
+    retval = RCPR_SYM(fiber_entry)(sched, fib);
     if (STATUS_SUCCESS != retval)
     {
         goto cleanup_fiber;
@@ -96,12 +102,12 @@ int main(int argc, char* argv[])
 cleanup_fiber:
     /* release the fiber. */
     retval = resource_release(fiber_resource_handle(fib));
-    MODEL_ASSERT(STATUS_SUCCESS == retval);
+    RCPR_MODEL_ASSERT(STATUS_SUCCESS == retval);
 
 cleanup_fiber_scheduler:
     /* release the fiber_scheduler. */
     retval = resource_release(fiber_scheduler_resource_handle(sched));
-    MODEL_ASSERT(STATUS_SUCCESS == retval);
+    RCPR_MODEL_ASSERT(STATUS_SUCCESS == retval);
 
 cleanup_allocator:
     /* release the allocator. */

@@ -11,9 +11,9 @@
 
 #include "../../../src/fiber/common/fiber_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(fiber);
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(fiber);
 
 void fiber_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(fiber);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(fiber);
 }

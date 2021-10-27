@@ -11,9 +11,9 @@
 
 #include "../../../src/stack/stack_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(stack);
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(stack);
 
 void stack_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(stack);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(stack);
 }

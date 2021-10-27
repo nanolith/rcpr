@@ -14,6 +14,8 @@
 
 #include "stack_internal.h"
 
+RCPR_IMPORT_stack;
+
 /**
  * \brief Given a \ref stack instance, return the resource handle for this
  * \ref stack instance.

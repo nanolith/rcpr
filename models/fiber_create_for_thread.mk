@@ -6,12 +6,15 @@ ALL:
 	--drop-unused-functions \
 	--unwind 10 --unwinding-assertions \
     --unwindset list_release.0:1,list_release:1 \
-	-I ../include \
+	-I ../include -I ../build/include \
 	../models/shadow/allocator/allocator.c \
 	../models/shadow/allocator/allocator_struct_tag_init.c \
 	../models/shadow/allocator/prop_allocator_valid.c \
 	../models/shadow/fiber/prop_fiber_valid.c \
 	../models/shadow/fiber/fiber_struct_tag_init.c \
+    ../models/shadow/fiber/fiber_scheduler_struct_tag_init.c \
+    ../models/shadow/fiber/fiber_scheduler_create.c \
+    ../models/shadow/fiber/prop_fiber_scheduler_valid.c \
 	../models/shadow/resource/prop_resource_valid.c \
 	../models/shadow/resource/resource_struct_tag_init.c \
 	../models/shadow/resource/mock_resource_release.c \
@@ -26,6 +29,7 @@ ALL:
 	../src/fiber/common/fiber_create_for_thread.c \
 	../src/fiber/common/fiber_resource_handle.c \
 	../src/fiber/common/fiber_resource_release.c \
+	../src/fiber/common/fiber_scheduler_resource_handle.c \
 	../src/resource/resource_release.c \
 	../src/resource/resource_init.c \
 	../src/stack/stack_resource_handle.c \

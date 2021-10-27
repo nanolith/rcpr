@@ -11,7 +11,11 @@
 
 #include "../../../src/fiber/common/fiber_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler);
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_resource;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler);
 
 /**
  * \brief Valid \ref fiber_scheduler property.
@@ -20,11 +24,11 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler);
  *
  * \returns true if the \ref fiber_scheduler instance is valid.
  */
-bool prop_fiber_scheduler_valid(const fiber_scheduler* sched)
+bool RCPR_SYM(prop_fiber_scheduler_valid)(const fiber_scheduler* sched)
 {
-    MODEL_ASSERT(NULL != sched);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        sched->MODEL_STRUCT_TAG_REF(fiber_scheduler), fiber_scheduler);
+    RCPR_MODEL_ASSERT(NULL != sched);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        sched->RCPR_MODEL_STRUCT_TAG_REF(fiber_scheduler), fiber_scheduler);
 
     return
         prop_resource_valid(&sched->hdr)

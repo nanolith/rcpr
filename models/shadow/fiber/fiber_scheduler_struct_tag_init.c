@@ -11,9 +11,9 @@
 
 #include "../../../src/fiber/common/fiber_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(fiber_scheduler);
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(fiber_scheduler);
 
 void fiber_scheduler_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(fiber_scheduler);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(fiber_scheduler);
 }

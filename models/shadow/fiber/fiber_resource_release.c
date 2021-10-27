@@ -3,11 +3,15 @@
 
 #include "../../../src/fiber/common/fiber_internal.h"
 
-status fiber_resource_release(resource* r)
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_fiber;
+RCPR_IMPORT_resource;
+
+status RCPR_SYM(fiber_resource_release)(resource* r)
 {
     status stack_retval, retval;
     fiber* fib = (fiber*)r;
-    MODEL_ASSERT(prop_fiber_valid(fib));
+    RCPR_MODEL_ASSERT(prop_fiber_valid(fib));
 
     /* cache the allocator. */
     allocator* a = fib->alloc;
