@@ -5,7 +5,7 @@ ALL:
 	--div-by-zero-check --pointer-overflow-check --trace --stop-on-fail -DCBMC \
 	--drop-unused-functions \
 	--unwind 10 --unwinding-assertions \
-	-I ../include \
+	-I ../include -I ../build/include \
 	../src/socket_utilities/socket_utility_socketpair.c \
 	../models/shadow/allocator/allocator.c \
 	../models/shadow/unistd/close.c \
