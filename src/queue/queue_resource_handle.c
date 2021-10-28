@@ -14,6 +14,8 @@
 
 #include "queue_internal.h"
 
+RCPR_IMPORT_queue;
+
 /**
  * \brief Given an \ref queue instance, return the resource handle for this
  * \ref queue instance.

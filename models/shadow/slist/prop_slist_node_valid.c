@@ -11,7 +11,11 @@
 
 #include "../../../src/slist/slist_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(slist_node);
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_slist;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(slist_node);
 
 /**
  * \brief Valid \ref slist_node property.
@@ -20,14 +24,14 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(slist_node);
  *
  * \returns true if the \ref slist_node instance is valid.
  */
-bool prop_slist_node_valid(const slist_node* node)
+bool RCPR_SYM(prop_slist_node_valid)(const slist_node* node)
 {
-    MODEL_ASSERT(NULL != node);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        node->MODEL_STRUCT_TAG_REF(slist_node), slist_node);
+    RCPR_MODEL_ASSERT(NULL != node);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        node->RCPR_MODEL_STRUCT_TAG_REF(slist_node), slist_node);
 
-    MODEL_ASSERT(prop_resource_valid(&node->hdr));
-    MODEL_ASSERT(prop_allocator_valid(node->alloc));
+    RCPR_MODEL_ASSERT(prop_resource_valid(&node->hdr));
+    RCPR_MODEL_ASSERT(prop_allocator_valid(node->alloc));
 
     return
         prop_resource_valid(&node->hdr)

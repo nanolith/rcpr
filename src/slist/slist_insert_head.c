@@ -14,6 +14,7 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_resource;
 RCPR_IMPORT_slist;
 RCPR_IMPORT_slist_internal;
 

@@ -14,6 +14,8 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_slist;
+
 /**
  * \brief Given an \ref slist instance, return the resource handle for this
  * \ref slist instance.

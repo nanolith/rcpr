@@ -11,7 +11,11 @@
 
 #include "../../../src/queue/queue_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(queue);
+RCPR_IMPORT_queue;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_slist;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(queue);
 
 /**
  * \brief Valid \ref queue property.
@@ -20,11 +24,11 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(queue);
  *
  * \returns true if the \ref queue instance is valid.
  */
-bool prop_queue_valid(const queue* q)
+bool RCPR_SYM(prop_queue_valid)(const queue* q)
 {
-    MODEL_ASSERT(NULL != q);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        q->MODEL_STRUCT_TAG_REF(queue), queue);
+    RCPR_MODEL_ASSERT(NULL != q);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        q->RCPR_MODEL_STRUCT_TAG_REF(queue), queue);
 
     return
         prop_resource_valid(&q->hdr)

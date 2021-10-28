@@ -14,6 +14,8 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_slist;
+
 /**
  * \brief Get the tail of a \ref slist.
  *
