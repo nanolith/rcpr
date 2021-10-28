@@ -10,6 +10,8 @@
 #include <rcpr/model_assert.h>
 #include <rcpr/uuid.h>
 
+RCPR_IMPORT_uuid;
+
 /**
  * \brief Valid \ref rcpr_uuid property.
  *
@@ -17,10 +19,10 @@
  *
  * \returns true if the \ref rcpr_uuid instance is valid.
  */
-bool prop_uuid_valid(const rcpr_uuid* id)
+bool RCPR_SYM(prop_uuid_valid)(const rcpr_uuid* id)
 {
-    MODEL_ASSERT(NULL != id);
-    MODEL_ASSERT(prop_valid_range((const void*)id, sizeof(rcpr_uuid)));
+    RCPR_MODEL_ASSERT(NULL != id);
+    RCPR_MODEL_ASSERT(prop_valid_range((const void*)id, sizeof(rcpr_uuid)));
 
     return true;
 }

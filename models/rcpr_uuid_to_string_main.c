@@ -3,6 +3,10 @@
 #include <rcpr/resource.h>
 #include <rcpr/uuid.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_uuid;
+
 void allocator_struct_tag_init();
 
 int main(int argc, char* argv[])
