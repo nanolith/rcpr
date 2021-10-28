@@ -5,6 +5,11 @@
 #include <rcpr/socket_utilities.h>
 #include <unistd.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_psock;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_socket_utilities;
+
 void allocator_struct_tag_init();
 void psock_struct_tag_init();
 
@@ -51,7 +56,7 @@ int main(int argc, char* argv[])
     if (STATUS_SUCCESS != retval)
     {
         /* the only reason why it could fail is due to a memory issue. */
-        MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
 
         close(lhs);
         resource_release(allocator_resource_handle(alloc));

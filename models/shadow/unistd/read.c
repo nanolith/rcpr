@@ -11,12 +11,12 @@ size_t nondet_size();
 
 ssize_t read(int fd, void* buf, size_t count)
 {
-    MODEL_ASSERT(fd >= 0);
-    MODEL_ASSERT(NULL != descriptor_array[fd]);
-    MODEL_ASSERT(NULL != buf);
+    RCPR_MODEL_ASSERT(fd >= 0);
+    RCPR_MODEL_ASSERT(NULL != descriptor_array[fd]);
+    RCPR_MODEL_ASSERT(NULL != buf);
 
     /* verify the min and max bounds of buf with respect to count. */
-    MODEL_ASSERT(prop_valid_range(buf, count));
+    RCPR_MODEL_ASSERT(prop_valid_range(buf, count));
 
     /* mutate the buf data. */
     size_t mutate_count = count > 9 ? 9 : count;
