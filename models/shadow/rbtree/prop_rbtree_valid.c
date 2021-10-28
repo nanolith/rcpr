@@ -11,7 +11,12 @@
 
 #include "../../../src/rbtree/rbtree_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree);
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+RCPR_IMPORT_resource;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree);
 
 /**
  * \brief Valid \ref rbtree property.
@@ -20,15 +25,15 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree);
  *
  * \returns true if the \ref rbtree instance is valid.
  */
-bool prop_rbtree_valid(const rbtree* tree)
+bool RCPR_SYM(prop_rbtree_valid)(const rbtree* tree)
 {
-    MODEL_ASSERT(NULL != tree);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        tree->MODEL_STRUCT_TAG_REF(rbtree), rbtree);
+    RCPR_MODEL_ASSERT(NULL != tree);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        tree->RCPR_MODEL_STRUCT_TAG_REF(rbtree), rbtree);
 
     if (tree->nil != tree->root)
     {
-        MODEL_ASSERT(prop_rbtree_node_valid(tree, tree->root));
+        RCPR_MODEL_ASSERT(prop_rbtree_node_valid(tree, tree->root));
     }
 
     return

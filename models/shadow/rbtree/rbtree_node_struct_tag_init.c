@@ -11,9 +11,9 @@
 
 #include "../../../src/rbtree/rbtree_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(rbtree_node);
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(rbtree_node);
 
 void rbtree_node_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(rbtree_node);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(rbtree_node);
 }
