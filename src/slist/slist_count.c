@@ -14,6 +14,8 @@
 
 #include "slist_internal.h"
 
+RCPR_IMPORT_slist;
+
 /**
  * \brief Get the count of nodes in an \ref slist.
  *

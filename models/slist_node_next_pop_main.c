@@ -3,6 +3,10 @@
 #include <rcpr/resource.h>
 #include <rcpr/slist.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_slist;
+
 void allocator_struct_tag_init();
 void resource_struct_tag_init();
 void slist_struct_tag_init();
@@ -40,7 +44,7 @@ int main(int argc, char* argv[])
     if (STATUS_SUCCESS != retval)
     {
         /* the only reason why it could fail is due to a memory issue. */
-        MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
 
         goto cleanup_allocator;
     }
@@ -107,7 +111,7 @@ int main(int argc, char* argv[])
     }
 
     /* it should match r2. */
-    MODEL_ASSERT(r2p == r2);
+    RCPR_MODEL_ASSERT(r2p == r2);
 
     /* pop the first resource. */
     resource* r1p = NULL;
@@ -118,7 +122,7 @@ int main(int argc, char* argv[])
     }
 
     /* it should match r1. */
-    MODEL_ASSERT(r1p == r1);
+    RCPR_MODEL_ASSERT(r1p == r1);
 
     /* success. clean up. */
     goto cleanup_mocks;
