@@ -3,6 +3,10 @@
 #include <rcpr/resource.h>
 #include <rcpr/stack.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_stack;
+
 extern bool munmap_force_unmap;
 
 void allocator_struct_tag_init();
@@ -32,7 +36,7 @@ int main(int argc, char* argv[])
     if (STATUS_SUCCESS != retval)
     {
         /* the only reason why it could fail is due to a memory issue. */
-        MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
 
         goto cleanup_allocator;
     }
@@ -42,7 +46,7 @@ cleanup_stack:
     retval = resource_release(stack_resource_handle(st));
     if (STATUS_SUCCESS != retval)
     {
-        MODEL_ASSERT(ERROR_STACK_UNMAP == retval);
+        RCPR_MODEL_ASSERT(ERROR_STACK_UNMAP == retval);
 
         /* note: this is only to ensure that the model check completes. */
         /* In application code, if the unmapping fails, the application */
