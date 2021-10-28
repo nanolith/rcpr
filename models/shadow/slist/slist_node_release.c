@@ -16,6 +16,11 @@
 #include "../../../src/allocator/allocator_internal.h"
 #include "../../../src/slist/slist_internal.h"
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_slist;
+RCPR_IMPORT_slist_internal;
+
 status mock_resource_release(resource* r);
 
 /**
@@ -27,12 +32,12 @@ status mock_resource_release(resource* r);
  *      - STATUS_SUCCESS on success.
  *      - an error code on failure.
  */
-status slist_node_release(resource* r)
+status RCPR_SYM(slist_node_release)(resource* r)
 {
     slist_node* n = (slist_node*)r;
 
-    MODEL_ASSERT(prop_slist_node_valid(n));
-    MODEL_ASSERT(NULL == n->parent && NULL == n->next);
+    RCPR_MODEL_ASSERT(prop_slist_node_valid(n));
+    RCPR_MODEL_ASSERT(NULL == n->parent && NULL == n->next);
 
     /* if the child resource is set, release it. */
     if (NULL != n->child)

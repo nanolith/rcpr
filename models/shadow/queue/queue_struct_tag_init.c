@@ -11,9 +11,9 @@
 
 #include "../../../src/queue/queue_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(queue);
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(queue);
 
 void queue_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(queue);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(queue);
 }

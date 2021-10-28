@@ -3,6 +3,11 @@
 #include <rcpr/resource.h>
 #include <rcpr/queue.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_queue;
+RCPR_IMPORT_resource;
+RCPR_IMPORT_slist;
+
 void allocator_struct_tag_init();
 void queue_struct_tag_init();
 void resource_struct_tag_init();
@@ -44,7 +49,7 @@ int main(int argc, char* argv[])
     if (STATUS_SUCCESS != retval)
     {
         /* the only reason why it could fail is due to a memory issue. */
-        MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
 
         goto cleanup_allocator;
     }

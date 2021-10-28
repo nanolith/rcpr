@@ -11,9 +11,9 @@
 
 #include "../../../src/slist/slist_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(slist_node);
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(slist_node);
 
 void slist_node_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(slist_node);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(slist_node);
 }
