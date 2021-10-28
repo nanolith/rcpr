@@ -11,6 +11,8 @@
 
 #include "rbtree_internal.h"
 
+RCPR_IMPORT_rbtree;
+
 /**
  * \brief Given a \ref rbtree instance, return the resource handle for this
  * \ref rbtree instance.

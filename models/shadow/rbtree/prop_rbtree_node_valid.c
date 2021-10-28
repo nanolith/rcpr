@@ -11,7 +11,11 @@
 
 #include "../../../src/rbtree/rbtree_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree_node);
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+RCPR_IMPORT_resource;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree_node);
 
 /**
  * \brief Valid \ref rbtree_node property.
@@ -22,20 +26,21 @@ MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree_node);
  *
  * \returns true if the \ref rbtree instance is valid.
  */
-bool prop_rbtree_node_valid(const rbtree* tree, const rbtree_node* node)
+bool RCPR_SYM(prop_rbtree_node_valid)(
+    const rbtree* tree, const rbtree_node* node)
 {
-    MODEL_ASSERT(NULL != node);
-    MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
-        node->MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    RCPR_MODEL_ASSERT(NULL != node);
+    RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
+        node->RCPR_MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
 
     if (node->left != tree->nil)
     {
-        MODEL_ASSERT(prop_rbtree_node_valid(tree, node->left));
+        RCPR_MODEL_ASSERT(prop_rbtree_node_valid(tree, node->left));
     }
 
     if (node->right != tree->nil)
     {
-        MODEL_ASSERT(prop_rbtree_node_valid(tree, node->right));
+        RCPR_MODEL_ASSERT(prop_rbtree_node_valid(tree, node->right));
     }
 
     return

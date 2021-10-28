@@ -5,7 +5,13 @@
 
 #include "../src/rbtree/rbtree_internal.h"
 
-MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree_node);
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_compare;
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_rbtree_internal;
+RCPR_IMPORT_resource;
+
+RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree_node);
 void allocator_struct_tag_init();
 void rbtree_struct_tag_init();
 void rbtree_node_struct_tag_init();
@@ -54,7 +60,7 @@ int main(int argc, char* argv[])
     if (STATUS_SUCCESS != retval)
     {
         /* the only reason why it could fail is due to a memory issue. */
-        MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
 
         goto cleanup_allocator;
     }
@@ -69,38 +75,38 @@ int main(int argc, char* argv[])
     /* PRECONDITIONS, as per Cormen et al figure 13.2... */
     tree->root = &parent;
     resource_init(&parent.hdr, &dummy_rbtree_node_resource_release);
-    MODEL_STRUCT_TAG_INIT(
-        parent.MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    RCPR_MODEL_STRUCT_TAG_INIT(
+        parent.RCPR_MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
     parent.parent = tree->nil;
     parent.left = tree->nil;
     parent.right = &y;
     parent.value = &tree->hdr;
     resource_init(&x.hdr, &dummy_rbtree_node_resource_release);
-    MODEL_STRUCT_TAG_INIT(x.MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    RCPR_MODEL_STRUCT_TAG_INIT(x.RCPR_MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
     x.parent = &y;
     x.left = &alpha;
     x.right = &beta;
     x.value = &tree->hdr;
     resource_init(&y.hdr, &dummy_rbtree_node_resource_release);
-    MODEL_STRUCT_TAG_INIT(y.MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    RCPR_MODEL_STRUCT_TAG_INIT(y.RCPR_MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
     y.parent = &parent;
     y.left = &x;
     y.right = &gamma;
     y.value = &tree->hdr;
     resource_init(&alpha.hdr, &dummy_rbtree_node_resource_release);
-    MODEL_STRUCT_TAG_INIT(alpha.MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    RCPR_MODEL_STRUCT_TAG_INIT(alpha.RCPR_MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
     alpha.parent = &x;
     alpha.left = tree->nil;
     alpha.right = tree->nil;
     alpha.value = &tree->hdr;
     resource_init(&beta.hdr, &dummy_rbtree_node_resource_release);
-    MODEL_STRUCT_TAG_INIT(beta.MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    RCPR_MODEL_STRUCT_TAG_INIT(beta.RCPR_MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
     beta.parent = &x;
     beta.left = tree->nil;
     beta.right = tree->nil;
     beta.value = &tree->hdr;
     resource_init(&gamma.hdr, &dummy_rbtree_node_resource_release);
-    MODEL_STRUCT_TAG_INIT(gamma.MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
+    RCPR_MODEL_STRUCT_TAG_INIT(gamma.RCPR_MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
     gamma.parent = &y;
     gamma.left = tree->nil;
     gamma.right = tree->nil;

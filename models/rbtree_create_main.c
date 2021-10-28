@@ -3,6 +3,11 @@
 #include <rcpr/resource.h>
 #include <rcpr/rbtree.h>
 
+RCPR_IMPORT_allocator;
+RCPR_IMPORT_compare;
+RCPR_IMPORT_rbtree;
+RCPR_IMPORT_resource;
+
 void allocator_struct_tag_init();
 void rbtree_struct_tag_init();
 
@@ -43,7 +48,7 @@ int main(int argc, char* argv[])
     if (STATUS_SUCCESS != retval)
     {
         /* the only reason why it could fail is due to a memory issue. */
-        MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
 
         goto cleanup_allocator;
     }
