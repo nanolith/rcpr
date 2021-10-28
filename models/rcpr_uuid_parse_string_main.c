@@ -2,6 +2,8 @@
 #include <rcpr/resource.h>
 #include <rcpr/uuid.h>
 
+RCPR_IMPORT_uuid;
+
 uint8_t nondet_char();
 static void build_random_input_string(char* str);
 
