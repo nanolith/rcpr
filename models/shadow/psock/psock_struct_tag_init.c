@@ -11,9 +11,9 @@
 
 #include "../../../src/psock/psock_internal.h"
 
-int MODEL_STRUCT_TAG_GLOBAL_REF(psock);
+int RCPR_MODEL_STRUCT_TAG_GLOBAL_REF(psock);
 
 void psock_struct_tag_init()
 {
-    MODEL_STRUCT_TAG_GLOBAL_INIT(psock);
+    RCPR_MODEL_STRUCT_TAG_GLOBAL_INIT(psock);
 }

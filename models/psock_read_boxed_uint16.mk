@@ -5,7 +5,7 @@ ALL:
 	--div-by-zero-check --pointer-overflow-check --trace --stop-on-fail -DCBMC \
 	--drop-unused-functions \
 	--unwind 10 --unwinding-assertions \
-	-I ../include \
+	-I ../include -I ../build/include \
 	../models/shadow/allocator/allocator.c \
 	../models/shadow/allocator/allocator_struct_tag_init.c \
 	../models/shadow/allocator/prop_allocator_valid.c \
@@ -14,6 +14,7 @@ ALL:
 	../models/shadow/psock/psock_struct_tag_init.c \
 	../models/shadow/resource/prop_resource_valid.c \
 	../models/shadow/resource/resource_struct_tag_init.c \
+	../models/shadow/unistd/accept.c \
 	../models/shadow/unistd/close.c \
 	../models/shadow/unistd/descriptor.c \
 	../models/shadow/unistd/socketpair.c \
@@ -27,8 +28,10 @@ ALL:
 	../src/allocator/allocator_resource_handle.c \
 	../src/allocator/malloc_allocator_create.c \
 	../src/psock/psock_create_from_descriptor.c \
+    ../src/psock/psock_from_descriptor_accept.c \
     ../src/psock/psock_from_descriptor_read.c \
     ../src/psock/psock_from_descriptor_write.c \
+    ../src/psock/psock_from_descriptor_release.c \
 	../src/psock/psock_read_boxed_uint16.c \
 	../src/psock/psock_read_raw_uint32.c \
 	../src/psock/psock_read_raw_uint16.c \

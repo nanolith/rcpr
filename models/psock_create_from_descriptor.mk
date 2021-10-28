@@ -5,7 +5,7 @@ ALL:
 	--div-by-zero-check --pointer-overflow-check --trace --stop-on-fail -DCBMC \
 	--drop-unused-functions \
 	--unwind 10 --unwinding-assertions \
-	-I ../include \
+	-I ../include -I ../build/include \
 	../models/shadow/allocator/allocator.c \
 	../models/shadow/allocator/allocator_struct_tag_init.c \
 	../models/shadow/allocator/prop_allocator_valid.c \
@@ -25,6 +25,7 @@ ALL:
 	../src/psock/psock_resource_handle.c \
 	../src/psock/psock_from_descriptor_read.c \
 	../src/psock/psock_from_descriptor_write.c \
+    ../src/psock/psock_from_descriptor_release.c \
 	../src/resource/resource_release.c \
 	../src/resource/resource_init.c \
 	../src/socket_utilities/socket_utility_socketpair.c \

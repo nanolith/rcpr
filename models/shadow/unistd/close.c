@@ -5,8 +5,8 @@
 int close(int fd)
 {
     /* parameter sanity checks. */
-    MODEL_ASSERT(fd >= 0);
-    MODEL_ASSERT(NULL != descriptor_array[fd]);
+    RCPR_MODEL_ASSERT(fd >= 0);
+    RCPR_MODEL_ASSERT(NULL != descriptor_array[fd]);
 
     /* trick the model checker into tracking file descriptors. */
     free(descriptor_array[fd]);

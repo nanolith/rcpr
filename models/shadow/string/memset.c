@@ -4,8 +4,8 @@
 
 void *cbmc_memset(void *s, int c, size_t n)
 {
-    MODEL_ASSERT(NULL != s);
-    MODEL_ASSERT(prop_valid_range(s, n));
+    RCPR_MODEL_ASSERT(NULL != s);
+    RCPR_MODEL_ASSERT(prop_valid_range(s, n));
 
     /* mutate the s data. */
     size_t mutate_count = n > 9 ? 9 : n;
