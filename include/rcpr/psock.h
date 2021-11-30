@@ -34,6 +34,36 @@ extern "C" {
 typedef struct RCPR_SYM(psock) RCPR_SYM(psock);
 
 /******************************************************************************/
+/* Start of support types.                                                    */
+/******************************************************************************/
+
+enum RCPR_SYM(psock_boxed_type)
+{
+    PSOCK_BOXED_TYPE_INT64                      =   0x00000010,
+    PSOCK_BOXED_TYPE_UINT64                     =   0x00000011,
+    PSOCK_BOXED_TYPE_INT32                      =   0x00000012,
+    PSOCK_BOXED_TYPE_UINT32                     =   0x00000013,
+    PSOCK_BOXED_TYPE_INT16                      =   0x00000014,
+    PSOCK_BOXED_TYPE_UINT16                     =   0x00000015,
+    PSOCK_BOXED_TYPE_INT8                       =   0x00000016,
+    PSOCK_BOXED_TYPE_UINT8                      =   0x00000017,
+    PSOCK_BOXED_TYPE_BOOL                       =   0x00000018,
+    PSOCK_BOXED_TYPE_STRING                     =   0x00000020,
+    PSOCK_BOXED_TYPE_DATA                       =   0x00000022,
+};
+
+typedef enum RCPR_SYM(psock_boxed_type) RCPR_SYM(psock_boxed_type);
+
+enum RCPR_SYM(socket_type)
+{
+    PSOCK_SOCKET_TYPE_STREAM            = 0x0001,
+    PSOCK_SOCKET_TYPE_DATAGRAM          = 0x0002,
+    PSOCK_SOCKET_TYPE_OTHER             = 0x0003,
+};
+
+typedef enum RCPR_SYM(socket_type) RCPR_SYM(socket_type);
+
+/******************************************************************************/
 /* Start of constructors.                                                     */
 /******************************************************************************/
 
@@ -1772,6 +1802,18 @@ RCPR_SYM(resource)*
 RCPR_SYM(psock_resource_handle)(
     RCPR_SYM(psock)* sock);
 
+/**
+ * \brief Given a \ref psock instance, return the socket type for this
+ * \ref psock instance, if applicable.
+ *
+ * \param sock          The \ref psock instance from which this socket type is
+ *                      returned.
+ * \returns the socket type for this \ref psock instance.
+ */
+RCPR_SYM(socket_type)
+RCPR_SYM(psock_socket_type)(
+    RCPR_SYM(psock)* sock);
+
 /******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
@@ -1788,30 +1830,13 @@ RCPR_SYM(prop_psock_valid)(
     const RCPR_SYM(psock)* sock);
 
 /******************************************************************************/
-/* Start of support types.                                                    */
-/******************************************************************************/
-
-enum psock_boxed_type
-{
-    PSOCK_BOXED_TYPE_INT64                      =   0x00000010,
-    PSOCK_BOXED_TYPE_UINT64                     =   0x00000011,
-    PSOCK_BOXED_TYPE_INT32                      =   0x00000012,
-    PSOCK_BOXED_TYPE_UINT32                     =   0x00000013,
-    PSOCK_BOXED_TYPE_INT16                      =   0x00000014,
-    PSOCK_BOXED_TYPE_UINT16                     =   0x00000015,
-    PSOCK_BOXED_TYPE_INT8                       =   0x00000016,
-    PSOCK_BOXED_TYPE_UINT8                      =   0x00000017,
-    PSOCK_BOXED_TYPE_BOOL                       =   0x00000018,
-    PSOCK_BOXED_TYPE_STRING                     =   0x00000020,
-    PSOCK_BOXED_TYPE_DATA                       =   0x00000022,
-};
-
-/******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define RCPR_IMPORT_psock_as(sym) \
     RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(psock) sym ## _ ## psock; \
+    typedef RCPR_SYM(psock_boxed_type) sym ## _ ## psock_boxed_type; \
+    typedef RCPR_SYM(socket_type) sym ## _ ## socket_type; \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## psock_create_from_descriptor( \
         RCPR_SYM(psock)** x, RCPR_SYM(allocator)* y, int z) { \
@@ -2023,6 +2048,9 @@ enum psock_boxed_type
     sym ## _ ## psock_resource_handle( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_resource_handle)(x); } \
+    static inline RCPR_SYM(socket_type) sym ## _ ## psock_socket_type( \
+        RCPR_SYM(psock)* x) { \
+            return RCPR_SYM(psock_socket_type)(x); } \
     static inline bool \
     sym ## _ ## prop_psock_valid( \
         const RCPR_SYM(psock)* x) { \
@@ -2033,6 +2061,8 @@ enum psock_boxed_type
 #define RCPR_IMPORT_psock \
     RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(psock) psock; \
+    typedef RCPR_SYM(psock_boxed_type) psock_boxed_type; \
+    typedef RCPR_SYM(socket_type) socket_type; \
     static inline status FN_DECL_MUST_CHECK psock_create_from_descriptor( \
         RCPR_SYM(psock)** x, RCPR_SYM(allocator)* y, int z) { \
             return RCPR_SYM(psock_create_from_descriptor)(x,y,z); } \
@@ -2193,6 +2223,9 @@ enum psock_boxed_type
     static inline RCPR_SYM(resource)* psock_resource_handle( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_resource_handle)(x); } \
+    static inline RCPR_SYM(socket_type) psock_socket_type( \
+        RCPR_SYM(psock)* x) { \
+            return RCPR_SYM(psock_socket_type)(x); } \
     static inline bool prop_psock_valid( \
         const RCPR_SYM(psock)* x) { \
             return RCPR_SYM(prop_psock_valid)(x); } \

@@ -99,6 +99,9 @@ RCPR_SYM(psock_create_from_buffer)(
     /* set the type. */
     ps->hdr.type = PSOCK_TYPE_BUFFER;
 
+    /* set the socket type. */
+    ps->hdr.socktype = PSOCK_SOCKET_TYPE_OTHER;
+
     /* set the allocator. */
     ps->hdr.alloc = a;
 
