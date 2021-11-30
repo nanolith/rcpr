@@ -36,6 +36,7 @@ struct RCPR_SYM(psock)
 
     RCPR_MODEL_STRUCT_TAG(psock);
     int type;
+    int socktype;
 
     RCPR_SYM(allocator)* alloc;
     status (*read_fn)(
@@ -45,6 +46,10 @@ struct RCPR_SYM(psock)
     status (*accept_fn)(
         RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
         socklen_t* addrlen);
+    status (*sendmsg_fn)(
+        RCPR_SYM(psock)* sock, const void* data, size_t* size, int flags);
+    status (*recvmsg_fn)(
+        RCPR_SYM(psock)* sock, void* msghdr, size_t* size, int flags);
 };
 
 /* forward decls for psock_from_descriptor. */

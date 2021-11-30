@@ -173,6 +173,9 @@ RCPR_SYM(psock_create_wrap_async)(
     /* set the type. */
     ps->hdr.type = PSOCK_TYPE_WRAP_ASYNC;
 
+    /* set the socket type. */
+    ps->hdr.socktype = child->socktype;
+
     /* set the allocator. */
     ps->hdr.alloc = a;
 

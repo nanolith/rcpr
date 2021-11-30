@@ -16,6 +16,7 @@
 
 /* forward decls. */
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
+static RCPR_SYM(socket_type) psock_get_socket_type_from_descriptor(int desc);
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_psock;
@@ -97,6 +98,9 @@ RCPR_SYM(psock_create_from_descriptor)(
     /* set the type. */
     ps->hdr.type = PSOCK_TYPE_DESCRIPTOR;
 
+    /* set the socket type. */
+    ps->hdr.socktype = psock_get_socket_type_from_descriptor(descriptor);
+
     /* set the allocator. */
     ps->hdr.alloc = a;
 
@@ -113,4 +117,34 @@ RCPR_SYM(psock_create_from_descriptor)(
 
     /* success. */
     return STATUS_SUCCESS;
+}
+
+/**
+ * \brief Get the socket type from the given descriptor.
+ *
+ * \param desc      The descriptor to query.
+ *
+ * \returns an applicable socket type.
+ */
+static RCPR_SYM(socket_type) psock_get_socket_type_from_descriptor(int desc)
+{
+    int type;
+    socklen_t length = sizeof(type);
+
+    if (getsockopt(desc, SOL_SOCKET, SO_TYPE, &type, &length) < 0)
+    {
+        return PSOCK_SOCKET_TYPE_OTHER;
+    }
+    else if (SOCK_STREAM == type)
+    {
+        return PSOCK_SOCKET_TYPE_STREAM;
+    }
+    else if (SOCK_DGRAM == type)
+    {
+        return PSOCK_SOCKET_TYPE_DATAGRAM;
+    }
+    else
+    {
+        return PSOCK_SOCKET_TYPE_OTHER;
+    }
 }
