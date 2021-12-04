@@ -1419,6 +1419,36 @@ RCPR_SYM(psock_read_raw_data)(
     size_t data_size);
 
 /**
+ * \brief Read a SCM_RIGHTS message from the \ref psock instance, transferring
+ * a copy of this open file descriptor from the peer to this process.
+ *
+ * \note This will only work for a Unix datagram socket, and this method will
+ * verify the socket type.
+ *
+ * \param sock          Pointer to the \ref psock instance from which this
+ *                      descriptor is read.
+ * \param desc          Pointer to receive the descriptor on success.
+ *
+ * This method receives a duplicate an open descriptor from the peer.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL. It must be a Unix domain datagram socket.
+ *      - \p desc must be a valid pointer to an integer variable that will
+ *        receive the descriptor.
+ * \post
+ *      - On success, \p desc is set to a descriptor that is owned by the caller
+ *        and must be closed when no longer needed.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(psock_read_raw_descriptor)(
+    RCPR_SYM(psock)* sock, int* desc);
+
+/**
  * \brief Write a raw value to the given \ref psock instance that will be read
  * from the remote end of this socket by the peer calling
  * \ref psock_read_raw_int64.
@@ -1696,6 +1726,36 @@ RCPR_SYM(psock_write_raw_bool)(
 status FN_DECL_MUST_CHECK
 RCPR_SYM(psock_write_raw_data)(
     RCPR_SYM(psock)* sock, const void* data, size_t data_size);
+
+/**
+ * \brief Write a SCM_RIGHTS message to the \ref psock instance, transferring
+ * an open file descriptor to the peer.
+ *
+ * \note This will only work for a Unix datagram socket, and this method will
+ * verify the socket type.
+ *
+ * \param sock          Pointer to the \ref psock instance over which this
+ *                      descriptor is sent.
+ * \param desc          The descriptor to transfer.
+ *
+ * This method sends a duplicate an open descriptor to the peer.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL. It must be a Unix domain datagram socket.
+ *      - \p desc must be a valid file descriptor that can be transferred to the
+ *        peer socket.
+ * \post
+ *      - On success, a new descriptor is given to the peer that is a duplicate
+ *        of \p desc.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(psock_write_raw_descriptor)(
+    RCPR_SYM(psock)* sock, int desc);
 
 /**
  * \brief Accept a socket from a listen socket \ref psock instance.
@@ -1997,6 +2057,10 @@ RCPR_SYM(prop_psock_valid)(
         RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t z) { \
             return RCPR_SYM(psock_read_raw_data)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_read_raw_descriptor( \
+        RCPR_SYM(psock)* x, int* y) { \
+            return RCPR_SYM(psock_read_raw_descriptor)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## psock_write_raw_int64( \
         RCPR_SYM(psock)* x, int64_t y) { \
             return RCPR_SYM(psock_write_raw_int64)(x,y); } \
@@ -2036,6 +2100,10 @@ RCPR_SYM(prop_psock_valid)(
     sym ## _ ## psock_write_raw_data( \
         RCPR_SYM(psock)* x, const void* y, size_t z) { \
             return RCPR_SYM(psock_write_raw_data)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## _ ## psock_write_raw_descriptor( \
+        RCPR_SYM(psock)* x, int y) { \
+            return RCPR_SYM(psock_write_raw_descriptor)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## _ ## psock_accept( \
         RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
@@ -2183,6 +2251,9 @@ RCPR_SYM(prop_psock_valid)(
     static inline status FN_DECL_MUST_CHECK psock_read_raw_data( \
         RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t z) { \
             return RCPR_SYM(psock_read_raw_data)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_read_raw_descriptor( \
+        RCPR_SYM(psock)* x, int* y) { \
+            return RCPR_SYM(psock_read_raw_descriptor)(x, y); } \
     static inline status FN_DECL_MUST_CHECK psock_write_raw_int64( \
         RCPR_SYM(psock)* x, int64_t y) { \
             return RCPR_SYM(psock_write_raw_int64)(x,y); } \
@@ -2216,6 +2287,9 @@ RCPR_SYM(prop_psock_valid)(
     static inline status FN_DECL_MUST_CHECK psock_accept( \
         RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
             return RCPR_SYM(psock_accept)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK psock_write_raw_descriptor( \
+        RCPR_SYM(psock)* x, int y) { \
+            return RCPR_SYM(psock_write_raw_descriptor)(x, y); } \
     static inline status FN_DECL_MUST_CHECK \
     psock_from_buffer_get_output_buffer( \
         RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t* z) { \
