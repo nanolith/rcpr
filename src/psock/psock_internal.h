@@ -47,9 +47,9 @@ struct RCPR_SYM(psock)
         RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
         socklen_t* addrlen);
     status (*sendmsg_fn)(
-        RCPR_SYM(psock)* sock, const void* data, size_t* size, int flags);
+        RCPR_SYM(psock)* sock, const struct msghdr* msg, int flags);
     status (*recvmsg_fn)(
-        RCPR_SYM(psock)* sock, void* msghdr, size_t* size, int flags);
+        RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags);
 };
 
 /* forward decls for psock_from_descriptor. */
