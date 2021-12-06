@@ -151,3 +151,15 @@
  */
 #define ERROR_PSOCK_POLL_FAILED \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0016)
+
+/**
+ * \brief psock sendmsg call failure.
+ */
+#define ERROR_PSOCK_SENDMSG_FAILED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0017)
+
+/**
+ * \brief psock recvmsg call failure.
+ */
+#define ERROR_PSOCK_RECVMSG_FAILED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0018)

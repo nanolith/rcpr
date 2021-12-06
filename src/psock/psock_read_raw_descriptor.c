@@ -62,7 +62,7 @@ RCPR_SYM(psock_read_raw_descriptor)(
 
     /* we can only work with datagram sockets. */
     if (PSOCK_SOCKET_TYPE_DATAGRAM != sock->socktype
-     || NULL == sock->sendmsg_fn)
+     || NULL == sock->recvmsg_fn)
     {
         return ERROR_PSOCK_UNSUPPORTED_TYPE;
     }

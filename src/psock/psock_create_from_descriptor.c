@@ -108,6 +108,8 @@ RCPR_SYM(psock_create_from_descriptor)(
     ps->hdr.read_fn = &psock_from_descriptor_read;
     ps->hdr.write_fn = &psock_from_descriptor_write;
     ps->hdr.accept_fn = &psock_from_descriptor_accept;
+    ps->hdr.sendmsg_fn = &psock_from_descriptor_sendmsg;
+    ps->hdr.recvmsg_fn = &psock_from_descriptor_recvmsg;
 
     /* set the socket. */
     *sock = &ps->hdr;
