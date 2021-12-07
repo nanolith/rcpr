@@ -5,10 +5,13 @@
  * psock_write_raw_descriptor.
  */
 
+#include <fcntl.h>
 #include <minunit/minunit.h>
 #include <rcpr/allocator.h>
 #include <rcpr/psock.h>
 #include <rcpr/socket_utilities.h>
+#include <stdlib.h>
+#include <sys/resource.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -18,6 +21,31 @@ RCPR_IMPORT_resource;
 RCPR_IMPORT_socket_utilities;
 
 TEST_SUITE(psock_read_write_raw_descriptor);
+
+static size_t count_open_fds()
+{
+    status retval;
+    struct rlimit rl;
+    size_t open_files = 0;
+
+    retval = getrlimit(RLIMIT_NOFILE, &rl);
+    if (retval < 0)
+    {
+        perror("getrlimit");
+        exit(1);
+    }
+
+    for (size_t i = 0; i < rl.rlim_max; ++i)
+    {
+        retval = fcntl(i, F_GETFL);
+        if (retval < 0)
+            continue;
+
+        ++open_files;
+    }
+
+    return open_files;
+}
 
 /**
  * Verify that attempting to write a raw descriptor to a stream socket fails.
@@ -139,6 +167,9 @@ TEST(read_write_raw_descriptor_datagram)
     TEST_ASSERT(
         STATUS_SUCCESS == malloc_allocator_create(&alloc));
 
+    /* get the open file count. */
+    size_t open_files1 = count_open_fds();
+
     /* we should be able to create socket pairs. */
     TEST_ASSERT(
         STATUS_SUCCESS ==
@@ -148,6 +179,10 @@ TEST(read_write_raw_descriptor_datagram)
         STATUS_SUCCESS ==
             socket_utility_socketpair(
                 AF_UNIX, SOCK_STREAM, 0, &lhs, &rhs));
+
+    /* the number of open files should have increased by 4. */
+    size_t open_files2 = count_open_fds();
+    TEST_ASSERT(open_files1 + 4 == open_files2);
 
     /* create a psock from the lhs_dg socket. */
     TEST_ASSERT(
@@ -165,9 +200,17 @@ TEST(read_write_raw_descriptor_datagram)
     TEST_ASSERT(
         STATUS_SUCCESS == psock_write_raw_descriptor(sl, rhs));
 
+    /* the SCM_RIGHTS packet does not increase the number of open files. */
+    size_t open_files3 = count_open_fds();
+    TEST_ASSERT(open_files2 == open_files3);
+
     /* read the rhs descriptor from the sr socket. */
     TEST_ASSERT(
         STATUS_SUCCESS == psock_read_raw_descriptor(sr, &desc));
+
+    /* reading the SCM_RIGHTS packet increases the number of open files by 1. */
+    size_t open_files4 = count_open_fds();
+    TEST_ASSERT(open_files3 + 1 == open_files4);
 
     /* verify that desc is a valid socket. */
     TEST_EXPECT(desc >= 0);
