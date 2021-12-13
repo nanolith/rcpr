@@ -1,7 +1,7 @@
 /**
- * \file psock/psock_from_descriptor_sendmsg.c
+ * \file psock/psock_wrap_async_sendmsg.c
  *
- * \brief Send a message over the given \ref psock instance.
+ * \brief Send a message over the given async \ref psock instance.
  *
  * \copyright 2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
@@ -27,26 +27,37 @@ RCPR_IMPORT_psock_internal;
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status RCPR_SYM(psock_from_descriptor_sendmsg)(
+status RCPR_SYM(psock_wrap_async_sendmsg)(
     RCPR_SYM(psock)* sock, const struct msghdr* msg, int flags)
 {
+    status retval;
+
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
     RCPR_MODEL_ASSERT(NULL != msg);
+    RCPR_MODEL_ASSERT(PSOCK_TYPE_WRAP_ASYNC == sock->type);
 
-    /* convert this to a psock_from_descriptor. */
-    psock_from_descriptor* s = (psock_from_descriptor*)sock;
+    /* convert this to a async wrapped psock instance. */
+    psock_wrap_async* s = (psock_wrap_async*)sock;
+    RCPR_MODEL_ASSERT(prop_psock_valid(s->wrapped));
 
-    /* attempt to send a message. */
-    if (sendmsg(s->descriptor, msg, flags) < 0)
+    /* loop through until the message is sent. */
+    for (;;)
     {
-        if (EAGAIN == errno || EWOULDBLOCK == errno)
+        retval = s->wrapped->sendmsg_fn(s->wrapped, msg, flags);
+        if (ERROR_PSOCK_WRITE_WOULD_BLOCK == retval)
         {
-            return ERROR_PSOCK_WRITE_WOULD_BLOCK;
+            /* yield to the psock I/O discipline. */
+            retval = psock_write_block(sock);
+            if (STATUS_SUCCESS != retval)
+            {
+                return retval;
+            }
         }
+        /* otherwise, return the status code received. */
         else
         {
-            return ERROR_PSOCK_SENDMSG_FAILED;
+            return retval;
         }
     }
 

@@ -1,7 +1,7 @@
 /**
- * \file psock/psock_from_descriptor_recvmsg.c
+ * \file psock/psock_wrap_async_recvmsg.c
  *
- * \brief Receive a message from the given \ref psock instance.
+ * \brief Receive a message from the given async \ref psock instance.
  *
  * \copyright 2021 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
@@ -28,34 +28,39 @@ RCPR_IMPORT_psock_internal;
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status RCPR_SYM(psock_from_descriptor_recvmsg)(
+status RCPR_SYM(psock_wrap_async_recvmsg)(
     RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags)
 {
-    ssize_t recvlen;
+    status retval;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
     RCPR_MODEL_ASSERT(NULL != msg);
     RCPR_MODEL_ASSERT(NULL != len);
+    RCPR_MODEL_ASSERT(prop_valid_range(data, *len));
+    RCPR_MODEL_ASSERT(PSOCK_TYPE_WRAP_ASYNC == sock->type);
 
-    /* convert this to a psock_from_descriptor. */
-    psock_from_descriptor* s = (psock_from_descriptor*)sock;
+    /* convert this to a async wrapped psock instance. */
+    psock_wrap_async* s = (psock_wrap_async*)sock;
+    RCPR_MODEL_ASSERT(prop_sock_valid(s->wrapped));
 
-    /* attempt to receive a message. */
-    recvlen = recvmsg(s->descriptor, msg, flags);
-    if (recvlen < 0)
+    /* loop until the receive succeeds. */
+    for (;;)
     {
-        if (EAGAIN == errno || EWOULDBLOCK == errno)
+        retval = s->wrapped->recvmsg_fn(s->wrapped, msg, len, flags);
+        if (ERROR_PSOCK_READ_WOULD_BLOCK == retval)
         {
-            return ERROR_PSOCK_READ_WOULD_BLOCK;
+            /* yield to the psock I/O discipline. */
+            retval = psock_read_block(sock);
+            if (STATUS_SUCCESS != retval)
+            {
+                return retval;
+            }
         }
+        /* otherwise, return the status code received. */
         else
         {
-            return ERROR_PSOCK_RECVMSG_FAILED;
+            return retval;
         }
     }
-
-    /* success. */
-    *len = (size_t)recvlen;
-    return STATUS_SUCCESS;
 }

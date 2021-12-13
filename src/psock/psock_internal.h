@@ -242,6 +242,35 @@ status RCPR_SYM(psock_wrap_async_accept)(
     socklen_t* addrlen);
 
 /**
+ * \brief Send a message over the \ref psock instance.
+ *
+ * \param sock          The \ref psock instance to which to send a message.
+ * \param msg           Pointer to the message to send.
+ * \param flags         The flags to use when sending the message.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status RCPR_SYM(psock_wrap_async_sendmsg)(
+    RCPR_SYM(psock)* sock, const struct msghdr* msg, int flags);
+
+/**
+ * \brief Receive a message from the \ref psock instance.
+ *
+ * \param sock          The \ref psock instance from which to receive a message.
+ * \param msg           Pointer to the message header to populate.
+ * \param len           The maximum length of the message.
+ * \param flags         The flags to use when sending the message.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status RCPR_SYM(psock_wrap_async_recvmsg)(
+    RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags);
+
+/**
  * \brief Create a psock I/O discipline instance.
  *
  * \param disc          Pointer to a pointer that will hold the discipline
@@ -474,6 +503,12 @@ status RCPR_SYM(psock_from_buffer_release)(RCPR_SYM(resource)* r);
     static inline status psock_from_descriptor_recvmsg( \
         RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
             return RCPR_SYM(psock_from_descriptor_recvmsg)(w,x,y,z); } \
+    static inline status psock_wrap_async_sendmsg( \
+        RCPR_SYM(psock)* x, const struct msghdr* y, int z) { \
+            return RCPR_SYM(psock_wrap_async_sendmsg)(x,y,z); } \
+    static inline status psock_wrap_async_recvmsg( \
+        RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
+            return RCPR_SYM(psock_wrap_async_recvmsg)(w,x,y,z); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
