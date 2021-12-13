@@ -183,6 +183,8 @@ RCPR_SYM(psock_create_wrap_async)(
     ps->hdr.read_fn = &psock_wrap_async_read;
     ps->hdr.write_fn = &psock_wrap_async_write;
     ps->hdr.accept_fn = &psock_wrap_async_accept;
+    ps->hdr.sendmsg_fn = &psock_wrap_async_sendmsg;
+    ps->hdr.recvmsg_fn = &psock_wrap_async_recvmsg;
 
     /* set the descriptor to non-blocking. */
     retval = socket_utility_set_nonblock(pchild->descriptor);
