@@ -115,6 +115,11 @@ status RCPR_SYM(message_discipline_message_send_callback_handler)(
                 &FIBER_SCHEDULER_MESSAGE_DISCIPLINE, resume_event,
                 resume_param);
     }
+    /* otherwise, leave the message on the queue. */
+    else
+    {
+        return STATUS_SUCCESS;
+    }
 
 resume_fail:
     resume_event = FIBER_SCHEDULER_MESSAGE_RESUME_EVENT_MESSAGE_SEND_FAILURE;
