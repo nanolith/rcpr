@@ -3,7 +3,7 @@
  *
  * \brief The RCPR red/black tree library.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2022 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -290,6 +290,17 @@ RCPR_SYM(rbtree_node_value)(
     RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* node);
 
 /**
+ * \brief Return the count of elements currently in this \ref rbtree instance.
+ *
+ * \param tree          The \ref rbtree instance.
+ *
+ * \returns the count of elements in the \ref rbtree instance.
+ */
+size_t
+RCPR_SYM(rbtree_count)(
+    RCPR_SYM(rbtree)* tree);
+
+/**
  * \brief Given a \ref rbtree instance, return the resource handle for this
  * \ref rbtree instance.
  *
@@ -361,6 +372,9 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline RCPR_SYM(resource)* sym ## _ ## rbtree_node_value( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_node_value)(x,y); } \
+    static inline size_t sym ## _ ## rbtree_count( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_count)(x); } \
     static inline RCPR_SYM(resource)* sym ## _ ## rbtree_resource_handle( \
         RCPR_SYM(rbtree)* x) { \
             return RCPR_SYM(rbtree_resource_handle)(x); } \
@@ -411,6 +425,9 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline RCPR_SYM(resource)* rbtree_node_value( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_node_value)(x,y); } \
+    static inline size_t rbtree_count( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_count)(x); } \
     static inline RCPR_SYM(resource)* rbtree_resource_handle( \
         RCPR_SYM(rbtree)* x) { \
             return RCPR_SYM(rbtree_resource_handle)(x); } \
