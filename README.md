@@ -24,3 +24,4 @@ Features
 * `fiber` - a fiber (green threads) library.
 * `uuid` - a simple uuid type and library.
 * `psock` - a socket abstraction library.
+* `psock fibers` - an async socket implementation backed by fibers.
