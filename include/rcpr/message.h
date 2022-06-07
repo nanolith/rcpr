@@ -22,6 +22,8 @@
 extern "C" {
 # endif /* __cplusplus */
 
+#define MESSAGE_ADDRESS_NONE 0U
+
 /**
  * \brief The message abstraction provides an envelope to which both a payload
  * and a return address can be attached.
