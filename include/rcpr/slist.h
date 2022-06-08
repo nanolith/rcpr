@@ -274,6 +274,27 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(slist_node_next_pop)(
     RCPR_SYM(slist_node)* node, RCPR_SYM(resource)** r);
 
+/**
+ * \brief Swap the contents of two slist instances.
+ *
+ * \param left          The left slist instance for the swap.
+ * \param right         The right slist instance for the swap.
+ *
+ * \note This operation always succeeds, as long as \p left and \p right are
+ * valid. If either are invalid, the result of this operation is unpredictable
+ * and will likely crash.
+ *
+ * \pre
+ *      - \p left must point to a valid \ref slist instance.
+ *      - \p right must point to a valid \ref slist instance.
+ * \post
+ *      - \p left contains and owns the contents previously contained and owned
+ *      by \p right.
+ *      - \p right contains and owns the contents previously contained and owned
+ *      by \p left.
+ */
+void RCPR_SYM(slist_swap)(RCPR_SYM(slist)* left, RCPR_SYM(slist)* right);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
@@ -486,6 +507,9 @@ RCPR_SYM(prop_slist_node_valid)(
     static inline status FN_DECL_MUST_CHECK sym ## _ ## slist_node_next_pop( \
         RCPR_SYM(slist_node)* x, RCPR_SYM(resource)** y) { \
             return RCPR_SYM(slist_node_next_pop)(x,y); } \
+    static inline void sym ## _ ## slist_swap( \
+        RCPR_SYM(slist)* x, RCPR_SYM(slist)* y) { \
+            return RCPR_SYM(slist_swap)(x,y); } \
     static inline RCPR_SYM(resource)* sym ## _ ## slist_resource_handle( \
         RCPR_SYM(slist)* x) { \
             return RCPR_SYM(slist_resource_handle)(x); } \
@@ -541,6 +565,9 @@ RCPR_SYM(prop_slist_node_valid)(
     static inline status FN_DECL_MUST_CHECK slist_node_next_pop( \
         RCPR_SYM(slist_node)* x, RCPR_SYM(resource)** y) { \
             return RCPR_SYM(slist_node_next_pop)(x,y); } \
+    static inline void slist_swap( \
+        RCPR_SYM(slist)* x, RCPR_SYM(slist)* y) { \
+            return RCPR_SYM(slist_swap)(x,y); } \
     static inline RCPR_SYM(resource)* slist_resource_handle( \
         RCPR_SYM(slist)* x) { \
             return RCPR_SYM(slist_resource_handle)(x); } \
