@@ -318,7 +318,6 @@ TEST(fiber_read_write_raw_descriptor)
         STATUS_SUCCESS == fiber_scheduler_run(sched));
 
     /* verify that the descriptor count is zero. */
-    printf("Read descriptor count: %d\n", ctx->read_descriptors);
     TEST_EXPECT(ctx->read_descriptors == 0);
 
     /* write a descriptor. */
@@ -330,7 +329,6 @@ TEST(fiber_read_write_raw_descriptor)
         STATUS_SUCCESS == psock_read_raw_uint32(io_in, &val));
 
     /* verify that the descriptor count is one. */
-    printf("Read descriptor count: %d\n", ctx->read_descriptors);
     TEST_EXPECT(ctx->read_descriptors == 1);
 
     /* write a descriptor. */
@@ -342,7 +340,6 @@ TEST(fiber_read_write_raw_descriptor)
         STATUS_SUCCESS == psock_read_raw_uint32(io_in, &val));
 
     /* verify that the descriptor count is two. */
-    printf("Read descriptor count: %d\n", ctx->read_descriptors);
     TEST_EXPECT(ctx->read_descriptors == 2);
 
     /* send a quiesce request to all fibers. */
@@ -531,7 +528,6 @@ static status fiber_manager_entry(void* context)
                 /* a fiber has been stopped. Clean it up. */
                 case FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_FIBER_STOP:
                     stopped_fiber = (fiber*)resume_param;
-                    printf("Fiber 0x%lx terminated.\n", (size_t)stopped_fiber);
 
                     /* instruct the fiber scheduler to remove the fiber
                      * reference. */
@@ -559,12 +555,10 @@ static status fiber_manager_entry(void* context)
 
                 /* a quiesce request. */
                 case FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_QUIESCE_REQUEST:
-                    printf("Management fiber received quiesce request.\n");
                     break;
 
                 /* a termination request. */
                 case FIBER_SCHEDULER_MANAGEMENT_RESUME_EVENT_TERMINATION_REQUEST:
-                    printf("Management fiber received termination request.\n");
                     return STATUS_SUCCESS;
             }
         }
@@ -600,8 +594,6 @@ static status add_management_fiber(allocator* alloc, fiber_scheduler* sched)
     {
         goto done;
     }
-
-    printf("Management fiber: 0x%lx\n", (size_t)manager);
 
     /* add the management fiber to the scheduler. */
     retval = fiber_scheduler_add(sched, manager);
@@ -652,8 +644,6 @@ static status add_accepter_fiber(
     {
         goto done;
     }
-
-    printf("Accepter fiber: 0x%lx\n", (size_t)accepter);
 
     /* set the unexpected handler for the accepter fiber. */
     retval =
