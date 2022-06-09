@@ -201,6 +201,27 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(rbtree_clear)(
     RCPR_SYM(rbtree)* tree);
 
+/**
+ * \brief Swap the contents of two rbtree instances.
+ *
+ * \param left          The left rbtree instance for the swap.
+ * \param right         The right rbtree instance for the swap.
+ *
+ * \note This operation always succeeds, as long as \p left and \p right are
+ * valid. If either are invalid, the result of this operation is unpredictable
+ * and will likely crash.
+ *
+ * \pre
+ *      - \p left must point to a valid \ref rbtree instance.
+ *      - \p right must point to a valid \ref rbtree instance.
+ * \post
+ *      - \p left contains and owns the contents previously contained and owned
+ *      by \p right
+ *      - \p right contains and owns the contents previously contained and owned
+ *      by \p left.
+ */
+void RCPR_SYM(rbtree_swap)(RCPR_SYM(rbtree)* left, RCPR_SYM(rbtree)* right);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
@@ -351,6 +372,9 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_clear( \
         RCPR_SYM(rbtree)* x) { \
             return RCPR_SYM(rbtree_clear)(x); } \
+    static inline void sym ## _ ## rbtree_swap( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree)* y) { \
+            return RCPR_SYM(rbtree_swap)(x,y); } \
     static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_minimum_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_minimum_node)(x,y); } \
@@ -404,6 +428,9 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline status FN_DECL_MUST_CHECK rbtree_clear( \
         RCPR_SYM(rbtree)* x) { \
             return RCPR_SYM(rbtree_clear)(x); } \
+    static inline void rbtree_swap( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree)* y) { \
+            return RCPR_SYM(rbtree_swap)(x,y); } \
     static inline RCPR_SYM(rbtree_node)* rbtree_minimum_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_minimum_node)(x,y); } \
