@@ -509,7 +509,7 @@ RCPR_SYM(prop_slist_node_valid)(
             return RCPR_SYM(slist_node_next_pop)(x,y); } \
     static inline void sym ## _ ## slist_swap( \
         RCPR_SYM(slist)* x, RCPR_SYM(slist)* y) { \
-            return RCPR_SYM(slist_swap)(x,y); } \
+            RCPR_SYM(slist_swap)(x,y); } \
     static inline RCPR_SYM(resource)* sym ## _ ## slist_resource_handle( \
         RCPR_SYM(slist)* x) { \
             return RCPR_SYM(slist_resource_handle)(x); } \
@@ -567,7 +567,7 @@ RCPR_SYM(prop_slist_node_valid)(
             return RCPR_SYM(slist_node_next_pop)(x,y); } \
     static inline void slist_swap( \
         RCPR_SYM(slist)* x, RCPR_SYM(slist)* y) { \
-            return RCPR_SYM(slist_swap)(x,y); } \
+            RCPR_SYM(slist_swap)(x,y); } \
     static inline RCPR_SYM(resource)* slist_resource_handle( \
         RCPR_SYM(slist)* x) { \
             return RCPR_SYM(slist_resource_handle)(x); } \
