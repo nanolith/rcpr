@@ -3,7 +3,7 @@
  *
  * \brief Define components and component families.
  *
- * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2022 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -81,6 +81,9 @@ enum rcpr_subcomponents
 
     /** \brief message discipline subcomponent scope. */
     RCPR_SUBCOMPONENT_MESSAGE                               =             0x0a,
+
+    /** \brief string library subcomponent scope. */
+    RCPR_SUBCOMPONENT_STRING                                =             0x0b,
 };
 
 /** \brief Global component scope. */
@@ -126,6 +129,10 @@ enum rcpr_subcomponents
 /** \brief message discipline component scope. */
 #define RCPR_COMPONENT_MESSAGE \
     COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_MESSAGE)
+
+/** \brief string library component scope. */
+#define RCPR_COMPONENT_STRING \
+    COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_STRING)
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
