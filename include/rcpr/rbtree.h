@@ -374,7 +374,7 @@ RCPR_SYM(prop_rbtree_valid)(
             return RCPR_SYM(rbtree_clear)(x); } \
     static inline void sym ## _ ## rbtree_swap( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree)* y) { \
-            return RCPR_SYM(rbtree_swap)(x,y); } \
+            RCPR_SYM(rbtree_swap)(x,y); } \
     static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_minimum_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_minimum_node)(x,y); } \
@@ -430,7 +430,7 @@ RCPR_SYM(prop_rbtree_valid)(
             return RCPR_SYM(rbtree_clear)(x); } \
     static inline void rbtree_swap( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree)* y) { \
-            return RCPR_SYM(rbtree_swap)(x,y); } \
+            RCPR_SYM(rbtree_swap)(x,y); } \
     static inline RCPR_SYM(rbtree_node)* rbtree_minimum_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_minimum_node)(x,y); } \

@@ -522,7 +522,7 @@ bool RCPR_SYM(prop_list_node_valid)(const RCPR_SYM(list_node)* node);
             return RCPR_SYM(list_pop)(x,y); } \
     static inline void sym ## _ ## list_swap( \
         RCPR_SYM(list)* x, RCPR_SYM(list)* y) { \
-            return RCPR_SYM(list_swap)(x,y); } \
+            RCPR_SYM(list_swap)(x,y); } \
     static inline RCPR_SYM(resource)* sym ## _ ## list_resource_handle( \
         RCPR_SYM(list)* x) { \
             return RCPR_SYM(list_resource_handle)(x); } \
@@ -583,7 +583,7 @@ bool RCPR_SYM(prop_list_node_valid)(const RCPR_SYM(list_node)* node);
             return RCPR_SYM(list_pop)(x,y); } \
     static inline void list_swap( \
         RCPR_SYM(list)* x, RCPR_SYM(list)* y) { \
-            return RCPR_SYM(list_swap)(x,y); } \
+            RCPR_SYM(list_swap)(x,y); } \
     static inline RCPR_SYM(resource)* list_resource_handle( \
         RCPR_SYM(list)* x) { \
             return RCPR_SYM(list_resource_handle)(x); } \
