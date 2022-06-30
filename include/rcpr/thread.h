@@ -408,122 +408,70 @@ RCPR_SYM(prop_thread_mutex_lock_valid)(
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
+#define __INTERNAL_RCPR_IMPORT_thread_sym(sym) \
+    RCPR_BEGIN_EXPORT \
+    typedef RCPR_SYM(thread) sym ## thread; \
+    typedef RCPR_SYM(thread_mutex) sym ## thread_mutex; \
+    typedef RCPR_SYM(thread_mutex_lock) sym ## thread_mutex_lock; \
+    typedef RCPR_SYM(thread_cond) sym ## thread_cond; \
+    typedef RCPR_SYM(thread_fn) sym ## thread_fn; \
+    static inline status FN_DECL_MUST_CHECK sym ## thread_create( \
+        RCPR_SYM(thread)** v, RCPR_SYM(allocator)* w, size_t x, void* y, \
+        RCPR_SYM(thread_fn) z) { \
+            return RCPR_SYM(thread_create)(v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## thread_mutex_create( \
+        RCPR_SYM(thread_mutex)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(thread_mutex_create)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## thread_cond_create( \
+        RCPR_SYM(thread_cond)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(thread_cond_create)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## thread_mutex_lock_acquire( \
+        RCPR_SYM(thread_mutex_lock)** x, RCPR_SYM(thread_mutex)* y) { \
+            return RCPR_SYM(thread_mutex_lock_acquire)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## thread_cond_wait( \
+        RCPR_SYM(thread_mutex_lock)** x, RCPR_SYM(thread_cond)* y) { \
+            return RCPR_SYM(thread_cond_wait)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## thread_cond_signal_one( \
+        RCPR_SYM(thread_mutex_lock)* x, RCPR_SYM(thread_cond)* y) { \
+            return RCPR_SYM(thread_cond_signal_one)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## thread_cond_signal_all( \
+        RCPR_SYM(thread_mutex_lock)* x, RCPR_SYM(thread_cond)* y) { \
+            return RCPR_SYM(thread_cond_signal_all)(x,y); } \
+    static inline RCPR_SYM(resource)* sym ## thread_resource_handle( \
+        RCPR_SYM(thread)* x) { \
+            return RCPR_SYM(thread_resource_handle)(x); } \
+    static inline RCPR_SYM(resource)* \
+    sym ## thread_mutex_resource_handle( \
+        RCPR_SYM(thread_mutex)* x) { \
+            return RCPR_SYM(thread_mutex_resource_handle)(x); } \
+    static inline RCPR_SYM(resource)* sym ## thread_cond_resource_handle( \
+        RCPR_SYM(thread_cond)* x) { \
+            return RCPR_SYM(thread_cond_resource_handle)(x); } \
+    static inline RCPR_SYM(resource)* \
+    sym ## thread_mutex_lock_resource_handle( \
+        RCPR_SYM(thread_mutex_lock)* x) { \
+            return RCPR_SYM(thread_mutex_lock_resource_handle)(x); } \
+    static inline bool sym ## prop_thread_valid( \
+        const RCPR_SYM(thread)* x) { \
+            return RCPR_SYM(prop_thread_valid)(x); } \
+    static inline bool sym ## prop_thread_mutex_valid( \
+        const RCPR_SYM(thread_mutex)* x) { \
+            return RCPR_SYM(prop_thread_mutex_valid)(x); } \
+    static inline bool sym ## prop_thread_cond_valid( \
+        const RCPR_SYM(thread_cond)* x) { \
+            return RCPR_SYM(prop_thread_cond_valid)(x); } \
+    static inline bool sym ## prop_thread_mutex_lock_valid( \
+        const RCPR_SYM(thread_mutex_lock)* x) { \
+            return RCPR_SYM(prop_thread_mutex_lock_valid)(x); } \
+    RCPR_END_EXPORT \
+    REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_thread_as(sym) \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(thread) sym ## _ ## thread; \
-    typedef RCPR_SYM(thread_mutex) sym ## _ ## thread_mutex; \
-    typedef RCPR_SYM(thread_mutex_lock) sym ## _ ## thread_mutex_lock; \
-    typedef RCPR_SYM(thread_cond) sym ## _ ## thread_cond; \
-    typedef RCPR_SYM(thread_fn) sym ## _ ## thread_fn; \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## thread_create( \
-        RCPR_SYM(thread)** v, RCPR_SYM(allocator)* w, size_t x, void* y, \
-        RCPR_SYM(thread_fn) z) { \
-            return RCPR_SYM(thread_create)(v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## thread_mutex_create( \
-        RCPR_SYM(thread_mutex)** x, RCPR_SYM(allocator)* y) { \
-            return RCPR_SYM(thread_mutex_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## thread_cond_create( \
-        RCPR_SYM(thread_cond)** x, RCPR_SYM(allocator)* y) { \
-            return RCPR_SYM(thread_cond_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## thread_mutex_lock_acquire( \
-        RCPR_SYM(thread_mutex_lock)** x, RCPR_SYM(thread_mutex)* y) { \
-            return RCPR_SYM(thread_mutex_lock_acquire)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## thread_cond_wait( \
-        RCPR_SYM(thread_mutex_lock)** x, RCPR_SYM(thread_cond)* y) { \
-            return RCPR_SYM(thread_cond_wait)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## thread_cond_signal_one( \
-        RPCR_SYM(thread_mutex_lock)* x, RCPR_SYM(thread_cond)* y) { \
-            return RCPR_SYM(thread_cond_signal_one)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## thread_cond_signal_all( \
-        RCPR_SYM(thread_mutex_lock)* x, RCPR_SYM(thread_cond)* y) { \
-            return RCPR_SYM(thread_cond_signal_all)(x,y); } \
-    static inline RCPR_SYM(resource)* sym ## _ ## thread_resource_handle( \
-        RCPR_SYM(thread)* x) { \
-            return RCPR_SYM(thread_resource_handle)(x); } \
-    static inline RCPR_SYM(resource)* \
-    sym ## _ ## thread_mutex_resource_handle( \
-        RCPR_SYM(thread_mutex)* x) { \
-            return RCPR_SYM(thread_mutex_resource_handle)(x); } \
-    static inline RCPR_SYM(resource)* sym ## _ ## thread_cond_resource_handle( \
-        RCPR_SYM(thread_cond)* x) { \
-            return RCPR_SYM(thread_cond_resource_handle)(x); } \
-    static inline RCPR_SYM(resource)* \
-    sym ## _ ## thread_mutex_lock_resource_handle( \
-        RCPR_SYM(thread_mutex_lock)* x) { \
-            return RCPR_SYM(thread_mutex_lock_resource_handle)(x); } \
-    static inline bool sym ## _ ## prop_thread_valid( \
-        const RCPR_SYM(thread)* x) { \
-            return RCPR_SYM(prop_thread_valid)(x); } \
-    static inline bool sym ## _ ## prop_thread_mutex_valid( \
-        const RCPR_SYM(thread_mutex)* x) { \
-            return RCPR_SYM(prop_thread_mutex_valid)(x); } \
-    static inline bool sym ## _ ## prop_thread_cond_valid( \
-        const RCPR_SYM(thread_cond)* x) { \
-            return RCPR_SYM(prop_thread_cond_valid)(x); } \
-    static inline bool sym ## _ ## prop_thread_mutex_lock_valid( \
-        const RCPR_SYM(thread_mutex_lock)* x) { \
-            return RCPR_SYM(prop_thread_mutex_lock_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
-
+    __INTERNAL_RCPR_IMPORT_thread_sym(sym ## _)
 #define RCPR_IMPORT_thread \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(thread) thread; \
-    typedef RCPR_SYM(thread_mutex) thread_mutex; \
-    typedef RCPR_SYM(thread_mutex_lock) thread_mutex_lock; \
-    typedef RCPR_SYM(thread_cond) thread_cond; \
-    typedef RCPR_SYM(thread_fn) thread_fn; \
-    static inline status FN_DECL_MUST_CHECK thread_create( \
-        RCPR_SYM(thread)** v, RCPR_SYM(allocator)* w, size_t x, void* y, \
-        RCPR_SYM(thread_fn) z) { \
-            return RCPR_SYM(thread_create)(v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK thread_mutex_create( \
-        RCPR_SYM(thread_mutex)** x, RCPR_SYM(allocator)* y) { \
-            return RCPR_SYM(thread_mutex_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK thread_cond_create( \
-        RCPR_SYM(thread_cond)** x, RCPR_SYM(allocator)* y) { \
-            return RCPR_SYM(thread_cond_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK thread_mutex_lock_acquire( \
-        RCPR_SYM(thread_mutex_lock)** x, RCPR_SYM(thread_mutex)* y) { \
-            return RCPR_SYM(thread_mutex_lock_acquire)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK thread_cond_wait( \
-        RCPR_SYM(thread_mutex_lock)** x, RCPR_SYM(thread_cond)* y) { \
-            return RCPR_SYM(thread_cond_wait)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK thread_cond_signal_one( \
-        RCPR_SYM(thread_mutex_lock)* x, RCPR_SYM(thread_cond)* y) { \
-            return RCPR_SYM(thread_cond_signal_one)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK thread_cond_signal_all( \
-        RCPR_SYM(thread_mutex_lock)* x, RCPR_SYM(thread_cond)* y) { \
-            return RCPR_SYM(thread_cond_signal_all)(x,y); } \
-    static inline RCPR_SYM(resource)* thread_resource_handle( \
-        RCPR_SYM(thread)* x) { \
-            return RCPR_SYM(thread_resource_handle)(x); } \
-    static inline RCPR_SYM(resource)* thread_mutex_resource_handle( \
-        RCPR_SYM(thread_mutex)* x) { \
-            return RCPR_SYM(thread_mutex_resource_handle)(x); } \
-    static inline RCPR_SYM(resource)* thread_cond_resource_handle( \
-        RCPR_SYM(thread_cond)* x) { \
-            return RCPR_SYM(thread_cond_resource_handle)(x); } \
-    static inline RCPR_SYM(resource)* thread_mutex_lock_resource_handle( \
-        RCPR_SYM(thread_mutex_lock)* x) { \
-            return RCPR_SYM(thread_mutex_lock_resource_handle)(x); } \
-    static inline bool prop_thread_valid( \
-        const RCPR_SYM(thread)* x) { \
-            return RCPR_SYM(prop_thread_valid)(x); } \
-    static inline bool prop_thread_mutex_valid( \
-        const RCPR_SYM(thread_mutex)* x) { \
-            return RCPR_SYM(prop_thread_mutex_valid)(x); } \
-    static inline bool prop_thread_cond_valid( \
-        const RCPR_SYM(thread_cond)* x) { \
-            return RCPR_SYM(prop_thread_cond_valid)(x); } \
-    static inline bool prop_thread_mutex_lock_valid( \
-        const RCPR_SYM(thread_mutex_lock)* x) { \
-            return RCPR_SYM(prop_thread_mutex_lock_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_thread_sym()
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
