@@ -156,55 +156,34 @@ bool RCPR_SYM(prop_bigint_valid)(const RCPR_SYM(bigint)* i);
 /* Start of public exports.                                                   */
 /******************************************************************************/
 
+#define __INTERNAL_RCPR_IMPORT_bigint_sym(sym) \
+    RCPR_BEGIN_EXPORT \
+    typedef RCPR_SYM(bigint) sym ## bigint; \
+    static inline status FN_DECL_MUST_CHECK sym ## bigint_create_zero( \
+        RCPR_SYM(bigint)** x, RCPR_SYM(allocator)* y, size_t z) { \
+            return RCPR_SYM(bigint_create_zero)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## bigint_clone( \
+        RCPR_SYM(bigint)** x, RCPR_SYM(allocator)* y, \
+        const RCPR_SYM(bigint)* z) { \
+            return RCPR_SYM(bigint_clone)(x,y,z); } \
+    static inline int sym ## bigint_modulus_int( \
+        RCPR_SYM(bigint)* x, int y) { \
+            return RCPR_SYM(bigint_modulus_int)(x,y); } \
+    static inline void sym ## bigint_divide_int( \
+        RCPR_SYM(bigint)* x, int y) { \
+            RCPR_SYM(bigint_divide_int)(x,y); } \
+    static inline RCPR_SYM(resource*) sym ## bigint_resource_handle( \
+        RCPR_SYM(bigint)* x) { \
+            return RCPR_SYM(bigint_resource_handle)(x); } \
+    static inline bool sym ## prop_bigint_valid( \
+        const RCPR_SYM(bigint)* x) { \
+            return RCPR_SYM(prop_bigint_valid(x)); } \
+    RCPR_END_EXPORT \
+    REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_bigint_as(sym) \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(bigint) sym ## _ ## bigint; \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## bigint_create_zero( \
-        RCPR_SYM(bigint)** x, RCPR_SYM(allocator)* y, size_t z) { \
-            return RCPR_SYM(bigint_create_zero)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## bigint_clone( \
-        RCPR_SYM(bigint)** x, RCPR_SYM(allocator)* y, \
-        const RCPR_SYM(bigint)* z) { \
-            return RCPR_SYM(bigint_clone)(x,y,z); } \
-    static inline int sym ## _ ## bigint_modulus_int( \
-        RCPR_SYM(bigint)* x, int y) { \
-            return RCPR_SYM(bigint_modulus_int)(x,y); } \
-    static inline void sym ## _ ## bigint_divide_int( \
-        RCPR_SYM(bigint)* x, int y) { \
-            RCPR_SYM(bigint_divide_int)(x,y); } \
-    static inline RCPR_SYM(resource*) sym ## _ ## bigint_resource_handle( \
-        RCPR_SYM(bigint)* x) { \
-            return RCPR_SYM(bigint_resource_handle)(x); } \
-    static inline bool sym ## _ ## prop_bigint_valid( \
-        const RCPR_SYM(bigint)* x) { \
-            return RCPR_SYM(prop_bigint_valid(x)); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
-
+    __INTERNAL_RCPR_IMPORT_bigint_sym(sym ## _)
 #define RCPR_IMPORT_bigint \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(bigint) bigint; \
-    static inline status FN_DECL_MUST_CHECK bigint_create_zero( \
-        RCPR_SYM(bigint)** x, RCPR_SYM(allocator)* y, size_t z) { \
-            return RCPR_SYM(bigint_create_zero)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK bigint_clone( \
-        RCPR_SYM(bigint)** x, RCPR_SYM(allocator)* y, \
-        const RCPR_SYM(bigint)* z) { \
-            return RCPR_SYM(bigint_clone)(x,y,z); } \
-    static inline int bigint_modulus_int( \
-        RCPR_SYM(bigint)* x, int y) { \
-            return RCPR_SYM(bigint_modulus_int)(x,y); } \
-    static inline void bigint_divide_int( \
-        RCPR_SYM(bigint)* x, int y) { \
-            RCPR_SYM(bigint_divide_int)(x,y); } \
-    static inline RCPR_SYM(resource*) bigint_resource_handle( \
-        RCPR_SYM(bigint)* x) { \
-            return RCPR_SYM(bigint_resource_handle)(x); } \
-    static inline bool prop_bigint_valid( \
-        const RCPR_SYM(bigint)* x) { \
-            return RCPR_SYM(prop_bigint_valid(x)); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_bigint_sym()
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
