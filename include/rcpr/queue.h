@@ -202,59 +202,36 @@ RCPR_SYM(prop_queue_valid)(
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
+#define __INTERNAL_RCPR_IMPORT_queue_sym(sym) \
+    RCPR_BEGIN_EXPORT \
+    typedef RCPR_SYM(queue) sym ## queue; \
+    static inline status FN_DECL_MUST_CHECK sym ## queue_create( \
+        RCPR_SYM(queue)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(queue_create)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## queue_append( \
+        RCPR_SYM(queue)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(queue_append)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## queue_pop( \
+        RCPR_SYM(queue)* x, RCPR_SYM(resource)** y) { \
+            return RCPR_SYM(queue_pop)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## queue_insert( \
+        RCPR_SYM(queue)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(queue_insert)(x,y); } \
+    static inline size_t sym ## queue_count( \
+        RCPR_SYM(queue)* x) { \
+            return RCPR_SYM(queue_count)(x); } \
+    static inline RCPR_SYM(resource)* sym ## queue_resource_handle( \
+        RCPR_SYM(queue)* x) { \
+            return RCPR_SYM(queue_resource_handle)(x); } \
+    static inline bool sym ## prop_queue_valid( \
+        const RCPR_SYM(queue)* x) { \
+            return RCPR_SYM(prop_queue_valid)(x); } \
+    RCPR_END_EXPORT \
+    REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_queue_as(sym) \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(queue) sym ## _ ## queue; \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## queue_create( \
-        RCPR_SYM(queue)** x, RCPR_SYM(allocator)* y) { \
-            return RCPR_SYM(queue_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## queue_append( \
-        RCPR_SYM(queue)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(queue_append)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## queue_pop( \
-        RCPR_SYM(queue)* x, RCPR_SYM(resource)** y) { \
-            return RCPR_SYM(queue_pop)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## queue_insert( \
-        RCPR_SYM(queue)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(queue_insert)(x,y); } \
-    static inline size_t sym ## _ ## queue_count( \
-        RCPR_SYM(queue)* x) { \
-            return RCPR_SYM(queue_count)(x); } \
-    static inline RCPR_SYM(resource)* sym ## _ ## queue_resource_handle( \
-        RCPR_SYM(queue)* x) { \
-            return RCPR_SYM(queue_resource_handle)(x); } \
-    static inline bool sym ## _ ## prop_queue_valid( \
-        const RCPR_SYM(queue)* x) { \
-            return RCPR_SYM(prop_queue_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
-
+    __INTERNAL_RCPR_IMPORT_queue_sym(sym ## _)
 #define RCPR_IMPORT_queue \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(queue) queue; \
-    static inline status FN_DECL_MUST_CHECK queue_create( \
-        RCPR_SYM(queue)** x, RCPR_SYM(allocator)* y) { \
-            return RCPR_SYM(queue_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK queue_append( \
-        RCPR_SYM(queue)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(queue_append)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK queue_pop( \
-        RCPR_SYM(queue)* x, RCPR_SYM(resource)** y) { \
-            return RCPR_SYM(queue_pop)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK queue_insert( \
-        RCPR_SYM(queue)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(queue_insert)(x,y); } \
-    static inline size_t queue_count( \
-        RCPR_SYM(queue)* x) { \
-            return RCPR_SYM(queue_count)(x); } \
-    static inline RCPR_SYM(resource)* queue_resource_handle( \
-        RCPR_SYM(queue)* x) { \
-            return RCPR_SYM(queue_resource_handle)(x); } \
-    static inline bool prop_queue_valid( \
-        const RCPR_SYM(queue)* x) { \
-            return RCPR_SYM(prop_queue_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_queue_sym()
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
