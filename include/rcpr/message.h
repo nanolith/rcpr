@@ -281,95 +281,55 @@ RCPR_SYM(prop_message_valid)(
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
-#define RCPR_IMPORT_message_as(sym) \
+#define __INTERNAL_RCPR_IMPORT_message_sym(sym) \
     RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(message) sym ## _ ## message; \
-    typedef RCPR_SYM(mailbox_address) sym ## _ ## mailbox_address; \
+    typedef RCPR_SYM(message) sym ## message; \
+    typedef RCPR_SYM(mailbox_address) sym ## mailbox_address; \
     typedef RCPR_SYM(message_unexpected_handler_callback_fn) \
-    sym ## _ ## message_unexpected_handler_callback_fn; \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## mailbox_create( \
+    sym ## message_unexpected_handler_callback_fn; \
+    static inline status FN_DECL_MUST_CHECK sym ## mailbox_create( \
         RCPR_SYM(mailbox_address)* x, \
         RCPR_SYM(fiber_scheduler_discipline)* y) { \
             return RCPR_SYM(mailbox_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## message_create( \
+    static inline status FN_DECL_MUST_CHECK sym ## message_create( \
         RCPR_SYM(message)** w, RCPR_SYM(allocator)* x, \
         RCPR_SYM(mailbox_address) y, RCPR_SYM(resource)* z) { \
             return RCPR_SYM(message_create)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## message_discipline_get_or_create( \
+    sym ## message_discipline_get_or_create( \
         RCPR_SYM(fiber_scheduler_discipline)** x, RCPR_SYM(allocator)* y, \
         RCPR_SYM(fiber_scheduler)* z) { \
             return RCPR_SYM(message_discipline_get_or_create)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## mailbox_close( \
+    static inline status FN_DECL_MUST_CHECK sym ## mailbox_close( \
         RCPR_SYM(mailbox_address) x, RCPR_SYM(fiber_scheduler_discipline)* y) {\
             return RCPR_SYM(mailbox_close)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## message_send( \
+    static inline status FN_DECL_MUST_CHECK sym ## message_send( \
         RCPR_SYM(mailbox_address) x, RCPR_SYM(message)* y, \
         RCPR_SYM(fiber_scheduler_discipline)* z) { \
             return RCPR_SYM(message_send)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## message_receive( \
+    static inline status FN_DECL_MUST_CHECK sym ## message_receive( \
         RCPR_SYM(mailbox_address) x, RCPR_SYM(message)** y, \
         RCPR_SYM(fiber_scheduler_discipline)* z) { \
             return RCPR_SYM(message_receive)(x,y,z); } \
-    static inline RCPR_SYM(resource)* sym ## _ ## message_resource_handle( \
+    static inline RCPR_SYM(resource)* sym ## message_resource_handle( \
         RCPR_SYM(message)* x) { \
             return RCPR_SYM(message_resource_handle)(x); } \
     static inline RCPR_SYM(mailbox_address) \
-    sym ## _ ## message_return_address( \
+    sym ## message_return_address( \
         const RCPR_SYM(message)* x) { \
             return RCPR_SYM(message_return_address)(x); } \
-    static inline RCPR_SYM(resource)* sym ## _ ## message_payload( \
+    static inline RCPR_SYM(resource)* sym ## message_payload( \
         RCPR_SYM(message)* x, bool y) { \
             return RCPR_SYM(message_payload)(x,y); } \
-    static inline bool sym ## _ ## prop_message_valid( \
+    static inline bool sym ## prop_message_valid( \
         const RCPR_SYM(message)* x) { \
             return RCPR_SYM(prop_message_valid)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
-
+#define RCPR_IMPORT_message_as(sym) \
+    __INTERNAL_RCPR_IMPORT_message_sym(sym ## _)
 #define RCPR_IMPORT_message \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(message) message; \
-    typedef RCPR_SYM(mailbox_address) mailbox_address; \
-    typedef RCPR_SYM(message_unexpected_handler_callback_fn) \
-    message_unexpected_handler_callback_fn; \
-    static inline status FN_DECL_MUST_CHECK mailbox_create( \
-        RCPR_SYM(mailbox_address)* x, \
-        RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(mailbox_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK message_create( \
-        RCPR_SYM(message)** w, RCPR_SYM(allocator)* x, \
-        RCPR_SYM(mailbox_address) y, RCPR_SYM(resource)* z) { \
-            return RCPR_SYM(message_create)(w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK message_discipline_get_or_create( \
-        RCPR_SYM(fiber_scheduler_discipline)** x, RCPR_SYM(allocator)* y, \
-        RCPR_SYM(fiber_scheduler)* z) { \
-            return RCPR_SYM(message_discipline_get_or_create)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK mailbox_close( \
-        RCPR_SYM(mailbox_address) x, RCPR_SYM(fiber_scheduler_discipline)* y) {\
-            return RCPR_SYM(mailbox_close)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK message_send( \
-        RCPR_SYM(mailbox_address) x, RCPR_SYM(message)* y, \
-        RCPR_SYM(fiber_scheduler_discipline)* z) { \
-            return RCPR_SYM(message_send)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK message_receive( \
-        RCPR_SYM(mailbox_address) x, RCPR_SYM(message)** y, \
-        RCPR_SYM(fiber_scheduler_discipline)* z) { \
-            return RCPR_SYM(message_receive)(x,y,z); } \
-    static inline RCPR_SYM(resource)* message_resource_handle( \
-        RCPR_SYM(message)* x) { \
-            return RCPR_SYM(message_resource_handle)(x); } \
-    static inline RCPR_SYM(mailbox_address) message_return_address( \
-        const RCPR_SYM(message)* x) { \
-            return RCPR_SYM(message_return_address)(x); } \
-    static inline RCPR_SYM(resource)* message_payload( \
-        RCPR_SYM(message)* x, bool y) { \
-            return RCPR_SYM(message_payload)(x,y); } \
-    static inline bool prop_message_valid( \
-        const RCPR_SYM(message)* x) { \
-            return RCPR_SYM(prop_message_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_message_sym()
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
