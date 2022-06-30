@@ -152,61 +152,38 @@ RCPR_SYM(conditional_notify_all)(
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
+#define __INTERNAL_RCPR_IMPORT_condition_sym(sym) \
+    RCPR_BEGIN_EXPORT \
+    typedef RCPR_SYM(conditional) sym ## conditional; \
+    static inline status FN_DECL_MUST_CHECK sym ## conditional_create( \
+        RCPR_SYM(conditional)* x, \
+        RCPR_SYM(fiber_scheduler_discipline)* y) { \
+            return RCPR_SYM(conditional_create)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## condition_discipline_get_or_create( \
+        RCPR_SYM(fiber_scheduler_discipline)** x, RCPR_SYM(allocator)* y, \
+        RCPR_SYM(fiber_scheduler)* z) { \
+            return RCPR_SYM(condition_discipline_get_or_create)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## conditional_close( \
+        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
+            return RCPR_SYM(conditional_close)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## conditional_wait( \
+        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
+            return RCPR_SYM(conditional_wait)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## conditional_notify_one( \
+        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
+            return RCPR_SYM(conditional_notify_one)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## conditional_notify_all( \
+        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
+            return RCPR_SYM(conditional_notify_all)(x,y); } \
+    RCPR_END_EXPORT \
+    REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_condition_as(sym) \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(conditional) sym ## _ ## conditional; \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## conditional_create( \
-        RCPR_SYM(conditional)* x, \
-        RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(conditional_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## condition_discipline_get_or_create( \
-        RCPR_SYM(fiber_scheduler_discipline)** x, RCPR_SYM(allocator)* y, \
-        RCPR_SYM(fiber_scheduler)* z) { \
-            return RCPR_SYM(condition_discipline_get_or_create)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## conditional_close( \
-        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(conditional_close)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## conditional_wait( \
-        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(conditional_wait)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## conditional_notify_one( \
-        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(conditional_notify_one)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## conditional_notify_all( \
-        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(conditional_notify_all)(x,y); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
-
+    __INTERNAL_RCPR_IMPORT_condition_sym(sym ## _)
 #define RCPR_IMPORT_condition \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(conditional) conditional; \
-    static inline status FN_DECL_MUST_CHECK conditional_create( \
-        RCPR_SYM(conditional)* x, \
-        RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(conditional_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    condition_discipline_get_or_create( \
-        RCPR_SYM(fiber_scheduler_discipline)** x, RCPR_SYM(allocator)* y, \
-        RCPR_SYM(fiber_scheduler)* z) { \
-            return RCPR_SYM(condition_discipline_get_or_create)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK conditional_close( \
-        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(conditional_close)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK conditional_wait( \
-        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(conditional_wait)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK conditional_notify_one( \
-        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(conditional_notify_one)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK conditional_notify_all( \
-        RCPR_SYM(conditional) x, RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(conditional_notify_all)(x,y); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_condition_sym()
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
