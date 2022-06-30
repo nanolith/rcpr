@@ -121,65 +121,40 @@ RCPR_SYM(socket_utility_ntoh16)(
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
+#define __INTERNAL_RCPR_IMPORT_socket_utilities_sym(sym) \
+    RCPR_BEGIN_EXPORT \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## socket_utility_socketpair( \
+        int v, int w, int x, int* y, int* z) { \
+            return RCPR_SYM(socket_utility_socketpair)(v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## socket_utility_set_nonblock( \
+        int x) { \
+            return RCPR_SYM(socket_utility_set_nonblock)(x); } \
+    static inline int64_t sym ## socket_utility_hton64( \
+        int64_t x) { \
+            return RCPR_SYM(socket_utility_hton64)(x); } \
+    static inline int64_t sym ## socket_utility_ntoh64( \
+        int64_t x) { \
+            return RCPR_SYM(socket_utility_ntoh64)(x); } \
+    static inline int32_t sym ## socket_utility_hton32( \
+        int32_t x) { \
+            return RCPR_SYM(socket_utility_hton32)(x); } \
+    static inline int32_t sym ## socket_utility_ntoh32( \
+        int32_t x) { \
+            return RCPR_SYM(socket_utility_ntoh32)(x); } \
+    static inline int16_t sym ## socket_utility_hton16( \
+        int16_t x) { \
+            return RCPR_SYM(socket_utility_hton16)(x); } \
+    static inline int16_t sym ## socket_utility_ntoh16( \
+        int16_t x) { \
+            return RCPR_SYM(socket_utility_ntoh16)(x); } \
+    RCPR_END_EXPORT \
+    REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_socket_utilities_as(sym) \
-    RCPR_BEGIN_EXPORT \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## socket_utility_socketpair( \
-        int v, int w, int x, int* y, int* z) { \
-            return RCPR_SYM(socket_utility_socketpair)(v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## socket_utility_set_nonblock( \
-        int x) { \
-            return RCPR_SYM(socket_utility_set_nonblock)(x); } \
-    static inline int64_t sym ## _ ## socket_utility_hton64( \
-        int64_t x) { \
-            return RCPR_SYM(socket_utility_hton64)(x); } \
-    static inline int64_t sym ## _ ## socket_utility_ntoh64( \
-        int64_t x) { \
-            return RCPR_SYM(socket_utility_ntoh64)(x); } \
-    static inline int32_t sym ## _ ## socket_utility_hton32( \
-        int32_t x) { \
-            return RCPR_SYM(socket_utility_hton32)(x); } \
-    static inline int32_t sym ## _ ## socket_utility_ntoh32( \
-        int32_t x) { \
-            return RCPR_SYM(socket_utility_ntoh32)(x); } \
-    static inline int16_t sym ## _ ## socket_utility_hton16( \
-        int16_t x) { \
-            return RCPR_SYM(socket_utility_hton16)(x); } \
-    static inline int16_t sym ## _ ## socket_utility_ntoh16( \
-        int16_t x) { \
-            return RCPR_SYM(socket_utility_ntoh16)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
-
+    __INTERNAL_RCPR_IMPORT_socket_utilities_sym(sym ## _)
 #define RCPR_IMPORT_socket_utilities \
-    RCPR_BEGIN_EXPORT \
-    static inline status FN_DECL_MUST_CHECK socket_utility_socketpair( \
-        int v, int w, int x, int* y, int* z) { \
-            return RCPR_SYM(socket_utility_socketpair)(v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK socket_utility_set_nonblock( \
-        int x) { \
-            return RCPR_SYM(socket_utility_set_nonblock)(x); } \
-    static inline int64_t socket_utility_hton64( \
-        int64_t x) { \
-            return RCPR_SYM(socket_utility_hton64)(x); } \
-    static inline int64_t socket_utility_ntoh64( \
-        int64_t x) { \
-            return RCPR_SYM(socket_utility_ntoh64)(x); } \
-    static inline int32_t socket_utility_hton32( \
-        int32_t x) { \
-            return RCPR_SYM(socket_utility_hton32)(x); } \
-    static inline int32_t socket_utility_ntoh32( \
-        int32_t x) { \
-            return RCPR_SYM(socket_utility_ntoh32)(x); } \
-    static inline int16_t socket_utility_hton16( \
-        int16_t x) { \
-            return RCPR_SYM(socket_utility_hton16)(x); } \
-    static inline int16_t socket_utility_ntoh16( \
-        int16_t x) { \
-            return RCPR_SYM(socket_utility_ntoh16)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_socket_utilities_sym()
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
