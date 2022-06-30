@@ -1106,332 +1106,179 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
-#define RCPR_IMPORT_fiber_as(sym) \
+#define __INTERNAL_RCPR_IMPORT_fiber_sym(sym) \
     RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(fiber) sym ## _ ## fiber; \
-    typedef RCPR_SYM(fiber_scheduler) sym ## _ ## fiber_scheduler; \
+    typedef RCPR_SYM(fiber) sym ## fiber; \
+    typedef RCPR_SYM(fiber_scheduler) sym ## fiber_scheduler; \
     typedef RCPR_SYM(fiber_scheduler_discipline) \
-    sym ## _ ## fiber_scheduler_discipline; \
-    typedef RCPR_SYM(fiber_fn) sym ## _ ## fiber_fn; \
+    sym ## fiber_scheduler_discipline; \
+    typedef RCPR_SYM(fiber_fn) sym ## fiber_fn; \
     typedef RCPR_SYM(fiber_scheduler_callback_fn) \
-    sym ## _ ## fiber_scheduler_callback_fn; \
+    sym ## fiber_scheduler_callback_fn; \
     typedef RCPR_SYM(fiber_scheduler_discipline_callback_fn) \
-        sym ## _ ## fiber_scheduler_discipline_callback_fn; \
+        sym ## fiber_scheduler_discipline_callback_fn; \
     typedef RCPR_SYM(fiber_unexpected_event_callback_fn) \
-        sym ## _ ## fiber_unexpected_event_callback_fn; \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## fiber_create( \
+        sym ## fiber_unexpected_event_callback_fn; \
+    static inline status FN_DECL_MUST_CHECK sym ## fiber_create( \
         RCPR_SYM(fiber)** u, RCPR_SYM(allocator)* v, \
         RCPR_SYM(fiber_scheduler)* w, size_t x, void* y, \
         RCPR_SYM(fiber_fn) z) { \
             return RCPR_SYM(fiber_create)(u,v,w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_create_for_thread( \
+    sym ## fiber_create_for_thread( \
         RCPR_SYM(fiber)** x, RCPR_SYM(fiber_scheduler)* y, \
         RCPR_SYM(allocator)* z) { \
             return RCPR_SYM(fiber_create_for_thread)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_scheduler_create( \
+    sym ## fiber_scheduler_create( \
         RCPR_SYM(fiber_scheduler)** w, RCPR_SYM(allocator)* x, void* y, \
         RCPR_SYM(fiber_scheduler_callback_fn) z) { \
             return RCPR_SYM(fiber_scheduler_create)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_scheduler_create_with_disciplines( \
+    sym ## fiber_scheduler_create_with_disciplines( \
         RCPR_SYM(fiber_scheduler)** x, RCPR_SYM(allocator)* y) { \
             return RCPR_SYM(fiber_scheduler_create_with_disciplines)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_scheduler_discipline_create( \
+    sym ## fiber_scheduler_discipline_create( \
         RCPR_SYM(fiber_scheduler_discipline)** u, \
         const RCPR_SYM(rcpr_uuid)* v, RCPR_SYM(allocator)* w, void* x, \
         size_t y, RCPR_SYM(fiber_scheduler_discipline_callback_fn)* z) { \
             return RCPR_SYM(fiber_scheduler_discipline_create)(u,v,w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_scheduler_add( \
+    sym ## fiber_scheduler_add( \
         RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
             return RCPR_SYM(fiber_scheduler_add)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_scheduler_discipline_add( \
+    sym ## fiber_scheduler_discipline_add( \
         RCPR_SYM(fiber_scheduler)* x, \
         RCPR_SYM(fiber_scheduler_discipline)* y) { \
             return RCPR_SYM(fiber_scheduler_discipline_add)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_scheduler_discipline_find( \
-        RCPR_SYM(fiber_scheduler_discipline)** x, \
-        RCPR_SYM(fiber_scheduler)* y, const RCPR_SYM(rcpr_uuid)* z) { \
-            return RCPR_SYM(fiber_scheduler_discipline_find(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_scheduler_run( \
-        RCPR_SYM(fiber_scheduler)* x) { \
-            return RCPR_SYM(fiber_scheduler_run)(x); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_scheduler_yield( \
-        RCPR_SYM(fiber_scheduler)* u, int v, void* w, \
-        const RCPR_SYM(rcpr_uuid)** x, int* y, void** z) { \
-            return RCPR_SYM(fiber_scheduler_yield)(u,v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_discipline_yield( \
-        RCPR_SYM(fiber_scheduler_discipline)* u, int v, void* w, \
-        const RCPR_SYM(rcpr_uuid)** x, int* y, void** z) { \
-            return RCPR_SYM(fiber_discipline_yield)(u,v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_unexpected_event_callback_add( \
-        RCPR_SYM(fiber)* x, RCPR_SYM(fiber_unexpected_event_callback_fn) y, \
-        void* z) { \
-            return RCPR_SYM(fiber_unexpected_event_callback_add)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## fiber_unexpected_event( \
-        RCPR_SYM(fiber)* u, const RCPR_SYM(rcpr_uuid)* v, int w, void* x, \
-        const RCPR_SYM(rcpr_uuid)* y, int z) { \
-            return RCPR_SYM(fiber_unexpected_event)(u,v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## disciplined_fiber_scheduler_add_fiber_to_run_queue( \
-        RCPR_SYM(fiber_scheduler)* v, RCPR_SYM(fiber)* w, \
-        const RCPR_SYM(rcpr_uuid)* x, int y, void* z) { \
-            return \
-                RCPR_SYM(disciplined_fiber_scheduler_add_fiber_to_run_queue)( \
-                    v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## disciplined_fiber_scheduler_set_next_fiber_to_run( \
-        RCPR_SYM(fiber_scheduler)* v, RCPR_SYM(fiber)* w, \
-        const RCPR_SYM(rcpr_uuid)* x, int y, void* z) { \
-            return \
-                RCPR_SYM(disciplined_fiber_scheduler_set_next_fiber_to_run)( \
-                    v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## disciplined_fiber_scheduler_set_idle_fiber( \
-        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
-            return \
-                RCPR_SYM(disciplined_fiber_scheduler_set_idle_fiber)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## disciplined_fiber_scheduler_idle_fiber_yield( \
-        RCPR_SYM(fiber_scheduler)* x) { \
-            return \
-                RCPR_SYM(disciplined_fiber_scheduler_idle_fiber_yield)(x); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## disciplined_fiber_scheduler_receive_management_event( \
-        RCPR_SYM(fiber_scheduler)* w, const RCPR_SYM(rcpr_uuid)** x, int* y, \
-        void** z) { \
-            return \
-                RCPR_SYM(disciplined_fiber_scheduler_receive_management_event)(\
-                    w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## disciplined_fiber_scheduler_send_quiesce_request_to_fiber( \
-        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
-            return \
-                RCPR_SYM( \
-                    disciplined_fiber_scheduler_send_quiesce_request_to_fiber)(\
-                        x,y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## disciplined_fiber_scheduler_send_terminate_request_to_fiber( \
-        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
-            return \
-                RCPR_SYM( \
-                  disciplined_fiber_scheduler_send_terminate_request_to_fiber)(\
-                        x,y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## disciplined_fiber_scheduler_send_quiesce_request_to_all( \
-        RCPR_SYM(fiber_scheduler)* x) { \
-            return \
-                RCPR_SYM(\
-                    disciplined_fiber_scheduler_send_quiesce_request_to_all)( \
-                        x); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## disciplined_fiber_scheduler_send_terminate_request_to_all( \
-        RCPR_SYM(fiber_scheduler)* x) { \
-            return \
-                RCPR_SYM( \
-                    disciplined_fiber_scheduler_send_terminate_request_to_all)(\
-                        x); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## disciplined_fiber_scheduler_remove_fiber( \
-        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
-            return RCPR_SYM(disciplined_fiber_scheduler_remove_fiber)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## disciplined_fiber_scheduler_main_fiber_get( \
-        RCPR_SYM(fiber)** x, RCPR_SYM(fiber_scheduler)* y) { \
-            return RCPR_SYM(disciplined_fiber_scheduler_main_fiber_get)(x,y); }\
-    static inline RCPR_SYM(resource)* sym ## _ ## fiber_resource_handle( \
-        RCPR_SYM(fiber)* x) { \
-            return RCPR_SYM(fiber_resource_handle)(x); } \
-    static inline RCPR_SYM(resource)* \
-    sym ## _ ## fiber_scheduler_resource_handle( \
-        RCPR_SYM(fiber_scheduler)* x) { \
-            return RCPR_SYM(fiber_scheduler_resource_handle)(x); } \
-    static inline RCPR_SYM(resource)* \
-    sym ## _ ## fiber_scheduler_discipline_resource_handle( \
-        RCPR_SYM(fiber_scheduler_discipline)* x) { \
-            return RCPR_SYM(fiber_scheduler_discipline_resource_handle)(x); } \
-    static inline uint64_t sym ## _ ## fiber_state_get( \
-        const RCPR_SYM(fiber)* x) { \
-            return RCPR_SYM(fiber_state_get)(x); } \
-    static inline RCPR_SYM(fiber_scheduler)* \
-    sym ## _ ## fiber_scheduler_from_fiber_get( \
-        RCPR_SYM(fiber)* x) { \
-            return RCPR_SYM(fiber_scheduler_from_fiber_get)(x); } \
-    static inline bool sym ## _ ## prop_fiber_valid( \
-        const RCPR_SYM(fiber)* x) { \
-            return RCPR_SYM(prop_fiber_valid)(x); } \
-    static inline bool sym ## _ ## prop_fiber_scheduler_valid( \
-        const RCPR_SYM(fiber_scheduler)* x) { \
-            return RCPR_SYM(prop_fiber_scheduler_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
-
-#define RCPR_IMPORT_fiber \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(fiber) fiber; \
-    typedef RCPR_SYM(fiber_scheduler) fiber_scheduler; \
-    typedef RCPR_SYM(fiber_scheduler_discipline) fiber_scheduler_discipline; \
-    typedef RCPR_SYM(fiber_fn) fiber_fn; \
-    typedef RCPR_SYM(fiber_scheduler_callback_fn) fiber_scheduler_callback_fn; \
-    typedef RCPR_SYM(fiber_scheduler_discipline_callback_fn) \
-        fiber_scheduler_discipline_callback_fn; \
-    typedef RCPR_SYM(fiber_unexpected_event_callback_fn) \
-        fiber_unexpected_event_callback_fn; \
-    static inline status FN_DECL_MUST_CHECK fiber_create( \
-        RCPR_SYM(fiber)** u, RCPR_SYM(allocator)* v, \
-        RCPR_SYM(fiber_scheduler)* w, size_t x, void* y, \
-        RCPR_SYM(fiber_fn) z) { \
-            return RCPR_SYM(fiber_create)(u,v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK fiber_create_for_thread( \
-        RCPR_SYM(fiber)** x, RCPR_SYM(fiber_scheduler)* y, \
-        RCPR_SYM(allocator)* z) { \
-            return RCPR_SYM(fiber_create_for_thread)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK fiber_scheduler_create( \
-        RCPR_SYM(fiber_scheduler)** w, RCPR_SYM(allocator)* x, void* y, \
-        RCPR_SYM(fiber_scheduler_callback_fn) z) { \
-            return RCPR_SYM(fiber_scheduler_create)(w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK \
-    fiber_scheduler_create_with_disciplines( \
-        RCPR_SYM(fiber_scheduler)** x, RCPR_SYM(allocator)* y) { \
-            return RCPR_SYM(fiber_scheduler_create_with_disciplines)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK fiber_scheduler_discipline_create( \
-        RCPR_SYM(fiber_scheduler_discipline)** u, \
-        const RCPR_SYM(rcpr_uuid)* v, RCPR_SYM(allocator)* w, void* x, \
-        size_t y, RCPR_SYM(fiber_scheduler_discipline_callback_fn)* z) { \
-            return RCPR_SYM(fiber_scheduler_discipline_create)(u,v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK fiber_scheduler_add( \
-        RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
-            return RCPR_SYM(fiber_scheduler_add)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK fiber_scheduler_discipline_add( \
-        RCPR_SYM(fiber_scheduler)* x, \
-        RCPR_SYM(fiber_scheduler_discipline)* y) { \
-            return RCPR_SYM(fiber_scheduler_discipline_add)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK fiber_scheduler_discipline_find( \
+    sym ## fiber_scheduler_discipline_find( \
         RCPR_SYM(fiber_scheduler_discipline)** x, \
         RCPR_SYM(fiber_scheduler)* y, const RCPR_SYM(rcpr_uuid)* z) { \
             return RCPR_SYM(fiber_scheduler_discipline_find)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK fiber_scheduler_run( \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## fiber_scheduler_run( \
         RCPR_SYM(fiber_scheduler)* x) { \
             return RCPR_SYM(fiber_scheduler_run)(x); } \
-    static inline status FN_DECL_MUST_CHECK fiber_scheduler_yield( \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## fiber_scheduler_yield( \
         RCPR_SYM(fiber_scheduler)* u, int v, void* w, \
         const RCPR_SYM(rcpr_uuid)** x, int* y, void** z) { \
             return RCPR_SYM(fiber_scheduler_yield)(u,v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK fiber_discipline_yield( \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## fiber_discipline_yield( \
         RCPR_SYM(fiber_scheduler_discipline)* u, int v, void* w, \
         const RCPR_SYM(rcpr_uuid)** x, int* y, void** z) { \
             return RCPR_SYM(fiber_discipline_yield)(u,v,w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    fiber_unexpected_event_callback_add( \
+    sym ## fiber_unexpected_event_callback_add( \
         RCPR_SYM(fiber)* x, RCPR_SYM(fiber_unexpected_event_callback_fn) y, \
         void* z) { \
             return RCPR_SYM(fiber_unexpected_event_callback_add)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    fiber_unexpected_event( \
+    sym ## fiber_unexpected_event( \
         RCPR_SYM(fiber)* u, const RCPR_SYM(rcpr_uuid)* v, int w, void* x, \
         const RCPR_SYM(rcpr_uuid)* y, int z) { \
             return RCPR_SYM(fiber_unexpected_event)(u,v,w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    disciplined_fiber_scheduler_add_fiber_to_run_queue( \
+    sym ## disciplined_fiber_scheduler_add_fiber_to_run_queue( \
         RCPR_SYM(fiber_scheduler)* v, RCPR_SYM(fiber)* w, \
         const RCPR_SYM(rcpr_uuid)* x, int y, void* z) { \
             return \
                 RCPR_SYM(disciplined_fiber_scheduler_add_fiber_to_run_queue)( \
                     v,w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    disciplined_fiber_scheduler_set_next_fiber_to_run( \
+    sym ## disciplined_fiber_scheduler_set_next_fiber_to_run( \
         RCPR_SYM(fiber_scheduler)* v, RCPR_SYM(fiber)* w, \
         const RCPR_SYM(rcpr_uuid)* x, int y, void* z) { \
             return \
                 RCPR_SYM(disciplined_fiber_scheduler_set_next_fiber_to_run)( \
                     v,w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    disciplined_fiber_scheduler_set_idle_fiber( \
+    sym ## disciplined_fiber_scheduler_set_idle_fiber( \
         RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
             return \
                 RCPR_SYM(disciplined_fiber_scheduler_set_idle_fiber)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    disciplined_fiber_scheduler_idle_fiber_yield( \
+    sym ## disciplined_fiber_scheduler_idle_fiber_yield( \
         RCPR_SYM(fiber_scheduler)* x) { \
             return \
                 RCPR_SYM(disciplined_fiber_scheduler_idle_fiber_yield)(x); } \
     static inline status FN_DECL_MUST_CHECK \
-    disciplined_fiber_scheduler_receive_management_event( \
+    sym ## disciplined_fiber_scheduler_receive_management_event( \
         RCPR_SYM(fiber_scheduler)* w, const RCPR_SYM(rcpr_uuid)** x, int* y, \
         void** z) { \
             return \
                 RCPR_SYM(disciplined_fiber_scheduler_receive_management_event)(\
                     w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    disciplined_fiber_scheduler_send_quiesce_request_to_fiber( \
+    sym ## disciplined_fiber_scheduler_send_quiesce_request_to_fiber( \
         RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
             return \
                 RCPR_SYM( \
                     disciplined_fiber_scheduler_send_quiesce_request_to_fiber)(\
                         x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    disciplined_fiber_scheduler_send_terminate_request_to_fiber( \
+    sym ## disciplined_fiber_scheduler_send_terminate_request_to_fiber( \
         RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
             return \
                 RCPR_SYM( \
                   disciplined_fiber_scheduler_send_terminate_request_to_fiber)(\
                         x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    disciplined_fiber_scheduler_send_quiesce_request_to_all( \
+    sym ## disciplined_fiber_scheduler_send_quiesce_request_to_all( \
         RCPR_SYM(fiber_scheduler)* x) { \
             return \
                 RCPR_SYM(\
                     disciplined_fiber_scheduler_send_quiesce_request_to_all)( \
                         x); } \
     static inline status FN_DECL_MUST_CHECK \
-    disciplined_fiber_scheduler_send_terminate_request_to_all( \
+    sym ## disciplined_fiber_scheduler_send_terminate_request_to_all( \
         RCPR_SYM(fiber_scheduler)* x) { \
             return \
                 RCPR_SYM( \
                     disciplined_fiber_scheduler_send_terminate_request_to_all)(\
                         x); } \
     static inline status FN_DECL_MUST_CHECK \
-    disciplined_fiber_scheduler_remove_fiber( \
+    sym ## disciplined_fiber_scheduler_remove_fiber( \
         RCPR_SYM(fiber_scheduler)* x, RCPR_SYM(fiber)* y) { \
             return RCPR_SYM(disciplined_fiber_scheduler_remove_fiber)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    disciplined_fiber_scheduler_main_fiber_get( \
+    sym ## disciplined_fiber_scheduler_main_fiber_get( \
         RCPR_SYM(fiber)** x, RCPR_SYM(fiber_scheduler)* y) { \
             return RCPR_SYM(disciplined_fiber_scheduler_main_fiber_get)(x,y); }\
-    static inline RCPR_SYM(resource)* fiber_resource_handle( \
+    static inline RCPR_SYM(resource)* sym ## fiber_resource_handle( \
         RCPR_SYM(fiber)* x) { \
             return RCPR_SYM(fiber_resource_handle)(x); } \
-    static inline RCPR_SYM(resource)* fiber_scheduler_resource_handle( \
+    static inline RCPR_SYM(resource)* \
+    sym ## fiber_scheduler_resource_handle( \
         RCPR_SYM(fiber_scheduler)* x) { \
             return RCPR_SYM(fiber_scheduler_resource_handle)(x); } \
     static inline RCPR_SYM(resource)* \
-    fiber_scheduler_discipline_resource_handle( \
+    sym ## fiber_scheduler_discipline_resource_handle( \
         RCPR_SYM(fiber_scheduler_discipline)* x) { \
             return RCPR_SYM(fiber_scheduler_discipline_resource_handle)(x); } \
-    static inline uint64_t fiber_state_get( \
+    static inline uint64_t sym ## fiber_state_get( \
         const RCPR_SYM(fiber)* x) { \
             return RCPR_SYM(fiber_state_get)(x); } \
-    static inline RCPR_SYM(fiber_scheduler)* fiber_scheduler_from_fiber_get( \
+    static inline RCPR_SYM(fiber_scheduler)* \
+    sym ## fiber_scheduler_from_fiber_get( \
         RCPR_SYM(fiber)* x) { \
             return RCPR_SYM(fiber_scheduler_from_fiber_get)(x); } \
-    static inline bool prop_fiber_valid( \
+    static inline bool sym ## prop_fiber_valid( \
         const RCPR_SYM(fiber)* x) { \
             return RCPR_SYM(prop_fiber_valid)(x); } \
-    static inline bool prop_fiber_scheduler_valid( \
+    static inline bool sym ## prop_fiber_scheduler_valid( \
         const RCPR_SYM(fiber_scheduler)* x) { \
             return RCPR_SYM(prop_fiber_scheduler_valid)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
+#define RCPR_IMPORT_fiber_as(sym) \
+    __INTERNAL_RCPR_IMPORT_fiber_sym(sym ## _)
+#define RCPR_IMPORT_fiber \
+    __INTERNAL_RCPR_IMPORT_fiber_sym()
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
