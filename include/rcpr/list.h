@@ -495,127 +495,70 @@ bool RCPR_SYM(prop_list_node_valid)(const RCPR_SYM(list_node)* node);
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
+#define __INTERNAL_RCPR_IMPORT_list_sym(sym) \
+    RCPR_BEGIN_EXPORT \
+    typedef RCPR_SYM(list) sym ## list; \
+    typedef RCPR_SYM(list_node) sym ## list_node; \
+    static inline status FN_DECL_MUST_CHECK sym ## list_create( \
+        RCPR_SYM(list)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(list_create)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_insert_head( \
+        RCPR_SYM(list)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_insert_head)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_append_tail( \
+        RCPR_SYM(list)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_append_tail)(x, y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_append( \
+        RCPR_SYM(list_node)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_append)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_insert( \
+        RCPR_SYM(list_node)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(list_insert)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_node_child_swap( \
+        RCPR_SYM(list_node)* x, RCPR_SYM(resource)** y) { \
+            return RCPR_SYM(list_node_child_swap)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_pop( \
+        RCPR_SYM(list)* x, RCPR_SYM(resource)** y) { \
+            return RCPR_SYM(list_pop)(x,y); } \
+    static inline void sym ## list_swap( \
+        RCPR_SYM(list)* x, RCPR_SYM(list)* y) { \
+            RCPR_SYM(list_swap)(x,y); } \
+    static inline RCPR_SYM(resource)* sym ## list_resource_handle( \
+        RCPR_SYM(list)* x) { \
+            return RCPR_SYM(list_resource_handle)(x); } \
+    static inline RCPR_SYM(resource)* sym ## list_node_resource_handle( \
+        RCPR_SYM(list_node)* x) { \
+            return RCPR_SYM(list_node_resource_handle)(x); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_head( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list)* y) { \
+            return RCPR_SYM(list_head)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_tail( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list)* y) { \
+            return RCPR_SYM(list_tail)(x,y); } \
+    static inline size_t sym ## list_count( \
+        RCPR_SYM(list)* x) { \
+            return  RCPR_SYM(list_count)(x); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_node_child( \
+        RCPR_SYM(resource)** x, RCPR_SYM(list_node)* y) { \
+            return RCPR_SYM(list_node_child)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_node_next( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list_node)* y) { \
+            return RCPR_SYM(list_node_next)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_node_prev( \
+        RCPR_SYM(list_node)** x, RCPR_SYM(list_node)* y) { \
+            return RCPR_SYM(list_node_prev)(x,y); } \
+    static inline bool sym ## prop_list_valid( \
+        const RCPR_SYM(list)* x) { \
+            return RCPR_SYM(prop_list_valid)(x); } \
+    static inline bool sym ## prop_list_node_valid( \
+        const RCPR_SYM(list_node)* x) { \
+            return RCPR_SYM(prop_list_node_valid)(x); } \
+    RCPR_END_EXPORT \
+    REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_list_as(sym) \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(list) sym ## _ ## list; \
-    typedef RCPR_SYM(list_node) sym ## _ ## list_node; \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_create( \
-        RCPR_SYM(list)** x, RCPR_SYM(allocator)* y) { \
-            return RCPR_SYM(list_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_insert_head( \
-        RCPR_SYM(list)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(list_insert_head)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_append_tail( \
-        RCPR_SYM(list)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(list_append_tail)(x, y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_append( \
-        RCPR_SYM(list_node)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(list_append)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_insert( \
-        RCPR_SYM(list_node)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(list_insert)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_node_child_swap( \
-        RCPR_SYM(list_node)* x, RCPR_SYM(resource)** y) { \
-            return RCPR_SYM(list_node_child_swap)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_pop( \
-        RCPR_SYM(list)* x, RCPR_SYM(resource)** y) { \
-            return RCPR_SYM(list_pop)(x,y); } \
-    static inline void sym ## _ ## list_swap( \
-        RCPR_SYM(list)* x, RCPR_SYM(list)* y) { \
-            RCPR_SYM(list_swap)(x,y); } \
-    static inline RCPR_SYM(resource)* sym ## _ ## list_resource_handle( \
-        RCPR_SYM(list)* x) { \
-            return RCPR_SYM(list_resource_handle)(x); } \
-    static inline RCPR_SYM(resource)* sym ## _ ## list_node_resource_handle( \
-        RCPR_SYM(list_node)* x) { \
-            return RCPR_SYM(list_node_resource_handle)(x); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_head( \
-        RCPR_SYM(list_node)** x, RCPR_SYM(list)* y) { \
-            return RCPR_SYM(list_head)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_tail( \
-        RCPR_SYM(list_node)** x, RCPR_SYM(list)* y) { \
-            return RCPR_SYM(list_tail)(x,y); } \
-    static inline size_t sym ## _ ## list_count( \
-        RCPR_SYM(list)* x) { \
-            return  RCPR_SYM(list_count)(x); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_node_child( \
-        RCPR_SYM(resource)** x, RCPR_SYM(list_node)* y) { \
-            return RCPR_SYM(list_node_child)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_node_next( \
-        RCPR_SYM(list_node)** x, RCPR_SYM(list_node)* y) { \
-            return RCPR_SYM(list_node_next)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## list_node_prev( \
-        RCPR_SYM(list_node)** x, RCPR_SYM(list_node)* y) { \
-            return RCPR_SYM(list_node_prev)(x,y); } \
-    static inline bool sym ## _ ## prop_list_valid( \
-        const RCPR_SYM(list)* x) { \
-            return RCPR_SYM(prop_list_valid)(x); } \
-    static inline bool sym ## _ ## prop_list_node_valid( \
-        const RCPR_SYM(list_node)* x) { \
-            return RCPR_SYM(prop_list_node_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
-
+    __INTERNAL_RCPR_IMPORT_list_sym(sym ## _)
 #define RCPR_IMPORT_list \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(list) list; \
-    typedef RCPR_SYM(list_node) list_node; \
-    static inline status FN_DECL_MUST_CHECK list_create( \
-        RCPR_SYM(list)** x, RCPR_SYM(allocator)* y) { \
-            return RCPR_SYM(list_create)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK list_insert_head( \
-        RCPR_SYM(list)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(list_insert_head)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK list_append_tail( \
-        RCPR_SYM(list)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(list_append_tail)(x, y); } \
-    static inline status FN_DECL_MUST_CHECK list_append( \
-        RCPR_SYM(list_node)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(list_append)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK list_insert( \
-        RCPR_SYM(list_node)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(list_insert)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK list_node_child_swap( \
-        RCPR_SYM(list_node)* x, RCPR_SYM(resource)** y) { \
-            return RCPR_SYM(list_node_child_swap)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK list_pop( \
-        RCPR_SYM(list)* x, RCPR_SYM(resource)** y) { \
-            return RCPR_SYM(list_pop)(x,y); } \
-    static inline void list_swap( \
-        RCPR_SYM(list)* x, RCPR_SYM(list)* y) { \
-            RCPR_SYM(list_swap)(x,y); } \
-    static inline RCPR_SYM(resource)* list_resource_handle( \
-        RCPR_SYM(list)* x) { \
-            return RCPR_SYM(list_resource_handle)(x); } \
-    static inline RCPR_SYM(resource)* list_node_resource_handle( \
-        RCPR_SYM(list_node)* x) { \
-            return RCPR_SYM(list_node_resource_handle)(x); } \
-    static inline status FN_DECL_MUST_CHECK list_head( \
-        RCPR_SYM(list_node)** x, RCPR_SYM(list)* y) { \
-            return RCPR_SYM(list_head)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK list_tail( \
-        RCPR_SYM(list_node)** x, RCPR_SYM(list)* y) { \
-            return RCPR_SYM(list_tail)(x,y); } \
-    static inline size_t list_count( \
-        RCPR_SYM(list)* x) { \
-            return  RCPR_SYM(list_count)(x); } \
-    static inline status FN_DECL_MUST_CHECK list_node_child( \
-        RCPR_SYM(resource)** x, RCPR_SYM(list_node)* y) { \
-            return RCPR_SYM(list_node_child)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK list_node_next( \
-        RCPR_SYM(list_node)** x, RCPR_SYM(list_node)* y) { \
-            return RCPR_SYM(list_node_next)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK list_node_prev( \
-        RCPR_SYM(list_node)** x, RCPR_SYM(list_node)* y) { \
-            return RCPR_SYM(list_node_prev)(x,y); } \
-    static inline bool prop_list_valid( \
-        const RCPR_SYM(list)* x) { \
-            return RCPR_SYM(prop_list_valid)(x); } \
-    static inline bool prop_list_node_valid( \
-        const RCPR_SYM(list_node)* x) { \
-            return RCPR_SYM(prop_list_node_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_list_sym()
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
