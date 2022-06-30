@@ -56,18 +56,16 @@ typedef const void* (*RCPR_SYM(compare_key_fn))(
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
-#define RCPR_IMPORT_compare_as(sym) \
+#define __INTERNAL_RCPR_IMPORT_compare_sym(sym) \
     typedef RCPR_SYM(rcpr_comparison_result) \
-        sym ## _ ## rcpr_comparison_result; \
-    typedef RCPR_SYM(compare_fn) sym ## _ ## compare_fn; \
-    typedef RCPR_SYM(compare_key_fn) sym ## _ ## compare_key_fn; \
+        sym ## rcpr_comparison_result; \
+    typedef RCPR_SYM(compare_fn) sym ## compare_fn; \
+    typedef RCPR_SYM(compare_key_fn) sym ## compare_key_fn; \
     REQUIRE_SEMICOLON_HERE
-
+#define RCPR_IMPORT_compare_as(sym) \
+    __INTERNAL_RCPR_IMPORT_compare_sym(sym ## _)
 #define RCPR_IMPORT_compare \
-    typedef RCPR_SYM(rcpr_comparison_result) rcpr_comparison_result; \
-    typedef RCPR_SYM(compare_fn) compare_fn; \
-    typedef RCPR_SYM(compare_key_fn) compare_key_fn; \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_compare_sym()
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
