@@ -102,35 +102,24 @@ RCPR_SYM(prop_stack_valid)(
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
+#define __INTERNAL_RCPR_IMPORT_stack_sym(sym) \
+    RCPR_BEGIN_EXPORT \
+    typedef RCPR_SYM(stack) stack; \
+    static inline status FN_DECL_MUST_CHECK sym ## stack_create( \
+        RCPR_SYM(stack)** x, RCPR_SYM(allocator)* y, size_t z) { \
+            return RCPR_SYM(stack_create)(x,y,z); } \
+    static inline RCPR_SYM(resource)* sym ## stack_resource_handle( \
+        RCPR_SYM(stack)* x) { \
+            return RCPR_SYM(stack_resource_handle)(x); } \
+    static inline bool sym ## prop_stack_valid( \
+        const RCPR_SYM(stack)* x) { \
+            return RCPR_SYM(prop_stack_valid)(x); } \
+    RCPR_END_EXPORT \
+    REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_stack_as(sym) \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(stack) stack; \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## stack_create( \
-        RCPR_SYM(stack)** x, RCPR_SYM(allocator)* y, size_t z) { \
-            return RCPR_SYM(stack_create)(x,y,z); } \
-    static inline RCPR_SYM(resource)* sym ## _ ## stack_resource_handle( \
-        RCPR_SYM(stack)* x) { \
-            return RCPR_SYM(stack_resource_handle)(x); } \
-    static inline bool sym ## _ ## prop_stack_valid( \
-        const RCPR_SYM(stack)* x) { \
-            return RCPR_SYM(prop_stack_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
-
+    __INTERNAL_RCPR_IMPORT_stack_sym(sym ## _)
 #define RCPR_IMPORT_stack \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(stack) stack; \
-    static inline status FN_DECL_MUST_CHECK stack_create( \
-        RCPR_SYM(stack)** x, RCPR_SYM(allocator)* y, size_t z) { \
-            return RCPR_SYM(stack_create)(x,y,z); } \
-    static inline RCPR_SYM(resource)* stack_resource_handle( \
-        RCPR_SYM(stack)* x) { \
-            return RCPR_SYM(stack_resource_handle)(x); } \
-    static inline bool prop_stack_valid( \
-        const RCPR_SYM(stack)* x) { \
-            return RCPR_SYM(prop_stack_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_stack_sym()
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
