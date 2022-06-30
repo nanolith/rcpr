@@ -24,8 +24,7 @@ TEST(parameter_checks)
     char* output = nullptr;
 
     /* we should be able to create a malloc allocator. */
-    TEST_ASSERT(
-        STATUS_SUCCESS == malloc_allocator_create(&alloc));
+    TEST_ASSERT(STATUS_SUCCESS == malloc_allocator_create(&alloc));
 
     /* passing a null pointer to strdup causes it to fail. */
     TEST_EXPECT(
