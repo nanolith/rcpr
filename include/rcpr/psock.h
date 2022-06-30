@@ -1892,419 +1892,243 @@ RCPR_SYM(prop_psock_valid)(
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
-#define RCPR_IMPORT_psock_as(sym) \
+#define __INTERNAL_RCPR_IMPORT_psock_sym(sym) \
     RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(psock) sym ## _ ## psock; \
-    typedef RCPR_SYM(psock_boxed_type) sym ## _ ## psock_boxed_type; \
-    typedef RCPR_SYM(socket_type) sym ## _ ## socket_type; \
+    typedef RCPR_SYM(psock) sym ## psock; \
+    typedef RCPR_SYM(psock_boxed_type) sym ## psock_boxed_type; \
+    typedef RCPR_SYM(socket_type) sym ## socket_type; \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_create_from_descriptor( \
+    sym ## psock_create_from_descriptor( \
         RCPR_SYM(psock)** x, RCPR_SYM(allocator)* y, int z) { \
             return RCPR_SYM(psock_create_from_descriptor)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_create_wrap_async( \
+    sym ## psock_create_wrap_async( \
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
         RCPR_SYM(fiber)* y, RCPR_SYM(psock)* z) { \
             return RCPR_SYM(psock_create_wrap_async)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_create_from_listen_address( \
+    sym ## psock_create_from_listen_address( \
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
         const struct sockaddr* y, socklen_t z) { \
             return RCPR_SYM(psock_create_from_listen_address)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_create_from_buffer( \
+    sym ## psock_create_from_buffer( \
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
         const char* y, size_t z) { \
             return RCPR_SYM(psock_create_from_buffer)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_boxed_int64( \
+    sym ## psock_read_boxed_int64( \
         RCPR_SYM(psock)* x, int64_t* y) { \
             return RCPR_SYM(psock_read_boxed_int64)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_boxed_uint64( \
+    sym ## psock_read_boxed_uint64( \
         RCPR_SYM(psock)* x, uint64_t* y) { \
             return RCPR_SYM(psock_read_boxed_uint64)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_boxed_int32( \
+    sym ## psock_read_boxed_int32( \
         RCPR_SYM(psock)* x, int32_t* y) { \
             return RCPR_SYM(psock_read_boxed_int32)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_boxed_uint32( \
+    sym ## psock_read_boxed_uint32( \
         RCPR_SYM(psock)* x, uint32_t* y) { \
             return RCPR_SYM(psock_read_boxed_uint32)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_boxed_int16( \
+    sym ## psock_read_boxed_int16( \
         RCPR_SYM(psock)* x, int16_t* y) { \
             return RCPR_SYM(psock_read_boxed_int16)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_boxed_uint16( \
+    sym ## psock_read_boxed_uint16( \
         RCPR_SYM(psock)* x, uint16_t* y) { \
             return RCPR_SYM(psock_read_boxed_uint16)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_boxed_int8( \
+    sym ## psock_read_boxed_int8( \
         RCPR_SYM(psock)* x, int8_t* y) { \
             return RCPR_SYM(psock_read_boxed_int8)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_boxed_uint8( \
+    sym ## psock_read_boxed_uint8( \
         RCPR_SYM(psock)* x, uint8_t* y) { \
             return RCPR_SYM(psock_read_boxed_uint8)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_boxed_bool( \
+    sym ## psock_read_boxed_bool( \
         RCPR_SYM(psock)* x, bool* y) { \
             return RCPR_SYM(psock_read_boxed_bool)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_boxed_string( \
+    sym ## psock_read_boxed_string( \
         RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, char** y, size_t* z) { \
             return RCPR_SYM(psock_read_boxed_string)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_boxed_data( \
+    sym ## psock_read_boxed_data( \
         RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t* z) { \
             return RCPR_SYM(psock_read_boxed_data)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_boxed_int64( \
+    sym ## psock_write_boxed_int64( \
         RCPR_SYM(psock)* x, int64_t y) { \
             return RCPR_SYM(psock_write_boxed_int64)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_boxed_uint64( \
+    sym ## psock_write_boxed_uint64( \
         RCPR_SYM(psock)* x, uint64_t y) { \
             return RCPR_SYM(psock_write_boxed_uint64)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_boxed_int32( \
+    sym ## psock_write_boxed_int32( \
         RCPR_SYM(psock)* x, int32_t y) { \
             return RCPR_SYM(psock_write_boxed_int32)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_boxed_uint32( \
+    sym ## psock_write_boxed_uint32( \
         RCPR_SYM(psock)* x, uint32_t y) { \
             return RCPR_SYM(psock_write_boxed_uint32)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_boxed_int16( \
+    sym ## psock_write_boxed_int16( \
         RCPR_SYM(psock)* x, int16_t y) { \
             return RCPR_SYM(psock_write_boxed_int16)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_boxed_uint16( \
+    sym ## psock_write_boxed_uint16( \
         RCPR_SYM(psock)* x, uint16_t y) { \
             return RCPR_SYM(psock_write_boxed_uint16)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_boxed_int8( \
+    sym ## psock_write_boxed_int8( \
         RCPR_SYM(psock)* x, int8_t y) { \
             return RCPR_SYM(psock_write_boxed_int8)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_boxed_uint8( \
+    sym ## psock_write_boxed_uint8( \
         RCPR_SYM(psock)* x, uint8_t y) { \
             return RCPR_SYM(psock_write_boxed_uint8)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_boxed_bool( \
+    sym ## psock_write_boxed_bool( \
         RCPR_SYM(psock)* x, bool y) { \
             return RCPR_SYM(psock_write_boxed_bool)(x, y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_boxed_string( \
+    sym ## psock_write_boxed_string( \
         RCPR_SYM(psock)* x, const char* y) { \
             return RCPR_SYM(psock_write_boxed_string)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_boxed_data( \
+    sym ## psock_write_boxed_data( \
         RCPR_SYM(psock)* x, const void* y, size_t z) { \
             return RCPR_SYM(psock_write_boxed_data)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw( \
+    sym ## psock_read_raw( \
         RCPR_SYM(psock)* x, void* y, size_t* z) { \
             return RCPR_SYM(psock_read_raw)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_block( \
+    sym ## psock_read_block( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_read_block)(x); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_block( \
+    sym ## psock_write_block( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_write_block)(x); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw_int64( \
+    sym ## psock_read_raw_int64( \
         RCPR_SYM(psock)* x, int64_t* y) { \
             return RCPR_SYM(psock_read_raw_int64)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw_uint64( \
+    sym ## psock_read_raw_uint64( \
         RCPR_SYM(psock)* x, uint64_t* y) { \
             return RCPR_SYM(psock_read_raw_uint64)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw_int32( \
+    sym ## psock_read_raw_int32( \
         RCPR_SYM(psock)* x, int32_t* y) { \
             return RCPR_SYM(psock_read_raw_int32)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw_uint32( \
+    sym ## psock_read_raw_uint32( \
         RCPR_SYM(psock)* x, uint32_t* y) { \
             return RCPR_SYM(psock_read_raw_uint32)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw_int16( \
+    sym ## psock_read_raw_int16( \
         RCPR_SYM(psock)* x, int16_t* y) { \
             return RCPR_SYM(psock_read_raw_int16)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw_uint16( \
+    sym ## psock_read_raw_uint16( \
         RCPR_SYM(psock)* x, uint16_t* y) { \
             return RCPR_SYM(psock_read_raw_uint16)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw_int8( \
+    sym ## psock_read_raw_int8( \
         RCPR_SYM(psock)* x, int8_t* y) { \
             return RCPR_SYM(psock_read_raw_int8)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw_uint8( \
+    sym ## psock_read_raw_uint8( \
         RCPR_SYM(psock)* x, uint8_t* y) { \
             return RCPR_SYM(psock_read_raw_uint8)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw_bool( \
+    sym ## psock_read_raw_bool( \
         RCPR_SYM(psock)* x, bool* y) { \
             return RCPR_SYM(psock_read_raw_bool)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw_data( \
+    sym ## psock_read_raw_data( \
         RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t z) { \
             return RCPR_SYM(psock_read_raw_data)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_read_raw_descriptor( \
+    sym ## psock_read_raw_descriptor( \
         RCPR_SYM(psock)* x, int* y) { \
             return RCPR_SYM(psock_read_raw_descriptor)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_raw_int64( \
+    sym ## psock_write_raw_int64( \
         RCPR_SYM(psock)* x, int64_t y) { \
             return RCPR_SYM(psock_write_raw_int64)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_raw_uint64( \
+    sym ## psock_write_raw_uint64( \
         RCPR_SYM(psock)* x, uint64_t y) { \
             return RCPR_SYM(psock_write_raw_uint64)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_raw_int32( \
+    sym ## psock_write_raw_int32( \
         RCPR_SYM(psock)* x, int32_t y) { \
             return RCPR_SYM(psock_write_raw_int32)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_raw_uint32( \
+    sym ## psock_write_raw_uint32( \
         RCPR_SYM(psock)* x, uint32_t y) { \
             return RCPR_SYM(psock_write_raw_uint32)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_raw_int16( \
+    sym ## psock_write_raw_int16( \
         RCPR_SYM(psock)* x, int16_t y) { \
             return RCPR_SYM(psock_write_raw_int16)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_raw_uint16( \
+    sym ## psock_write_raw_uint16( \
         RCPR_SYM(psock)* x, uint16_t y) { \
             return RCPR_SYM(psock_write_raw_uint16)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_raw_int8( \
+    sym ## psock_write_raw_int8( \
         RCPR_SYM(psock)* x, int8_t y) { \
             return RCPR_SYM(psock_write_raw_int8)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_raw_uint8( \
+    sym ## psock_write_raw_uint8( \
         RCPR_SYM(psock)* x, uint8_t y) { \
             return RCPR_SYM(psock_write_raw_uint8)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_raw_bool( \
+    sym ## psock_write_raw_bool( \
         RCPR_SYM(psock)* x, bool y) { \
             return RCPR_SYM(psock_write_raw_bool)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_raw_data( \
+    sym ## psock_write_raw_data( \
         RCPR_SYM(psock)* x, const void* y, size_t z) { \
             return RCPR_SYM(psock_write_raw_data)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_write_raw_descriptor( \
+    sym ## psock_write_raw_descriptor( \
         RCPR_SYM(psock)* x, int y) { \
             return RCPR_SYM(psock_write_raw_descriptor)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_accept( \
+    sym ## psock_accept( \
         RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
             return RCPR_SYM(psock_accept)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## psock_from_buffer_get_output_buffer( \
+    sym ## psock_from_buffer_get_output_buffer( \
         RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t* z) { \
             return RCPR_SYM(psock_from_buffer_get_output_buffer)(w,x,y,z); } \
     static inline RCPR_SYM(resource)* \
-    sym ## _ ## psock_resource_handle( \
+    sym ## psock_resource_handle( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_resource_handle)(x); } \
-    static inline RCPR_SYM(socket_type) sym ## _ ## psock_socket_type( \
+    static inline RCPR_SYM(socket_type) sym ## psock_socket_type( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_socket_type)(x); } \
     static inline bool \
-    sym ## _ ## prop_psock_valid( \
+    sym ## prop_psock_valid( \
         const RCPR_SYM(psock)* x) { \
             return RCPR_SYM(prop_psock_valid)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
-
+#define RCPR_IMPORT_psock_as(sym) \
+    __INTERNAL_RCPR_IMPORT_psock_sym(sym ## _)
 #define RCPR_IMPORT_psock \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(psock) psock; \
-    typedef RCPR_SYM(psock_boxed_type) psock_boxed_type; \
-    typedef RCPR_SYM(socket_type) socket_type; \
-    static inline status FN_DECL_MUST_CHECK psock_create_from_descriptor( \
-        RCPR_SYM(psock)** x, RCPR_SYM(allocator)* y, int z) { \
-            return RCPR_SYM(psock_create_from_descriptor)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK psock_create_wrap_async( \
-        RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
-        RCPR_SYM(fiber)* y, RCPR_SYM(psock)* z) { \
-            return RCPR_SYM(psock_create_wrap_async)(w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK psock_create_from_listen_address( \
-        RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
-        const struct sockaddr* y, socklen_t z) { \
-            return RCPR_SYM(psock_create_from_listen_address)(w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK psock_create_from_buffer( \
-        RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
-        const char* y, size_t z) { \
-            return RCPR_SYM(psock_create_from_buffer)(w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_boxed_int64( \
-        RCPR_SYM(psock)* x, int64_t* y) { \
-            return RCPR_SYM(psock_read_boxed_int64)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_boxed_uint64( \
-        RCPR_SYM(psock)* x, uint64_t* y) { \
-            return RCPR_SYM(psock_read_boxed_uint64)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_boxed_int32( \
-        RCPR_SYM(psock)* x, int32_t* y) { \
-            return RCPR_SYM(psock_read_boxed_int32)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_boxed_uint32( \
-        RCPR_SYM(psock)* x, uint32_t* y) { \
-            return RCPR_SYM(psock_read_boxed_uint32)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_boxed_int16( \
-        RCPR_SYM(psock)* x, int16_t* y) { \
-            return RCPR_SYM(psock_read_boxed_int16)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_boxed_uint16( \
-        RCPR_SYM(psock)* x, uint16_t* y) { \
-            return RCPR_SYM(psock_read_boxed_uint16)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_boxed_int8( \
-        RCPR_SYM(psock)* x, int8_t* y) { \
-            return RCPR_SYM(psock_read_boxed_int8)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_boxed_uint8( \
-        RCPR_SYM(psock)* x, uint8_t* y) { \
-            return RCPR_SYM(psock_read_boxed_uint8)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_boxed_bool( \
-        RCPR_SYM(psock)* x, bool* y) { \
-            return RCPR_SYM(psock_read_boxed_bool)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_boxed_string( \
-        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, char** y, size_t* z) { \
-            return RCPR_SYM(psock_read_boxed_string)(w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_boxed_data( \
-        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t* z) { \
-            return RCPR_SYM(psock_read_boxed_data)(w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_boxed_int64( \
-        RCPR_SYM(psock)* x, int64_t y) { \
-            return RCPR_SYM(psock_write_boxed_int64)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_boxed_uint64( \
-        RCPR_SYM(psock)* x, uint64_t y) { \
-            return RCPR_SYM(psock_write_boxed_uint64)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_boxed_int32( \
-        RCPR_SYM(psock)* x, int32_t y) { \
-            return RCPR_SYM(psock_write_boxed_int32)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_boxed_uint32( \
-        RCPR_SYM(psock)* x, uint32_t y) { \
-            return RCPR_SYM(psock_write_boxed_uint32)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_boxed_int16( \
-        RCPR_SYM(psock)* x, int16_t y) { \
-            return RCPR_SYM(psock_write_boxed_int16)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_boxed_uint16( \
-        RCPR_SYM(psock)* x, uint16_t y) { \
-            return RCPR_SYM(psock_write_boxed_uint16)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_boxed_int8( \
-        RCPR_SYM(psock)* x, int8_t y) { \
-            return RCPR_SYM(psock_write_boxed_int8)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_boxed_uint8( \
-        RCPR_SYM(psock)* x, uint8_t y) { \
-            return RCPR_SYM(psock_write_boxed_uint8)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_boxed_bool( \
-        RCPR_SYM(psock)* x, bool y) { \
-            return RCPR_SYM(psock_write_boxed_bool)(x, y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_boxed_string( \
-        RCPR_SYM(psock)* x, const char* y) { \
-            return RCPR_SYM(psock_write_boxed_string)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_boxed_data( \
-        RCPR_SYM(psock)* x, const void* y, size_t z) { \
-            return RCPR_SYM(psock_write_boxed_data)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw( \
-        RCPR_SYM(psock)* x, void* y, size_t* z) { \
-            return RCPR_SYM(psock_read_raw)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_block( \
-        RCPR_SYM(psock)* x) { \
-            return RCPR_SYM(psock_read_block)(x); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_block( \
-        RCPR_SYM(psock)* x) { \
-            return RCPR_SYM(psock_write_block)(x); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw_int64( \
-        RCPR_SYM(psock)* x, int64_t* y) { \
-            return RCPR_SYM(psock_read_raw_int64)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw_uint64( \
-        RCPR_SYM(psock)* x, uint64_t* y) { \
-            return RCPR_SYM(psock_read_raw_uint64)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw_int32( \
-        RCPR_SYM(psock)* x, int32_t* y) { \
-            return RCPR_SYM(psock_read_raw_int32)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw_uint32( \
-        RCPR_SYM(psock)* x, uint32_t* y) { \
-            return RCPR_SYM(psock_read_raw_uint32)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw_int16( \
-        RCPR_SYM(psock)* x, int16_t* y) { \
-            return RCPR_SYM(psock_read_raw_int16)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw_uint16( \
-        RCPR_SYM(psock)* x, uint16_t* y) { \
-            return RCPR_SYM(psock_read_raw_uint16)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw_int8( \
-        RCPR_SYM(psock)* x, int8_t* y) { \
-            return RCPR_SYM(psock_read_raw_int8)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw_uint8( \
-        RCPR_SYM(psock)* x, uint8_t* y) { \
-            return RCPR_SYM(psock_read_raw_uint8)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw_bool( \
-        RCPR_SYM(psock)* x, bool* y) { \
-            return RCPR_SYM(psock_read_raw_bool)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw_data( \
-        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t z) { \
-            return RCPR_SYM(psock_read_raw_data)(w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK psock_read_raw_descriptor( \
-        RCPR_SYM(psock)* x, int* y) { \
-            return RCPR_SYM(psock_read_raw_descriptor)(x, y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_raw_int64( \
-        RCPR_SYM(psock)* x, int64_t y) { \
-            return RCPR_SYM(psock_write_raw_int64)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_raw_uint64( \
-        RCPR_SYM(psock)* x, uint64_t y) { \
-            return RCPR_SYM(psock_write_raw_uint64)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_raw_int32( \
-        RCPR_SYM(psock)* x, int32_t y) { \
-            return RCPR_SYM(psock_write_raw_int32)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_raw_uint32( \
-        RCPR_SYM(psock)* x, uint32_t y) { \
-            return RCPR_SYM(psock_write_raw_uint32)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_raw_int16( \
-        RCPR_SYM(psock)* x, int16_t y) { \
-            return RCPR_SYM(psock_write_raw_int16)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_raw_uint16( \
-        RCPR_SYM(psock)* x, uint16_t y) { \
-            return RCPR_SYM(psock_write_raw_uint16)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_raw_int8( \
-        RCPR_SYM(psock)* x, int8_t y) { \
-            return RCPR_SYM(psock_write_raw_int8)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_raw_uint8( \
-        RCPR_SYM(psock)* x, uint8_t y) { \
-            return RCPR_SYM(psock_write_raw_uint8)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_raw_bool( \
-        RCPR_SYM(psock)* x, bool y) { \
-            return RCPR_SYM(psock_write_raw_bool)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_raw_data( \
-        RCPR_SYM(psock)* x, const void* y, size_t z) { \
-            return RCPR_SYM(psock_write_raw_data)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK psock_accept( \
-        RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
-            return RCPR_SYM(psock_accept)(w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK psock_write_raw_descriptor( \
-        RCPR_SYM(psock)* x, int y) { \
-            return RCPR_SYM(psock_write_raw_descriptor)(x, y); } \
-    static inline status FN_DECL_MUST_CHECK \
-    psock_from_buffer_get_output_buffer( \
-        RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t* z) { \
-            return RCPR_SYM(psock_from_buffer_get_output_buffer)(w,x,y,z); } \
-    static inline RCPR_SYM(resource)* psock_resource_handle( \
-        RCPR_SYM(psock)* x) { \
-            return RCPR_SYM(psock_resource_handle)(x); } \
-    static inline RCPR_SYM(socket_type) psock_socket_type( \
-        RCPR_SYM(psock)* x) { \
-            return RCPR_SYM(psock_socket_type)(x); } \
-    static inline bool prop_psock_valid( \
-        const RCPR_SYM(psock)* x) { \
-            return RCPR_SYM(prop_psock_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_psock_sym()
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
