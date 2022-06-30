@@ -119,36 +119,25 @@ RCPR_SYM(prop_uuid_valid)(
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
-#define RCPR_IMPORT_uuid_as(sym) \
+#define __INTERNAL_RCPR_IMPORT_uuid_sym(sym) \
     RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(rcpr_uuid) sym ## _ ## rcpr_uuid; \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## rcpr_uuid_to_string( \
+    typedef RCPR_SYM(rcpr_uuid) sym ## rcpr_uuid; \
+    static inline status FN_DECL_MUST_CHECK sym ## rcpr_uuid_to_string( \
         char** x, RCPR_SYM(allocator)* y, const RCPR_SYM(rcpr_uuid)* z) { \
             return RCPR_SYM(rcpr_uuid_to_string)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
-    sym ## _ ## rcpr_uuid_parse_string( \
+    sym ## rcpr_uuid_parse_string( \
         RCPR_SYM(rcpr_uuid)* x, const char* y) { \
             return RCPR_SYM(rcpr_uuid_parse_string)(x,y); } \
-    static inline bool sym ## _ ## prop_uuid_valid( \
+    static inline bool sym ## prop_uuid_valid( \
         const RCPR_SYM(rcpr_uuid)* x) { \
             return RCPR_SYM(prop_uuid_valid)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
-
+#define RCPR_IMPORT_uuid_as(sym) \
+    __INTERNAL_RCPR_IMPORT_uuid_sym(sym ## _)
 #define RCPR_IMPORT_uuid \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(rcpr_uuid) rcpr_uuid; \
-    static inline status FN_DECL_MUST_CHECK rcpr_uuid_to_string( \
-        char** x, RCPR_SYM(allocator)* y, const RCPR_SYM(rcpr_uuid)* z) { \
-            return RCPR_SYM(rcpr_uuid_to_string)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK rcpr_uuid_parse_string( \
-        RCPR_SYM(rcpr_uuid)* x, const char* y) { \
-            return RCPR_SYM(rcpr_uuid_parse_string)(x,y); } \
-    static inline bool prop_uuid_valid( \
-        const RCPR_SYM(rcpr_uuid)* x) { \
-            return RCPR_SYM(prop_uuid_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_uuid_sym()
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
