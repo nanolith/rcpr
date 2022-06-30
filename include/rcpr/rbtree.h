@@ -352,117 +352,65 @@ RCPR_SYM(prop_rbtree_valid)(
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
+#define __INTERNAL_RCPR_IMPORT_rbtree_sym(sym) \
+    RCPR_BEGIN_EXPORT \
+    typedef RCPR_SYM(rbtree) sym ## rbtree; \
+    typedef RCPR_SYM(rbtree_node) sym ## rbtree_node; \
+    static inline status FN_DECL_MUST_CHECK sym ## rbtree_create( \
+        RCPR_SYM(rbtree)** v, RCPR_SYM(allocator)* w, \
+        RCPR_SYM(compare_fn) x, RCPR_SYM(compare_key_fn) y, void* z) { \
+            return RCPR_SYM(rbtree_create)(v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## rbtree_insert( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(resource)* y) { \
+            return RCPR_SYM(rbtree_insert)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## rbtree_find( \
+        RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
+            return RCPR_SYM(rbtree_find)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## rbtree_delete( \
+        RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
+            return RCPR_SYM(rbtree_delete)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## rbtree_clear( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_clear)(x); } \
+    static inline void sym ## rbtree_swap( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree)* y) { \
+            RCPR_SYM(rbtree_swap)(x,y); } \
+    static inline RCPR_SYM(rbtree_node)* sym ## rbtree_minimum_node( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_minimum_node)(x,y); } \
+    static inline RCPR_SYM(rbtree_node)* sym ## rbtree_maximum_node( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_maximum_node)(x,y); } \
+    static inline RCPR_SYM(rbtree_node)* sym ## rbtree_successor_node( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_successor_node)(x,y); } \
+    static inline RCPR_SYM(rbtree_node)* sym ## rbtree_predecessor_node( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_predecessor_node)(x,y); } \
+    static inline RCPR_SYM(rbtree_node)* sym ## rbtree_nil_node( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_nil_node)(x); } \
+    static inline RCPR_SYM(rbtree_node)* sym ## rbtree_root_node( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_root_node)(x); } \
+    static inline RCPR_SYM(resource)* sym ## rbtree_node_value( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_node_value)(x,y); } \
+    static inline size_t sym ## rbtree_count( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_count)(x); } \
+    static inline RCPR_SYM(resource)* sym ## rbtree_resource_handle( \
+        RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(rbtree_resource_handle)(x); } \
+    static inline bool sym ## prop_rbtree_valid( \
+        const RCPR_SYM(rbtree)* x) { \
+            return RCPR_SYM(prop_rbtree_valid)(x); } \
+    RCPR_END_EXPORT \
+    REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_rbtree_as(sym) \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(rbtree) sym ## _ ## rbtree; \
-    typedef RCPR_SYM(rbtree_node) sym ## _ ## rbtree_node; \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_create( \
-        RCPR_SYM(rbtree)** v, RCPR_SYM(allocator)* w, \
-        RCPR_SYM(compare_fn) x, RCPR_SYM(compare_key_fn) y, void* z) { \
-            return RCPR_SYM(rbtree_create)(v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_insert( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(rbtree_insert)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_find( \
-        RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
-            return RCPR_SYM(rbtree_find)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_delete( \
-        RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
-            return RCPR_SYM(rbtree_delete)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK sym ## _ ## rbtree_clear( \
-        RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(rbtree_clear)(x); } \
-    static inline void sym ## _ ## rbtree_swap( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree)* y) { \
-            RCPR_SYM(rbtree_swap)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_minimum_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_minimum_node)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_maximum_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_maximum_node)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_successor_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_successor_node)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_predecessor_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_predecessor_node)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_nil_node( \
-        RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(rbtree_nil_node)(x); } \
-    static inline RCPR_SYM(rbtree_node)* sym ## _ ## rbtree_root_node( \
-        RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(rbtree_root_node)(x); } \
-    static inline RCPR_SYM(resource)* sym ## _ ## rbtree_node_value( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_node_value)(x,y); } \
-    static inline size_t sym ## _ ## rbtree_count( \
-        RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(rbtree_count)(x); } \
-    static inline RCPR_SYM(resource)* sym ## _ ## rbtree_resource_handle( \
-        RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(rbtree_resource_handle)(x); } \
-    static inline bool sym ## _ ## prop_rbtree_valid( \
-        const RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(prop_rbtree_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
-
+    __INTERNAL_RCPR_IMPORT_rbtree_sym(sym ## _)
 #define RCPR_IMPORT_rbtree \
-    RCPR_BEGIN_EXPORT \
-    typedef RCPR_SYM(rbtree) rbtree; \
-    typedef RCPR_SYM(rbtree_node) rbtree_node; \
-    static inline status FN_DECL_MUST_CHECK rbtree_create( \
-        RCPR_SYM(rbtree)** v, RCPR_SYM(allocator)* w, \
-        RCPR_SYM(compare_fn) x, RCPR_SYM(compare_key_fn) y, void* z) { \
-            return RCPR_SYM(rbtree_create)(v,w,x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK rbtree_insert( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(resource)* y) { \
-            return RCPR_SYM(rbtree_insert)(x,y); } \
-    static inline status FN_DECL_MUST_CHECK rbtree_find( \
-        RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
-            return RCPR_SYM(rbtree_find)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK rbtree_delete( \
-        RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
-            return RCPR_SYM(rbtree_delete)(x,y,z); } \
-    static inline status FN_DECL_MUST_CHECK rbtree_clear( \
-        RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(rbtree_clear)(x); } \
-    static inline void rbtree_swap( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree)* y) { \
-            RCPR_SYM(rbtree_swap)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* rbtree_minimum_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_minimum_node)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* rbtree_maximum_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_maximum_node)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* rbtree_successor_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_successor_node)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* rbtree_predecessor_node( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_predecessor_node)(x,y); } \
-    static inline RCPR_SYM(rbtree_node)* rbtree_nil_node( \
-        RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(rbtree_nil_node)(x); } \
-    static inline RCPR_SYM(rbtree_node)* rbtree_root_node( \
-        RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(rbtree_root_node)(x); } \
-    static inline RCPR_SYM(resource)* rbtree_node_value( \
-        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
-            return RCPR_SYM(rbtree_node_value)(x,y); } \
-    static inline size_t rbtree_count( \
-        RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(rbtree_count)(x); } \
-    static inline RCPR_SYM(resource)* rbtree_resource_handle( \
-        RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(rbtree_resource_handle)(x); } \
-    static inline bool prop_rbtree_valid( \
-        const RCPR_SYM(rbtree)* x) { \
-            return RCPR_SYM(prop_rbtree_valid)(x); } \
-    RCPR_END_EXPORT \
-    REQUIRE_SEMICOLON_HERE
+    __INTERNAL_RCPR_IMPORT_rbtree_sym()
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
