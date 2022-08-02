@@ -440,6 +440,65 @@ RCPR_SYM(psock_create_from_buffer)(
     RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a,
     const char* buffer, size_t size);
 
+/**
+ * \brief Create a user \ref psock instance.
+ *
+ * \param sock          Pointer to the \ref psock pointer to receive this
+ *                      resource on success.
+ * \param a             Pointer to the allocator to use for creating this \ref
+ *                      psock resource.
+ * \param ctx           The user context pointer for this custom psock instance.
+ * \param read_fn       Pointer to the user read function for this socket or
+ *                      NULL if not defined.
+ * \param write_fn      Pointer to the user write function for this socket or
+ *                      NULL if not defined.
+ * \param accept_fn     Pointer to the user accept function for this socket or
+ *                      NULL if not defined.
+ * \param sendmsg_fn    Pointer to the user sendmsg function for this socket or
+ *                      NULL if not defined.
+ * \param recvmsg_fn    Pointer to the user recvmsg function for this socket or
+ *                      NULL if not defined.
+ * \param release_fn    Pointer to the user release function, which is called
+ *                      when this \ref psock resource is released.
+ *
+ * \note This \ref psock is a \ref resource that must be released by calling
+ * \ref resource_release on its resource handle when it is no longer needed by
+ * the caller.  The resource handle can be accessed by calling
+ * \ref psock_resource_handle on this \ref psock instance.  The \ref psock
+ * instance owns the descriptor, which will be closed when this resource is
+ * released.
+ *
+ * The \p release_fn will be called when this resource is released. This
+ * function is NOT responsible for releasing this \ref psock resource and is
+ * only provided so that any user data (e.g. the context structure) can be
+ * released when this \ref psock instance is released.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p sock must not reference a valid sock instance and must not be NULL.
+ *      - \p a must reference a valid \ref allocator and must not be NULL.
+ *      - All other parameters are optional. If not defined, then calling the
+ *        top-level functions that map to these user functions will result in a
+ *        failure.
+ *
+ * \post
+ *      - On success, \p sock is set to a pointer to a valid \ref psock
+ *        instance, which is a \ref resource owned by the caller that must be
+ *        released.
+ *      - On failure, \p sock is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(psock_create_ex)(
+    RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a, void* ctx,
+    RCPR_SYM(psock_read_fn) read_fn, RCPR_SYM(psock_write_fn) write_fn,
+    RCPR_SYM(psock_accept_fn) accept_fn, RCPR_SYM(psock_sendmsg_fn) sendmsg_fn,
+    RCPR_SYM(psock_recvmsg_fn) recvmsg_fn,
+    RCPR_SYM(resource_release_fn) resource_fn);
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
