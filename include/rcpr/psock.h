@@ -33,6 +33,181 @@ extern "C" {
  */
 typedef struct RCPR_SYM(psock) RCPR_SYM(psock);
 
+/**
+ * \brief Read function type for a user psock.
+ *
+ * \param sock          The socket instance that is being read.
+ * \param ctx           The user context for this instance.
+ * \param data          Pointer to the buffer to receive data from this read
+ *                      operation.
+ * \param size          Pointer to the size to be read, updated with the number
+ *                      of bytes actually read.
+ * \param block         Set to true if this read should block until all bytes
+ *                      are read, or false if it should return early if reading
+ *                      extra bytes would block.
+ *
+ * \note This function type can be used by the caller to produce a special
+ * user-defined \ref psock instance. The context is an opaque type that the user
+ * provides during creation and that is passed to all user functions.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *      - \p data must be a pointer to a valid buffer that is at least \p size
+ *        bytes in length.
+ *      - \p size must be a pointer to a valid size argument, set to the size of
+ *        the \p data buffer.
+ *
+ * \post
+ *      - On success, \p data contains the bytes read, and \p size is set to the
+ *        number of bytes read.
+ *      - On failure, \p data is unchanged and an error status is returned.
+ */
+typedef status (*RCPR_SYM(psock_read_fn))(
+    RCPR_SYM(psock)* sock, void* ctx, void* data, size_t* size, bool block);
+
+/**
+ * \brief Write function type for a user psock.
+ *
+ * \param sock          The socket instance that is being written.
+ * \param ctx           The user context for this instance.
+ * \param data          Pointer to the buffer to write to the socket instance.
+ * \param size          Pointer to the size to be written, updated with the
+ *                      number of bytes actually written.
+ *
+ * \note This function type can be used by the caller to produce a special
+ * user-defined \ref psock instance. The context is an opaque type that the user
+ * provides during creation and that is passed to all user functions.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *      - \p data must be a pointer to a valid buffer that is at least \p size
+ *        bytes in length.
+ *      - \p size must be a pointer to a valid size argument, set to the size of
+ *        the \p data buffer.
+ *
+ * \post
+ *      - On success, \p data is written to the socket, and \p size is set to
+ *        the number of bytes written.
+ *      - On failure, an error status is returned.
+ */
+typedef status (*RCPR_SYM(psock_write_fn))(
+        RCPR_SYM(psock)* sock, void* ctx, const void* data, size_t* size);
+
+/**
+ * \brief Accept function type for a user psock.
+ *
+ * \param sock          The socket instance for accepting a socket.
+ * \param ctx           The user context for this instance.
+ * \param desc          Pointer to receive the socket descriptor on success.
+ * \param addr          Pointer to receive the peer socket address on success.
+ * \param addrlen       Pointer to receive the peer socket address length on
+ *                      success. It should be set to the maximum socket address
+ *                      length supported.
+ *
+ * \note This function type can be used by the caller to produce a special
+ * user-defined \ref psock instance. The context is an opaque type that the user
+ * provides during creation and that is passed to all user functions.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *      - \p desc must be a pointer to a valid descriptor to receive a socket
+ *        descriptor on success.
+ *      - \p addr must be a pointer to a valid sockaddr struct to receive the
+ *        peer socket address on success.
+ *      - \p addrlen must be a pointer to a socket length variable set to the
+ *        size of the address struct and set to the size of the socket address
+ *        on success.
+ *
+ * \post
+ *      - On success, \p data is written to the socket, and \p size is set to
+ *        the number of bytes written.
+ *      - On failure, an error status is returned.
+ */
+typedef status (*RCPR_SYM(psock_accept_fn))(
+        RCPR_SYM(psock)* sock, void* ctx, int* desc, struct sockaddr* addr,
+        socklen_t* addrlen);
+
+/**
+ * \brief Send message function type for a user psock.
+ *
+ * \param sock          The socket instance for accepting a socket.
+ * \param ctx           The user context for this instance.
+ * \param msg           The message header for the send request.
+ * \param flags         The flags for this operation.
+ *
+ * \note This function type can be used by the caller to produce a special
+ * user-defined \ref psock instance. The context is an opaque type that the user
+ * provides during creation and that is passed to all user functions.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *      - \p msg must be set to a valid message header as per the POSIX
+ *        specification.
+ *      - \p flags must be set as appropriate as documented in the POSIX spec.
+ *
+ * \post
+ *      - On success, \p msg is written to the socket.
+ *      - On failure, an error status is returned.
+ */
+typedef status (*RCPR_SYM(psock_sendmsg_fn))(
+        RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags);
+
+/**
+ * \brief Receive message function type for a user psock.
+ *
+ * \param sock          The socket instance for accepting a socket.
+ * \param ctx           The user context for this instance.
+ * \param msg           Pointer to the message header to be populated by this
+ *                      receive call on success.
+ * \param len           Pointer set to the length of this message header, and
+ *                      set to the length of the message received on success.
+ * \param flags         The flags for this operation.
+ *
+ * \note This function type can be used by the caller to produce a special
+ * user-defined \ref psock instance. The context is an opaque type that the user
+ * provides during creation and that is passed to all user functions.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *      - \p msg must be set to a valid message header structure as per the
+ *        POSIX specification.
+ *      - \p len must be set to the maximum length of this message header
+ *        structure and will be updated with the length of the message received.
+ *      - \p flags must be set as appropriate as documented in the POSIX spec.
+ *
+ * \post
+ *      - On success, \p msg is written to the socket.
+ *      - On failure, an error status is returned.
+ */
+typedef status (*RCPR_SYM(psock_recvmsg_fn))(
+        RCPR_SYM(psock)* sock, void* ctx, struct msghdr* msg, size_t* len,
+        int flags);
+
 /******************************************************************************/
 /* Start of support types.                                                    */
 /******************************************************************************/

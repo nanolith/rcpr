@@ -37,6 +37,7 @@ struct RCPR_SYM(psock)
     RCPR_MODEL_STRUCT_TAG(psock);
     int type;
     int socktype;
+    void* ctx;
 
     RCPR_SYM(allocator)* alloc;
     status (*read_fn)(
