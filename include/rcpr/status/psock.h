@@ -163,3 +163,9 @@
  */
 #define ERROR_PSOCK_RECVMSG_FAILED \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0018)
+
+/**
+ * \brief the given method was undefined by the user.
+ */
+#define ERROR_PSOCK_USER_METHOD_UNDEFINED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0019)

@@ -143,12 +143,10 @@ typedef status (*RCPR_SYM(psock_accept_fn))(
         socklen_t* addrlen);
 
 /**
- * \brief Send message function type for a user psock.
+ * \brief Release function type for a user psock.
  *
- * \param sock          The socket instance for accepting a socket.
+ * \param sock          The socket instance being released.
  * \param ctx           The user context for this instance.
- * \param msg           The message header for the send request.
- * \param flags         The flags for this operation.
  *
  * \note This function type can be used by the caller to produce a special
  * user-defined \ref psock instance. The context is an opaque type that the user
@@ -161,52 +159,13 @@ typedef status (*RCPR_SYM(psock_accept_fn))(
  * \pre
  *      - \p sock must be a pointer to a valid \ref psock instance and must not
  *        be NULL.
- *      - \p msg must be set to a valid message header as per the POSIX
- *        specification.
- *      - \p flags must be set as appropriate as documented in the POSIX spec.
  *
  * \post
- *      - On success, \p msg is written to the socket.
+ *      - On success, user-specific release code has been executed.
  *      - On failure, an error status is returned.
  */
-typedef status (*RCPR_SYM(psock_sendmsg_fn))(
-        RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags);
-
-/**
- * \brief Receive message function type for a user psock.
- *
- * \param sock          The socket instance for accepting a socket.
- * \param ctx           The user context for this instance.
- * \param msg           Pointer to the message header to be populated by this
- *                      receive call on success.
- * \param len           Pointer set to the length of this message header, and
- *                      set to the length of the message received on success.
- * \param flags         The flags for this operation.
- *
- * \note This function type can be used by the caller to produce a special
- * user-defined \ref psock instance. The context is an opaque type that the user
- * provides during creation and that is passed to all user functions.
- *
- * \returns a status code indicating success or failure.
- *      - STATUS_SUCCESS on success.
- *      - a non-zero error code on failure.
- *
- * \pre
- *      - \p sock must be a pointer to a valid \ref psock instance and must not
- *        be NULL.
- *      - \p msg must be set to a valid message header structure as per the
- *        POSIX specification.
- *      - \p len must be set to the maximum length of this message header
- *        structure and will be updated with the length of the message received.
- *      - \p flags must be set as appropriate as documented in the POSIX spec.
- *
- * \post
- *      - On success, \p msg is written to the socket.
- *      - On failure, an error status is returned.
- */
-typedef status (*RCPR_SYM(psock_recvmsg_fn))(
-        RCPR_SYM(psock)* sock, void* ctx, struct msghdr* msg, size_t* len,
-        int flags);
+typedef status (*RCPR_SYM(psock_release_fn))(
+        RCPR_SYM(psock)* sock, void* ctx);
 
 /******************************************************************************/
 /* Start of support types.                                                    */
@@ -454,10 +413,6 @@ RCPR_SYM(psock_create_from_buffer)(
  *                      NULL if not defined.
  * \param accept_fn     Pointer to the user accept function for this socket or
  *                      NULL if not defined.
- * \param sendmsg_fn    Pointer to the user sendmsg function for this socket or
- *                      NULL if not defined.
- * \param recvmsg_fn    Pointer to the user recvmsg function for this socket or
- *                      NULL if not defined.
  * \param release_fn    Pointer to the user release function, which is called
  *                      when this \ref psock resource is released.
  *
@@ -495,9 +450,7 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(psock_create_ex)(
     RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a, void* ctx,
     RCPR_SYM(psock_read_fn) read_fn, RCPR_SYM(psock_write_fn) write_fn,
-    RCPR_SYM(psock_accept_fn) accept_fn, RCPR_SYM(psock_sendmsg_fn) sendmsg_fn,
-    RCPR_SYM(psock_recvmsg_fn) recvmsg_fn,
-    RCPR_SYM(resource_release_fn) resource_fn);
+    RCPR_SYM(psock_accept_fn) accept_fn, RCPR_SYM(psock_release_fn) release_fn);
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
@@ -2128,6 +2081,10 @@ RCPR_SYM(prop_psock_valid)(
 /******************************************************************************/
 #define __INTERNAL_RCPR_IMPORT_psock_sym(sym) \
     RCPR_BEGIN_EXPORT \
+    typedef RCPR_SYM(psock_read_fn) sym ## psock_read_fn; \
+    typedef RCPR_SYM(psock_write_fn) sym ## psock_write_fn; \
+    typedef RCPR_SYM(psock_accept_fn) sym ## psock_accept_fn; \
+    typedef RCPR_SYM(psock_release_fn) sym ## psock_release_fn; \
     typedef RCPR_SYM(psock) sym ## psock; \
     typedef RCPR_SYM(psock_boxed_type) sym ## psock_boxed_type; \
     typedef RCPR_SYM(socket_type) sym ## socket_type; \
@@ -2150,6 +2107,12 @@ RCPR_SYM(prop_psock_valid)(
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
         const char* y, size_t z) { \
             return RCPR_SYM(psock_create_from_buffer)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## psock_create_ex( \
+        RCPR_SYM(psock)** t, RCPR_SYM(allocator)* u, void* v, \
+        RCPR_SYM(psock_read_fn) w, RCPR_SYM(psock_write_fn) x, \
+        RCPR_SYM(psock_accept_fn) y, RCPR_SYM(psock_release_fn) z) { \
+            return RCPR_SYM(psock_create_ex)(t,u,v,w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## psock_read_boxed_int64( \
         RCPR_SYM(psock)* x, int64_t* y) { \
