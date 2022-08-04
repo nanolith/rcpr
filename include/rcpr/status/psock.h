@@ -169,3 +169,21 @@
  */
 #define ERROR_PSOCK_USER_METHOD_UNDEFINED \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0019)
+
+/**
+ * \brief The given hostname could not be resolved.
+ */
+#define ERROR_PSOCK_HOSTNAME_LOOKUP_FAILURE \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x001a)
+
+/**
+ * \brief Could not create a socket for the given address family.
+ */
+#define ERROR_PSOCK_SOCKET_CREATE \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x001b)
+
+/**
+ * \brief Connection refused.
+ */
+#define ERROR_PSOCK_CONNECTION_REFUSED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x001c)
