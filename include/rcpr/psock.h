@@ -310,6 +310,52 @@ RCPR_SYM(psock_create_wrap_async)(
     RCPR_SYM(fiber)* fib, RCPR_SYM(psock)* child);
 
 /**
+ * \brief Create a \ref psock instance connected to the peer address described
+ * by the given hostname and port.
+ *
+ * \param sock          Pointer to the \ref psock pointer to receive this
+ *                      resource on success.
+ * \param a             Pointer to the allocator to use for creating this \ref
+ *                      psock resource.
+ * \param hostname      The hostname for the connection.
+ * \param port          The port.
+ *
+ * \note This \ref psock is a \ref resource that must be released by calling
+ * \ref resource_release on its resource handle when it is no longer needed by
+ * the caller.  The resource handle can be accessed by calling
+ * \ref psock_resource_handle on this \ref psock instance.  The \ref psock
+ * instance owns the descriptor, which will be closed when this resource is
+ * released.
+ *
+ * The \ref psock instance created is assumed to be backed by a blocking stream
+ * socket, and any read / write operations on this socket will behave
+ * accordingly.  On platforms which support this, \ref psock_create_wrap_async
+ * can be called to wrap this \ref psock instance with an asyncronous I/O
+ * instance.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sock must not reference a valid sock instance and must not be NULL.
+ *      - \p a must reference a valid \ref allocator and must not be NULL.
+ *      - \p hostname must be an ASCII UTF-8 ASCII-Z terminated string.
+ *
+ * \post
+ *      - On success, \p sock is set to a pointer to a valid \ref psock
+ *        instance, which is a \ref resource owned by the caller that must be
+ *        released.
+ *      - On failure, \p sock is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(psock_create_from_hostname_and_port)(
+    RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a,
+    const char* hostname, unsigned int port);
+
+/**
  * \brief Create a \ref psock instance backed by a listen socket bound to the
  * given address.
  *
@@ -2097,6 +2143,11 @@ RCPR_SYM(prop_psock_valid)(
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
         RCPR_SYM(fiber)* y, RCPR_SYM(psock)* z) { \
             return RCPR_SYM(psock_create_wrap_async)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## psock_create_from_hostname_and_port( \
+        RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
+        const char* y, unsigned int z) { \
+            return RCPR_SYM(psock_create_from_hostname_and_port)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## psock_create_from_listen_address( \
         RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, \
