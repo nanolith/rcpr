@@ -54,6 +54,7 @@ RCPR_SYM(rbtree_clear)(
 
     /* now the tree is empty. */
     tree->root = tree->nil;
+    tree->count = 0;
 
     /* make sure that nil is correct. */
     tree->nil->parent = tree->nil;
