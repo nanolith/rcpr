@@ -176,9 +176,15 @@ TEST(insert_ints)
             STATUS_SUCCESS == rbtree_insert(tree, &value->hdr));
     }
 
+    /* the rbtree count is now 10. */
+    TEST_ASSERT(10 == rbtree_count(tree));
+
     /* we can clear the rbtree. */
     TEST_EXPECT(
         STATUS_SUCCESS == rbtree_clear(tree));
+
+    /* the rbtree count is now 0. */
+    TEST_ASSERT(0 == rbtree_count(tree));
 
     /* clean up. */
     TEST_ASSERT(
