@@ -137,6 +137,13 @@ TARGET_COMPILE_OPTIONS(
     -Wall -Werror -Wextra -Wpedantic -Wno-unused-command-line-argument
     ${USE_EXTERN_ASSEMBLER})
 
+ADD_LIBRARY(rcpr-${CMAKE_PROJECT_VERSION} SHARED
+    ${RCPR_SOURCES})
+TARGET_COMPILE_OPTIONS(
+    rcpr PRIVATE -fPIC -O2
+    -Wall -Werror -Wextra -Wpedantic -Wno-unused-command-line-argument
+    ${USE_EXTERN_ASSEMBLER})
+
 ADD_EXECUTABLE(testrcpr
     ${RCPR_SOURCES} ${RCPR_TEST_SOURCES})
 
