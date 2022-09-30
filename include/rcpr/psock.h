@@ -2202,6 +2202,7 @@ RCPR_SYM(prop_psock_valid)(
     typedef RCPR_SYM(psock_accept_fn) sym ## psock_accept_fn; \
     typedef RCPR_SYM(psock_release_fn) sym ## psock_release_fn; \
     typedef RCPR_SYM(psock) sym ## psock; \
+    typedef RCPR_SYM(psock_br) sym ## psock_br; \
     typedef RCPR_SYM(psock_boxed_type) sym ## psock_boxed_type; \
     typedef RCPR_SYM(socket_type) sym ## socket_type; \
     static inline status FN_DECL_MUST_CHECK \
@@ -2234,6 +2235,10 @@ RCPR_SYM(prop_psock_valid)(
         RCPR_SYM(psock_read_fn) w, RCPR_SYM(psock_write_fn) x, \
         RCPR_SYM(psock_accept_fn) y, RCPR_SYM(psock_release_fn) z) { \
             return RCPR_SYM(psock_create_ex)(t,u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## psock_br_create_from_psock( \
+        RCPR_SYM(psock_br)** x, RCPR_SYM(allocator)* y, RCPR_SYM(psock)* z) { \
+            return RCPR_SYM(psock_br_create_from_psock)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## psock_read_boxed_int64( \
         RCPR_SYM(psock)* x, int64_t* y) { \
@@ -2434,6 +2439,10 @@ RCPR_SYM(prop_psock_valid)(
     sym ## psock_resource_handle( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_resource_handle)(x); } \
+    static inline RCPR_SYM(resource)* \
+    sym ## psock_br_resource_handle( \
+        RCPR_SYM(psock_br)* x) { \
+            return RCPR_SYM(psock_br_resource_handle)(x); } \
     static inline RCPR_SYM(socket_type) sym ## psock_socket_type( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_socket_type)(x); } \
