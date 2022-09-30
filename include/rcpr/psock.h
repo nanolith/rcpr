@@ -37,11 +37,19 @@ typedef struct RCPR_SYM(psock) RCPR_SYM(psock);
  * \brief The psock buffered reader adapter provides a buffered reading
  * experience for a psock instance. Among other things, this provides the \ref
  * psock_br_get_line and \ref psock_br_get_line_ex functions, allowing for lines
- * to be read from the socket. The buffered reader adapter DOES NOT take
- * ownership of the psock instance, as it could still be used for unbuffered
- * output. However, once the buffered reader instance has been used, direct
- * reads on the psock instance should not be performed as they will bypass the
- * buffer in the adapter.
+ * to be read from the socket. This buffered reader also creates a wrapped psock
+ * instance, which can be accessed from the buffered reader instance by calling
+ * \ref psock_br_psock_adapter. However, this adapter does not take ownership of
+ * the underlying psock instance; this ownership is maintained by the caller. It
+ * is possible to stack the provided adapter with other adapters, but the
+ * buffered reader adapter should only be stacked with other adapters and not
+ * with full wrapped psock interfaces, as these take ownership of the adapted
+ * psock instance, which is not allowed.
+ * Once the buffered reader instance has been used, direct reads on the
+ * underlying psock instance should not be performed as they will bypass the
+ * buffer in the adapter. Instead, direct reads should be performed using the
+ * psock instance returned by \ref psock_br_psock_adapter, as these will allow
+ * any function that takes a psock instance to read the same buffered input.
  */
 typedef struct RCPR_SYM(psock_br) RCPR_SYM(psock_br);
 
