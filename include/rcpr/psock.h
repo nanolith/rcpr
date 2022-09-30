@@ -2153,6 +2153,19 @@ RCPR_SYM(psock_resource_handle)(
     RCPR_SYM(psock)* sock);
 
 /**
+ * \brief Given a \ref psock_br instance, return the resource handle for this
+ * \ref psock_br instance.
+ *
+ * \param br            The \ref psock_br instance from which the resource
+ *                      handle is returned.
+ *
+ * \returns the resource handle for this \ref psock_br instance.
+ */
+RCPR_SYM(resource)*
+RCPR_SYM(psock_br_resource_handle)(
+    RCPR_SYM(psock_br)* br);
+
+/**
  * \brief Given a \ref psock instance, return the socket type for this
  * \ref psock instance, if applicable.
  *
