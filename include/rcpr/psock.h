@@ -2166,6 +2166,20 @@ RCPR_SYM(psock_br_resource_handle)(
     RCPR_SYM(psock_br)* br);
 
 /**
+ * \brief Given a \ref psock_br instance, returned the wrapped \ref psock
+ * instance pointer that can be used to perform buffered reads using \ref psock
+ * methods.
+ *
+ * \param br            The \ref psock_br instance from which the \ref psock
+ *                      adapter instance is returned.
+ *
+ * \returns the \ref psock adapter instance for this \ref psock_br instance.
+ */
+RCPR_SYM(psock)*
+RCPR_SYM(psock_br_psock_adapter)(
+    RCPR_SYM(psock_br)* br);
+
+/**
  * \brief Given a \ref psock instance, return the socket type for this
  * \ref psock instance, if applicable.
  *
@@ -2443,6 +2457,10 @@ RCPR_SYM(prop_psock_valid)(
     sym ## psock_br_resource_handle( \
         RCPR_SYM(psock_br)* x) { \
             return RCPR_SYM(psock_br_resource_handle)(x); } \
+    static inline RCPR_SYM(psock)* \
+    sym ## psock_br_psock_adapter( \
+        RCPR_SYM(psock_br)* x) { \
+            return RCPR_SYM(psock_br_psock_adapter)(x); } \
     static inline RCPR_SYM(socket_type) sym ## psock_socket_type( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_socket_type)(x); } \
