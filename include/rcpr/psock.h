@@ -2135,6 +2135,49 @@ RCPR_SYM(psock_from_buffer_get_output_buffer)(
     RCPR_SYM(psock)* sock, RCPR_SYM(allocator)* a, void** buffer,
     size_t* buffer_size);
 
+/**
+ * \brief Read a line from the given buffered psock reader, returning a buffer
+ * allocated with the given allocator and of the given size.
+ *
+ * \param buffer        Pointer to the buffer pointer to hold the line on
+ *                      success.
+ * \param size          Pointer to the size variable to be updated with the
+ *                      buffer size on success.
+ * \param br            Pointer to the \ref psock_br instance for this
+ *                      operation.
+ * \param a             The allocator to be used to allocate memory for this
+ *                      operation.
+ *
+ * \note On success, the pointer pointed to by \p buffer holds a line buffer
+ * allocated by \p a. This buffer is owned by the caller and must be reclaimed
+ * by calling \ref allocator_reclaim on it using \p a as the allocator when it
+ * is no longer needed.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock_br instance and must
+ *        not be NULL.
+ *      - \p a must be a pointer to a valid \ref allocator instance and must not
+ *        be NULL.
+ *      - \p buffer must be a pointer to a valid pointer and must not be NULL.
+ *      - \p size must be a pointer to a size_t value and must not be NULL.
+ *
+ * \post
+ *      - On success, \p buffer is set to a buffer containing a line read from
+ *        the \ref psock_br instance.
+ *      - On success, \p size is set to the length of the buffer, plus 1, as the
+ *        buffer is terminated with an ASCII-Z value.
+ *      - On failure, \p buffer is unchanged and an error status is returned.
+ *      - On failure, \p size is unchanged.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(psock_br_read_line)(
+    void** buffer, size_t* buffer_size, RCPR_SYM(psock_br)* br,
+    RCPR_SYM(allocator)* a);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
@@ -2449,6 +2492,10 @@ RCPR_SYM(prop_psock_valid)(
     sym ## psock_from_buffer_get_output_buffer( \
         RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t* z) { \
             return RCPR_SYM(psock_from_buffer_get_output_buffer)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## psock_br_read_line( \
+        void** w, size_t* x, RCPR_SYM(psock_br)* y, RCPR_SYM(allocator)* z) { \
+            return RCPR_SYM(psock_br_read_line)(w,x,y,z); } \
     static inline RCPR_SYM(resource)* \
     sym ## psock_resource_handle( \
         RCPR_SYM(psock)* x) { \
