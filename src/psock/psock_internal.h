@@ -53,6 +53,18 @@ struct RCPR_SYM(psock)
         RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags);
 };
 
+struct RCPR_SYM(psock_br)
+{
+    RCPR_SYM(psock) hdr;
+    RCPR_SYM(psock)* wrapped;
+
+    RCPR_MODEL_STRUCT_TAG(psock_br);
+
+    uint8_t* buffer;
+    size_t size;
+    size_t fill;
+};
+
 /* forward decls for psock_from_descriptor. */
 typedef struct RCPR_SYM(psock_from_descriptor) RCPR_SYM(psock_from_descriptor);
 
