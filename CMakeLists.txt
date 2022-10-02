@@ -140,7 +140,7 @@ TARGET_COMPILE_OPTIONS(
 ADD_LIBRARY(rcpr-${CMAKE_PROJECT_VERSION} SHARED
     ${RCPR_SOURCES})
 TARGET_COMPILE_OPTIONS(
-    rcpr PRIVATE -fPIC -O2
+    rcpr-${CMAKE_PROJECT_VERSION} PRIVATE -fPIC -O2
     -Wall -Werror -Wextra -Wpedantic -Wno-unused-command-line-argument
     ${USE_EXTERN_ASSEMBLER})
 
