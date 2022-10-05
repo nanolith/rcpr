@@ -522,7 +522,7 @@ RCPR_SYM(psock_create_ex)(
  * \brief Create a \ref psock_br instance backed by the given \ref psock
  * instance.
  *
-  * \param br            Pointer to the \ref psock_br pointer to receive this
+ * \param br            Pointer to the \ref psock_br pointer to receive this
  *                      resource on success.
  * \param a             Pointer to the allocator to use for creating this \ref
  *                      psock_br resource.
