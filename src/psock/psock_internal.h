@@ -62,7 +62,7 @@ struct RCPR_SYM(psock_br)
 
     uint8_t* buffer;
     size_t size;
-    size_t fill;
+    size_t curr;
 };
 
 /* forward decls for psock_from_descriptor. */
