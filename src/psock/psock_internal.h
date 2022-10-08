@@ -54,6 +54,9 @@ struct RCPR_SYM(psock)
         RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags);
 };
 
+/* set a reasonable buffer size. */
+#define PSOCK_BR_BUFFER_SIZE 16384
+
 struct RCPR_SYM(psock_br)
 {
     RCPR_SYM(psock) hdr;
