@@ -28,7 +28,8 @@ enum psock_type
     PSOCK_TYPE_DESCRIPTOR               = 0x0001,
     PSOCK_TYPE_BUFFER                   = 0x0002,
     PSOCK_TYPE_WRAP_ASYNC               = 0x0003,
-    PSOCK_TYPE_USER                     = 0x0004,
+    PSOCK_TYPE_BUFFERED                 = 0x0004,
+    PSOCK_TYPE_USER                     = 0x0005,
 };
 
 struct RCPR_SYM(psock)
