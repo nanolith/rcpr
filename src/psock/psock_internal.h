@@ -514,6 +514,95 @@ status RCPR_SYM(psock_ex_accept)(
  */
 status RCPR_SYM(psock_ex_release)(RCPR_SYM(resource)* r);
 
+/**
+ * \brief Read data from the given \ref psock instance.
+ *
+ * \param sock          The \ref psock instance from which to read.
+ * \param data          Pointer to the buffer into which data should be read.
+ * \param size          Pointer to the size to read, updated with the size read.
+ * \param block         Ignored for raw descriptor reads.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status RCPR_SYM(psock_br_psock_read)(
+    RCPR_SYM(psock)* sock, void* data, size_t* size, bool block);
+
+/**
+ * \brief Write data to the given \ref psock instance.
+ *
+ * \param sock          The \ref psock instance to which to write.
+ * \param data          Pointer to the buffer from which data should be written.
+ * \param size          Pointer to the size to write, updated with the size
+ *                      written.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status RCPR_SYM(psock_br_psock_write)(
+    RCPR_SYM(psock)* sock, const void* data, size_t* size);
+
+/**
+ * \brief Accept a socket from a \ref psock listen socket instance.
+ *
+ * \param sock          The \ref psock instance to which to accept a socket.
+ * \param desc          Pointer to the integer field to hold the accepted
+ *                      descriptor.
+ * \param addr          The address of the accepted socket.
+ * \param addrlen       On input, the max size of the address field; on output,
+ *                      the size of the address field.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status RCPR_SYM(psock_br_psock_accept)(
+    RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+    socklen_t* addrlen);
+
+/**
+ * \brief Send a message over the \ref psock instance.
+ *
+ * \param sock          The \ref psock instance to which to send a message.
+ * \param msg           Pointer to the message to send.
+ * \param flags         The flags to use when sending the message.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status RCPR_SYM(psock_br_psock_sendmsg)(
+    RCPR_SYM(psock)* sock, const struct msghdr* msg, int flags);
+
+/**
+ * \brief Receive a message from the \ref psock instance.
+ *
+ * \param sock          The \ref psock instance from which to receive a message.
+ * \param msg           Pointer to the message header to populate.
+ * \param len           The maximum length of the message.
+ * \param flags         The flags to use when sending the message.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status RCPR_SYM(psock_br_psock_recvmsg)(
+    RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags);
+
+/**
+ * \brief Release a psock_br resource.
+ *
+ * \param r             Pointer to the psock_br resource to be
+ *                      released.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code on failure.
+ */
+status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
+
 /******************************************************************************/
 /* Start of private exports.                                                  */
 /******************************************************************************/
@@ -524,6 +613,7 @@ status RCPR_SYM(psock_ex_release)(RCPR_SYM(resource)* r);
     typedef RCPR_SYM(psock_from_buffer) psock_from_buffer; \
     typedef RCPR_SYM(psock_output_buffer_node) psock_output_buffer_node; \
     typedef RCPR_SYM(psock_ex) psock_ex; \
+    typedef RCPR_SYM(psock_br) psock_br; \
     static inline status psock_from_descriptor_read( \
         RCPR_SYM(psock)* w, void* x, size_t* y, bool z) { \
             return RCPR_SYM(psock_from_descriptor_read)(w,x,y,z); } \
@@ -612,6 +702,24 @@ status RCPR_SYM(psock_ex_release)(RCPR_SYM(resource)* r);
     static inline status psock_ex_release( \
         RCPR_SYM(resource)* x) { \
             return RCPR_SYM(psock_ex_release)(x); } \
+    static inline status psock_br_psock_read( \
+        RCPR_SYM(psock)* w, void* x, size_t* y, bool z) { \
+            return RCPR_SYM(psock_br_psock_read)(w,x,y,z); } \
+    static inline status psock_br_psock_write( \
+        RCPR_SYM(psock)* x, const void* y, size_t* z) { \
+            return RCPR_SYM(psock_br_psock_write)(x,y,z); } \
+    static inline status psock_br_psock_accept( \
+        RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
+            return RCPR_SYM(psock_br_psock_accept)(w,x,y,z); } \
+    static inline status psock_br_psock_sendmsg( \
+        RCPR_SYM(psock)* x, const struct msghdr* y, int z) { \
+            return RCPR_SYM(psock_br_psock_sendmsg)(x,y,z); } \
+    static inline status psock_br_psock_recvmsg( \
+        RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
+            return RCPR_SYM(psock_br_psock_recvmsg)(w,x,y,z); } \
+    static inline status psock_br_release( \
+        RCPR_SYM(resource)* x) { \
+            return RCPR_SYM(psock_br_release)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
