@@ -594,6 +594,19 @@ status RCPR_SYM(psock_br_psock_recvmsg)(
     RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags);
 
 /**
+ * \brief Fill the \ref psock_br buffer with as much data as the backing \ref
+ * psock can provide in a non-blocking read.
+ *
+ * \param br            The \ref psock_br instance to fill.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status RCPR_SYM(psock_br_fill)(
+    RCPR_SYM(psock_br)* br);
+
+/**
  * \brief Release a psock_br resource.
  *
  * \param r             Pointer to the psock_br resource to be
@@ -719,6 +732,9 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
     static inline status psock_br_psock_recvmsg( \
         RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
             return RCPR_SYM(psock_br_psock_recvmsg)(w,x,y,z); } \
+    static inline status psock_br_fill( \
+        RCPR_SYM(psock_br)* x) { \
+            return RCPR_SYM(psock_br_fill)(x); }\
     static inline status psock_br_release( \
         RCPR_SYM(resource)* x) { \
             return RCPR_SYM(psock_br_release)(x); } \
