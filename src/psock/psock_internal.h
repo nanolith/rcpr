@@ -521,7 +521,8 @@ status RCPR_SYM(psock_ex_release)(RCPR_SYM(resource)* r);
  * \param sock          The \ref psock instance from which to read.
  * \param data          Pointer to the buffer into which data should be read.
  * \param size          Pointer to the size to read, updated with the size read.
- * \param block         Ignored for raw descriptor reads.
+ * \param block         Set to true if the read should block until all bytes are
+ *                      read.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
