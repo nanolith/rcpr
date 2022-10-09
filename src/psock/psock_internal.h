@@ -65,8 +65,9 @@ struct RCPR_SYM(psock_br)
     RCPR_MODEL_STRUCT_TAG(psock_br);
 
     uint8_t* buffer;
-    size_t size;
-    size_t curr;
+    size_t max_size;
+    size_t current_size;
+    size_t offset;
 };
 
 /* forward decls for psock_from_descriptor. */

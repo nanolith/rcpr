@@ -40,7 +40,7 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r)
     /* reclaim the buffer if set. */
     if (NULL != br->buffer)
     {
-        memset(br->buffer, 0, br->size);
+        memset(br->buffer, 0, br->max_size);
         buffer_reclaim_retval = allocator_reclaim(alloc, br->buffer);
     }
 
