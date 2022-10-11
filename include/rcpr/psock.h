@@ -2172,7 +2172,7 @@ RCPR_SYM(psock_from_buffer_get_output_buffer)(
  *        get the rest of the line. As with a successful return, the last byte
  *        written to \p buffer will be an ASCII-Z null value.
  *      - On failure, except for ERROR_PSOCK_BR_READ_LINE_TRUNCATED, \p buffer
- *        is unchanged and an error status is returned.
+ *        may be changed and an error status is returned.
  *      - On failure, except for ERROR_PSOCK_BR_READ_LINE_TRUNCATED, \p size is
  *        unchanged.
  */
