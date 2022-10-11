@@ -193,3 +193,21 @@
  */
 #define ERROR_PSOCK_OPERATION_NOT_SUPPORTED \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x001d)
+
+/**
+ * \brief Debug error: bad loop invariant logic in read_line.
+ */
+#define ERROR_PSOCK_BR_READ_LINE_BAD_LOOP_INVARIANT \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x001e)
+
+/**
+ * \brief The read buffer size is too small.
+ */
+#define ERROR_PSOCK_BR_READ_LINE_BUFFER_SIZE_TOO_SMALL \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x001f)
+
+/**
+ * \brief The line buffer was truncated.
+ */
+#define ERROR_PSOCK_BR_READ_LINE_TRUNCATED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0020)
