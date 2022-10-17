@@ -123,7 +123,7 @@ RCPR_SYM(psock_br_read_line)(
         }
 
         /* edge case 1: we've run out of buffer space. */
-        if (buffer_remaining == 0)
+        if (0 == buffer_remaining)
         {
             /* set the number of committed bytes. */
             committed_bytes += copied_bytes;
@@ -144,7 +144,7 @@ RCPR_SYM(psock_br_read_line)(
         }
 
         /* edge case 2: we're out of available input. */
-        if (available_input == 0)
+        if (0 == available_input)
         {
             /* update the number of committed bytes. */
             committed_bytes += copied_bytes;
@@ -155,11 +155,26 @@ RCPR_SYM(psock_br_read_line)(
             /* commit the currently copied bytes. */
             br->offset = br->current_size;
 
-            /* attempt to fill the buffer. */
-            retval = psock_br_fill(br);
-            if (STATUS_SUCCESS != retval)
+            /* attempt to fill the buffer, if the error flag is not set. */
+            if (!br->error)
             {
-                /* TODO - this is treated as EOL, but it may not be. */
+                retval = psock_br_fill(br);
+                if (STATUS_SUCCESS != retval)
+                {
+                    /* if we encounter an error, set the error flag. */
+                    br->error = true;
+                }
+            }
+
+            /* if the error flag is set... */
+            if (br->error)
+            {
+                /* if the number of committed bytes is 0, bail out. */
+                if (0 == committed_bytes)
+                {
+                    retval = ERROR_PSOCK_READ_GENERAL;
+                    goto done;
+                }
 
                 /* fix up the output buffer. */
                 *bbuf = 0;
@@ -172,12 +187,15 @@ RCPR_SYM(psock_br_read_line)(
                 retval = STATUS_SUCCESS;
                 goto done;
             }
+            /* There was no error, so reset and continue. */
+            else
+            {
+                /* recompute available bytes. */
+                available_input = br->current_size - br->offset;
 
-            /* recompute available bytes. */
-            available_input = br->current_size - br->offset;
-
-            /* reset input buffer. */
-            inp = br->buffer + br->offset;
+                /* reset input buffer. */
+                inp = br->buffer + br->offset;
+            }
         }
     }
 
