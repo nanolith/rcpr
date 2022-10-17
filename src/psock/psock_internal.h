@@ -68,6 +68,7 @@ struct RCPR_SYM(psock_br)
     size_t max_size;
     size_t current_size;
     size_t offset;
+    bool error;
 };
 
 /* forward decls for psock_from_descriptor. */
