@@ -56,6 +56,12 @@ status RCPR_SYM(psock_br_fill)(
         goto done;
     }
 
+    /* if zero bytes were read, then the socket is closed. */
+    if (0 == read_bytes)
+    {
+        return ERROR_PSOCK_READ_GENERAL;
+    }
+
     /* adjust the current size accordingly. */
     br->current_size += read_bytes;
 
