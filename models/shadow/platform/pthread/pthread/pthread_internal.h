@@ -4,6 +4,12 @@ struct pthread_attr
 {
 };
 
+typedef struct dummy_pthread_attr dummy_pthread_attr;
+
+struct dummy_pthread_attr
+{
+};
+
 struct pthread
 {
 };
