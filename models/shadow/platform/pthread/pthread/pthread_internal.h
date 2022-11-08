@@ -20,3 +20,9 @@ struct pthread_mutex
 struct pthread_cond
 {
 };
+
+typedef struct dummy_pthread_cond dummy_pthread_cond;
+
+struct dummy_pthread_cond
+{
+};
