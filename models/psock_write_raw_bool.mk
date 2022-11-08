@@ -19,7 +19,9 @@ ALL:
 	../models/shadow/unistd/descriptor.c \
 	../models/shadow/unistd/socketpair.c \
 	../models/shadow/unistd/read.c \
+	../models/shadow/unistd/sendmsg.c \
 	../models/shadow/unistd/write.c \
+	../models/shadow/unistd/getsockopt.c \
 	../src/allocator/allocator_allocate.c \
 	../src/allocator/allocator_reclaim.c \
 	../src/allocator/allocator_resource_handle.c \
@@ -27,6 +29,7 @@ ALL:
 	../src/psock/psock_create_from_descriptor.c \
     ../src/psock/psock_from_descriptor_accept.c \
     ../src/psock/psock_from_descriptor_read.c \
+    ../src/psock/psock_from_descriptor_sendmsg.c \
     ../src/psock/psock_from_descriptor_write.c \
     ../src/psock/psock_from_descriptor_release.c \
 	../src/psock/psock_write_raw_bool.c \
