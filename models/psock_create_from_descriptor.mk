@@ -16,6 +16,7 @@ ALL:
 	../models/shadow/unistd/close.c \
 	../models/shadow/unistd/descriptor.c \
 	../models/shadow/unistd/socketpair.c \
+    ../models/shadow/unistd/getsockopt.c \
 	../models/shadow/valid_range.c \
 	../src/allocator/allocator_allocate.c \
 	../src/allocator/allocator_reclaim.c \
