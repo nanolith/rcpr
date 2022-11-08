@@ -5,7 +5,6 @@ ALL:
 	--div-by-zero-check --pointer-overflow-check --trace --stop-on-fail -DCBMC \
 	--drop-unused-functions \
 	--unwind 10 --unwinding-assertions \
-    --unwindset list_release.0:1,list_release:1 \
 	-I ../include -I ../build/include \
 	../models/shadow/allocator/allocator.c \
 	../models/shadow/allocator/allocator_struct_tag_init.c \
