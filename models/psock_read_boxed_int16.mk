@@ -19,7 +19,9 @@ ALL:
 	../models/shadow/unistd/descriptor.c \
 	../models/shadow/unistd/socketpair.c \
 	../models/shadow/unistd/read.c \
+	../models/shadow/unistd/recvmsg.c \
 	../models/shadow/unistd/write.c \
+	../models/shadow/unistd/getsockopt.c \
 	../models/shadow/byteswap/byteswap16.c \
 	../models/shadow/byteswap/byteswap32.c \
 	../models/shadow/byteswap/byteswap64.c \
@@ -30,6 +32,7 @@ ALL:
 	../src/psock/psock_create_from_descriptor.c \
     ../src/psock/psock_from_descriptor_accept.c \
     ../src/psock/psock_from_descriptor_read.c \
+    ../src/psock/psock_from_descriptor_recvmsg.c \
     ../src/psock/psock_from_descriptor_write.c \
     ../src/psock/psock_from_descriptor_release.c \
 	../src/psock/psock_read_boxed_int16.c \
