@@ -26,6 +26,16 @@ extern "C" {
 /******************************************************************************/
 
 /**
+ * \brief Return true if the first character of a given string is a whitespace
+ * character.
+ *
+ * \brief str           The string to check.
+ *
+ * \returns true if the character is a whitespace character and false otherwise.
+ */
+bool RCPR_SYM(is_whitespace)(const char* str);
+
+/**
  * \brief Duplicate a string, creating a duplicate backed by the given allocator
  * instance.
  *
