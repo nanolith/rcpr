@@ -58,3 +58,11 @@ TEST(is_whitespace_cr)
 {
     TEST_ASSERT(rcpr_is_whitespace('\r'));
 }
+
+/**
+ * Verify that is_whitespace returns false for a non-whitespace character.
+ */
+TEST(is_whitespace_false)
+{
+    TEST_ASSERT(!rcpr_is_whitespace('a'));
+}
