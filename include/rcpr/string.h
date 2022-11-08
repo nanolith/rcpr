@@ -110,6 +110,10 @@ RCPR_SYM(vstrcat)(
 /******************************************************************************/
 #define __INTERNAL_RCPR_IMPORT_string_sym(sym) \
     RCPR_BEGIN_EXPORT \
+    static inline bool \
+    sym ## is_whitespace( \
+        const char* x) { \
+            return RCPR_SYM(is_whitespace)(x); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## strdup( \
         char** x, RCPR_SYM(allocator)* y, const char* z) { \
