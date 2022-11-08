@@ -26,14 +26,13 @@ extern "C" {
 /******************************************************************************/
 
 /**
- * \brief Return true if the first character of a given string is a whitespace
- * character.
+ * \brief Return true if the given character is a whitespace character.
  *
- * \brief str           The string to check.
+ * \brief ch            The character to test.
  *
  * \returns true if the character is a whitespace character and false otherwise.
  */
-bool RCPR_SYM(is_whitespace)(const char* str);
+bool RCPR_SYM(is_whitespace)(int ch);
 
 /**
  * \brief Duplicate a string, creating a duplicate backed by the given allocator
@@ -112,7 +111,7 @@ RCPR_SYM(vstrcat)(
     RCPR_BEGIN_EXPORT \
     static inline bool \
     sym ## is_whitespace( \
-        const char* x) { \
+        int x) { \
             return RCPR_SYM(is_whitespace)(x); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## strdup( \
