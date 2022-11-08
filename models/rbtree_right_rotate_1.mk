@@ -5,7 +5,7 @@ ALL:
 	--div-by-zero-check --pointer-overflow-check --trace --stop-on-fail -DCBMC \
 	--drop-unused-functions \
 	--unwind 10 --unwinding-assertions \
-    --unwindset list_release.0:1,list_release:1,prop_rbtree_node_valid:3,rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_prop_rbtree_node_valid:3,rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_rbtree_delete_nodes:2,rbtree_delete_nodes:2 \
+    --unwindset prop_rbtree_node_valid:3,rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_prop_rbtree_node_valid:3,rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_rbtree_delete_nodes:2,rbtree_delete_nodes:2 \
 	-I ../include -I ../build/include \
 	../models/shadow/allocator/allocator.c \
 	../models/shadow/allocator/allocator_struct_tag_init.c \
