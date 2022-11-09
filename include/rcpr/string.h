@@ -35,6 +35,20 @@ extern "C" {
 bool RCPR_SYM(is_whitespace)(int ch);
 
 /**
+ * \brief Perform a left trim of the given string.
+ *
+ * Remove all whitespace on the left-hand side of the string up to the first
+ * non-whitespace character.
+ *
+ * \note This operation modifies the provided string in-situ. This string must
+ * be user-writable and heap allocated. This string must be ASCII-zero
+ * terminated.
+ *
+ * \param str           The string to modify.
+ */
+void RCPR_SYM(left_trim)(char* str);
+
+/**
  * \brief Duplicate a string, creating a duplicate backed by the given allocator
  * instance.
  *
