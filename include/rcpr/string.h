@@ -49,6 +49,20 @@ bool RCPR_SYM(is_whitespace)(int ch);
 void RCPR_SYM(left_trim)(char* str);
 
 /**
+ * \brief Perform a right trim of the given string.
+ *
+ * Remove all whitespace on the right-hand side of the string -- from the ASCII
+ * zero to the first non-whitespace character -- are trimmed.
+ *
+ * \note This operation modifies the provided string in-situ. This string must
+ * be user-writable and heap allocated. This string must be ASCII-zero
+ * terminated.
+ *
+ * \param str           The string to modify.
+ */
+void RCPR_SYM(right_trim)(char* str);
+
+/**
  * \brief Duplicate a string, creating a duplicate backed by the given allocator
  * instance.
  *
