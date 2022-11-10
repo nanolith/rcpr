@@ -84,7 +84,7 @@ TEST(left_trim_simple_word)
     /* left trim this string. */
     rcpr_left_trim(str);
 
-    /* the string should still be empty. */
+    /* the string should be left trimmed. */
     TEST_EXPECT(!strcmp(str, "test"));
 
     /* clean up. */
@@ -110,7 +110,7 @@ TEST(left_trim_only_left_whitespace)
     /* left trim this string. */
     rcpr_left_trim(str);
 
-    /* the string should still be empty. */
+    /* the string should be left trimmed. */
     TEST_EXPECT(!strcmp(str, "a   "));
 
     /* clean up. */
