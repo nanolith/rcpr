@@ -157,6 +157,18 @@ RCPR_SYM(vstrcat)(
     sym ## is_whitespace( \
         int x) { \
             return RCPR_SYM(is_whitespace)(x); } \
+    static inline void \
+    sym ## left_trim( \
+        char* x) { \
+            RCPR_SYM(left_trim)(x); } \
+    static inline void \
+    sym ## right_trim( \
+        char* x) { \
+            RCPR_SYM(right_trim)(x); } \
+    static inline void \
+    sym ## trim( \
+        char* x) { \
+            RCPR_SYM(trim)(x); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## strdup( \
         char** x, RCPR_SYM(allocator)* y, const char* z) { \
