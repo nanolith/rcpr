@@ -91,6 +91,43 @@ void RCPR_SYM(right_trim)(char* str);
 void RCPR_SYM(trim)(char* str);
 
 /**
+ * \brief Initialize a string iterator to scan the given string for individual
+ * words separated by one or more whitespace characters.
+ *
+ * During the first call, the first word is returned in \p word, and the \p
+ * iterator argument is set up for subsequent calls. In the first call, \p str
+ * should be set to the string to be scanned. This string will be modified by
+ * this operation. During subsequent calls, \p str should be NULL; the
+ * \p iterator argument will be used to extract subsequent words.
+ *
+ * \note This operation modifies the provided string in-situ. This string must
+ * be user-writable and heap allocated. This string must be ASCII-zero
+ * terminated.
+ *
+ * \param word          Pointer to the character pointer to be set to the first
+ *                      word on the first call or the next word on subsequent
+ *                      calls. This word is a substring within the original
+ *                      string, which is modified in this operation. It is a
+ *                      substring of the original string and is NOT owned by the
+ *                      caller.
+ * \param iterator      The iterator to initialize for future calls if str is
+ *                      NOT NULL or to use to get next words on subsequent
+ *                      calls. The string iterator can be on the stack as it is
+ *                      just a plain-old C structure. Its memory management is
+ *                      up to the caller. This function only sets values in the
+ *                      structure.
+ * \param str           The string to scan for the first call or NULL for each
+ *                      subsequent call.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_STRING_END_OF_INPUT when there are no more words to read.
+ *      - a non-zero error code on failure.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(words)(char** word, RCPR_SYM(string_iterator)* iterator, char* str);
+
+/**
  * \brief Duplicate a string, creating a duplicate backed by the given allocator
  * instance.
  *
