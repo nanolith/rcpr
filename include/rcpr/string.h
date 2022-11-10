@@ -26,6 +26,13 @@ extern "C" {
  */
 typedef struct RCPR_SYM(string_iterator) RCPR_SYM(string_iterator);
 
+struct RCPR_SYM(string_iterator)
+{
+    char* startpos;
+    char* endpos;
+    char* token;
+};
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
