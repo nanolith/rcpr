@@ -21,6 +21,11 @@
 extern "C" {
 # endif /*__cplusplus*/
 
+/**
+ * \brief The string iterator is used for operations like \ref words.
+ */
+typedef struct RCPR_SYM(string_iterator) RCPR_SYM(string_iterator);
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
@@ -153,6 +158,7 @@ RCPR_SYM(vstrcat)(
 /******************************************************************************/
 #define __INTERNAL_RCPR_IMPORT_string_sym(sym) \
     RCPR_BEGIN_EXPORT \
+    typedef RCPR_SYM(string_iterator) sym ## string_iterator; \
     static inline bool \
     sym ## is_whitespace( \
         int x) { \
