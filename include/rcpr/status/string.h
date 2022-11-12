@@ -16,3 +16,10 @@
  */
 #define ERROR_STRING_INVALID_PARAMETER \
     STATUS_CODE(1, RCPR_COMPONENT_STRING, 0x0000)
+
+/**
+ * \brief An end-of-input condition was encountered when performing a string
+ * iteration operation.
+ */
+#define ERROR_STRING_END_OF_INPUT \
+    STATUS_CODE(1, RCPR_COMPONENT_STRING, 0x0001)
