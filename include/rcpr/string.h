@@ -125,7 +125,8 @@ void RCPR_SYM(trim)(char* str);
  *      - a non-zero error code on failure.
  */
 status FN_DECL_MUST_CHECK
-RCPR_SYM(words)(char** word, RCPR_SYM(string_iterator)* iterator, char* str);
+RCPR_SYM(words)(
+    const char** word, RCPR_SYM(string_iterator)* iterator, char* str);
 
 /**
  * \brief Duplicate a string, creating a duplicate backed by the given allocator
@@ -219,6 +220,10 @@ RCPR_SYM(vstrcat)(
     sym ## trim( \
         char* x) { \
             RCPR_SYM(trim)(x); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## words( \
+        const char** x, RCPR_SYM(string_iterator)* y, char* z) { \
+            return RCPR_SYM(words)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## strdup( \
         char** x, RCPR_SYM(allocator)* y, const char* z) { \
