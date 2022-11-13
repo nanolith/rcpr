@@ -151,6 +151,52 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(split)(const char** lhs, const char** rhs, char* str, int delim);
 
 /**
+ * \brief Initialize a string iterator to scan the given string for individual
+ * sequences separated by one or more occurrences of a token verified by the
+ * given token function.
+ *
+ * This function works similarly to \ref words, except that the user can specify
+ * a token matching function.
+ *
+ * During the first call, the first sequence is returned in \p seq, and the \p
+ * iterator argument is set up for subsequent calls. In the first call, \p str
+ * should be set to the string to be scanned. This string will be modified by
+ * this operation. During subsequent calls, \p str should be NULL; the
+ * \p iterator argument will be used to extract subsequent sequences.
+ *
+ * \note This operation modifies the provided string in-situ. This string must
+ * be user-writable and heap allocated. This string must be ASCII-zero
+ * terminated.
+ *
+ * \param seq           Pointer to the character pointer to be set to the first
+ *                      sequence on the first call or the next sequence on
+ *                      subsequent calls. This sequence is a substring within
+ *                      the original string, which is modified in this
+ *                      operation. It is a substring of the original string and
+ *                      is NOT owned by the caller.
+ * \param iterator      The iterator to initialize for future calls if str is
+ *                      NOT NULL or to use to get the next seq on subsequent
+ *                      calls. The string iterator can be on the stack as it is
+ *                      just a plain-old C structure. Its memory management is
+ *                      up to the caller. This function only sets values in the
+ *                      structure.
+ * \param str           The string to scan for the first call or NULL for each
+ *                      subsequent call.
+ * \param token_fn      A function that returns true when the given character is
+ *                      a break token for individual sequences, and false
+ *                      otherwise.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_STRING_END_OF_INPUT when there are no more sequences to read.
+ *      - a non-zero error code on failure.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(multisplit)(
+    const char** seq, RCPR_SYM(string_iterator)* iterator, char* str,
+    bool (*token_fn)(int));
+
+/**
  * \brief Chomp a character off of the end of a string.
  *
  * \note This operation modifies the provided string in-situ. This string must
