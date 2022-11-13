@@ -151,6 +151,17 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(split)(const char** lhs, const char** rhs, char* str, int delim);
 
 /**
+ * \brief Chomp a character off of the end of a string.
+ *
+ * \note This operation modifies the provided string in-situ. This string must
+ * be user-writable and heap allocated. This string must be ASCII-zero
+ * terminated.
+ *
+ * \param str           The string to chomp.
+ */
+void RCPR_SYM(chomp)(char* str);
+
+/**
  * \brief Duplicate a string, creating a duplicate backed by the given allocator
  * instance.
  *
@@ -250,6 +261,10 @@ RCPR_SYM(vstrcat)(
     sym ## split( \
         const char** w, const char** x, char* y, int z) { \
             return RCPR_SYM(split)(w,x,y,z); } \
+    static inline void \
+    sym ## chomp ( \
+        char* x) { \
+            RCPR_SYM(chomp)(x); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## strdup( \
         char** x, RCPR_SYM(allocator)* y, const char* z) { \
