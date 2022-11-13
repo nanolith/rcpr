@@ -30,7 +30,7 @@ struct RCPR_SYM(string_iterator)
 {
     char* startpos;
     char* endpos;
-    char* token;
+    bool (*token_fn)(int);
 };
 
 /******************************************************************************/
