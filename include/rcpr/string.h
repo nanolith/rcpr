@@ -152,7 +152,7 @@ RCPR_SYM(split)(const char** lhs, const char** rhs, char* str, int delim);
 
 /**
  * \brief Initialize a string iterator to scan the given string for individual
- * sequences separated by one or more occurrences of a token verified by the
+ * sequences separated by one or more occurrences of a token identified by the
  * given token function.
  *
  * This function works similarly to \ref words, except that the user can specify
@@ -307,6 +307,11 @@ RCPR_SYM(vstrcat)(
     sym ## split( \
         const char** w, const char** x, char* y, int z) { \
             return RCPR_SYM(split)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## multisplit( \
+        const char** w, RCPR_SYM(string_iterator)* x, char* y, \
+        bool (*z)(int)) { \
+            return RCPR_SYM(multisplit)(w,x,y,z); } \
     static inline void \
     sym ## chomp ( \
         char* x) { \
