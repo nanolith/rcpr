@@ -247,6 +247,10 @@ RCPR_SYM(vstrcat)(
         const char** x, RCPR_SYM(string_iterator)* y, char* z) { \
             return RCPR_SYM(words)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
+    sym ## split( \
+        const char** w, const char** x, char* y, int z) { \
+            return RCPR_SYM(split)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
     sym ## strdup( \
         char** x, RCPR_SYM(allocator)* y, const char* z) { \
             return RCPR_SYM(strdup)(x,y,z); } \
