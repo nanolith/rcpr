@@ -129,6 +129,28 @@ RCPR_SYM(words)(
     const char** word, RCPR_SYM(string_iterator)* iterator, char* str);
 
 /**
+ * \brief Split a string into two halves based on the first occurrence of the
+ * given character.
+ *
+ * \note This operation modifies the provided string in-situ. This string must
+ * be user-writable and heap allocated. This string must be ASCII-zero
+ * terminated.
+ *
+ * \param lhs           Pointer to the character pointer to be set to the
+ *                      left-hand side of the split.
+ * \param rhs           Pointer to the character pointer to be set to the
+ *                      right-hand side of the split.
+ * \param str           The string to split.
+ * \param delim         The delimiter character on which the string is split.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_STRING_END_OF_INPUT if the delimiter could not be found.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(split)(const char** lhs, const char** rhs, char* str, int delim);
+
+/**
  * \brief Duplicate a string, creating a duplicate backed by the given allocator
  * instance.
  *
