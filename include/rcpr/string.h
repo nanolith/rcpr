@@ -327,6 +327,9 @@ RCPR_SYM(vstrcat)(
     sym ## chomp ( \
         char* x) { \
             RCPR_SYM(chomp)(x); } \
+    static inline bool \
+    sym ## ends_with(const char* x, int y) { \
+            return RCPR_SYM(ends_with)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## strdup( \
         char** x, RCPR_SYM(allocator)* y, const char* z) { \
