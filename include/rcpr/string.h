@@ -208,6 +208,17 @@ RCPR_SYM(multisplit)(
 void RCPR_SYM(chomp)(char* str);
 
 /**
+ * \brief Return true if the given string ends with the given character.
+ *
+ * \param str           The string to check.
+ * \param ch            The character to check.
+ *
+ * \returns true if the string ends with the given character and false
+ * otherwise.
+ */
+bool RCPR_SYM(ends_with)(const char* str, int ch);
+
+/**
  * \brief Duplicate a string, creating a duplicate backed by the given allocator
  * instance.
  *
