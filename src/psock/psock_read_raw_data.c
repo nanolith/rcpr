@@ -61,6 +61,7 @@ RCPR_SYM(psock_read_raw_data)(
     size_t data_size)
 {
     status retval, release_retval;
+    size_t buffer_size = data_size;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
@@ -75,16 +76,31 @@ RCPR_SYM(psock_read_raw_data)(
         goto done;
     }
 
-    /* read data to the buffer. */
-    size_t read_size = data_size;
-    retval = sock->read_fn(sock, buffer, &read_size, true);
-    if (STATUS_SUCCESS != retval)
+    /* loop until all bytes are read. */
+    uint8_t* ptr = buffer;
+    while (data_size > 0)
     {
-        goto cleanup_buffer;
+        /* read data to the buffer. */
+        size_t read_size = data_size;
+        retval = sock->read_fn(sock, ptr, &read_size, true);
+        if (STATUS_SUCCESS != retval)
+        {
+            goto cleanup_buffer;
+        }
+
+        /* stop if no data was read. */
+        if (0 == read_size)
+        {
+            break;
+        }
+
+        /* increment / decrement counters. */
+        data_size -= read_size;
+        ptr += read_size;
     }
 
-    /* verify read size. */
-    if (read_size != data_size)
+    /* verify that all bytes were read. */
+    if (0 != data_size)
     {
         retval = ERROR_PSOCK_READ_INVALID_SIZE;
         goto cleanup_buffer;
@@ -96,6 +112,8 @@ RCPR_SYM(psock_read_raw_data)(
     goto done;
 
 cleanup_buffer:
+    memset(buffer, 0, buffer_size);
+
     release_retval = allocator_reclaim(a, buffer);
     if (STATUS_SUCCESS == retval && STATUS_SUCCESS != release_retval)
     {
