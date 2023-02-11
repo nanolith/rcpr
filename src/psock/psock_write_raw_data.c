@@ -54,16 +54,31 @@ RCPR_SYM(psock_write_raw_data)(
     RCPR_MODEL_ASSERT(NULL != data);
     RCPR_MODEL_ASSERT(data_size <= UINT32_MAX);
 
-    /* attempt to write the data to the socket. */
-    size_t write_size = data_size;
-    retval = sock->write_fn(sock, data, &write_size);
-    if (STATUS_SUCCESS != retval)
+    /* loop to write all data. */
+    const uint8_t* dptr = (const uint8_t*)data;
+    while (data_size > 0)
     {
-        return retval;
+        /* attempt to write the data to the socket. */
+        size_t write_size = data_size;
+        retval = sock->write_fn(sock, data, &write_size);
+        if (STATUS_SUCCESS != retval)
+        {
+            return retval;
+        }
+
+        /* a zero size write indicates failure. */
+        if (0 == write_size)
+        {
+            break;
+        }
+
+        /* update counters. */
+        dptr += write_size;
+        data_size -= write_size;
     }
 
     /* verify the size. */
-    if (data_size != write_size)
+    if (data_size > 0)
     {
         return ERROR_PSOCK_WRITE_INVALID_SIZE;
     }
