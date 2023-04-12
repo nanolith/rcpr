@@ -11,9 +11,7 @@
 
 #include <rcpr/allocator.h>
 #include <rcpr/model_assert.h>
-#include <rcpr/resource.h>
-
-#include "../resource/resource_internal.h"
+#include <rcpr/resource/protected.h>
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
