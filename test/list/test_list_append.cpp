@@ -8,6 +8,8 @@
 #include <rcpr/allocator.h>
 #include <rcpr/list.h>
 
+#include "../mock_allocator/mock_allocator.h"
+
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_list;
 RCPR_IMPORT_resource;
