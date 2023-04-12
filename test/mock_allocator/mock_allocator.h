@@ -88,7 +88,7 @@ RCPR_SYM(mock_allocator_allocate_status_code_set)(
     static inline status FN_DECL_MUST_CHECK \
     sym ## mock_allocator_create( \
         RCPR_SYM(allocator)** x) { \
-            return RCPR_SYM(malloc_allocator_create)(x); } \
+            return RCPR_SYM(mock_allocator_create)(x); } \
     static inline void \
     sym ## mock_allocator_allocate_status_code_set( \
         RCPR_SYM(allocator)* x, status y) { \
