@@ -12,6 +12,7 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_list;
+RCPR_IMPORT_mock_allocator;
 RCPR_IMPORT_resource;
 
 TEST_SUITE(list_append);
@@ -143,6 +144,70 @@ TEST(basics)
     TEST_EXPECT(r3p == allocator_resource_handle(r3));
 
     /* clean up. */
+    TEST_ASSERT(STATUS_SUCCESS == resource_release(list_resource_handle(l)));
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
+}
+
+/**
+ * Verify that when allocation fails, an error is returned.
+ */
+TEST(allocation_fail)
+{
+    allocator* alloc = nullptr;
+    list* l = nullptr;
+
+    /* we should be able to create a mock allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == mock_allocator_create(&alloc));
+
+    /* we should be able to create a list. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            list_create(
+                &l, alloc));
+
+    /* we should be able to get the head. */
+    list_node* head = nullptr;
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            list_head(&head, l));
+
+    /* the head should be null. */
+    TEST_ASSERT(nullptr == head);
+
+    /* we should be able to get the tail. */
+    list_node* tail = nullptr;
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            list_tail(&tail, l));
+
+    /* the tail should be null. */
+    TEST_ASSERT(nullptr == tail);
+
+    /* create a resource to insert into the list. */
+    allocator* r1 = nullptr;
+    TEST_ASSERT(
+        STATUS_SUCCESS == malloc_allocator_create(&r1));
+
+    /* make the allocator return an out-of-memory error. */
+    mock_allocator_allocate_status_code_set(alloc, ERROR_GENERAL_OUT_OF_MEMORY);
+
+    /* inserting this into the list will now fail. */
+    TEST_ASSERT(
+        ERROR_GENERAL_OUT_OF_MEMORY ==
+            list_append_tail(l, allocator_resource_handle(r1)));
+
+    /* get the head / tail. */
+    TEST_ASSERT(STATUS_SUCCESS == list_head(&head, l));
+    TEST_ASSERT(STATUS_SUCCESS == list_tail(&tail, l));
+
+    /* they should both be NULL. */
+    TEST_EXPECT(nullptr == head && head == tail);
+
+    /* clean up. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(r1)));
     TEST_ASSERT(STATUS_SUCCESS == resource_release(list_resource_handle(l)));
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
