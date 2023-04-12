@@ -20,7 +20,7 @@
 
 #fiber switch function
 .section text
-.globl rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_switch
+.globl rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_3_fiber_switch
 .type fiber_switch,@function
 
 # -----------------------------------------------------------------
@@ -43,7 +43,7 @@
 
 .text
 .align 16
-rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_switch:
+rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_3_fiber_switch:
 
     #compute space for spilling to the stack
     leaq -0x38(%rsp), %rsp
@@ -106,7 +106,7 @@ rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_switch:
     #indirect jump to context
     jmp *%r9
 
-.size rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_switch,.-rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_2_fiber_switch
+.size rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_3_fiber_switch,.-rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_3_fiber_switch
 
 # Mark that we don't need executable stack.
 .section .note.GNU-stack,"",%progbits
