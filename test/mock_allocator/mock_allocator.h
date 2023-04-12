@@ -67,7 +67,7 @@ RCPR_SYM(mock_allocator_create)(
  * \post On success, the return status for \p alloc is modified for allocate and
  * reallocate operations.
  */
-status FN_DECL_MUST_CHECK
+void
 RCPR_SYM(mock_allocator_allocate_status_code_set)(
     RCPR_SYM(allocator)* alloc, status status_code);
 
@@ -80,6 +80,10 @@ RCPR_SYM(mock_allocator_allocate_status_code_set)(
     sym ## mock_allocator_create( \
         RCPR_SYM(allocator)** x) { \
             return RCPR_SYM(malloc_allocator_create)(x); } \
+    static inline void \
+    sym ## mock_allocator_allocate_status_code_set( \
+        RCPR_SYM(allocator)** x, status y) { \
+            RCPR_SYM(mock_allocator_allocate_status_code_set)(x,y); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_mock_allocator_as(sym) \
