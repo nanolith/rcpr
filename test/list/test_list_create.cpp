@@ -8,8 +8,11 @@
 #include <rcpr/allocator.h>
 #include <rcpr/list.h>
 
+#include "../mock_allocator/mock_allocator.h"
+
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_list;
+RCPR_IMPORT_mock_allocator;
 RCPR_IMPORT_resource;
 
 TEST_SUITE(list_create);
@@ -54,6 +57,32 @@ TEST(create)
     TEST_ASSERT(
         STATUS_SUCCESS ==
             resource_release(list_resource_handle(l)));
+
+    /* clean up. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
+}
+
+/**
+ * Verify that if allocation fails, then list_create fails.
+ */
+TEST(allocation_fail)
+{
+    allocator* alloc = nullptr;
+    list* l = nullptr;
+
+    /* we should be able to create a mock allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == mock_allocator_create(&alloc));
+
+    /* make the allocator return an out-of-memory error. */
+    mock_allocator_allocate_status_code_set(alloc, ERROR_GENERAL_OUT_OF_MEMORY);
+
+    /* creating the list should fail. */
+    TEST_ASSERT(
+        ERROR_GENERAL_OUT_OF_MEMORY ==
+            list_create(
+                &l, alloc));
 
     /* clean up. */
     TEST_ASSERT(
