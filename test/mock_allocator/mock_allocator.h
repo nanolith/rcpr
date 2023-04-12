@@ -46,6 +46,32 @@ RCPR_SYM(mock_allocator_create)(
     RCPR_SYM(allocator)** alloc);
 
 /******************************************************************************/
+/* Start of public methods.                                                   */
+/******************************************************************************/
+
+/**
+ * \brief Change the return status for an allocate / reallocate call.
+ *
+ * If the return status is a failing (non-zero / STATUS_SUCCESS) status, then
+ * this status is returned instead of performing the wrapped operation. However,
+ * if the return status is zero / STATUS_SUCCESS, then the wrapped malloc
+ * allocator is called instead, and its return status is returned to the caller.
+ * This allows the caller to simulate error conditions during memory allocation.
+ *
+ * \param alloc         The mock allocator instance to modify.
+ * \param status_code   The status code to return on allocate / reallocate.
+ *
+ * \pre \p alloc must be a valid \ref allocator instance created as a mock
+ * allocator.
+ *
+ * \post On success, the return status for \p alloc is modified for allocate and
+ * reallocate operations.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(mock_allocator_allocate_status_code_set)(
+    RCPR_SYM(allocator)* alloc, status status_code);
+
+/******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define __INTERNAL_RCPR_IMPORT_mock_allocator_sym(sym) \
