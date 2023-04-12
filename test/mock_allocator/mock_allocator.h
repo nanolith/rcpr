@@ -10,11 +10,19 @@
 #pragma once
 
 #include <rcpr/allocator.h>
+#include <rcpr/resource/protected.h>
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
 extern "C" {
 # endif /*__cplusplus*/
+
+struct RCPR_SYM(mock_allocator_context)
+{
+    RCPR_SYM(resource) hdr;
+    RCPR_SYM(allocator)* backing_allocator;
+    status allocate_status;
+};
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
@@ -76,13 +84,14 @@ RCPR_SYM(mock_allocator_allocate_status_code_set)(
 /******************************************************************************/
 #define __INTERNAL_RCPR_IMPORT_mock_allocator_sym(sym) \
     RCPR_BEGIN_EXPORT \
+    typedef RCPR_SYM(mock_allocator_context) sym ## mock_allocator_context; \
     static inline status FN_DECL_MUST_CHECK \
     sym ## mock_allocator_create( \
         RCPR_SYM(allocator)** x) { \
             return RCPR_SYM(malloc_allocator_create)(x); } \
     static inline void \
     sym ## mock_allocator_allocate_status_code_set( \
-        RCPR_SYM(allocator)** x, status y) { \
+        RCPR_SYM(allocator)* x, status y) { \
             RCPR_SYM(mock_allocator_allocate_status_code_set)(x,y); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
