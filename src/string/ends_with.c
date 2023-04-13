@@ -21,9 +21,6 @@
  */
 bool RCPR_SYM(ends_with)(const char* str, int ch)
 {
-    (void)str;
-    (void)ch;
-
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(NULL != str);
 
