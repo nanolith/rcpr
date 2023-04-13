@@ -208,6 +208,16 @@ RCPR_SYM(multisplit)(
 void RCPR_SYM(chomp)(char* str);
 
 /**
+ * \brief Return true if the given string starts with the given substring.
+ *
+ * \param str           The string to check.
+ * \param substr        The substring to match at the beginning of \p str.
+ *
+ * \returns true if \p str starts with \p substr and false otherwise.
+ */
+bool RCPR_SYM(starts_with)(const char* str, const char* substr);
+
+/**
  * \brief Return true if the given string ends with the given character.
  *
  * \param str           The string to check.
