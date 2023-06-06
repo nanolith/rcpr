@@ -633,6 +633,20 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
 status RCPR_SYM(psock_wrap_async_add_to_interest_list)(
     RCPR_SYM(psock_wrap_async)* sock);
 
+/**
+ * \brief Instruct the underlying async fiber discipline to remove this socket
+ * from the interest list.
+ *
+ * \param sock          Pointer to the socket instance to add to the interest
+ *                      list.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code on failure.
+ */
+status RCPR_SYM(psock_wrap_async_remove_from_interest_list)(
+    RCPR_SYM(psock_wrap_async)* sock);
+
 /******************************************************************************/
 /* Start of private exports.                                                  */
 /******************************************************************************/
@@ -756,6 +770,9 @@ status RCPR_SYM(psock_wrap_async_add_to_interest_list)(
     static inline status psock_wrap_async_add_to_interest_list( \
         RCPR_SYM(psock_wrap_async)* x) { \
             return RCPR_SYM(psock_wrap_async_add_to_interest_list)(x); } \
+    static inline status psock_wrap_async_remove_from_interest_list( \
+        RCPR_SYM(psock_wrap_async)* x) { \
+            return RCPR_SYM(psock_wrap_async_remove_from_interest_list)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 
