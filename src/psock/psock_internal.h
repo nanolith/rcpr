@@ -89,6 +89,7 @@ struct RCPR_SYM(psock_wrap_async)
     RCPR_SYM(psock)* wrapped;
     RCPR_SYM(fiber)* fib;
     RCPR_SYM(fiber_scheduler_discipline)* psock_discipline;
+    bool in_interest_list;
     int flags;
 };
 
