@@ -3,7 +3,7 @@
  *
  * \brief Handle a write wait callback via epoll.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -44,13 +44,9 @@ status RCPR_SYM(psock_fiber_scheduler_disciplined_write_wait_callback_handler)(
     RCPR_MODEL_ASSERT(fd >= 0);
 
     /* set the epoll control for this yield event. */
-    event.events = EPOLLOUT | EPOLLONESHOT;
+    event.events = EPOLLOUT;
     event.data.ptr = yield_fib;
     retval = epoll_ctl(ctx->ep, EPOLL_CTL_MOD, fd, &event);
-    if (retval < 0 && errno == ENOENT)
-    {
-        retval = epoll_ctl(ctx->ep, EPOLL_CTL_ADD, fd, &event);
-    }
     if (retval < 0)
     {
         return ERROR_PSOCK_EPOLL_CTL_FAILED;
