@@ -3,7 +3,7 @@
  *
  * \brief Entry point for the idle fiber for psock I/O.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -52,6 +52,7 @@ status RCPR_SYM(psock_idle_fiber_entry)(void* context)
         /* loop through all outputs. */
         for (int i = 0; i < nev; ++i)
         {
+            int fd = ctx->epoll_outputs[i].data.fd;
             fiber* fib = (fiber*)ctx->epoll_outputs[i].data.ptr;
             uint32_t filter = ctx->epoll_outputs[i].events;
             int resume_event;
@@ -81,14 +82,30 @@ status RCPR_SYM(psock_idle_fiber_entry)(void* context)
                     FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_EOF;
             }
 
-            /* add the fiber back to the run queue; it can now read / write. */
-            retval =
-                disciplined_fiber_scheduler_add_fiber_to_run_queue(
-                    ctx->sched, fib, &FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE,
-                    resume_event, (void*)resume_param);
-            if (STATUS_SUCCESS != retval)
+            /* verify that the fiber is set. */
+            if (fib)
             {
-                goto done;
+                /* add the fiber back to the run queue. */
+                retval =
+                    disciplined_fiber_scheduler_add_fiber_to_run_queue(
+                        ctx->sched, fib, &FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE,
+                        resume_event, (void*)resume_param);
+                if (STATUS_SUCCESS != retval)
+                {
+                    goto done;
+                }
+            }
+
+            /* disable future events on this fd. */
+            /* TODO - batch this. */
+            struct epoll_event event;
+            event.events = 0;
+            event.data.ptr = NULL;
+            retval = epoll_ctl(ctx->ep, EPOLL_CTL_MOD, fd, &event);
+            if (retval < 0)
+            {
+                /* TODO - handle this error. */
+                (void)retval;
             }
         }
 
