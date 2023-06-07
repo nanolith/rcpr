@@ -1014,6 +1014,17 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(disciplined_fiber_scheduler_main_fiber_get)(
     RCPR_SYM(fiber)** fib, RCPR_SYM(fiber_scheduler)* sched);
 
+/**
+ * \brief Get the context associated with the given \ref
+ * fiber_scheduler_discipline instance.
+ *
+ * \param disc          The discipline for this operation.
+ *
+ * \returns the context pointer provided when this discipline was created.
+ */
+void* RCPR_SYM(fiber_scheduler_discipline_context_get)(
+    RCPR_SYM(fiber_scheduler_discipline)* disc);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
@@ -1249,6 +1260,10 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
     sym ## disciplined_fiber_scheduler_main_fiber_get( \
         RCPR_SYM(fiber)** x, RCPR_SYM(fiber_scheduler)* y) { \
             return RCPR_SYM(disciplined_fiber_scheduler_main_fiber_get)(x,y); }\
+    static inline void* \
+    sym ## fiber_scheduler_discipline_context_get( \
+        RCPR_SYM(fiber_scheduler_discipline)* x) { \
+            return RCPR_SYM(fiber_scheduler_discipline_context_get)(x); } \
     static inline RCPR_SYM(resource)* sym ## fiber_resource_handle( \
         RCPR_SYM(fiber)* x) { \
             return RCPR_SYM(fiber_resource_handle)(x); } \
