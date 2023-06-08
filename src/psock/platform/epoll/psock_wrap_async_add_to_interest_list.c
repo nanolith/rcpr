@@ -42,7 +42,7 @@ status RCPR_SYM(psock_wrap_async_add_to_interest_list)(
     RCPR_MODEL_ASSERT(PSOCK_TYPE_DESCRIPTOR == sock->wrapped->type);
 
     /* add this event to the interest list. */
-    event.events = 0;
+    event.events = EPOLLET;
     event.data.ptr = NULL;
     retval = epoll_ctl(ctx->ep, EPOLL_CTL_ADD, pchild->descriptor, &event);
     if (retval < 0)

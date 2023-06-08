@@ -44,7 +44,7 @@ status RCPR_SYM(psock_fiber_scheduler_disciplined_write_wait_callback_handler)(
     RCPR_MODEL_ASSERT(fd >= 0);
 
     /* set the epoll control for this yield event. */
-    event.events = EPOLLOUT;
+    event.events = EPOLLOUT | EPOLLET;
     event.data.ptr = yield_fib;
     retval = epoll_ctl(ctx->ep, EPOLL_CTL_MOD, fd, &event);
     if (retval < 0)
