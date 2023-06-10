@@ -680,6 +680,32 @@ RCPR_SYM(fiber_discipline_yield)(
     void** resume_param);
 
 /**
+ * \brief Given a fiber scheduler discipline, get the associated fiber
+ * scheduler.
+ *
+ * \param sched         Pointer to the fiber scheduler pointer to receive the
+ *                      fiber scheduler on success.
+ * \param disc          The discipline.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sched is a valid pointer and is not NULL.
+ *      - \p disc is a pointer to a valid \ref fiber_scheduler_discipline
+ *        instance.
+ *
+ * \post
+ *      - On success, \p sched is set to the associated fiber scheduler for this
+ *        discipline.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(fiber_discipline_scheduler_get)(
+    RCPR_SYM(fiber_scheduler)** sched,
+    RCPR_SYM(fiber_scheduler_discipline)* disc);
+
+/**
  * \brief Add an unexpected event handler to a given fiber instance.
  *
  * \param fib           The fiber to which this event handler should be added.
@@ -1209,6 +1235,11 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
         RCPR_SYM(fiber_scheduler_discipline)* u, int v, void* w, \
         const RCPR_SYM(rcpr_uuid)** x, int* y, void** z) { \
             return RCPR_SYM(fiber_discipline_yield)(u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## fiber_discipline_scheduler_get( \
+        RCPR_SYM(fiber_scheduler)** x, \
+        RCPR_SYM(fiber_scheduler_discipline)* y) { \
+            return RCPR_SYM(fiber_discipline_scheduler_get)(x,y); } \
     static inline status FN_DECL_MUST_CHECK \
     sym ## fiber_unexpected_event_callback_add( \
         RCPR_SYM(fiber)* x, RCPR_SYM(fiber_unexpected_event_callback_fn) y, \
