@@ -1015,6 +1015,32 @@ RCPR_SYM(disciplined_fiber_scheduler_main_fiber_get)(
     RCPR_SYM(fiber)** fib, RCPR_SYM(fiber_scheduler)* sched);
 
 /**
+ * \brief Get the current fiber from the disciplined scheduler.
+ *
+ * \param fib           Pointer to the pointer to hold the current fiber.
+ * \param sched         The scheduler.
+ *
+ * \note On success, the fiber's ownership remains with the scheduler. The
+ * current fiber's lifetime matches the lifetime of the scheduler. Note that the
+ * current fiber may change any time the fiber yields to the scheduler.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p fib is a pointer to pointer to receive the current fiber. It must
+ *        not be NULL.
+ *      - \p sched is a pointer to a valid \ref fiber_scheduler instance.
+ *
+ * \post
+ *      - On success, \p fib is updated to point to the current fiber.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(disciplined_fiber_scheduler_current_fiber_get)(
+    RCPR_SYM(fiber)** fib, RCPR_SYM(fiber_scheduler)* sched);
+
+/**
  * \brief Get the context associated with the given \ref
  * fiber_scheduler_discipline instance.
  *
@@ -1260,6 +1286,11 @@ bool RCPR_SYM(prop_fiber_scheduler_valid)(
     sym ## disciplined_fiber_scheduler_main_fiber_get( \
         RCPR_SYM(fiber)** x, RCPR_SYM(fiber_scheduler)* y) { \
             return RCPR_SYM(disciplined_fiber_scheduler_main_fiber_get)(x,y); }\
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## disciplined_fiber_scheduler_current_fiber_get( \
+        RCPR_SYM(fiber)** x, RCPR_SYM(fiber_scheduler)* y) { \
+            return \
+                RCPR_SYM(disciplined_fiber_scheduler_current_fiber_get)(x,y); }\
     static inline void* \
     sym ## fiber_scheduler_discipline_context_get( \
         RCPR_SYM(fiber_scheduler_discipline)* x) { \
