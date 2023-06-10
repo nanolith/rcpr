@@ -9,6 +9,7 @@
 
 #include <errno.h>
 #include <rcpr/model_assert.h>
+#include <string.h>
 
 #include "psock_epoll_internal.h"
 
@@ -44,9 +45,16 @@ status RCPR_SYM(psock_fiber_scheduler_disciplined_read_wait_callback_handler)(
     RCPR_MODEL_ASSERT(fd >= 0);
 
     /* set the epoll control for this yield event. */
-    event.events = EPOLLIN | EPOLLET;
+    memset(&event, 0, sizeof(event));
+    event.events = EPOLLIN | EPOLLONESHOT;
     event.data.ptr = yield_fib;
     retval = epoll_ctl(ctx->ep, EPOLL_CTL_MOD, fd, &event);
+    if (retval < 0 && errno == ENOENT)
+    {
+        retval = epoll_ctl(ctx->ep, EPOLL_CTL_ADD, fd, &event);
+    }
+
+    /* verify the result of mod / add. */
     if (retval < 0)
     {
         return ERROR_PSOCK_EPOLL_CTL_FAILED;

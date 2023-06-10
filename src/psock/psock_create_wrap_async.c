@@ -193,16 +193,6 @@ RCPR_SYM(psock_create_wrap_async)(
         goto cleanup_psock;
     }
 
-    /* add the descriptor to the interest list. */
-    retval = psock_wrap_async_add_to_interest_list(ps);
-    if (STATUS_SUCCESS != retval)
-    {
-        goto cleanup_psock;
-    }
-
-    /* the descriptor was added to the interest list. */
-    ps->in_interest_list = true;
-
     /* set the socket. */
     *sock = &ps->hdr;
 
@@ -236,17 +226,9 @@ done:
 static status psock_wrap_async_release(resource* r)
 {
     psock_wrap_async* ps = (psock_wrap_async*)r;
-    status interest_list_remove_retval = STATUS_SUCCESS;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(&ps->hdr));
-
-    /* remove the descriptor from the interest list, if added. */
-    if (ps->in_interest_list)
-    {
-        interest_list_remove_retval =
-            psock_wrap_async_remove_from_interest_list(ps);
-    }
 
     /* release the child resource. */
     int child_retval = resource_release(psock_resource_handle(ps->wrapped));
@@ -257,11 +239,7 @@ static status psock_wrap_async_release(resource* r)
     /* reclaim the memory for this psock instance. */
     int reclaim_retval = allocator_reclaim(alloc, ps);
 
-    if (STATUS_SUCCESS != interest_list_remove_retval)
-    {
-        return interest_list_remove_retval;
-    }
-    else if (STATUS_SUCCESS != child_retval)
+    if (STATUS_SUCCESS != child_retval)
     {
         return child_retval;
     }
