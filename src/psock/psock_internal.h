@@ -3,7 +3,7 @@
  *
  * \brief Internal data types and functions for psock.
  *
- * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -90,6 +90,8 @@ struct RCPR_SYM(psock_wrap_async)
     RCPR_SYM(fiber)* fib;
     RCPR_SYM(fiber_scheduler_discipline)* psock_discipline;
     int flags;
+    RCPR_SYM(fiber)* read_block_fib;
+    RCPR_SYM(fiber)* write_block_fib;
 };
 
 #define PSOCK_BUFFER_SIZE 4096

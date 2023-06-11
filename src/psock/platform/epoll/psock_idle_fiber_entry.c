@@ -7,14 +7,17 @@
  * distribution for the license terms under which this software is distributed.
  */
 
+#include <errno.h>
 #include <rcpr/fiber.h>
 #include <rcpr/fiber/disciplines/psock_io.h>
 #include <rcpr/model_assert.h>
+#include <string.h>
 #include <sys/types.h>
 
 #include "psock_epoll_internal.h"
 
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_psock_internal;
 
 /**
  * \brief The entry point for the psock idle fiber.
@@ -43,7 +46,12 @@ status RCPR_SYM(psock_idle_fiber_entry)(void* context)
         int nev =
             epoll_wait(
                 ctx->ep, ctx->epoll_outputs, MAX_EPOLL_OUTPUTS, -1);
-        if (nev < 0)
+        if (nev < 0 && errno == EINTR)
+        {
+            /* if we are interrupted (e.g. from debugging) try again. */
+            continue;
+        }
+        else if (nev < 0)
         {
             retval = ERROR_PSOCK_EPOLL_WAIT_FAILED;
             goto done;
@@ -52,43 +60,119 @@ status RCPR_SYM(psock_idle_fiber_entry)(void* context)
         /* loop through all outputs. */
         for (int i = 0; i < nev; ++i)
         {
-            fiber* fib = (fiber*)ctx->epoll_outputs[i].data.ptr;
+            psock_wrap_async* ps =
+                (psock_wrap_async*)ctx->epoll_outputs[i].data.ptr;
+            psock_from_descriptor* desc = (psock_from_descriptor*)ps->wrapped;
             uint32_t filter = ctx->epoll_outputs[i].events;
-            int resume_event;
-            ptrdiff_t resume_param = 0;
+            struct epoll_event event;
 
-            /* encode resume event. */
-            if (filter & EPOLLIN)
+            /* clear the event. */
+            memset(&event, 0, sizeof(event));
+            event.events = EPOLLONESHOT;
+
+            /* check for a read resume event. */
+            if ((filter & EPOLLIN) && NULL != ps->read_block_fib)
             {
-                resume_event =
+                ptrdiff_t resume_param = 0;
+                int resume_event =
                     FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_AVAILABLE_READ;
+
+                /* check for an error. */
+                if (filter & EPOLLERR)
+                {
+                    resume_param |=
+                        FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_ERROR;
+                }
+
+                /* check for a hang-up. Be sure to check for read hang-up. */
+                if (filter & EPOLLHUP || filter & EPOLLRDHUP)
+                {
+                    resume_param |=
+                        FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_EOF;
+                }
+
+                /* add the fiber back to the run queue; it can now read. */
+                retval =
+                    disciplined_fiber_scheduler_add_fiber_to_run_queue(
+                        ctx->sched, ps->read_block_fib,
+                        &FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE, resume_event,
+                        (void*)resume_param);
+                if (STATUS_SUCCESS != retval)
+                {
+                    goto done;
+                }
+
+                /* remove this fiber from the list of blockers. */
+                ps->read_block_fib = NULL;
             }
-            else
+
+            /* check for a write resume event. */
+            if ((filter & EPOLLOUT) && NULL != ps->write_block_fib)
             {
-                resume_event =
+                ptrdiff_t resume_param = 0;
+                int resume_event =
                     FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_AVAILABLE_WRITE;
+
+                /* check for an error. */
+                if (filter & EPOLLERR)
+                {
+                    resume_param |=
+                        FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_ERROR;
+                }
+
+                /* check for a hang-up. */
+                if (filter & EPOLLHUP)
+                {
+                    resume_param |=
+                        FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_EOF;
+                }
+
+                /* add the fiber back to the run queue; it can now write. */
+                retval =
+                    disciplined_fiber_scheduler_add_fiber_to_run_queue(
+                        ctx->sched, ps->write_block_fib,
+                        &FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE, resume_event,
+                        (void*)resume_param);
+                if (STATUS_SUCCESS != retval)
+                {
+                    goto done;
+                }
+
+                /* remove this fiber from the list of blockers. */
+                ps->write_block_fib = NULL;
             }
 
-            /* encode resume param value. */
-            if (filter & EPOLLERR)
+            /* should we re-arm the epoll trigger? */
+            if (NULL != ps->read_block_fib || NULL != ps->write_block_fib)
             {
-                resume_param |=
-                    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_ERROR;
-            }
-            if (filter & EPOLLHUP)
-            {
-                resume_param |=
-                    FIBER_SCHEDULER_PSOCK_IO_RESUME_EVENT_FLAG_EOF;
-            }
+                /* arm the input filter? */
+                if (NULL != ps->read_block_fib)
+                {
+                    event.events |= EPOLLIN;
+                }
 
-            /* add the fiber back to the run queue; it can now read / write. */
-            retval =
-                disciplined_fiber_scheduler_add_fiber_to_run_queue(
-                    ctx->sched, fib, &FIBER_SCHEDULER_PSOCK_IO_DISCIPLINE,
-                    resume_event, (void*)resume_param);
-            if (STATUS_SUCCESS != retval)
-            {
-                goto done;
+                /* arm the output filter? */
+                if (NULL != ps->write_block_fib)
+                {
+                    event.events |= EPOLLOUT;
+                }
+
+                /* set the data pointer. */
+                event.data.ptr = ps;
+
+                /* attempt to modify an existing epoll instance for this fd. */
+                retval =
+                    epoll_ctl(ctx->ep, EPOLL_CTL_MOD, desc->descriptor, &event);
+                if (retval < 0 && errno == ENOENT)
+                {
+                    /* fall back to adding an entry for this fd. */
+                    retval =
+                        epoll_ctl(
+                            ctx->ep, EPOLL_CTL_ADD, desc->descriptor, &event);
+
+                    /* TODO - we can't really do anything yet if this fails. */
+                    (void)retval;
+                }
             }
         }
 

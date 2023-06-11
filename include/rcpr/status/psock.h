@@ -211,3 +211,10 @@
  */
 #define ERROR_PSOCK_BR_READ_LINE_TRUNCATED \
     STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0020)
+
+/**
+ * \brief An async psock instance can only be read or write blocked by one fiber
+ * at a time.
+ */
+#define ERROR_PSOCK_DOUBLE_BLOCK_UNSUPPORTED \
+    STATUS_CODE(1, RCPR_COMPONENT_PSOCK, 0x0021)
