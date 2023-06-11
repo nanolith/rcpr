@@ -13,6 +13,8 @@
 
 #include "psock_epoll_internal.h"
 
+RCPR_IMPORT_psock_internal;
+
 /**
  * \brief Callback for write wait events.
  *
@@ -33,25 +35,44 @@ status RCPR_SYM(psock_fiber_scheduler_disciplined_write_wait_callback_handler)(
     status retval;
     struct epoll_event event;
 
-    /* unused parameter. */
+    /* unused parameters. */
+    (void)yield_fib;
     (void)yield_event;
 
     psock_io_epoll_context* ctx = (psock_io_epoll_context*)context;
-    int fd = (int)((ptrdiff_t)yield_param);
+    psock_wrap_async* ps = (psock_wrap_async*)yield_param;
+    psock_from_descriptor* desc = (psock_from_descriptor*)ps->wrapped;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_epoll_io_struct_valid(ctx));
     RCPR_MODEL_ASSERT(prop_fiber_valid(yield_fib));
-    RCPR_MODEL_ASSERT(fd >= 0);
+    RCPR_MODEL_ASSERT(desc->descriptor >= 0);
 
     /* set the epoll control for this yield event. */
     memset(&event, 0, sizeof(event));
-    event.events = EPOLLOUT | EPOLLONESHOT;
-    event.data.ptr = yield_fib;
-    retval = epoll_ctl(ctx->ep, EPOLL_CTL_MOD, fd, &event);
+    event.events = EPOLLONESHOT;
+
+    /* if we are blocked for reading, set the read event. */
+    if (NULL != ps->read_block_fib)
+    {
+        event.events |= EPOLLIN;
+    }
+
+    /* if we are blocked for write, set the write event. */
+    if (NULL != ps->write_block_fib)
+    {
+        event.events |= EPOLLOUT;
+    }
+
+    /* the data pointer should be for the psock_wrap_async instance. */
+    event.data.ptr = ps;
+
+    /* attempt to modify an existing epoll instance for this fd. */
+    retval = epoll_ctl(ctx->ep, EPOLL_CTL_MOD, desc->descriptor, &event);
     if (retval < 0 && errno == ENOENT)
     {
-        retval = epoll_ctl(ctx->ep, EPOLL_CTL_ADD, fd, &event);
+        /* fall back to adding an entry for this fd. */
+        retval = epoll_ctl(ctx->ep, EPOLL_CTL_ADD, desc->descriptor, &event);
     }
 
     /* verify the result of mod / add. */

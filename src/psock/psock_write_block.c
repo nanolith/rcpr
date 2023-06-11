@@ -3,7 +3,7 @@
  *
  * \brief Block until a write is available.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -59,11 +59,33 @@ RCPR_SYM(psock_write_block)(RCPR_SYM(psock)* sock)
     psock_wrap_async* s = (psock_wrap_async*)sock;
     RCPR_MODEL_ASSERT(prop_psock_valid(s->wrapped));
 
-    /* get the underlying descriptor psock instance. */
-    psock_from_descriptor* desc = (psock_from_descriptor*)s->wrapped;
+    /* get the scheduler instance. */
+    fiber_scheduler* sched = NULL;
+    retval = fiber_discipline_scheduler_get(&sched, s->psock_discipline);
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
+
+    /* get the current fiber instance. */
+    fiber* current_fib = NULL;
+    retval = disciplined_fiber_scheduler_current_fiber_get(&current_fib, sched);
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
 
     while (!done)
     {
+        /* verify that there is not currently a fiber blocked for writing. */
+        if (s->write_block_fib != NULL)
+        {
+            return ERROR_PSOCK_DOUBLE_BLOCK_UNSUPPORTED;
+        }
+
+        /* set this fiber as the write blocked fiber. */
+        s->write_block_fib = current_fib;
+
         /* yield to the psock I/O discipline. */
         const rcpr_uuid* resume_id;
         int resume_event;
@@ -71,9 +93,14 @@ RCPR_SYM(psock_write_block)(RCPR_SYM(psock)* sock)
         retval =
             fiber_discipline_yield(
                 s->psock_discipline,
-                FIBER_SCHEDULER_PSOCK_IO_YIELD_EVENT_WAIT_WRITE,
-                (void*)((ptrdiff_t)desc->descriptor),
-                &resume_id, &resume_event, &resume_param);
+                FIBER_SCHEDULER_PSOCK_IO_YIELD_EVENT_WAIT_WRITE, s, &resume_id,
+                &resume_event, &resume_param);
+
+        /* regardless of whether this yield succeeds or not, we are no longer
+         * blocked. */
+        s->write_block_fib = NULL;
+
+        /* decode the response from yield. */
         if (STATUS_SUCCESS != retval)
         {
             return retval;
