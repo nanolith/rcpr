@@ -13,6 +13,8 @@
 
 #include "psock_kqueue_internal.h"
 
+RCPR_IMPORT_psock_internal;
+
 /**
  * \brief Callback for read wait events.
  *
@@ -34,7 +36,9 @@ status RCPR_SYM(psock_fiber_scheduler_disciplined_read_wait_callback_handler)(
     (void)yield_event;
 
     psock_io_kqueue_context* ctx = (psock_io_kqueue_context*)context;
-    int fd = (int)((ptrdiff_t)yield_param);
+    psock_wrap_async* ps = (psock_wrap_async*)yield_param;
+    psock_from_descriptor* desc = (psock_from_descriptor*)ps->wrapped;
+    int fd = desc->descriptor;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_kqueue_io_struct_valid(ctx));
