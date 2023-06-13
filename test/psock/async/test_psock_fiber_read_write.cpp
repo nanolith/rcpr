@@ -457,7 +457,6 @@ static status fiber_manager_entry(void* vctx)
                             ctx->sched, stopped_fiber);
                     if (STATUS_SUCCESS != retval)
                     {
-                        ctx->error = true;
                     }
                     else
                     {
@@ -467,7 +466,6 @@ static status fiber_manager_entry(void* vctx)
                                 fiber_resource_handle(stopped_fiber));
                         if (STATUS_SUCCESS != retval)
                         {
-                            ctx->error = true;
                         }
                     }
 
