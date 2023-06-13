@@ -14,6 +14,7 @@
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_fiber;
+RCPR_IMPORT_psock_internal;
 
 /**
  * \brief Callback for write wait events.
@@ -38,7 +39,9 @@ status RCPR_SYM(psock_fiber_scheduler_disciplined_write_wait_callback_handler)(
     (void)yield_event;
 
     psock_io_poll_context* ctx = (psock_io_poll_context*)context;
-    int fd = (int)((ptrdiff_t)yield_param);
+    psock_wrap_async* ps = (psock_wrap_async*)yield_param;
+    psock_from_descriptor* desc = (psock_from_descriptor*)ps->wrapped;
+    int fd = desc->descriptor;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_poll_io_struct_valid(ctx));
