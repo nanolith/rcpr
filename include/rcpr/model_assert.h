@@ -17,6 +17,7 @@
 # define RCPR_MODEL_ASSERT(x)  __CPROVER_assert((x), #x)
 # define RCPR_MODEL_ASSUME(x)  __CPROVER_assume((x))
 # define RCPR_MODEL_EXEMPT(x)
+# define RCPR_MODEL_ONLY(x) (x)
 # ifndef CBMC_NO_MALLOC_OVERRIDE
 # define malloc cbmc_malloc
 # define free cbmc_free
@@ -25,4 +26,5 @@
 # define RCPR_MODEL_ASSERT(x)
 # define RCPR_MODEL_ASSUME(x)
 # define RCPR_MODEL_EXEMPT(x) (x)
+# define RCPR_MODEL_ONLY(x)
 #endif
