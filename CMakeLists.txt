@@ -161,6 +161,7 @@ set_source_files_properties(
 
 #conditional link for Threads
 if (Threads_FOUND)
+    TARGET_LINK_LIBRARIES(rcpr-${CMAKE_PROJECT_VERSION} PUBLIC Threads::Threads)
     TARGET_LINK_LIBRARIES(testrcpr PRIVATE Threads::Threads)
 endif()
 
