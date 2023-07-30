@@ -256,6 +256,38 @@ typedef status
 (*RCPR_SYM(allocator_reclaim_fn))(
     RCPR_SYM(allocator)* alloc, void* ptr);
 
+/**
+ * \brief Function type for the allocator reallocate function.
+ *
+ * On success, \ref ptr is updated to a new memory region of the given size.  If
+ * this method fails, then \ref ptr is unchanged and must be reclaimed when no
+ * longer needed.  If this method succeeds, then the updated \ref ptr should be
+ * reclaimed, and the previous \ref ptr value should not be used by the caller.
+ *
+ * \param alloc         The allocator instance to use to resize this memory
+ *                      region.
+ * \param ptr           Pointer to the pointer set to the current region which
+ *                      the caller wishes to resize.
+ * \param size          The new size of the region.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *      - ERROR_GENERAL_UNSUPPORTED_OPERATION if this operation is unsupported
+ *        by this allocator instance.
+ *
+ * \pre \p alloc must be a valid \ref allocator instance. \p ptr must not be
+ * NULL and must point to a memory region previously allocated or reallocated by
+ * this \ref allocator instance.
+ *
+ * \post On success, \p ptr is set to a pointer to a memory region that is
+ * \p size bytes in size.  On failure, \p ptr is unchanged.
+ */
+typedef status
+(*RCPR_SYM(allocator_reallocate_fn))(
+    RCPR_SYM(allocator)* alloc, void** ptr, size_t size);
+
 /******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
@@ -279,6 +311,7 @@ RCPR_SYM(prop_allocator_valid)(
     typedef RCPR_SYM(allocator) sym ## allocator; \
     typedef RCPR_SYM(allocator_allocate_fn) sym ## allocator_allocate_fn; \
     typedef RCPR_SYM(allocator_reclaim_fn) sym ## allocator_reclaim_fn; \
+    typedef RCPR_SYM(allocator_reallocate_fn) sym ## allocator_reallocate_fn; \
     static inline status FN_DECL_MUST_CHECK \
     sym ## malloc_allocator_create( \
         RCPR_SYM(allocator)** x) { \
