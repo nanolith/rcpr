@@ -30,6 +30,12 @@ struct RCPR_SYM(allocator);
  */
 typedef struct RCPR_SYM(allocator) RCPR_SYM(allocator);
 
+/**
+ * \brief The allocator vtable describes the virtual methods used by an
+ * allocator instance.
+ */
+typedef struct RCPR_SYM(allocator_vtable) RCPR_SYM(allocator_vtable);
+
 /******************************************************************************/
 /* Start of constructors.                                                     */
 /******************************************************************************/
@@ -195,6 +201,37 @@ RCPR_SYM(allocator_resource_handle)(
     RCPR_SYM(allocator)* alloc);
 
 /******************************************************************************/
+/* Start of public types.                                                     */
+/******************************************************************************/
+
+/**
+ * \brief Function type for allocating memory.
+ *
+ * On success, \ref ptr is set to a pointer that is \ref size bytes in size.
+ * When this memory is no longer needed, \ref allocator_reclaim() should be
+ * called on this region so that this allocator instance can reclaim it.
+ *
+ * \param alloc         The allocator instance from which this memory is
+ *                      allocated.
+ * \param ptr           Pointer to the pointer to receive the memory.
+ * \param size          The size of the memory region, in bytes, to allocate.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre \p alloc must be a valid \ref allocator instance and \p ptr must not be
+ * NULL.
+ *
+ * \post On success, \p ptr is set to a pointer to a memory region that is
+ * \p size bytes in size.  On failure, \p ptr is set to NULL.
+ */
+typedef status
+(*RCPR_SYM(allocator_allocate_fn))(
+    RCPR_SYM(allocator)* alloc, void** ptr, size_t size);
+
+/******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
 
@@ -215,6 +252,7 @@ RCPR_SYM(prop_allocator_valid)(
 #define __INTERNAL_RCPR_IMPORT_allocator_sym(sym) \
     RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(allocator) sym ## allocator; \
+    typedef RCPR_SYM(allocator_allocate_fn) sym ## allocator_allocate_fn; \
     static inline status FN_DECL_MUST_CHECK \
     sym ## malloc_allocator_create( \
         RCPR_SYM(allocator)** x) { \
