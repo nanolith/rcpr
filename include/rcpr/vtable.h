@@ -9,10 +9,17 @@
 
 #pragma once
 
+#include <rcpr/function_decl.h>
+#include <stdbool.h>
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 extern "C" {
 # endif /*__cplusplus*/
+
+/* externals provided by linker. */
+extern void* __start_rcpr_vtable;
+extern void* __stop_rcpr_vtable;
 
 /**
  * \brief The RCPR_VTABLE attribute macro is used when specifying that a given
@@ -25,6 +32,27 @@ extern "C" {
 #define RCPR_VTABLE \
     static const \
     __attribute__ ((section ("rcpr_vtable")))
+
+/******************************************************************************/
+/* Start of public exports.                                                   */
+/******************************************************************************/
+#define __INTERNAL_RCPR_IMPORT_vtable_sym(sym) \
+    RCPR_BEGIN_EXPORT \
+    static inline bool sym ## vtable_range_valid(\
+        const void* ptr) { \
+            if ( \
+                ptr >= __start_rcpr_vtable \
+             && ptr <= __stop_rcpr_vtable) \
+            { \
+                return true; \
+            } \
+            return false; } \
+    RCPR_END_EXPORT \
+    REQUIRE_SEMICOLON_HERE
+#define RCPR_IMPORT_vtable_as(sym) \
+    __INTERNAL_RCPR_IMPORT_vtable_sym(sym ## _)
+#define RCPR_IMPORT_vtable \
+    __INTERNAL_RCPR_IMPORT_vtable_sym()
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
