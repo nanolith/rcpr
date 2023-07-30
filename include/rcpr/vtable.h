@@ -18,8 +18,8 @@ extern "C" {
 # endif /*__cplusplus*/
 
 /* externals provided by linker. */
-extern void* __start_rcpr_vtable;
-extern void* __stop_rcpr_vtable;
+extern const void* __start_rcpr_vtable;
+extern const void* __stop_rcpr_vtable;
 
 /**
  * \brief The RCPR_VTABLE attribute macro is used when specifying that a given
@@ -41,8 +41,8 @@ extern void* __stop_rcpr_vtable;
     static inline bool sym ## vtable_range_valid(\
         const void* ptr) { \
             if ( \
-                ptr >= __start_rcpr_vtable \
-             && ptr <= __stop_rcpr_vtable) \
+                (ptrdiff_t)(ptr) >= (ptrdiff_t)(&__start_rcpr_vtable) \
+             && (ptrdiff_t)(ptr) <= (ptrdiff_t)(&__stop_rcpr_vtable)) \
             { \
                 return true; \
             } \
