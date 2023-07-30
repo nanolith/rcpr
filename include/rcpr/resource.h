@@ -29,6 +29,12 @@ struct RCPR_SYM(resource);
  */
 typedef struct RCPR_SYM(resource) RCPR_SYM(resource);
 
+/**
+ * \brief The resource vtable describes the virtual methods used by a resource
+ * instance.
+ */
+typedef struct RCPR_SYM(resource_vtable) RCPR_SYM(resource_vtable);
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
@@ -97,6 +103,15 @@ RCPR_SYM(resource_release)(
  */
 typedef status (*RCPR_SYM(resource_release_fn))(RCPR_SYM(resource)* r);
 
+/**
+ * \brief The definition of the resource vtable used for defining resource
+ * instances.
+ */
+struct RCPR_SYM(resource_vtable)
+{
+    RCPR_SYM(resource_release_fn) release;
+};
+
 /******************************************************************************/
 /* Start of protected methods.                                                */
 /******************************************************************************/
@@ -133,6 +148,7 @@ RCPR_SYM(prop_resource_valid)(
 #define __INTERNAL_RCPR_IMPORT_resource_sym(sym) \
     RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(resource) sym ## resource; \
+    typedef RCPR_SYM(resource_vtable) sym ## resource_vtable; \
     typedef RCPR_SYM(resource_release_fn) sym ## resource_release_fn; \
     static inline status sym ## resource_release(\
         RCPR_SYM(resource)* x) { \
