@@ -252,6 +252,7 @@ RCPR_SYM(prop_allocator_valid)(
 #define __INTERNAL_RCPR_IMPORT_allocator_sym(sym) \
     RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(allocator) sym ## allocator; \
+    typedef RCPR_SYM(allocator_allocate_fn) sym ## allocator_allocate_fn; \
     static inline status FN_DECL_MUST_CHECK \
     sym ## malloc_allocator_create( \
         RCPR_SYM(allocator)** x) { \
