@@ -28,8 +28,11 @@ RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(allocator);
 
 /* the vtable entry for the mock allocator instance. */
 RCPR_VTABLE
-resource_vtable mock_allocator_vtable = {
-    &mock_allocator_release };
+allocator_vtable mock_allocator_vtable = {
+    .hdr = { &mock_allocator_release },
+    .allocate_fn = &mock_allocator_allocate,
+    .reclaim_fn = &mock_allocator_reclaim,
+    .reallocate_fn = &mock_allocator_reallocate };
 
 /* the vtable entry for the mock allocator context instance. */
 RCPR_VTABLE
@@ -109,12 +112,7 @@ RCPR_SYM(mock_allocator_create)(
         tmp->RCPR_MODEL_STRUCT_TAG_REF(allocator), allocator);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &mock_allocator_vtable);
-
-    /* set the callbacks. */
-    tmp->allocate_fn = &mock_allocator_allocate;
-    tmp->reclaim_fn = &mock_allocator_reclaim;
-    tmp->reallocate_fn = &mock_allocator_reallocate;
+    resource_init(&tmp->hdr, &mock_allocator_vtable.hdr);
 
     /* set the context. */
     tmp->context = (void*)ctx;

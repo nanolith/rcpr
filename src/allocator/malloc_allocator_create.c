@@ -27,8 +27,11 @@ RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(allocator);
 
 /* the vtable entry for the malloc allocator instance. */
 RCPR_VTABLE
-resource_vtable malloc_allocator_vtable = {
-    &malloc_allocator_release };
+allocator_vtable malloc_allocator_vtable = {
+    .hdr = { &malloc_allocator_release },
+    .allocate_fn = &malloc_allocator_allocate,
+    .reclaim_fn = &malloc_allocator_reclaim,
+    .reallocate_fn = &malloc_allocator_reallocate };
 
 /**
  * \brief Create an allocator backed by malloc / free.
@@ -77,12 +80,7 @@ RCPR_SYM(malloc_allocator_create)(
         (*alloc)->RCPR_MODEL_STRUCT_TAG_REF(allocator), allocator);
 
     /* set the release method. */
-    resource_init(&(*alloc)->hdr, &malloc_allocator_vtable);
-
-    /* set the callbacks. */
-    (*alloc)->allocate_fn = &malloc_allocator_allocate;
-    (*alloc)->reclaim_fn = &malloc_allocator_reclaim;
-    (*alloc)->reallocate_fn = &malloc_allocator_reallocate;
+    resource_init(&(*alloc)->hdr, &malloc_allocator_vtable.hdr);
 
     /* verify that the structure is now valid. */
     RCPR_MODEL_ASSERT(prop_allocator_valid(*alloc));
