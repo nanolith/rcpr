@@ -288,6 +288,18 @@ typedef status
 (*RCPR_SYM(allocator_reallocate_fn))(
     RCPR_SYM(allocator)* alloc, void** ptr, size_t size);
 
+/**
+ * \brief The definition of the allocator vtable used for defining allocator
+ * instances.
+ */
+struct RCPR_SYM(allocator_vtable)
+{
+    RCPR_SYM(resource_vtable) hdr;
+    RCPR_SYM(allocator_allocate_fn) allocate_fn;
+    RCPR_SYM(allocator_reclaim_fn) reclaim_fn;
+    RCPR_SYM(allocator_reallocate_fn) reallocate_fn;
+};
+
 /******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
@@ -312,6 +324,7 @@ RCPR_SYM(prop_allocator_valid)(
     typedef RCPR_SYM(allocator_allocate_fn) sym ## allocator_allocate_fn; \
     typedef RCPR_SYM(allocator_reclaim_fn) sym ## allocator_reclaim_fn; \
     typedef RCPR_SYM(allocator_reallocate_fn) sym ## allocator_reallocate_fn; \
+    typedef RCPR_SYM(allocator_vtable) sym ## allocator_vtable; \
     static inline status FN_DECL_MUST_CHECK \
     sym ## malloc_allocator_create( \
         RCPR_SYM(allocator)** x) { \
