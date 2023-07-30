@@ -21,7 +21,7 @@
 #fiber switch function
 .section text
 .globl rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_4_fiber_switch
-.type fiber_switch,@function
+.type rcpr_u0ec71e88_25af_40aa_8dd9_990d596b60de_V0_4_fiber_switch,@function
 
 # -----------------------------------------------------------------
 # |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7   |
