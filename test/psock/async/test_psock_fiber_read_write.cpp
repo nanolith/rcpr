@@ -11,6 +11,7 @@
 #include <rcpr/resource/protected.h>
 #include <rcpr/socket_utilities.h>
 #include <rcpr/uuid.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -176,6 +177,11 @@ TEST(basics)
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
 }
 
+/* the vtable entry for the test fiber context. */
+RCPR_VTABLE
+resource_vtable test_fiber_context_vtable = {
+    &test_fiber_context_resource_release };
+
 /**
  * \brief Create a test fiber context.
  *
@@ -206,7 +212,7 @@ static status test_fiber_create(
 
     /* initialize resource. */
     memset(tmp, 0, sizeof(*tmp));
-    resource_init(&tmp->hdr, &test_fiber_context_resource_release);
+    resource_init(&tmp->hdr, &test_fiber_context_vtable);
     tmp->alloc = alloc;
     tmp->ctx = mctx;
 
@@ -323,6 +329,11 @@ static status test_fiber_context_resource_release(RCPR_SYM(resource)* r)
     }
 }
 
+/* the vtable entry for the main context. */
+RCPR_VTABLE
+resource_vtable main_context_vtable = {
+    &main_context_resource_release };
+
 /**
  * \brief Create the main context.
  *
@@ -349,7 +360,7 @@ static status main_context_create(
 
     /* initialize resource. */
     memset(tmp, 0, sizeof(*tmp));
-    resource_init(&tmp->hdr, &main_context_resource_release);
+    resource_init(&tmp->hdr, &main_context_vtable);
     tmp->alloc = alloc;
     tmp->sched = sched;
 

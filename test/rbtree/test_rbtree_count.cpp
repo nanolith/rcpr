@@ -8,6 +8,7 @@
 #include <rcpr/allocator.h>
 #include <rcpr/rbtree.h>
 #include <rcpr/resource/protected.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 
 RCPR_IMPORT_allocator;
@@ -24,6 +25,14 @@ struct integer
     resource hdr;
     int val;
 };
+
+/* forward decls. */
+static status integer_release(resource* r);
+
+/* the vtable entry for the integer instance. */
+RCPR_VTABLE
+resource_vtable integer_vtable = {
+    &integer_release };
 
 /**
  * \brief Release an \ref integer \ref resource.
@@ -64,7 +73,7 @@ static status FN_DECL_MUST_CHECK integer_create(integer** i, int value)
     }
 
     /* initialize the integer resource. */
-    resource_init(&tmp->hdr, &integer_release);
+    resource_init(&tmp->hdr, &integer_vtable);
 
     /* set the value. */
     tmp->val = value;

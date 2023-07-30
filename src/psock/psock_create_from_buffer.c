@@ -3,11 +3,12 @@
  *
  * \brief Create a \ref psock instance from a descriptor.
  *
- * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -22,6 +23,11 @@ RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
 RCPR_IMPORT_resource;
 RCPR_IMPORT_slist;
+
+/* the vtable entry for the psock from buffer instance. */
+RCPR_VTABLE
+resource_vtable psock_from_buffer_vtable = {
+    &psock_from_buffer_release };
 
 /**
  * \brief Create a \ref psock instance backed by a given string buffer.
@@ -94,7 +100,7 @@ RCPR_SYM(psock_create_from_buffer)(
     RCPR_MODEL_STRUCT_TAG_INIT(ps->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock), psock);
 
     /* set the release method. */
-    resource_init(&ps->hdr.hdr, &psock_from_buffer_release);
+    resource_init(&ps->hdr.hdr, &psock_from_buffer_vtable);
 
     /* set the type. */
     ps->hdr.type = PSOCK_TYPE_BUFFER;

@@ -7,6 +7,7 @@
  * distribution for the license terms under which this software is distributed.
  */
 
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "../../src/allocator/allocator_internal.h"
@@ -24,6 +25,16 @@ static status mock_allocator_reclaim(allocator*, void*);
 static status mock_allocator_reallocate(allocator*, void**, size_t);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(allocator);
+
+/* the vtable entry for the mock allocator instance. */
+RCPR_VTABLE
+resource_vtable mock_allocator_vtable = {
+    &mock_allocator_release };
+
+/* the vtable entry for the mock allocator context instance. */
+RCPR_VTABLE
+resource_vtable mock_allocator_context_vtable = {
+    &mock_allocator_context_release };
 
 /**
  * \brief Create a mock allocator.
@@ -76,7 +87,7 @@ RCPR_SYM(mock_allocator_create)(
     memset(ctx, 0, sizeof(*ctx));
 
     /* initialize the resource. */
-    resource_init(&ctx->hdr, &mock_allocator_context_release);
+    resource_init(&ctx->hdr, &mock_allocator_context_vtable);
     ctx->backing_allocator = backing;
 
     /* attempt to allocate memory for the mock allocator. */
@@ -98,7 +109,7 @@ RCPR_SYM(mock_allocator_create)(
         tmp->RCPR_MODEL_STRUCT_TAG_REF(allocator), allocator);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &mock_allocator_release);
+    resource_init(&tmp->hdr, &mock_allocator_vtable);
 
     /* set the callbacks. */
     tmp->allocate_fn = &mock_allocator_allocate;

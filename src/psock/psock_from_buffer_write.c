@@ -3,12 +3,13 @@
  *
  * \brief Write data to a buffer.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <errno.h>
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -24,6 +25,11 @@ RCPR_IMPORT_slist;
 static status psock_output_buffer_node_resource_release(resource* r);
 static status psock_output_buffer_node_create(
     psock_output_buffer_node** ob, allocator* a, char* buffer, size_t size);
+
+/* the vtable entry for the psock output buffer node instance. */
+RCPR_VTABLE
+resource_vtable psock_output_buffer_node_vtable = {
+    &psock_output_buffer_node_resource_release };
 
 /**
  * \brief Write data to the given \ref psock instance.
@@ -269,7 +275,7 @@ static status psock_output_buffer_node_create(
     memset(tmp, 0, sizeof(*tmp));
 
     /* initialize the resource header with a resource release method. */
-    resource_init(&tmp->hdr, &psock_output_buffer_node_resource_release);
+    resource_init(&tmp->hdr, &psock_output_buffer_node_vtable);
 
     /* cache the allocator, buffer and size. */
     tmp->alloc = a;

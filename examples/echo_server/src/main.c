@@ -3,7 +3,7 @@
  *
  * \brief Main entry point for the echo server example.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -16,6 +16,7 @@
 #include <rcpr/resource/protected.h>
 #include <rcpr/socket_utilities.h>
 #include <rcpr/thread.h>
+#include <rcpr/vtable.h>
 #include <signal.h>
 #include <stdio.h>
 #include <string.h>
@@ -389,6 +390,11 @@ done:
     return retval;
 }
 
+/* the vtable entry for the dispatch context instance. */
+RCPR_VTABLE
+resource_vtable dispatch_context_vtable = {
+    &dispatch_context_release };
+
 /**
  * \brief Create a dispatch context to pass to the echo_entry function.
  *
@@ -426,7 +432,7 @@ dispatch_context_create(
     memset(tmp, 0, sizeof(dispatch_context));
 
     /* initialize resource. */
-    resource_init(&tmp->hdr, &dispatch_context_release);
+    resource_init(&tmp->hdr, &dispatch_context_vtable);
 
     /* set values. */
     tmp->alloc = alloc;
@@ -628,6 +634,11 @@ static status fiber_manager_entry(void* vsched)
     }
 }
 
+/* the vtable entry for the listen context instance. */
+RCPR_VTABLE
+resource_vtable listen_context_vtable = {
+    &listen_context_release };
+
 /**
  * \brief Add the listening fiber to listen for connections.
  *
@@ -661,7 +672,7 @@ static status listen_fiber_add(
     memset(ctx, 0, sizeof(listen_context));
 
     /* set the resource release method. */
-    resource_init(&ctx->hdr, &listen_context_release);
+    resource_init(&ctx->hdr, &listen_context_vtable);
 
     /* set remaining fields, except the fiber. */
     ctx->alloc = alloc;
@@ -803,6 +814,11 @@ static status listen_fiber_unexpected_handler(
     return ERROR_FIBER_INVALID_STATE;
 }
 
+/* the vtable entry for the signal thread context instance. */
+RCPR_VTABLE
+resource_vtable signal_thread_context_vtable = {
+    &signal_thread_context_release };
+
 /**
  * \brief Create the signal thread.
  *
@@ -848,7 +864,7 @@ static status signal_thread_create(
     memset(ctx, 0, sizeof(signal_thread_context));
 
     /* set the resource handler. */
-    resource_init(&ctx->hdr, &signal_thread_context_release);
+    resource_init(&ctx->hdr, &signal_thread_context_vtable);
 
     /* set the init values. */
     ctx->alloc = alloc;

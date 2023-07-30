@@ -3,11 +3,12 @@
  *
  * \brief Create a mutex.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -24,6 +25,16 @@ static status thread_mutex_lock_release(resource*);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex);
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_mutex_lock);
+
+/* the vtable entry for the thread mutex instance. */
+RCPR_VTABLE
+resource_vtable thread_mutex_vtable = {
+    &thread_mutex_release };
+
+/* the vtable entry for the thread mutex lock instance. */
+RCPR_VTABLE
+resource_vtable thread_mutex_lock_vtable = {
+    &thread_mutex_lock_release };
 
 /**
  * \brief Create a \ref thread_mutex instance.
@@ -90,7 +101,7 @@ RCPR_SYM(thread_mutex_create)(
         tmp->RCPR_MODEL_STRUCT_TAG_REF(thread_mutex), thread_mutex);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &thread_mutex_release);
+    resource_init(&tmp->hdr, &thread_mutex_vtable);
 
     /* save the init values. */
     tmp->alloc = a;
@@ -104,7 +115,7 @@ RCPR_SYM(thread_mutex_create)(
     }
 
     /* set the release method for the mutex lock. */
-    resource_init(&tmp->child.hdr, &thread_mutex_lock_release);
+    resource_init(&tmp->child.hdr, &thread_mutex_lock_vtable);
 
     /* set the parent for the lock. */
     tmp->child.parent = tmp;

@@ -3,7 +3,7 @@
  *
  * \brief Protected data types and methods for resource.
  *
- * \copyright 2020-2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -19,7 +19,7 @@ extern "C" {
 
 struct RCPR_SYM(resource)
 {
-    RCPR_SYM(resource_release_fn) release;
+    const RCPR_SYM(resource_vtable)* vtable;
 
     RCPR_MODEL_STRUCT_TAG(resource);
 };

@@ -3,11 +3,12 @@
  *
  * \brief Create a malloc allocator instance.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -23,6 +24,11 @@ static status malloc_allocator_reclaim(allocator*, void*);
 static status malloc_allocator_reallocate(allocator*, void**, size_t);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(allocator);
+
+/* the vtable entry for the malloc allocator instance. */
+RCPR_VTABLE
+resource_vtable malloc_allocator_vtable = {
+    &malloc_allocator_release };
 
 /**
  * \brief Create an allocator backed by malloc / free.
@@ -71,7 +77,7 @@ RCPR_SYM(malloc_allocator_create)(
         (*alloc)->RCPR_MODEL_STRUCT_TAG_REF(allocator), allocator);
 
     /* set the release method. */
-    resource_init(&(*alloc)->hdr, &malloc_allocator_release);
+    resource_init(&(*alloc)->hdr, &malloc_allocator_vtable);
 
     /* set the callbacks. */
     (*alloc)->allocate_fn = &malloc_allocator_allocate;

@@ -3,11 +3,12 @@
  *
  * \brief Create a \ref rbtree_node instance.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -22,6 +23,11 @@ RCPR_IMPORT_resource;
 /* forward decls. */
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree_node);
 static status rbtree_node_release(resource* r);
+
+/* the vtable entry for the rbtree node instance. */
+RCPR_VTABLE
+resource_vtable rbtree_node_vtable = {
+    &rbtree_node_release };
 
 /**
  * \brief Create a \ref rbtree_node instance from a tree and a resource.
@@ -72,7 +78,7 @@ RCPR_SYM(rbtree_node_create)(
         tmp->RCPR_MODEL_STRUCT_TAG_REF(rbtree_node), rbtree_node);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &rbtree_node_release);
+    resource_init(&tmp->hdr, &rbtree_node_vtable);
 
     /* set the allocator. */
     tmp->alloc = tree->alloc;

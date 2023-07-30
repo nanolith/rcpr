@@ -23,7 +23,7 @@ extern "C" {
  * this attribute ensures that the given vtable is in the correct section.
  */
 #define RCPR_VTABLE \
-    const \
+    static const \
     __attribute__ ((section ("rcpr_vtable")))
 
 /* C++ compatibility. */

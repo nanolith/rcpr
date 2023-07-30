@@ -3,11 +3,12 @@
  *
  * \brief Create the condition discipline context.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "condition_internal.h"
@@ -27,6 +28,11 @@ static const void* condition_discipline_condition_barrier_get_key(
     void* context, const resource* r);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(condition_discipline_context);
+
+/* the vtable entry for the condition discipline context. */
+RCPR_VTABLE
+resource_vtable condition_discipline_context_vtable = {
+    &condition_discipline_context_resource_release };
 
 /**
  * \brief Create the condition discipline context.
@@ -74,7 +80,7 @@ status RCPR_SYM(condition_discipline_context_create)(
         condition_discipline_context);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &condition_discipline_context_resource_release);
+    resource_init(&tmp->hdr, &condition_discipline_context_vtable);
 
     /* set the init vars. */
     tmp->alloc = alloc;

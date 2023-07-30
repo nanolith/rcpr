@@ -3,7 +3,7 @@
  *
  * \brief Wrap a \ref psock instance to make it asynchronous.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -11,6 +11,7 @@
 #include <rcpr/model_assert.h>
 #include <rcpr/psock.h>
 #include <rcpr/socket_utilities.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "psock_internal.h"
@@ -28,6 +29,11 @@ static status psock_create_wrap_async_add_psock_discipline(
     fiber_scheduler_discipline** disc, allocator* a, fiber_scheduler* sched);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
+
+/* the vtable entry for the psock wrap async instance. */
+RCPR_VTABLE
+resource_vtable psock_wrap_async_vtable = {
+    &psock_wrap_async_release };
 
 /**
  * \brief Wrap a \ref psock instance with an async \ref psock instance that
@@ -159,7 +165,7 @@ RCPR_SYM(psock_create_wrap_async)(
     RCPR_MODEL_STRUCT_TAG_INIT(ps->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock), psock);
 
     /* set the release method. */
-    resource_init(&ps->hdr.hdr, &psock_wrap_async_release);
+    resource_init(&ps->hdr.hdr, &psock_wrap_async_vtable);
 
     /* save the child psock. */
     ps->wrapped = child;

@@ -12,6 +12,7 @@
 #include <rcpr/psock.h>
 #include <rcpr/resource/protected.h>
 #include <rcpr/socket_utilities.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -95,6 +96,11 @@ static status release_test_fiber_context(resource* r)
     }
 }
 
+/* the vtable entry for the test fiber context instance. */
+RCPR_VTABLE
+resource_vtable test_fiber_context_vtable = {
+    &release_test_fiber_context };
+
 /**
  * \brief Create a test fiber and a socket for communicating with it.
  */
@@ -120,7 +126,7 @@ static status create_test_fiber(
     memset(ctx, 0, sizeof(test_fiber_context));
 
     /* init the structure. */
-    resource_init(&ctx->hdr, &release_test_fiber_context);
+    resource_init(&ctx->hdr, &test_fiber_context_vtable);
     ctx->alloc = alloc;
 
     /* create the socket pair. */

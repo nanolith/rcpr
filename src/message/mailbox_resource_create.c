@@ -3,11 +3,12 @@
  *
  * \brief Create a mailbox resource.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "message_internal.h"
@@ -21,6 +22,11 @@ RCPR_IMPORT_uuid;
 
 /* forward decls. */
 static status mailbox_resource_release(resource* r);
+
+/* the vtable entry for the mailbox resource instance. */
+RCPR_VTABLE
+resource_vtable mailbox_resource_vtable = {
+    &mailbox_resource_release };
 
 /**
  * \brief Create a mailbox instance.
@@ -64,7 +70,7 @@ status RCPR_SYM(mailbox_resource_create)(
         tmp->RCPR_MODEL_STRUCT_TAG_REF(mailbox), mailbox);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &mailbox_resource_release);
+    resource_init(&tmp->hdr, &mailbox_resource_vtable);
 
     /* save the init values. */
     tmp->alloc = alloc;

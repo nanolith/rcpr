@@ -3,11 +3,12 @@
  *
  * \brief Create a \ref bigint instance, set to zero.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -20,6 +21,11 @@ RCPR_IMPORT_resource;
 
 /* forward decls. */
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(bigint);
+
+/* the vtable entry for the bigint instance. */
+RCPR_VTABLE
+resource_vtable bigint_vtable = {
+    &bigint_release };
 
 /**
  * \brief Create a \ref bigint instance of a given size.
@@ -112,7 +118,7 @@ RCPR_SYM(bigint_create_zero)(
     RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(bigint), bigint);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &bigint_release);
+    resource_init(&tmp->hdr, &bigint_vtable);
 
     /* set the allocator. */
     tmp->a = a;

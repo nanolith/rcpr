@@ -3,11 +3,12 @@
  *
  * \brief Create a thread condition variable.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -22,6 +23,11 @@ RCPR_IMPORT_thread;
 static status thread_cond_release(resource*);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread_cond);
+
+/* the vtable entry for the thread cond instance. */
+RCPR_VTABLE
+resource_vtable thread_cond_vtable = {
+    &thread_cond_release };
 
 /**
  * \brief Create a \ref thread_cond instance.
@@ -83,7 +89,7 @@ RCPR_SYM(thread_cond_create)(
         tmp->RCPR_MODEL_STRUCT_TAG_REF(thread_cond), thread_cond);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &thread_cond_release);
+    resource_init(&tmp->hdr, &thread_cond_vtable);
 
     /* save the init values. */
     tmp->alloc = a;
