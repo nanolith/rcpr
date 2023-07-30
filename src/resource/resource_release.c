@@ -8,10 +8,12 @@
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 
 #include "resource_internal.h"
 
 RCPR_IMPORT_resource;
+RCPR_IMPORT_vtable;
 
 /**
  * \brief Release a resource back to the system or API from which it was
@@ -48,6 +50,12 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(resource_release)(RCPR_SYM(resource)* r)
 {
     RCPR_MODEL_ASSERT(prop_resource_valid(r));
+
+    /* vtable runtime check. */
+    if (!vtable_range_valid(r->vtable))
+    {
+        return ERROR_GENERAL_BAD_VTABLE;
+    }
 
     return r->vtable->release(r);
 }
