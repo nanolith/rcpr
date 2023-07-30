@@ -231,6 +231,31 @@ typedef status
 (*RCPR_SYM(allocator_allocate_fn))(
     RCPR_SYM(allocator)* alloc, void** ptr, size_t size);
 
+/**
+ * \brief Function type for the allocator reclaim function.
+ *
+ * On success, the allocator instance reclaims the given memory region.  After
+ * calling this method, user code cannot access this memory region or any subset
+ * of this memory region.  The \ref ptr parameter MUST be a region pointer
+ * originally assigned by this allocator instance.
+ *
+ * \param alloc         The allocator instance to reclaim this memory region.
+ * \param ptr           Pointer to the memory region to reclaim.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre \p alloc must be a valid \ref allocator instance.  \p ptr must not be
+ * NULL and must point to a memory region previously allocated by this \ref
+ * allocator instance.
+ *
+ * \post the memory region referenced by \p ptr is reclaimed and must not be
+ * used by the caller.
+ */
+typedef status
+(*RCPR_SYM(allocator_reclaim_fn))(
+    RCPR_SYM(allocator)* alloc, void* ptr);
+
 /******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
@@ -253,6 +278,7 @@ RCPR_SYM(prop_allocator_valid)(
     RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(allocator) sym ## allocator; \
     typedef RCPR_SYM(allocator_allocate_fn) sym ## allocator_allocate_fn; \
+    typedef RCPR_SYM(allocator_reclaim_fn) sym ## allocator_reclaim_fn; \
     static inline status FN_DECL_MUST_CHECK \
     sym ## malloc_allocator_create( \
         RCPR_SYM(allocator)** x) { \
