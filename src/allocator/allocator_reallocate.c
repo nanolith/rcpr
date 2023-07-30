@@ -10,6 +10,7 @@
 #include "allocator_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_allocator_internal;
 
 /**
  * \brief Attempt to resize a previously allocated memory region, either growing
@@ -44,10 +45,13 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(allocator_reallocate)(
     RCPR_SYM(allocator)* alloc, void** ptr, size_t size)
 {
+    const allocator_vtable* vtable = allocator_vtable_get(alloc);
+
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
     RCPR_MODEL_ASSERT(NULL != ptr);
+    RCPR_MODEL_ASSERT(prop_allocator_vtable_valid(vtable));
 
     return
-        alloc->reallocate_fn(alloc, ptr, size);
+        vtable->reallocate_fn(alloc, ptr, size);
 }

@@ -24,14 +24,20 @@ struct RCPR_SYM(allocator)
     void* context;
 
     RCPR_MODEL_STRUCT_TAG(allocator);
-
-    status (*allocate_fn)(
-        RCPR_SYM(allocator* alloc), void** ptr, size_t size);
-    status (*reclaim_fn)(
-        RCPR_SYM(allocator* alloc), void* ptr);
-    status (*reallocate_fn)(
-        RCPR_SYM(allocator* alloc), void** ptr, size_t size);
 };
+
+/******************************************************************************/
+/* Start of private exports.                                                  */
+/******************************************************************************/
+#define RCPR_IMPORT_allocator_internal \
+    RCPR_BEGIN_EXPORT \
+    static inline const RCPR_SYM(allocator_vtable)* \
+    allocator_vtable_get(RCPR_SYM(allocator)* alloc) \
+    { \
+        return (const allocator_vtable*)alloc->hdr.vtable; \
+    } \
+    RCPR_END_EXPORT \
+    REQUIRE_SEMICOLON_HERE
 
 /* C++ compatibility. */
 # ifdef   __cplusplus

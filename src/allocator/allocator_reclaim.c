@@ -10,6 +10,7 @@
 #include "allocator_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_allocator_internal;
 
 /**
  * \brief Instruct the allocator instance to reclaim the given memory region.
@@ -36,10 +37,13 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(allocator_reclaim)(
     RCPR_SYM(allocator)* alloc, void* ptr)
 {
+    const allocator_vtable* vtable = allocator_vtable_get(alloc);
+
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
     RCPR_MODEL_ASSERT(NULL != ptr);
+    RCPR_MODEL_ASSERT(prop_allocator_vtable_valid(vtable));
 
     return
-        alloc->reclaim_fn(alloc, ptr);
+        vtable->reclaim_fn(alloc, ptr);
 }
