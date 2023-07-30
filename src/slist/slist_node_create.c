@@ -3,11 +3,12 @@
  *
  * \brief Create a \ref slist_node instance.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -20,6 +21,11 @@ RCPR_IMPORT_slist;
 RCPR_IMPORT_slist_internal;
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(slist_node);
+
+/* the vtable entry for the slist node instance. */
+RCPR_VTABLE
+resource_vtable slist_node_vtable = {
+    &slist_node_release };
 
 /**
  * \brief Create a \ref slist_node instance.
@@ -82,7 +88,7 @@ RCPR_SYM(slist_node_create)(
         n->RCPR_MODEL_STRUCT_TAG_REF(slist_node), slist_node);
 
     /* set the release method. */
-    resource_init(&n->hdr, &slist_node_release);
+    resource_init(&n->hdr, &slist_node_vtable);
 
     /* set the allocator. */
     n->alloc = list->alloc;

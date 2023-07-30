@@ -3,11 +3,12 @@
  *
  * \brief Create a message to send via the fiber messaging discipline.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "message_internal.h"
@@ -19,6 +20,11 @@ RCPR_IMPORT_resource;
 
 /* forward decls. */
 static status message_resource_release(resource* r);
+
+/* the vtable entry for the message instance. */
+RCPR_VTABLE
+resource_vtable message_vtable = {
+    &message_resource_release };
 
 /**
  * \brief Create a \ref message with a return address and a resource payload.
@@ -75,7 +81,7 @@ RCPR_SYM(message_create)(
         tmp->RCPR_MODEL_STRUCT_TAG_REF(message), message);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &message_resource_release);
+    resource_init(&tmp->hdr, &message_vtable);
 
     /* save the init values. */
     tmp->alloc = alloc;

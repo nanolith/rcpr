@@ -3,12 +3,13 @@
  *
  * \brief Set the resource release override for this discipline.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/fiber.h>
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "../../../fiber/common/fiber_internal.h"
@@ -20,6 +21,11 @@ RCPR_IMPORT_resource;
 
 /* forward decls. */
 static status psock_epoll_discipline_chained_release(resource* r);
+
+/* the vtable entry for the psock epoll discipline chaned instance. */
+RCPR_VTABLE
+resource_vtable psock_epoll_discipline_chained_vtable = {
+    &psock_epoll_discipline_chained_release };
 
 /**
  * \brief Hook the fiber discipline resource release method in order to ensure
@@ -43,7 +49,7 @@ void RCPR_SYM(psock_fiber_scheduler_discipline_set_resource_release)(
     memcpy(&ctx->discipline_cache, pdisc, sizeof(resource));
 
     /* set the resource release method. */
-    resource_init(pdisc, &psock_epoll_discipline_chained_release);
+    resource_init(pdisc, &psock_epoll_discipline_chained_vtable);
 }
 
 /**

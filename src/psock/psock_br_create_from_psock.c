@@ -4,10 +4,11 @@
  * \brief Create a \ref psock_br instance backed by the given \ref psock
  * instance.
  *
- * \copyright 2022 Justin Handville.  Please see license.txt in this
+ * \copyright 2022-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "psock_internal.h"
@@ -17,6 +18,11 @@ RCPR_IMPORT_psock_internal;
 RCPR_IMPORT_resource;
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock_br);
+
+/* the vtable entry for the psock br instance. */
+RCPR_VTABLE
+resource_vtable psock_br_vtable = {
+    &psock_br_release };
 
 /**
  * \brief Create a \ref psock_br instance backed by the given \ref psock
@@ -82,7 +88,7 @@ RCPR_SYM(psock_br_create_from_psock)(
         tmp->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock_br), psock_br);
 
     /* set the release method. */
-    resource_init(&tmp->hdr.hdr, &psock_br_release);
+    resource_init(&tmp->hdr.hdr, &psock_br_vtable);
 
     /* set the allocator. */
     tmp->hdr.alloc = a;

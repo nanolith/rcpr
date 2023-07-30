@@ -3,11 +3,12 @@
  *
  * \brief Create an rbtree instance.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "rbtree_internal.h"
@@ -21,6 +22,16 @@ RCPR_IMPORT_resource;
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(rbtree);
 static status rbtree_resource_release(resource* r);
 static status rbtree_nil_node_resource_release(resource* r);
+
+/* the vtable entry for the rbtree instance. */
+RCPR_VTABLE
+resource_vtable rbtree_vtable = {
+    &rbtree_resource_release };
+
+/* the vtable entry for the rbtree nil node instance. */
+RCPR_VTABLE
+resource_vtable rbtree_nil_node_vtable = {
+    &rbtree_nil_node_resource_release };
 
 /**
  * \brief Create an \ref rbtree instance.
@@ -93,14 +104,14 @@ RCPR_SYM(rbtree_create)(
     RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(rbtree), rbtree);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &rbtree_resource_release);
+    resource_init(&tmp->hdr, &rbtree_vtable);
 
     /* save the init values. */
     tmp->alloc = a;
     tmp->context = context;
     tmp->compare = compare;
     tmp->key = key;
-    resource_init(&tmp->nil_impl.hdr, &rbtree_nil_node_resource_release);
+    resource_init(&tmp->nil_impl.hdr, &rbtree_nil_node_vtable);
     tmp->nil = &tmp->nil_impl;
     tmp->nil->parent = tmp->nil;
     tmp->nil->left = tmp->nil;

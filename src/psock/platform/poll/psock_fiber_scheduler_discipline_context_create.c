@@ -3,12 +3,13 @@
  *
  * \brief Create the fiber scheduler discipline for select event management.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/fiber.h>
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "psock_poll_internal.h"
@@ -19,6 +20,11 @@ RCPR_IMPORT_resource;
 
 /* forward decls. */
 static status psock_io_poll_context_resource_release(resource* r);
+
+/* the vtable entry for psock fiber scheduler discipline context instance. */
+RCPR_VTABLE
+resource_vtable psock_fiber_scheduler_discipline_vtable = {
+    &psock_io_poll_context_resource_release };
 
 /**
  * \brief Create a platform-specific fiber scheduler discipline context for
@@ -99,7 +105,7 @@ status RCPR_SYM(psock_fiber_scheduler_discipline_context_create)(
         psock_io_poll_context);
 
     /* set the release method. */
-    resource_init(&ctx->hdr, &psock_io_poll_context_resource_release);
+    resource_init(&ctx->hdr, &psock_fiber_scheduler_discipline_vtable);
 
     /* set the init fields. */
     ctx->sched = sched;

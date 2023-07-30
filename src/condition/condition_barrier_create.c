@@ -3,11 +3,12 @@
  *
  * \brief Create a condition barrier resource.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "condition_internal.h"
@@ -21,6 +22,11 @@ RCPR_IMPORT_uuid;
 
 /* forward decls. */
 static status condition_barrier_release(resource* r);
+
+/* the vtable entry for the condition barrier instance. */
+RCPR_VTABLE
+resource_vtable condition_barrier_vtable = {
+    &condition_barrier_release };
 
 /**
  * \brief Create a \ref condition_barrier instance.
@@ -65,7 +71,7 @@ status RCPR_SYM(condition_barrier_create)(
         tmp->RCPR_MODEL_STRUCT_TAG_REF(condition_barrier), condition_barrier);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &condition_barrier_release);
+    resource_init(&tmp->hdr, &condition_barrier_vtable);
 
     /* save the init values. */
     tmp->alloc = alloc;

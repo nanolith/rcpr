@@ -3,11 +3,12 @@
  *
  * \brief Create a \ref list instance.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -23,6 +24,11 @@ RCPR_IMPORT_resource;
 static status list_release(resource*);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(list);
+
+/* the vtable entry for the list instance. */
+RCPR_VTABLE
+resource_vtable list_vtable = {
+    &list_release };
 
 /**
  * \brief Create a \ref list instance.
@@ -80,7 +86,7 @@ RCPR_SYM(list_create)(
     RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(list), list);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &list_release);
+    resource_init(&tmp->hdr, &list_vtable);
 
     /* set the allocator. */
     tmp->alloc = a;

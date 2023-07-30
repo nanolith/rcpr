@@ -3,11 +3,12 @@
  *
  * \brief Create a stack that can be used in a fiber or process.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/mman.h>
@@ -23,6 +24,11 @@ RCPR_IMPORT_stack;
 static status stack_release(resource*);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(stack);
+
+/* the vtable entry for the stack instance. */
+RCPR_VTABLE
+resource_vtable stack_vtable = {
+    &stack_release };
 
 /**
  * \brief Create a \ref stack of at least the given size.
@@ -91,7 +97,7 @@ RCPR_SYM(stack_create)(
     RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(stack), stack);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &stack_release);
+    resource_init(&tmp->hdr, &stack_vtable);
 
     /* save the init values. */
     tmp->alloc = a;

@@ -8,6 +8,7 @@
 #include <rcpr/allocator.h>
 #include <rcpr/resource/protected.h>
 #include <rcpr/list.h>
+#include <rcpr/vtable.h>
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_resource;
@@ -35,6 +36,11 @@ static status intval_resource_release(resource* r)
         allocator_reclaim(alloc, v);
 }
 
+/* the vtable entry for the intval resource instance. */
+RCPR_VTABLE
+resource_vtable intval_resource_vtable = {
+    &intval_resource_release };
+
 static status intval_create(intval** v, allocator* alloc, int val)
 {
     status retval;
@@ -48,7 +54,7 @@ static status intval_create(intval** v, allocator* alloc, int val)
     }
 
     /* initialize resource. */
-    resource_init(&tmp->hdr, &intval_resource_release);
+    resource_init(&tmp->hdr, &intval_resource_vtable);
 
     /* set values. */
     tmp->alloc = alloc;

@@ -3,11 +3,12 @@
  *
  * \brief Create a \ref list_node instance.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -20,6 +21,11 @@ RCPR_IMPORT_allocator;
 RCPR_IMPORT_list;
 RCPR_IMPORT_list_internal;
 RCPR_IMPORT_resource;
+
+/* the vtable entry for the list node instance. */
+RCPR_VTABLE
+resource_vtable list_node_vtable = {
+    &list_node_release };
 
 /**
  * \brief Create a \ref list_node instance.
@@ -82,7 +88,7 @@ RCPR_SYM(list_node_create)(
         n->RCPR_MODEL_STRUCT_TAG_REF(list_node), list_node);
 
     /* set the release method. */
-    resource_init(&n->hdr, &list_node_release);
+    resource_init(&n->hdr, &list_node_vtable);
 
     /* set the allocator. */
     n->alloc = l->alloc;

@@ -5,7 +5,7 @@
  * that can be released, reclaiming the underlying memory or external resources
  * associated with this interface.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -117,14 +117,14 @@ struct RCPR_SYM(resource_vtable)
 /******************************************************************************/
 
 /**
- * \brief Initialize a resource with the given release method.
+ * \brief Initialize a resource with the given resource vtable.
  *
  * \param r         The resource to be initialized.
- * \param release   The release method to use to release this resource.
+ * \param vtable    The resource vtable to use for this resource.
  */
 void
 RCPR_SYM(resource_init)(
-    RCPR_SYM(resource)* r, RCPR_SYM(resource_release_fn) release);
+    RCPR_SYM(resource)* r, const RCPR_SYM(resource_vtable)* vtable);
 
 
 /******************************************************************************/
@@ -154,7 +154,7 @@ RCPR_SYM(prop_resource_valid)(
         RCPR_SYM(resource)* x) { \
             return RCPR_SYM(resource_release)(x); } \
     static inline void sym ## resource_init(\
-        RCPR_SYM(resource)* x, RCPR_SYM(resource_release_fn) y) { \
+        RCPR_SYM(resource)* x, const RCPR_SYM(resource_vtable)* y) { \
             RCPR_SYM(resource_init)(x, y); } \
     static inline bool sym ## prop_resource_valid(\
         const RCPR_SYM(resource)* x) { \

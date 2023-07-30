@@ -3,11 +3,12 @@
  *
  * \brief Create a fiber scheduler discipline instance.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "fiber_internal.h"
@@ -21,6 +22,11 @@ RCPR_IMPORT_uuid;
 static status fiber_scheduler_discipline_resource_release(resource*);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_discipline);
+
+/* the vtable entry for the fiber scheduler discipline instance. */
+RCPR_VTABLE
+resource_vtable fiber_scheduler_discipline_vtable = {
+    &fiber_scheduler_discipline_resource_release };
 
 /**
  * \brief Create a custom fiber scheduler discipline.
@@ -104,7 +110,7 @@ RCPR_SYM(fiber_scheduler_discipline_create)(
         fiber_scheduler_discipline);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &fiber_scheduler_discipline_resource_release);
+    resource_init(&tmp->hdr, &fiber_scheduler_discipline_vtable);
 
     /* attempt to allocate memory for the fiber scheduler callbacks. */
     retval =

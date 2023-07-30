@@ -3,11 +3,12 @@
  *
  * \brief Create and begin executing a new thread.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -23,6 +24,11 @@ static status thread_release(resource*);
 static void* thread_start(void*);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(thread);
+
+/* the vtable entry for the thread instance. */
+RCPR_VTABLE
+resource_vtable thread_vtable = {
+    &thread_release };
 
 /**
  * \brief Create a \ref thread instance.
@@ -113,7 +119,7 @@ RCPR_SYM(thread_create)(
     RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(thread), thread);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &thread_release);
+    resource_init(&tmp->hdr, &thread_vtable);
 
     /* save the init values. */
     tmp->alloc = a;

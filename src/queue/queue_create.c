@@ -3,11 +3,12 @@
  *
  * \brief Create a \ref queue instance.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -23,6 +24,11 @@ RCPR_IMPORT_slist;
 static status queue_release(resource*);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(queue);
+
+/* the vtable entry for the queue instance. */
+RCPR_VTABLE
+resource_vtable queue_vtable = {
+    &queue_release };
 
 /**
  * \brief Create a \ref queue instance.
@@ -80,7 +86,7 @@ RCPR_SYM(queue_create)(
     RCPR_MODEL_STRUCT_TAG_INIT(tmp->RCPR_MODEL_STRUCT_TAG_REF(queue), queue);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &queue_release);
+    resource_init(&tmp->hdr, &queue_vtable);
 
     /* create the slist instance. */
     retval = slist_create(&(tmp->list), a);

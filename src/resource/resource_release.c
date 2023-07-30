@@ -3,7 +3,7 @@
  *
  * \brief Release the given resource.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -49,5 +49,5 @@ RCPR_SYM(resource_release)(RCPR_SYM(resource)* r)
 {
     RCPR_MODEL_ASSERT(prop_resource_valid(r));
 
-    return r->release(r);
+    return r->vtable->release(r);
 }

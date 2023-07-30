@@ -3,11 +3,12 @@
  *
  * \brief Create the message discipline context.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <string.h>
 
 #include "message_internal.h"
@@ -27,6 +28,11 @@ static const void* message_discipline_mailbox_get_key(
     void* context, const resource* r);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(message_discipline_context);
+
+/* the vtable entry for the message discipline context instance. */
+RCPR_VTABLE
+resource_vtable message_discipline_context_vtable = {
+    &message_discipline_context_resource_release };
 
 /**
  * \brief Create the message discipline context.
@@ -74,7 +80,7 @@ status RCPR_SYM(message_discipline_context_create)(
         message_discipline_context);
 
     /* set the release method. */
-    resource_init(&tmp->hdr, &message_discipline_context_resource_release);
+    resource_init(&tmp->hdr, &message_discipline_context_vtable);
 
     /* set the init vars. */
     tmp->alloc = alloc;

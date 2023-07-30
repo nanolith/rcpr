@@ -15,6 +15,7 @@
 #include <rcpr/resource/protected.h>
 #include <rcpr/socket_utilities.h>
 #include <rcpr/uuid.h>
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/resource.h>
@@ -49,6 +50,11 @@ static status add_accepter_fiber(
     allocator* alloc, fiber_scheduler* sched, accepter_context** context,
     int desc, int write_desc);
 static status accepter_context_release(resource* r);
+
+/* the vtable entry for the accepter context. */
+RCPR_VTABLE
+resource_vtable accepter_context_vtable = {
+    &accepter_context_release };
 
 /**
  * Verify that attempting to write a raw descriptor to a stream socket fails.
@@ -709,7 +715,7 @@ static status accepter_create(
     memset(tmp, 0, sizeof(accepter_context));
 
     /* set the resource release method. */
-    resource_init(&tmp->hdr, &accepter_context_release);
+    resource_init(&tmp->hdr, &accepter_context_vtable);
 
     /* set the remaining fields, except the psock instance. */
     tmp->alloc = alloc;

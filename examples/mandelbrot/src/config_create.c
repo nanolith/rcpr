@@ -3,10 +3,11 @@
  *
  * \brief Create a config instance.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
+#include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -18,6 +19,11 @@ RCPR_IMPORT_resource;
 /* forward decls. */
 static status config_resource_release(resource* r);
 static void config_set_defaults(config* c);
+
+/* the vtable entry for the config instance. */
+RCPR_VTABLE
+resource_vtable config_vtable = {
+    &config_resource_release };
 
 /**
  * \brief Read the configuration from the command-line.
@@ -51,7 +57,7 @@ config_create(
     memset(tmp, 0, sizeof(config));
 
     /* set the resource release method. */
-    resource_init(&tmp->hdr, &config_resource_release);
+    resource_init(&tmp->hdr, &config_vtable);
 
     /* set the defaults. */
     config_set_defaults(tmp);

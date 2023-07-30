@@ -3,11 +3,12 @@
  *
  * \brief Create a disciplined fiber scheduler.
  *
- * \copyright 2021 Justin Handville.  Please see license.txt in this
+ * \copyright 2021-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/vtable.h>
 #include <stddef.h>
 #include <string.h>
 
@@ -62,6 +63,16 @@ fiber_scheduler_disciplined_management_terminate_all_callback_handler(
     void* context, fiber* yield_fib, int yield_event, void* yield_param);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(fiber_scheduler_disciplined_context);
+
+/* the vtable entry for the disciplined fiber scheduler instance. */
+RCPR_VTABLE
+resource_vtable fiber_scheduler_disciplined_vtable = {
+    &fiber_scheduler_disciplined_resource_release };
+
+/* the vtable entry for the disciplined fiber scheduler context instance. */
+RCPR_VTABLE
+resource_vtable fiber_scheduler_disciplined_context_vtable = {
+    &fiber_scheduler_disciplined_context_resource_release };
 
 /**
  * \brief Create a disciplined \ref fiber_scheduler instance.
@@ -152,7 +163,7 @@ RCPR_SYM(fiber_scheduler_create_with_disciplines)(
 
     /* set the release method. */
     resource_init(
-        &ctx->hdr, &fiber_scheduler_disciplined_context_resource_release);
+        &ctx->hdr, &fiber_scheduler_disciplined_context_vtable);
 
     /* set the init values. */
     ctx->alloc = a;
@@ -240,7 +251,7 @@ RCPR_SYM(fiber_scheduler_create_with_disciplines)(
         &ctx->cached_scheduler_resource_handler, &tmp->hdr, sizeof(resource));
 
     /* override the resource release method for this scheduler with our own. */
-    resource_init(&tmp->hdr, &fiber_scheduler_disciplined_resource_release);
+    resource_init(&tmp->hdr, &fiber_scheduler_disciplined_vtable);
 
     /* set the scheduler for this context. */
     ctx->sched = tmp;
