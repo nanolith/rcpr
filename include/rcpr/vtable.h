@@ -33,6 +33,21 @@ extern const void* __stop_rcpr_vtable;
     static const \
     __attribute__ ((section ("rcpr_vtable")))
 
+#ifdef RCPR_VTABLE_RUNTIME_ENFORCEMENT
+#define RCPR_VTABLE_CHECK(ptr) \
+    if ( \
+        (ptrdiff_t)(ptr) >= (ptrdiff_t)(&__start_rcpr_vtable) \
+     && (ptrdiff_t)(ptr) <= (ptrdiff_t)(&__stop_rcpr_vtable)) \
+    { \
+        return true; \
+    } \
+    return false
+#else
+#define RCPR_VTABLE_CHECK(ptr) \
+    (void)ptr; \
+    return true
+#endif /*RCPR_VTABLE_RUNTIME_ENFORCEMENT*/
+
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
@@ -40,13 +55,7 @@ extern const void* __stop_rcpr_vtable;
     RCPR_BEGIN_EXPORT \
     static inline bool sym ## vtable_range_valid(\
         const void* ptr) { \
-            if ( \
-                (ptrdiff_t)(ptr) >= (ptrdiff_t)(&__start_rcpr_vtable) \
-             && (ptrdiff_t)(ptr) <= (ptrdiff_t)(&__stop_rcpr_vtable)) \
-            { \
-                return true; \
-            } \
-            return false; } \
+            RCPR_VTABLE_CHECK(ptr); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_vtable_as(sym) \
