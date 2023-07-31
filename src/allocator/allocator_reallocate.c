@@ -58,7 +58,7 @@ RCPR_SYM(allocator_reallocate)(
     /* vtable runtime check. */
     if (!vtable_range_valid(vtable))
     {
-        return ERROR_GENERAL_BAD_VTABLE;
+        RCPR_VTABLE_CHECK_ERROR();
     }
 
     return
