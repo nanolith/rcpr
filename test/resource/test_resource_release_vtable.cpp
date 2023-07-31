@@ -13,6 +13,8 @@ TEST_SUITE(resource_release_vtable);
 
 RCPR_IMPORT_resource;
 
+#ifdef RCPR_VTABLE_RUNTIME_ENFORCEMENT
+
 static status good_resource_function(resource* r);
 static status bad_resource_function(resource* r);
 
@@ -34,9 +36,6 @@ TEST(basics)
 
     TEST_EXPECT(STATUS_SUCCESS == resource_release(&r));
 }
-
-extern void* __start_rodata;
-extern void* __stop_rodata;
 
 /**
  * Verify that if we attempt to "hack" a vtable at runtime, the vtable check
@@ -66,3 +65,5 @@ static status bad_resource_function(resource* r)
 
     return -1;
 }
+
+#endif /*RCPR_VTABLE_RUNTIME_ENFORCEMENT*/

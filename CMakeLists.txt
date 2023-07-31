@@ -15,6 +15,7 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
 option(MODELCHECK_REQUIRED "Require Model Checking")
 option(PSOCK_ASYNC_USE_POLL "Use poll() for psock async I/O.")
+option(RCPR_VTABLE_RUNTIME_ENFORCEMENT "Runtime checks for vtable segment")
 
 #minunit package
 find_package(minunit REQUIRED)
