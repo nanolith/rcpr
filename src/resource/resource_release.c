@@ -54,7 +54,7 @@ RCPR_SYM(resource_release)(RCPR_SYM(resource)* r)
     /* vtable runtime check. */
     if (!vtable_range_valid(r->vtable))
     {
-        return ERROR_GENERAL_BAD_VTABLE;
+        RCPR_VTABLE_CHECK_ERROR();
     }
 
     return r->vtable->release(r);

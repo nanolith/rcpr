@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include <assert.h>
 #include <rcpr/function_decl.h>
 #include <stdbool.h>
 
@@ -20,6 +21,14 @@ extern "C" {
 /* externals provided by linker. */
 extern const void* __start_rcpr_vtable;
 extern const void* __stop_rcpr_vtable;
+
+#ifdef RCPR_VTABLE_CHECK_ASSERT
+# define RCPR_VTABLE_CHECK_ERROR() \
+    assert("Invalid RCPR vtable pointer.")
+#else
+# define RCPR_VTABLE_CHECK_ERROR() \
+    return ERROR_GENERAL_BAD_VTABLE
+#endif /*RCPR_VTABLE_CHECK_ASSERT*/
 
 /**
  * \brief The RCPR_VTABLE attribute macro is used when specifying that a given
