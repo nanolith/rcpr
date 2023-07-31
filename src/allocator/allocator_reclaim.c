@@ -3,14 +3,17 @@
  *
  * \brief Reclaim memory using the given allocator.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
+
+#include <rcpr/vtable.h>
 
 #include "allocator_internal.h"
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_allocator_internal;
+RCPR_IMPORT_vtable;
 
 /**
  * \brief Instruct the allocator instance to reclaim the given memory region.
@@ -43,6 +46,12 @@ RCPR_SYM(allocator_reclaim)(
     RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
     RCPR_MODEL_ASSERT(NULL != ptr);
     RCPR_MODEL_ASSERT(prop_allocator_vtable_valid(vtable));
+
+    /* vtable runtime check. */
+    if (!vtable_range_valid(vtable))
+    {
+        return ERROR_GENERAL_BAD_VTABLE;
+    }
 
     return
         vtable->reclaim_fn(alloc, ptr);
