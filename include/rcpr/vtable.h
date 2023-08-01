@@ -42,6 +42,10 @@ extern const void* __stop_rcpr_vtable;
     static const \
     __attribute__ ((section ("rcpr_vtable")))
 
+/**
+ * \brief The RCPR_VTABLE_CHECK macro checks to ensure that a vtable entry
+ * exists in the rcpr_vtable section of memory.
+ */
 #ifdef RCPR_VTABLE_RUNTIME_ENFORCEMENT
 #define RCPR_VTABLE_CHECK(ptr) \
     if ( \
