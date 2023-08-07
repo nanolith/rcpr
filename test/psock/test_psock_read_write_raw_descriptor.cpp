@@ -380,7 +380,7 @@ static size_t count_open_fds()
         exit(1);
     }
 
-    for (size_t i = 0; i < rl.rlim_max; ++i)
+    for (size_t i = 0; i < (size_t)rl.rlim_max; ++i)
     {
         retval = fcntl(i, F_GETFL);
         if (retval < 0)

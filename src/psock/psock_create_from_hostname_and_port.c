@@ -3,12 +3,15 @@
  *
  * \brief Create a \ref psock instance using the given hostname and port.
  *
- * \copyright 2022 Justin Handville.  Please see license.txt in this
+ * \copyright 2022-2023 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <netinet/ip.h>
 #include <rcpr/model_assert.h>
 #include <rcpr/psock.h>
 #include <stdlib.h>
