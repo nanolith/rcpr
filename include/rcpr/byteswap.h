@@ -35,6 +35,13 @@ int64_t byteswap64(int64_t);
 #define byteswap32(x) swap32((x))
 #define byteswap64(x) swap64((x))
 
+/* FreeBSD-specific byte swap utilities. */
+#elif defined(__FreeBSD__)
+#include <byteswap.h>
+#define byteswap16(x) bswap_16(x)
+#define byteswap32(x) bswap_32(x)
+#define byteswap64(x) bswap_64(x)
+
 /* end of platform-specific byte swap utilities. */
 #endif
 
