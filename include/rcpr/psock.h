@@ -2198,6 +2198,22 @@ RCPR_SYM(psock_resource_handle)(
     RCPR_SYM(psock)* sock);
 
 /**
+ * \brief Given a \ref resource for a \ref psock instance, get the \ref psock
+ * instance.
+ *
+ * \note that this MUST be a \ref psock \ref resource, or bad things can happen.
+ * This cast should be model checked, and any function using this cast should
+ * ensure that its contract specifies that the \ref resource is a \ref psock.
+ *
+ * \param r             The \ref resource to downcast to a \ref psock.
+ *
+ * \returns the \ref psock instance for this \ref resource.
+ */
+RCPR_SYM(psock)*
+RCPR_SYM(psock_resource_handle_to_psock)(
+    RCPR_SYM(resource)* r);
+
+/**
  * \brief Given a \ref psock_br instance, return the resource handle for this
  * \ref psock_br instance.
  *
@@ -2502,6 +2518,10 @@ RCPR_SYM(prop_psock_valid)(
     sym ## psock_resource_handle( \
         RCPR_SYM(psock)* x) { \
             return RCPR_SYM(psock_resource_handle)(x); } \
+    static inline RCPR_SYM(psock)* \
+    sym ## psock_resource_handle_to_psock( \
+        RCPR_SYM(resource)* x) { \
+            return RCPR_SYM(psock_resource_handle_to_psock)(x); } \
     static inline RCPR_SYM(resource)* \
     sym ## psock_br_resource_handle( \
         RCPR_SYM(psock_br)* x) { \
