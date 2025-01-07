@@ -15,3 +15,10 @@
 
 #define RCPR_VERSION_STRING \
     "@RCPR_VERSION_MAJOR@.@RCPR_VERSION_MINOR@.@RCPR_VERSION_REL@"
+
+#ifdef __APPLE__
+# include "TargetConditionals.h"
+# ifdef TARGET_OS_MAC
+#  define __RCPR_MACOS__
+# endif
+#endif /*__APPLE__*/
