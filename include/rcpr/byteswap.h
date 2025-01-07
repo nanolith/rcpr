@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <rcpr/config.h>
+
 /* C++ compatibility. */
 # ifdef   __cplusplus
 extern "C" {
@@ -41,6 +43,13 @@ int64_t byteswap64(int64_t);
 #define byteswap16(x) bswap_16(x)
 #define byteswap32(x) bswap_32(x)
 #define byteswap64(x) bswap_64(x)
+
+/* MacOS-specific byte swap utilities. */
+#elif defined(__RCPR_MACOS__)
+#include <libkern/OSByteOrder.h>
+#define byteswap16(x) OSSwapInt16((x))
+#define byteswap32(x) OSSwapInt32((x))
+#define byteswap64(x) OSSwapInt64((x))
 
 /* end of platform-specific byte swap utilities. */
 #endif
