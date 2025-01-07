@@ -22,3 +22,5 @@
 #  define __RCPR_MACOS__
 # endif
 #endif /*__APPLE__*/
+
+#cmakedefine RCPR_FIBER_FOUND
