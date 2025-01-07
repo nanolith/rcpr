@@ -30,6 +30,13 @@ RCPR_VTABLE
 resource_vtable stack_vtable = {
     &stack_release };
 
+/* handle platform-specific stack flags for mmap. */
+#if defined(__RCPR_MACOS__)
+# define MMAP_STACK_FLAGS (MAP_PRIVATE | MAP_ANONYMOUS)
+#else
+# define MMAP_STACK_FLAGS (MAP_PRIVATE | MAP_ANONYMOUS | MAP_STACK)
+#endif /* defined(__RCPR_MACOS__) */
+
 /**
  * \brief Create a \ref stack of at least the given size.
  *
@@ -104,10 +111,8 @@ RCPR_SYM(stack_create)(
     tmp->size = stack_size;
 
     /* Allocate memory for the stack. */
-    mem = mmap(
-        NULL, stack_size,
-        PROT_WRITE | PROT_READ, MAP_PRIVATE | MAP_ANONYMOUS | MAP_STACK,
-        -1, 0);
+    mem =
+        mmap(NULL, stack_size, PROT_WRITE | PROT_READ, MMAP_STACK_FLAGS, -1, 0);
     if (MAP_FAILED == mem)
     {
         retval = ERROR_GENERAL_OUT_OF_MEMORY;
