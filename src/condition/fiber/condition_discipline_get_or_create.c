@@ -11,7 +11,7 @@
 #include <rcpr/model_assert.h>
 #include <string.h>
 
-#include "condition_internal.h"
+#include "../condition_internal.h"
 
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_condition;
