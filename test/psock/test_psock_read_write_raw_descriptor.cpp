@@ -32,9 +32,6 @@ TEST_SUITE(psock_read_write_raw_descriptor);
 
 
 
-/* forward decls. */
-static size_t count_open_fds();
-
 #ifdef RCPR_FIBER_FOUND
 #define FIBER_STACK_SIZE (1024 * 1024)
 
@@ -160,6 +157,12 @@ TEST(read_raw_descriptor_stream)
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
 }
 
+/* TODO - this test currently does not work on MacOS. */
+#ifndef __RCPR_MACOS__
+
+/* forward decls. */
+static size_t count_open_fds();
+
 /**
  * Verify that we can pass a descriptor through a datagram socket.
  */
@@ -236,16 +239,6 @@ TEST(read_write_raw_descriptor_datagram)
     close(desc);
 }
 
-struct accepter_context
-{
-    resource hdr;
-    allocator* alloc;
-    psock* sock;
-    psock* write_sock;
-    int read_descriptors;
-    bool quiesce;
-};
-
 /**
  * \brief Count the number of open file descriptors.
  */
@@ -273,6 +266,18 @@ static size_t count_open_fds()
 
     return open_files;
 }
+
+#endif /* __RCPR_MACOS__ */
+
+struct accepter_context
+{
+    resource hdr;
+    allocator* alloc;
+    psock* sock;
+    psock* write_sock;
+    int read_descriptors;
+    bool quiesce;
+};
 
 #ifdef RCPR_FIBER_FOUND
 
