@@ -7,7 +7,7 @@
  * distribution for the license terms under which this software is distributed.
  */
 
-#include "../condition_internal.h"
+#include "condition_internal.h"
 
 const RCPR_SYM(rcpr_uuid) FIBER_SCHEDULER_CONDITION_DISCIPLINE = { .data = {
     0x11, 0x13, 0xd4, 0xe7, 0xe0, 0xb2, 0x4f, 0x1b,

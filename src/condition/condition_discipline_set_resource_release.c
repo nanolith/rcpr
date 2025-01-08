@@ -12,8 +12,8 @@
 #include <rcpr/vtable.h>
 #include <string.h>
 
-#include "../../fiber/common/fiber_internal.h"
-#include "../condition_internal.h"
+#include "../fiber/common/fiber_internal.h"
+#include "condition_internal.h"
 
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_condition;

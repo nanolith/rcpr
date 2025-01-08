@@ -31,6 +31,7 @@ RCPR_IMPORT_uuid;
 
 TEST_SUITE(psock_read_write_raw_descriptor);
 
+#ifdef RCPR_FIBER_FOUND
 #define FIBER_STACK_SIZE (1024 * 1024)
 
 /* forward decls. */
@@ -55,6 +56,7 @@ static status accepter_context_release(resource* r);
 RCPR_VTABLE
 resource_vtable accepter_context_vtable = {
     &accepter_context_release };
+#endif
 
 /**
  * Verify that attempting to write a raw descriptor to a stream socket fails.
@@ -160,6 +162,12 @@ TEST(read_raw_descriptor_stream)
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
 }
 
+/* TODO - this test currently does not work on MacOS. */
+#ifndef __RCPR_MACOS__
+
+/* forward decls. */
+static size_t count_open_fds();
+
 /**
  * Verify that we can pass a descriptor through a datagram socket.
  */
@@ -236,6 +244,36 @@ TEST(read_write_raw_descriptor_datagram)
     close(desc);
 }
 
+/**
+ * \brief Count the number of open file descriptors.
+ */
+static size_t count_open_fds()
+{
+    status retval;
+    struct rlimit rl;
+    size_t open_files = 0;
+
+    retval = getrlimit(RLIMIT_NOFILE, &rl);
+    if (retval < 0)
+    {
+        perror("getrlimit");
+        exit(1);
+    }
+
+    for (size_t i = 0; i < (size_t)rl.rlim_max; ++i)
+    {
+        retval = fcntl(i, F_GETFL);
+        if (retval < 0)
+            continue;
+
+        ++open_files;
+    }
+
+    return open_files;
+}
+
+#endif /* __RCPR_MACOS__ */
+
 struct accepter_context
 {
     resource hdr;
@@ -245,6 +283,8 @@ struct accepter_context
     int read_descriptors;
     bool quiesce;
 };
+
+#ifdef RCPR_FIBER_FOUND
 
 /**
  * Verify that we can read and write raw descriptors using fibers.
@@ -368,34 +408,6 @@ TEST(fiber_read_write_raw_descriptor)
             resource_release(fiber_scheduler_resource_handle(sched)));
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
-}
-
-/**
- * \brief Count the number of open file descriptors.
- */
-static size_t count_open_fds()
-{
-    status retval;
-    struct rlimit rl;
-    size_t open_files = 0;
-
-    retval = getrlimit(RLIMIT_NOFILE, &rl);
-    if (retval < 0)
-    {
-        perror("getrlimit");
-        exit(1);
-    }
-
-    for (size_t i = 0; i < (size_t)rl.rlim_max; ++i)
-    {
-        retval = fcntl(i, F_GETFL);
-        if (retval < 0)
-            continue;
-
-        ++open_files;
-    }
-
-    return open_files;
 }
 
 /**
@@ -843,3 +855,4 @@ static status accepter_context_release(resource* r)
         return release_retval;
     }
 }
+#endif /* RCPR_FIBER_FOUND */

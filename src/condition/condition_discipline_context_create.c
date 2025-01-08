@@ -11,7 +11,7 @@
 #include <rcpr/vtable.h>
 #include <string.h>
 
-#include "../condition_internal.h"
+#include "condition_internal.h"
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_compare;
