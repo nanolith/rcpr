@@ -24,3 +24,4 @@
 #endif /*__APPLE__*/
 
 #cmakedefine RCPR_FIBER_FOUND
+#cmakedefine HAS_PSOCK_ASYNC

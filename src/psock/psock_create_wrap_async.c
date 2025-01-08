@@ -15,6 +15,8 @@
 
 #include "psock_internal.h"
 
+#ifdef HAS_PSOCK_ASYNC
+
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_psock;
@@ -340,3 +342,5 @@ cleanup_discipline:
 done:
     return retval;
 }
+
+#endif /* HAS_PSOCK_ASYNC */

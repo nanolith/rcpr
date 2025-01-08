@@ -15,6 +15,8 @@
 
 #include "psock_internal.h"
 
+#ifdef RCPR_FIBER_FOUND
+
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
@@ -80,3 +82,5 @@ RCPR_SYM(psock_wrap_async_accept)(
 
     return STATUS_SUCCESS;
 }
+
+#endif /* RCPR_FIBER_FOUND */

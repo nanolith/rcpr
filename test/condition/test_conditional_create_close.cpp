@@ -8,6 +8,8 @@
 #include <rcpr/allocator.h>
 #include <rcpr/condition.h>
 
+#ifdef RCPR_FIBER_FOUND
+
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_condition;
@@ -87,3 +89,5 @@ TEST(create_and_close)
         STATUS_SUCCESS ==
             resource_release(allocator_resource_handle(alloc)));
 }
+
+#endif /* RCPR_FIBER_FOUND */

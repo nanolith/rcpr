@@ -14,6 +14,8 @@
 
 #include "psock_internal.h"
 
+#ifdef RCPR_FIBER_FOUND
+
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
@@ -92,3 +94,5 @@ cleanup_ctx:
 done:
     return retval;
 }
+
+#endif /* RCPR_FIBER_FOUND */
