@@ -18,3 +18,13 @@
 
 #cmakedefine RCPR_VTABLE_RUNTIME_ENFORCEMENT
 #cmakedefine RCPR_VTABLE_CHECK_ASSERT
+
+#ifdef __APPLE__
+# include "TargetConditionals.h"
+# ifdef TARGET_OS_MAC
+#  define __RCPR_MACOS__
+# endif
+#endif /*__APPLE__*/
+
+#cmakedefine RCPR_FIBER_FOUND
+#cmakedefine HAS_PSOCK_ASYNC

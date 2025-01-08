@@ -15,6 +15,8 @@
 
 #include "psock_internal.h"
 
+#ifdef HAS_PSOCK_ASYNC
+
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
@@ -132,3 +134,5 @@ RCPR_SYM(psock_write_block)(RCPR_SYM(psock)* sock)
 
     return STATUS_SUCCESS;
 }
+
+#endif /* HAS_PSOCK_ASYNC */
