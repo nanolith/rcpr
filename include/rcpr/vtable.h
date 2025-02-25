@@ -39,7 +39,8 @@ extern const void* __stop_rcpr_vtable;
  * this attribute ensures that the given vtable is in the correct section.
  */
 #if defined(__RCPR_MACOS__)
-#define RCPR_VTABLE
+#define RCPR_VTABLE \
+    static const
 #else
 #define RCPR_VTABLE \
     static const \
