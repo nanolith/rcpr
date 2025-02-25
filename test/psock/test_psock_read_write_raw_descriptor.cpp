@@ -293,36 +293,6 @@ struct accepter_context
 #ifdef RCPR_FIBER_FOUND
 
 /**
- * \brief Count the number of open file descriptors.
- */
-static size_t count_open_fds()
-{
-    status retval;
-    struct rlimit rl;
-    size_t open_files = 0;
-
-    retval = getrlimit(RLIMIT_NOFILE, &rl);
-    if (retval < 0)
-    {
-        perror("getrlimit");
-        exit(1);
-    }
-
-    for (size_t i = 0; i < (size_t)rl.rlim_max; ++i)
-    {
-        retval = fcntl(i, F_GETFL);
-        if (retval < 0)
-            continue;
-
-        ++open_files;
-    }
-
-    return open_files;
-}
-
-#ifdef RCPR_FIBER_FOUND
-
-/**
  * Verify that we can read and write raw descriptors using fibers.
  */
 TEST(fiber_read_write_raw_descriptor)
