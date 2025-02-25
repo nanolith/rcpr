@@ -38,9 +38,13 @@ extern const void* __stop_rcpr_vtable;
  * Since runtime checking of vtable pointers will be enforced in the future,
  * this attribute ensures that the given vtable is in the correct section.
  */
+#if defined(__RCPR_MACOS__)
+#define RCPR_VTABLE
+#else
 #define RCPR_VTABLE \
     static const \
     __attribute__ ((section ("rcpr_vtable")))
+#endif
 
 /**
  * \brief The RCPR_VTABLE_CHECK macro checks to ensure that a vtable entry

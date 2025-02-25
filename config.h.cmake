@@ -28,3 +28,11 @@
 
 #cmakedefine RCPR_FIBER_FOUND
 #cmakedefine HAS_PSOCK_ASYNC
+
+#if defined(__RCPR_MACOS__) && defined(RCPR_VTABLE_RUNTIME_ENFORCEMENT)
+#undef RCPR_VTABLE_RUNTIME_ENFORCEMENT
+#endif
+
+#if defined(__RCPR_MACOS__) && defined(RCPR_VTABLE_CHECK_ASSERT)
+#undef RCPR_VTABLE_CHECK_ASSERT
+#endif
