@@ -190,7 +190,7 @@ int main(int argc, char* argv[])
             goto cleanup_threads;
         }
 
-        printf("Frame %d complete.\n", i);
+        printf("Frame %zu complete.\n", i);
 
         /* write the frame to file. */
         snprintf(
@@ -211,7 +211,7 @@ int main(int argc, char* argv[])
             }
             else
             {
-                printf("Skipping missing line %u\n", j);
+                printf("Skipping missing line %zu\n", j);
             }
         }
         fclose(fp);
