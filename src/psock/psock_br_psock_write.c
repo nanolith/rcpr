@@ -11,6 +11,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Write data to the given \ref psock instance.
@@ -29,11 +30,18 @@ status RCPR_SYM(psock_br_psock_write)(
     RCPR_SYM(psock)* sock, void* ctx, const void* data, size_t* size)
 {
     (void)ctx;
+    const psock_vtable* wrapped_vtable;
     psock_br* br = (psock_br*)sock;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_br_valid(br));
 
+    /* get the wrapped socket's vtable. */
+    wrapped_vtable =
+        (const psock_vtable*)resource_vtable_get(
+            psock_resource_handle(br->wrapped));
+
     /* pass through to the wrapped socket. */
-    return br->wrapped->write_fn(br->wrapped, br->wrapped->context, data, size);
+    return
+        wrapped_vtable->write_fn(br->wrapped, br->wrapped->context, data, size);
 }

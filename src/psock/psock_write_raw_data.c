@@ -17,6 +17,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Write a raw value to the given \ref psock instance that will be read
@@ -48,11 +49,16 @@ RCPR_SYM(psock_write_raw_data)(
     RCPR_SYM(psock)* sock, const void* data, size_t data_size)
 {
     status retval;
+    const psock_vtable* sock_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
     RCPR_MODEL_ASSERT(NULL != data);
     RCPR_MODEL_ASSERT(data_size <= UINT32_MAX);
+
+    /* get the socket's vtable. */
+    sock_vtable =
+        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
 
     /* loop to write all data. */
     const uint8_t* dptr = (const uint8_t*)data;
@@ -60,7 +66,7 @@ RCPR_SYM(psock_write_raw_data)(
     {
         /* attempt to write the data to the socket. */
         size_t write_size = data_size;
-        retval = sock->write_fn(sock, sock->context, dptr, &write_size);
+        retval = sock_vtable->write_fn(sock, sock->context, dptr, &write_size);
         if (STATUS_SUCCESS != retval)
         {
             return retval;

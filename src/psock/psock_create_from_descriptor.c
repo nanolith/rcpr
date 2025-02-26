@@ -29,6 +29,7 @@ RCPR_VTABLE
 psock_vtable psock_from_descriptor_vtable = {
     .hdr = { &psock_from_descriptor_release },
     .read_fn = &psock_from_descriptor_read,
+    .write_fn = &psock_from_descriptor_write,
 };
 
 /**
@@ -113,7 +114,6 @@ RCPR_SYM(psock_create_from_descriptor)(
     ps->hdr.alloc = a;
 
     /* set the callbacks. */
-    ps->hdr.write_fn = &psock_from_descriptor_write;
     ps->hdr.accept_fn = &psock_from_descriptor_accept;
     ps->hdr.sendmsg_fn = &psock_from_descriptor_sendmsg;
     ps->hdr.recvmsg_fn = &psock_from_descriptor_recvmsg;

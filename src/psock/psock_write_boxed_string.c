@@ -17,6 +17,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Write a boxed packet to the given \ref psock instance that will be
@@ -47,6 +48,7 @@ RCPR_SYM(psock_write_boxed_string)(
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
     RCPR_MODEL_ASSERT(NULL != val);
+    const psock_vtable* sock_vtable;
 
     /* calculate the string length. */
     size_t len = strlen(val);
@@ -70,9 +72,13 @@ RCPR_SYM(psock_write_boxed_string)(
         return retval;
     }
 
+    /* get the socket's vtable. */
+    sock_vtable =
+        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+
     /* attempt to write the string to the socket. */
     size_t write_size = len;
-    retval = sock->write_fn(sock, sock->context, val, &write_size);
+    retval = sock_vtable->write_fn(sock, sock->context, val, &write_size);
     if (STATUS_SUCCESS != retval)
     {
         return retval;

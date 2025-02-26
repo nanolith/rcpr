@@ -25,6 +25,7 @@ RCPR_VTABLE
 psock_vtable psock_br_vtable = {
     .hdr = { &psock_br_release },
     .read_fn = &psock_br_psock_read,
+    .write_fn = &psock_br_psock_write,
 };
 
 /**
@@ -103,7 +104,6 @@ RCPR_SYM(psock_br_create_from_psock)(
     tmp->wrapped = sock;
 
     /* set the callbacks. */
-    tmp->hdr.write_fn = &psock_br_psock_write;
     tmp->hdr.accept_fn = &psock_br_psock_accept;
     tmp->hdr.sendmsg_fn = &psock_br_psock_sendmsg;
     tmp->hdr.recvmsg_fn = &psock_br_psock_recvmsg;

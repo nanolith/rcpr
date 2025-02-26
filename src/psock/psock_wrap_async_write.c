@@ -20,6 +20,7 @@
 RCPR_IMPORT_fiber;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 RCPR_IMPORT_uuid;
 
 /**
@@ -40,6 +41,7 @@ status RCPR_SYM(psock_wrap_async_write)(
 {
     (void)ctx;
     status retval;
+    const psock_vtable* wrapped_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
@@ -52,6 +54,11 @@ status RCPR_SYM(psock_wrap_async_write)(
     psock_wrap_async* s = (psock_wrap_async*)sock;
     RCPR_MODEL_ASSERT(prop_psock_valid(s->wrapped));
 
+    /* get the wrapped socket's vtable. */
+    wrapped_vtable =
+        (const psock_vtable*)resource_vtable_get(
+            psock_resource_handle(s->wrapped));
+
     /* loop through until all bytes are written. */
     size_t write_size = *size;
     const uint8_t* dptr = (uint8_t*)data;
@@ -59,7 +66,7 @@ status RCPR_SYM(psock_wrap_async_write)(
     {
         size_t tmp_size = write_size;
         retval =
-            s->wrapped->write_fn(
+            wrapped_vtable->write_fn(
                 s->wrapped, s->wrapped->context, dptr, &tmp_size);
         if (ERROR_PSOCK_WRITE_WOULD_BLOCK == retval)
         {

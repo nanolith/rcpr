@@ -17,6 +17,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 RCPR_IMPORT_socket_utilities;
 
 /**
@@ -49,13 +50,18 @@ RCPR_SYM(psock_write_raw_uint32)(
 {
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
+    const psock_vtable* sock_vtable;
 
     /* size to write. */
     size_t size = sizeof(uint32_t);
     uint32_t data = socket_utility_hton32(val);
 
+    /* get the socket's vtable. */
+    sock_vtable =
+        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+
     /* attempt to write to the socket. */
-    int retval = sock->write_fn(sock, sock->context, &data, &size);
+    int retval = sock_vtable->write_fn(sock, sock->context, &data, &size);
     if (STATUS_SUCCESS != retval)
     {
         return retval;
