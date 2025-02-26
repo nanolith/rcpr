@@ -2318,6 +2318,7 @@ RCPR_SYM(prop_psock_valid)(
     typedef RCPR_SYM(psock_accept_fn) sym ## psock_accept_fn; \
     typedef RCPR_SYM(psock_release_fn) sym ## psock_release_fn; \
     typedef RCPR_SYM(psock) sym ## psock; \
+    typedef RCPR_SYM(psock_vtable) sym ## psock_vtable; \
     typedef RCPR_SYM(psock_br) sym ## psock_br; \
     typedef RCPR_SYM(psock_boxed_type) sym ## psock_boxed_type; \
     typedef RCPR_SYM(socket_type) sym ## socket_type; \
