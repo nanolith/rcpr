@@ -53,8 +53,7 @@ RCPR_SYM(psock_write_raw_int8)(
     size_t size = sizeof(int8_t);
 
     /* attempt to write to the socket. */
-    int retval =
-        sock->write_fn(sock, &val, &size);
+    int retval = sock->write_fn(sock, sock->context, &val, &size);
     if (STATUS_SUCCESS != retval)
     {
         return retval;

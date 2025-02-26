@@ -35,6 +35,7 @@ resource_vtable psock_output_buffer_node_vtable = {
  * \brief Write data to the given \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to write.
+ * \param ctx           User context (ignored).
  * \param data          Pointer to the buffer from which data should be written.
  * \param size          Pointer to the size to write, updated with the size
  *                      written.
@@ -44,8 +45,9 @@ resource_vtable psock_output_buffer_node_vtable = {
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_from_buffer_write)(
-    RCPR_SYM(psock)* sock, const void* data, size_t* size)
+    RCPR_SYM(psock)* sock, void* ctx, const void* data, size_t* size)
 {
+    (void)ctx;
     status retval, release_retval;
     size_t copy_size;
     size_t total_size = 0;

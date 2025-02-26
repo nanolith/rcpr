@@ -68,7 +68,7 @@ RCPR_SYM(psock_write_boxed_data)(
 
     /* attempt to write the data to the socket. */
     size_t write_size = data_size;
-    retval = sock->write_fn(sock, data, &write_size);
+    retval = sock->write_fn(sock, sock->context, data, &write_size);
     if (STATUS_SUCCESS != retval)
     {
         return retval;

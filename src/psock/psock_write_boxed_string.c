@@ -72,7 +72,7 @@ RCPR_SYM(psock_write_boxed_string)(
 
     /* attempt to write the string to the socket. */
     size_t write_size = len;
-    retval = sock->write_fn(sock, val, &write_size);
+    retval = sock->write_fn(sock, sock->context, val, &write_size);
     if (STATUS_SUCCESS != retval)
     {
         return retval;

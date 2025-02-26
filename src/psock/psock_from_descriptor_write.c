@@ -20,6 +20,7 @@ RCPR_IMPORT_psock_internal;
  * \brief Write data to the given \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to write.
+ * \param ctx           User context (ignored).
  * \param data          Pointer to the buffer from which data should be written.
  * \param size          Pointer to the size to write, updated with the size
  *                      written.
@@ -28,10 +29,11 @@ RCPR_IMPORT_psock_internal;
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status
-RCPR_SYM(psock_from_descriptor_write)(
-    RCPR_SYM(psock)* sock, const void* data, size_t* size)
+status RCPR_SYM(psock_from_descriptor_write)(
+    RCPR_SYM(psock)* sock, void* ctx, const void* data, size_t* size)
 {
+    (void)ctx;
+
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
     RCPR_MODEL_ASSERT(NULL != data);

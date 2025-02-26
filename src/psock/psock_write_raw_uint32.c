@@ -55,8 +55,7 @@ RCPR_SYM(psock_write_raw_uint32)(
     uint32_t data = socket_utility_hton32(val);
 
     /* attempt to write to the socket. */
-    int retval =
-        sock->write_fn(sock, &data, &size);
+    int retval = sock->write_fn(sock, sock->context, &data, &size);
     if (STATUS_SUCCESS != retval)
     {
         return retval;

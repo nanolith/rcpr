@@ -45,7 +45,7 @@ struct RCPR_SYM(psock)
     status (*read_fn)(
         RCPR_SYM(psock)* sock, void* ctx, void* data, size_t* size, bool block);
     status (*write_fn)(
-        RCPR_SYM(psock)* sock, const void* data, size_t* size);
+        RCPR_SYM(psock)* sock, void* ctx, const void* data, size_t* size);
     status (*accept_fn)(
         RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
         socklen_t* addrlen);
@@ -145,6 +145,7 @@ status RCPR_SYM(psock_from_descriptor_read)(
  * \brief Write data to the given \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to write.
+ * \param ctx           User context (ignored).
  * \param data          Pointer to the buffer from which data should be written.
  * \param size          Pointer to the size to write, updated with the size
  *                      written.
@@ -154,7 +155,7 @@ status RCPR_SYM(psock_from_descriptor_read)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_from_descriptor_write)(
-    RCPR_SYM(psock)* sock, const void* data, size_t* size);
+    RCPR_SYM(psock)* sock, void* ctx, const void* data, size_t* size);
 
 /**
  * \brief Accept a socket from a \ref psock listen socket instance.
@@ -236,6 +237,7 @@ status RCPR_SYM(psock_wrap_async_read)(
  * \brief Write data to the given async \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to write.
+ * \param ctx           User context (ignored).
  * \param data          Pointer to the buffer from which data should be written.
  * \param size          Pointer to the size to write, updated with the size
  *                      written.
@@ -245,7 +247,7 @@ status RCPR_SYM(psock_wrap_async_read)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_wrap_async_write)(
-    RCPR_SYM(psock)* sock, const void* data, size_t* size);
+    RCPR_SYM(psock)* sock, void* ctx, const void* data, size_t* size);
 
 /**
  * \brief Accept a socket from a \ref psock listen socket instance.
@@ -409,6 +411,7 @@ status RCPR_SYM(psock_from_buffer_read)(
  * \brief Write data to the given \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to write.
+ * \param ctx           User context (ignored).
  * \param data          Pointer to the buffer from which data should be written.
  * \param size          Pointer to the size to write, updated with the size
  *                      written.
@@ -418,7 +421,7 @@ status RCPR_SYM(psock_from_buffer_read)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_from_buffer_write)(
-    RCPR_SYM(psock)* sock, const void* data, size_t* size);
+    RCPR_SYM(psock)* sock, void* ctx, const void* data, size_t* size);
 
 /**
  * \brief Dummy accept method.  We can't accept from a buffer.
@@ -470,6 +473,7 @@ status RCPR_SYM(psock_br_psock_read)(
  * \brief Write data to the given \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to write.
+ * \param ctx           User context (ignored).
  * \param data          Pointer to the buffer from which data should be written.
  * \param size          Pointer to the size to write, updated with the size
  *                      written.
@@ -479,7 +483,7 @@ status RCPR_SYM(psock_br_psock_read)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_br_psock_write)(
-    RCPR_SYM(psock)* sock, const void* data, size_t* size);
+    RCPR_SYM(psock)* sock, void* ctx, const void* data, size_t* size);
 
 /**
  * \brief Accept a socket from a \ref psock listen socket instance.
@@ -567,8 +571,8 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(psock)* v, void* w, void* x, size_t* y, bool z) { \
             return RCPR_SYM(psock_from_descriptor_read)(v,w,x,y,z); } \
     static inline status psock_from_descriptor_write( \
-        RCPR_SYM(psock)* x, const void* y, size_t* z) { \
-            return RCPR_SYM(psock_from_descriptor_write)(x,y,z); } \
+        RCPR_SYM(psock)* w, void* x, const void* y, size_t* z) { \
+            return RCPR_SYM(psock_from_descriptor_write)(w,x,y,z); } \
     static inline status psock_from_descriptor_accept( \
         RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
             return RCPR_SYM(psock_from_descriptor_accept)(w,x,y,z); } \
@@ -579,8 +583,8 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(psock)* v, void* w, void* x, size_t* y, bool z) { \
             return RCPR_SYM(psock_wrap_async_read)(v,w,x,y,z); } \
     static inline status psock_wrap_async_write( \
-        RCPR_SYM(psock)* x, const void* y, size_t* z) { \
-             return RCPR_SYM(psock_wrap_async_write)(x,y,z); } \
+        RCPR_SYM(psock)* w, void* x, const void* y, size_t* z) { \
+             return RCPR_SYM(psock_wrap_async_write)(w,x,y,z); } \
     static inline status psock_wrap_async_accept( \
         RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
             return RCPR_SYM(psock_wrap_async_accept)(w,x,y,z); } \
@@ -619,8 +623,8 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(psock)* v, void* w, void* x, size_t* y, bool z) { \
             return RCPR_SYM(psock_from_buffer_read)(v,w,x,y,z); } \
     static inline status psock_from_buffer_write( \
-        RCPR_SYM(psock)* x, const void* y, size_t* z) { \
-            return RCPR_SYM(psock_from_buffer_write)(x,y,z); } \
+        RCPR_SYM(psock)* w, void* x, const void* y, size_t* z) { \
+            return RCPR_SYM(psock_from_buffer_write)(w,x,y,z); } \
     static inline status psock_from_buffer_accept( \
         RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
             return RCPR_SYM(psock_from_buffer_accept)(w,x,y,z); } \
@@ -643,8 +647,8 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(psock)* v, void* w, void* x, size_t* y, bool z) { \
             return RCPR_SYM(psock_br_psock_read)(v,w,x,y,z); } \
     static inline status psock_br_psock_write( \
-        RCPR_SYM(psock)* x, const void* y, size_t* z) { \
-            return RCPR_SYM(psock_br_psock_write)(x,y,z); } \
+        RCPR_SYM(psock)* w, void* x, const void* y, size_t* z) { \
+            return RCPR_SYM(psock_br_psock_write)(w,x,y,z); } \
     static inline status psock_br_psock_accept( \
         RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
             return RCPR_SYM(psock_br_psock_accept)(w,x,y,z); } \
