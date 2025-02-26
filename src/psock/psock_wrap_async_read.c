@@ -24,6 +24,7 @@ RCPR_IMPORT_psock_internal;
  * \brief Read data from the given async \ref psock instance.
  *
  * \param sock          The \ref psock instance from which to read.
+ * \param ctx           User context (ignored).
  * \param data          Pointer to the buffer into which data should be read.
  * \param size          Pointer to the size to read, updated with the size read.
  * \param block         Set to true if the read should block until all bytes are
@@ -33,10 +34,10 @@ RCPR_IMPORT_psock_internal;
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status
-RCPR_SYM(psock_wrap_async_read)(
-    RCPR_SYM(psock)* sock, void* data, size_t* size, bool block)
+status RCPR_SYM(psock_wrap_async_read)(
+    RCPR_SYM(psock)* sock, void* ctx, void* data, size_t* size, bool block)
 {
+    (void)ctx;
     status retval;
 
     /* parameter sanity checks. */
@@ -57,7 +58,7 @@ RCPR_SYM(psock_wrap_async_read)(
     while (read_size > 0)
     {
         size_t tmp_size = read_size;
-        retval = s->wrapped->read_fn(s->wrapped, dptr, &tmp_size, block);
+        retval = s->wrapped->read_fn(s->wrapped, NULL, dptr, &tmp_size, block);
         if (ERROR_PSOCK_READ_WOULD_BLOCK == retval && block)
         {
             /* yield to the psock I/O discipline. */

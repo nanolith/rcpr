@@ -70,7 +70,7 @@ RCPR_SYM(psock_read_raw)(
 
     /* read data to the buffer. */
     size_t read_size = *data_size;
-    retval = sock->read_fn(sock, data, &read_size, false);
+    retval = sock->read_fn(sock, NULL, data, &read_size, false);
     if (ERROR_PSOCK_READ_WOULD_BLOCK == retval)
     {
         retval = ERROR_PSOCK_READ_WOULD_BLOCK;

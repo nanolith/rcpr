@@ -18,6 +18,7 @@ RCPR_IMPORT_psock_internal;
  * \brief Read data from the given \ref psock instance.
  *
  * \param sock          The \ref psock instance from which to read.
+ * \param ctx           User context (ignored).
  * \param data          Pointer to the buffer into which data should be read.
  * \param size          Pointer to the size to read, updated with the size read.
  * \param block         Set to true if the read should block until all bytes are
@@ -28,8 +29,9 @@ RCPR_IMPORT_psock_internal;
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_br_psock_read)(
-    RCPR_SYM(psock)* sock, void* data, size_t* size, bool block)
+    RCPR_SYM(psock)* sock, void* ctx, void* data, size_t* size, bool block)
 {
+    (void)ctx;
     status retval;
 
     /* get the buffered reader. */
