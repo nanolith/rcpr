@@ -459,18 +459,6 @@ status RCPR_SYM(psock_from_buffer_accept)(
 status RCPR_SYM(psock_from_buffer_release)(RCPR_SYM(resource)* r);
 
 /**
- * \brief Release a psock_ex resource.
- *
- * \param r             Pointer to the psock_ex resource to be
- *                      released.
- *
- * \returns a status code indicating success or failure.
- *      - STATUS_SUCCESS on success.
- *      - an error code on failure.
- */
-status RCPR_SYM(psock_ex_release)(RCPR_SYM(resource)* r);
-
-/**
  * \brief Read data from the given \ref psock instance.
  *
  * \param sock          The \ref psock instance from which to read.
@@ -660,9 +648,6 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
     static inline status psock_wrap_async_recvmsg( \
         RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
             return RCPR_SYM(psock_wrap_async_recvmsg)(w,x,y,z); } \
-    static inline status psock_ex_release( \
-        RCPR_SYM(resource)* x) { \
-            return RCPR_SYM(psock_ex_release)(x); } \
     static inline status psock_br_psock_read( \
         RCPR_SYM(psock)* w, void* x, size_t* y, bool z) { \
             return RCPR_SYM(psock_br_psock_read)(w,x,y,z); } \
