@@ -188,6 +188,38 @@ typedef status (*RCPR_SYM(psock_release_fn))(
         RCPR_SYM(psock)* sock, void* ctx);
 
 /**
+ * \brief Send a message over a user psock.
+ *
+ * This method roughly corresponds to the POSIX sendmsg function.
+ *
+ * \param sock          The socket instance for this operation.
+ * \param ctx           The user context for this instance.
+ * \param msg           The message to send.
+ * \param flags         The flags for this operation.
+ *
+ * \note This function type can be used by the caller to produce a special
+ * user-defined \ref psock instance. The context is an opaque type that the user
+ * provides during creation and that is passed to all user functions.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *      - \p msg must be a pointer to a valid message structure as per the
+ *        sendmsg specification.
+ *      - \p flags must hold flags relevant to a sendmsg call.
+ *
+ * \post
+ *      - On success, \p msg is written to the socket using the given flags.
+ *      - On failure, an error status is returned.
+ */
+typedef status (*RCPR_SYM(psock_sendmsg_fn))(
+        RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags);
+
+/**
  * \brief The \ref psock_vtable structure provides a virtual method interface
  * for overriding psock functions.
  *
