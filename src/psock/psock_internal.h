@@ -50,7 +50,7 @@ struct RCPR_SYM(psock)
         RCPR_SYM(psock)* sock, void* ctx, int* desc, struct sockaddr* addr,
         socklen_t* addrlen);
     status (*sendmsg_fn)(
-        RCPR_SYM(psock)* sock, const struct msghdr* msg, int flags);
+        RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags);
     status (*recvmsg_fn)(
         RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags);
 };
@@ -180,6 +180,7 @@ status RCPR_SYM(psock_from_descriptor_accept)(
  * \brief Send a message over the \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to send a message.
+ * \param ctx           User context (ignored).
  * \param msg           Pointer to the message to send.
  * \param flags         The flags to use when sending the message.
  *
@@ -188,7 +189,7 @@ status RCPR_SYM(psock_from_descriptor_accept)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_from_descriptor_sendmsg)(
-    RCPR_SYM(psock)* sock, const struct msghdr* msg, int flags);
+    RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags);
 
 /**
  * \brief Receive a message from the \ref psock instance.
@@ -273,6 +274,7 @@ status RCPR_SYM(psock_wrap_async_accept)(
  * \brief Send a message over the \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to send a message.
+ * \param ctx           User context (ignored).
  * \param msg           Pointer to the message to send.
  * \param flags         The flags to use when sending the message.
  *
@@ -281,7 +283,7 @@ status RCPR_SYM(psock_wrap_async_accept)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_wrap_async_sendmsg)(
-    RCPR_SYM(psock)* sock, const struct msghdr* msg, int flags);
+    RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags);
 
 /**
  * \brief Receive a message from the \ref psock instance.
@@ -511,6 +513,7 @@ status RCPR_SYM(psock_br_psock_accept)(
  * \brief Send a message over the \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to send a message.
+ * \param ctx           User context (ignored).
  * \param msg           Pointer to the message to send.
  * \param flags         The flags to use when sending the message.
  *
@@ -519,7 +522,7 @@ status RCPR_SYM(psock_br_psock_accept)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_br_psock_sendmsg)(
-    RCPR_SYM(psock)* sock, const struct msghdr* msg, int flags);
+    RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags);
 
 /**
  * \brief Receive a message from the \ref psock instance.
@@ -639,14 +642,14 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(resource)* x) { \
             return RCPR_SYM(psock_from_buffer_release)(x); } \
     static inline status psock_from_descriptor_sendmsg( \
-        RCPR_SYM(psock)* x, const struct msghdr* y, int z) { \
-            return RCPR_SYM(psock_from_descriptor_sendmsg)(x,y,z); } \
+        RCPR_SYM(psock)* w, void* x, const struct msghdr* y, int z) { \
+            return RCPR_SYM(psock_from_descriptor_sendmsg)(w,x,y,z); } \
     static inline status psock_from_descriptor_recvmsg( \
         RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
             return RCPR_SYM(psock_from_descriptor_recvmsg)(w,x,y,z); } \
     static inline status psock_wrap_async_sendmsg( \
-        RCPR_SYM(psock)* x, const struct msghdr* y, int z) { \
-            return RCPR_SYM(psock_wrap_async_sendmsg)(x,y,z); } \
+        RCPR_SYM(psock)* w, void* x, const struct msghdr* y, int z) { \
+            return RCPR_SYM(psock_wrap_async_sendmsg)(w,x,y,z); } \
     static inline status psock_wrap_async_recvmsg( \
         RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
             return RCPR_SYM(psock_wrap_async_recvmsg)(w,x,y,z); } \
@@ -661,8 +664,8 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         socklen_t* z) { \
             return RCPR_SYM(psock_br_psock_accept)(v,w,x,y,z); } \
     static inline status psock_br_psock_sendmsg( \
-        RCPR_SYM(psock)* x, const struct msghdr* y, int z) { \
-            return RCPR_SYM(psock_br_psock_sendmsg)(x,y,z); } \
+        RCPR_SYM(psock)* w, void* x, const struct msghdr* y, int z) { \
+            return RCPR_SYM(psock_br_psock_sendmsg)(w,x,y,z); } \
     static inline status psock_br_psock_recvmsg( \
         RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
             return RCPR_SYM(psock_br_psock_recvmsg)(w,x,y,z); } \

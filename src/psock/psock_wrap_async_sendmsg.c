@@ -22,6 +22,7 @@ RCPR_IMPORT_psock_internal;
  * \brief Send a message over the \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to send a message.
+ * \param ctx           User context (ignored).
  * \param msg           Pointer to the message to send.
  * \param flags         The flags to use when sending the message.
  *
@@ -30,8 +31,9 @@ RCPR_IMPORT_psock_internal;
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_wrap_async_sendmsg)(
-    RCPR_SYM(psock)* sock, const struct msghdr* msg, int flags)
+    RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags)
 {
+    (void)ctx;
     status retval;
 
     /* parameter sanity checks. */
@@ -46,7 +48,9 @@ status RCPR_SYM(psock_wrap_async_sendmsg)(
     /* loop through until the message is sent. */
     for (;;)
     {
-        retval = s->wrapped->sendmsg_fn(s->wrapped, msg, flags);
+        retval =
+            s->wrapped->sendmsg_fn(
+                s->wrapped, s->wrapped->context, msg, flags);
         if (ERROR_PSOCK_WRITE_WOULD_BLOCK == retval)
         {
             /* yield to the psock I/O discipline. */

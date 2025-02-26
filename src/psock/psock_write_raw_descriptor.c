@@ -85,7 +85,7 @@ RCPR_SYM(psock_write_raw_descriptor)(
     memset(dummy, 0, sizeof(dummy));
 
     /* attempt to send this message to the peer. */
-    retval = sock->sendmsg_fn(sock, &m, 0);
+    retval = sock->sendmsg_fn(sock, sock->context, &m, 0);
     if (STATUS_SUCCESS != retval)
     {
         return retval;
