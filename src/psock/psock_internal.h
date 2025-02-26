@@ -459,21 +459,6 @@ status RCPR_SYM(psock_from_buffer_accept)(
 status RCPR_SYM(psock_from_buffer_release)(RCPR_SYM(resource)* r);
 
 /**
- * \brief Write data to the given \ref psock instance.
- *
- * \param sock          The \ref psock instance to which to write.
- * \param data          Pointer to the buffer from which data should be written.
- * \param size          Pointer to the size to write, updated with the size
- *                      written.
- *
- * \returns a status code indicating success or failure.
- *      - STATUS_SUCCESS on success.
- *      - an error code indicating a specific failure condition.
- */
-status RCPR_SYM(psock_ex_write)(
-    RCPR_SYM(psock)* sock, const void* data, size_t* size);
-
-/**
  * \brief Accept a socket from a \ref psock listen socket instance.
  *
  * \param sock          The \ref psock instance to which to accept a socket.
@@ -693,9 +678,6 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
     static inline status psock_wrap_async_recvmsg( \
         RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
             return RCPR_SYM(psock_wrap_async_recvmsg)(w,x,y,z); } \
-    static inline status psock_ex_write( \
-        RCPR_SYM(psock)* x, const void* y, size_t* z) { \
-            return RCPR_SYM(psock_ex_write)(x,y,z); } \
     static inline status psock_ex_accept( \
         RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
             return RCPR_SYM(psock_ex_accept)(w,x,y,z); } \
