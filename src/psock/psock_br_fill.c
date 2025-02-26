@@ -50,8 +50,8 @@ status RCPR_SYM(psock_br_fill)(
     size_t read_bytes = br->max_size - br->current_size;
     retval =
         br->wrapped->read_fn(
-            br->wrapped, NULL, br->buffer + br->current_size, &read_bytes,
-            false);
+            br->wrapped, br->wrapped->context, br->buffer + br->current_size,
+            &read_bytes, false);
     if (STATUS_SUCCESS != retval)
     {
         goto done;

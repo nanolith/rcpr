@@ -105,7 +105,7 @@ RCPR_SYM(psock_read_boxed_data)(
 
     /* read data to the buffer. */
     size_t read_size = size;
-    retval = sock->read_fn(sock, NULL, buffer, &read_size, true);
+    retval = sock->read_fn(sock, sock->context, buffer, &read_size, true);
     if (STATUS_SUCCESS != retval)
     {
         goto cleanup_buffer;

@@ -58,7 +58,9 @@ status RCPR_SYM(psock_wrap_async_read)(
     while (read_size > 0)
     {
         size_t tmp_size = read_size;
-        retval = s->wrapped->read_fn(s->wrapped, NULL, dptr, &tmp_size, block);
+        retval =
+            s->wrapped->read_fn(
+                s->wrapped, s->wrapped->context, dptr, &tmp_size, block);
         if (ERROR_PSOCK_READ_WOULD_BLOCK == retval && block)
         {
             /* yield to the psock I/O discipline. */

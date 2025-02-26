@@ -64,7 +64,7 @@ RCPR_SYM(psock_read_raw_uint16)(
     uint16_t data = 0UL;
 
     /* attempt to read from the socket. */
-    int retval = sock->read_fn(sock, NULL, &data, &size, true);
+    int retval = sock->read_fn(sock, sock->context, &data, &size, true);
     if (STATUS_SUCCESS != retval)
     {
         return retval;
