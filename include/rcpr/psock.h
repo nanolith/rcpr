@@ -209,7 +209,7 @@ typedef status (*RCPR_SYM(psock_release_fn))(
  *      - \p sock must be a pointer to a valid \ref psock instance and must not
  *        be NULL.
  *      - \p msg must be a pointer to a valid message structure as per the
- *        sendmsg specification.
+ *        sendmsg specification, and must not be NULL.
  *      - \p flags must hold flags relevant to a sendmsg call.
  *
  * \post
@@ -218,6 +218,47 @@ typedef status (*RCPR_SYM(psock_release_fn))(
  */
 typedef status (*RCPR_SYM(psock_sendmsg_fn))(
         RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags);
+
+/**
+ * \brief Receive a message from a user psock.
+ *
+ * This method roughly corresponds to the POSIX recvmsg function.
+ *
+ * \param sock          The socket instance for this operation.
+ * \param ctx           The user context for this instance.
+ * \param msg           Pointer to the msghdr structure to hold this message on
+ *                      success.
+ * \param len           Pointer to hold the length of this message in bytes on
+ *                      success.
+ * \param flags         The flags for this operation.
+ *
+ * \note This function type can be used by the caller to produce a special
+ * user-defined \ref psock instance. The context is an opaque type that the user
+ * provides during creation and that is passed to all user functions.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *      - \p msg must be a pointer to a msghdr structure primed to receive
+ *        messages from this psock instance as per the sendmsg specification,
+ *        and must not be NULL.
+ *      - \p len must be a pointer to the length of the msghdr structure and
+ *        will be set to the length of the written structure on success, as per
+ *        the sendmsg specification.
+ *      - \p flags must hold flags relevant to a recvmsg call.
+ *
+ * \post
+ *      - On success, \p msg holds a message read from the socket using the
+ *        given flags.
+ *      - On failure, an error status is returned.
+ */
+typedef status (*RCPR_SYM(psock_recvmsg_fn))(
+        RCPR_SYM(psock)* sock, void* ctx, struct msghdr* msg, size_t* len,
+        int flags);
 
 /**
  * \brief The \ref psock_vtable structure provides a virtual method interface
