@@ -124,19 +124,6 @@ struct RCPR_SYM(psock_output_buffer_node)
     size_t size;
 };
 
-/* forward decls for psock_ex. */
-typedef struct RCPR_SYM(psock_ex) RCPR_SYM(psock_ex);
-
-struct RCPR_SYM(psock_ex)
-{
-    RCPR_SYM(psock) hdr;
-    void* ctx;
-    RCPR_SYM(psock_read_fn) ex_read_fn;
-    RCPR_SYM(psock_write_fn) ex_write_fn;
-    RCPR_SYM(psock_accept_fn) ex_accept_fn;
-    RCPR_SYM(psock_release_fn) ex_release_fn;
-};
-
 /**
  * \brief Read data from the given \ref psock instance.
  *
@@ -570,7 +557,6 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
     typedef RCPR_SYM(psock_wrap_async) psock_wrap_async; \
     typedef RCPR_SYM(psock_from_buffer) psock_from_buffer; \
     typedef RCPR_SYM(psock_output_buffer_node) psock_output_buffer_node; \
-    typedef RCPR_SYM(psock_ex) psock_ex; \
     typedef RCPR_SYM(psock_br) psock_br; \
     static inline status psock_from_descriptor_read( \
         RCPR_SYM(psock)* w, void* x, size_t* y, bool z) { \
