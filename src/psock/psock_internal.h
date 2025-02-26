@@ -459,21 +459,6 @@ status RCPR_SYM(psock_from_buffer_accept)(
 status RCPR_SYM(psock_from_buffer_release)(RCPR_SYM(resource)* r);
 
 /**
- * \brief Read data from the given \ref psock instance.
- *
- * \param sock          The \ref psock instance from which to read.
- * \param data          Pointer to the buffer into which data should be read.
- * \param size          Pointer to the size to read, updated with the size read.
- * \param block         Ignored for raw descriptor reads.
- *
- * \returns a status code indicating success or failure.
- *      - STATUS_SUCCESS on success.
- *      - an error code indicating a specific failure condition.
- */
-status RCPR_SYM(psock_ex_read)(
-    RCPR_SYM(psock)* sock, void* data, size_t* size, bool block);
-
-/**
  * \brief Write data to the given \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to write.
@@ -708,9 +693,6 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
     static inline status psock_wrap_async_recvmsg( \
         RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
             return RCPR_SYM(psock_wrap_async_recvmsg)(w,x,y,z); } \
-    static inline status psock_ex_read( \
-        RCPR_SYM(psock)* w, void* x, size_t* y, bool z) { \
-            return RCPR_SYM(psock_ex_read)(w,x,y,z); } \
     static inline status psock_ex_write( \
         RCPR_SYM(psock)* x, const void* y, size_t* z) { \
             return RCPR_SYM(psock_ex_write)(x,y,z); } \
