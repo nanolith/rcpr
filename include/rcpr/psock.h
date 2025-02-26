@@ -187,6 +187,25 @@ typedef status (*RCPR_SYM(psock_accept_fn))(
 typedef status (*RCPR_SYM(psock_release_fn))(
         RCPR_SYM(psock)* sock, void* ctx);
 
+/**
+ * \brief The \ref psock_vtable structure provides a virtual method interface
+ * for overriding psock functions.
+ *
+ * Virtual tables provide an organized way to group virtual functions that can
+ * be hardened against heap attacks. When runtime checking is enabled, calls
+ * into a vtable will be checked to ensure that the vtable pointer points to a
+ * table in the read-only vtable segment.
+ */
+typedef struct RCPR_SYM(psock_vtable) RCPR_SYM(psock_vtable);
+struct RCPR_SYM(psock_vtable)
+{
+    RCPR_SYM(resource_vtable) hdr;
+    RCPR_SYM(psock_read_fn) read_fn;
+    RCPR_SYM(psock_write_fn) write_fn;
+    RCPR_SYM(psock_accept_fn) accept_fn;
+    RCPR_SYM(psock_release_fn) release_fn;
+};
+
 /******************************************************************************/
 /* Start of support types.                                                    */
 /******************************************************************************/
