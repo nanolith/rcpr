@@ -20,6 +20,7 @@ RCPR_IMPORT_psock_internal;
  * \brief Receive a message from the \ref psock instance.
  *
  * \param sock          The \ref psock instance from which to receive a message.
+ * \param ctx           User context (ignored).
  * \param msg           Pointer to the message header to populate.
  * \param len           The maximum length of the message.
  * \param flags         The flags to use when sending the message.
@@ -29,8 +30,10 @@ RCPR_IMPORT_psock_internal;
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_from_descriptor_recvmsg)(
-    RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags)
+    RCPR_SYM(psock)* sock, void* ctx, struct msghdr* msg, size_t* len,
+    int flags)
 {
+    (void)ctx;
     ssize_t recvlen;
 
     /* parameter sanity checks. */

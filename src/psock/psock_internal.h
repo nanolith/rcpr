@@ -52,7 +52,8 @@ struct RCPR_SYM(psock)
     status (*sendmsg_fn)(
         RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags);
     status (*recvmsg_fn)(
-        RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags);
+        RCPR_SYM(psock)* sock, void* ctx, struct msghdr* msg, size_t* len,
+        int flags);
 };
 
 /* set a reasonable buffer size. */
@@ -195,6 +196,7 @@ status RCPR_SYM(psock_from_descriptor_sendmsg)(
  * \brief Receive a message from the \ref psock instance.
  *
  * \param sock          The \ref psock instance from which to receive a message.
+ * \param ctx           User context (ignored).
  * \param msg           Pointer to the message header to populate.
  * \param len           The maximum length of the message.
  * \param flags         The flags to use when sending the message.
@@ -204,7 +206,8 @@ status RCPR_SYM(psock_from_descriptor_sendmsg)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_from_descriptor_recvmsg)(
-    RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags);
+    RCPR_SYM(psock)* sock, void* ctx, struct msghdr* msg, size_t* len,
+    int flags);
 
 /**
  * \brief Release a psock_from_descriptor resource.
@@ -289,6 +292,7 @@ status RCPR_SYM(psock_wrap_async_sendmsg)(
  * \brief Receive a message from the \ref psock instance.
  *
  * \param sock          The \ref psock instance from which to receive a message.
+ * \param ctx           User context (ignored).
  * \param msg           Pointer to the message header to populate.
  * \param len           The maximum length of the message.
  * \param flags         The flags to use when sending the message.
@@ -298,7 +302,8 @@ status RCPR_SYM(psock_wrap_async_sendmsg)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_wrap_async_recvmsg)(
-    RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags);
+    RCPR_SYM(psock)* sock, void* ctx, struct msghdr* msg, size_t* len,
+    int flags);
 
 /**
  * \brief Create a psock I/O discipline instance.
@@ -528,6 +533,7 @@ status RCPR_SYM(psock_br_psock_sendmsg)(
  * \brief Receive a message from the \ref psock instance.
  *
  * \param sock          The \ref psock instance from which to receive a message.
+ * \param ctx           User context (ignored).
  * \param msg           Pointer to the message header to populate.
  * \param len           The maximum length of the message.
  * \param flags         The flags to use when sending the message.
@@ -537,7 +543,8 @@ status RCPR_SYM(psock_br_psock_sendmsg)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_br_psock_recvmsg)(
-    RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags);
+    RCPR_SYM(psock)* sock, void* ctx, struct msghdr* msg, size_t* len,
+    int flags);
 
 /**
  * \brief Fill the \ref psock_br buffer with as much data as the backing \ref
@@ -645,14 +652,14 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(psock)* w, void* x, const struct msghdr* y, int z) { \
             return RCPR_SYM(psock_from_descriptor_sendmsg)(w,x,y,z); } \
     static inline status psock_from_descriptor_recvmsg( \
-        RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
-            return RCPR_SYM(psock_from_descriptor_recvmsg)(w,x,y,z); } \
+        RCPR_SYM(psock)* v, void* w, struct msghdr* x, size_t* y, int z) { \
+            return RCPR_SYM(psock_from_descriptor_recvmsg)(v, w,x,y,z); } \
     static inline status psock_wrap_async_sendmsg( \
         RCPR_SYM(psock)* w, void* x, const struct msghdr* y, int z) { \
             return RCPR_SYM(psock_wrap_async_sendmsg)(w,x,y,z); } \
     static inline status psock_wrap_async_recvmsg( \
-        RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
-            return RCPR_SYM(psock_wrap_async_recvmsg)(w,x,y,z); } \
+        RCPR_SYM(psock)* v, void* w, struct msghdr* x, size_t* y, int z) { \
+            return RCPR_SYM(psock_wrap_async_recvmsg)(v,w,x,y,z); } \
     static inline status psock_br_psock_read( \
         RCPR_SYM(psock)* v, void* w, void* x, size_t* y, bool z) { \
             return RCPR_SYM(psock_br_psock_read)(v,w,x,y,z); } \
@@ -667,8 +674,8 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(psock)* w, void* x, const struct msghdr* y, int z) { \
             return RCPR_SYM(psock_br_psock_sendmsg)(w,x,y,z); } \
     static inline status psock_br_psock_recvmsg( \
-        RCPR_SYM(psock)* w, struct msghdr* x, size_t* y, int z) { \
-            return RCPR_SYM(psock_br_psock_recvmsg)(w,x,y,z); } \
+        RCPR_SYM(psock)* v, void* w, struct msghdr* x, size_t* y, int z) { \
+            return RCPR_SYM(psock_br_psock_recvmsg)(v,w,x,y,z); } \
     static inline status psock_br_fill( \
         RCPR_SYM(psock_br)* x) { \
             return RCPR_SYM(psock_br_fill)(x); }\

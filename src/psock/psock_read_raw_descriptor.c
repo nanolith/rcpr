@@ -80,7 +80,7 @@ RCPR_SYM(psock_read_raw_descriptor)(
     *desc = -1;
 
     /* read a message from the socket. */
-    retval = sock->recvmsg_fn(sock, &m, &readlen, 0);
+    retval = sock->recvmsg_fn(sock, sock->context, &m, &readlen, 0);
     if (STATUS_SUCCESS != retval)
     {
         return retval;

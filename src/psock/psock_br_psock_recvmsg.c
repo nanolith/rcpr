@@ -16,6 +16,7 @@ RCPR_IMPORT_psock_internal;
  * \brief Receive a message from the \ref psock instance.
  *
  * \param sock          The \ref psock instance from which to receive a message.
+ * \param ctx           User context (ignored).
  * \param msg           Pointer to the message header to populate.
  * \param len           The maximum length of the message.
  * \param flags         The flags to use when sending the message.
@@ -25,13 +26,17 @@ RCPR_IMPORT_psock_internal;
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_br_psock_recvmsg)(
-    RCPR_SYM(psock)* sock, struct msghdr* msg, size_t* len, int flags)
+    RCPR_SYM(psock)* sock, void* ctx, struct msghdr* msg, size_t* len,
+    int flags)
 {
+    (void)ctx;
     psock_br* br = (psock_br*)sock;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_br_valid(br));
 
     /* pass through to the wrapped socket. */
-    return br->wrapped->recvmsg_fn(br->wrapped, msg, len, flags);
+    return
+        br->wrapped->recvmsg_fn(
+            br->wrapped, br->wrapped->context, msg, len, flags);
 }
