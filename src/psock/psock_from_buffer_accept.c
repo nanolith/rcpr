@@ -20,6 +20,7 @@ RCPR_IMPORT_psock_internal;
  * \brief Dummy accept method.  We can't accept from a buffer.
  *
  * \param sock          The \ref psock instance to which to accept a socket.
+ * \param ctx           User context (ignored).
  * \param desc          Pointer to the integer field to hold the accepted
  *                      descriptor.
  * \param addr          The address of the accepted socket.
@@ -30,10 +31,11 @@ RCPR_IMPORT_psock_internal;
  *      - ERROR_PSOCK_UNSUPPORTED_TYPE - accept is unsupported in buffer socks.
  */
 status RCPR_SYM(psock_from_buffer_accept)(
-    RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+    RCPR_SYM(psock)* sock, void* ctx, int* desc, struct sockaddr* addr,
     socklen_t* addrlen)
 {
     (void)sock;
+    (void)ctx;
     (void)desc;
     (void)addr;
     (void)addrlen;

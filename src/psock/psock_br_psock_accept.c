@@ -16,6 +16,7 @@ RCPR_IMPORT_psock_internal;
  * \brief Accept a socket from a \ref psock listen socket instance.
  *
  * \param sock          The \ref psock instance to which to accept a socket.
+ * \param ctx           User context (ignored).
  * \param desc          Pointer to the integer field to hold the accepted
  *                      descriptor.
  * \param addr          The address of the accepted socket.
@@ -27,14 +28,17 @@ RCPR_IMPORT_psock_internal;
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_br_psock_accept)(
-    RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+    RCPR_SYM(psock)* sock, void* ctx, int* desc, struct sockaddr* addr,
     socklen_t* addrlen)
 {
+    (void)ctx;
     psock_br* br = (psock_br*)sock;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_br_valid(br));
 
     /* pass through to the wrapped socket. */
-    return br->wrapped->accept_fn(br->wrapped, desc, addr, addrlen);
+    return
+        br->wrapped->accept_fn(
+            br->wrapped, br->wrapped->context, desc, addr, addrlen);
 }

@@ -26,6 +26,7 @@ RCPR_IMPORT_uuid;
  * \brief Accept a socket from a \ref psock listen socket instance.
  *
  * \param sock          The \ref psock instance to which to accept a socket.
+ * \param ctx           User context (ignored).
  * \param idesc         Pointer to the integer field to hold the accepted
  *                      descriptor.
  * \param addr          The address of the accepted socket.
@@ -36,11 +37,11 @@ RCPR_IMPORT_uuid;
  *      - STATUS_SUCCESS on success.
  *      - an error code indicating a specific failure condition.
  */
-status
-RCPR_SYM(psock_wrap_async_accept)(
-    RCPR_SYM(psock)* sock, int* idesc, struct sockaddr* addr,
+status RCPR_SYM(psock_wrap_async_accept)(
+    RCPR_SYM(psock)* sock, void* ctx, int* idesc, struct sockaddr* addr,
     socklen_t* addrlen)
 {
+    (void)ctx;
     status retval;
 
     /* parameter sanity checks. */
@@ -58,7 +59,9 @@ RCPR_SYM(psock_wrap_async_accept)(
     bool accepted = false;
     while (!accepted)
     {
-        retval = s->wrapped->accept_fn(s->wrapped, idesc, addr, addrlen);
+        retval =
+            s->wrapped->accept_fn(
+                s->wrapped, s->wrapped->context, idesc, addr, addrlen);
         if (ERROR_PSOCK_ACCEPT_WOULD_BLOCK == retval)
         {
             /* yield to the psock I/O discipline. */

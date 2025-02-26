@@ -66,5 +66,5 @@ RCPR_SYM(psock_accept)(
     RCPR_MODEL_ASSERT(*addrlen > 0);
 
     return
-        sock->accept_fn(sock, desc, addr, addrlen);
+        sock->accept_fn(sock, sock->context, desc, addr, addrlen);
 }

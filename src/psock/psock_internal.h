@@ -47,7 +47,7 @@ struct RCPR_SYM(psock)
     status (*write_fn)(
         RCPR_SYM(psock)* sock, void* ctx, const void* data, size_t* size);
     status (*accept_fn)(
-        RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+        RCPR_SYM(psock)* sock, void* ctx, int* desc, struct sockaddr* addr,
         socklen_t* addrlen);
     status (*sendmsg_fn)(
         RCPR_SYM(psock)* sock, const struct msghdr* msg, int flags);
@@ -161,6 +161,7 @@ status RCPR_SYM(psock_from_descriptor_write)(
  * \brief Accept a socket from a \ref psock listen socket instance.
  *
  * \param sock          The \ref psock instance to which to accept a socket.
+ * \param ctx           User context (ignored).
  * \param desc          Pointer to the integer field to hold the accepted
  *                      descriptor.
  * \param addr          The address of the accepted socket.
@@ -172,7 +173,7 @@ status RCPR_SYM(psock_from_descriptor_write)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_from_descriptor_accept)(
-    RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+    RCPR_SYM(psock)* sock, void* ctx, int* desc, struct sockaddr* addr,
     socklen_t* addrlen);
 
 /**
@@ -253,6 +254,7 @@ status RCPR_SYM(psock_wrap_async_write)(
  * \brief Accept a socket from a \ref psock listen socket instance.
  *
  * \param sock          The \ref psock instance to which to accept a socket.
+ * \param ctx           User context (ignored).
  * \param idesc         Pointer to the integer field to hold the accepted
  *                      descriptor.
  * \param addr          The address of the accepted socket.
@@ -264,7 +266,7 @@ status RCPR_SYM(psock_wrap_async_write)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_wrap_async_accept)(
-    RCPR_SYM(psock)* sock, int* idesc, struct sockaddr* addr,
+    RCPR_SYM(psock)* sock, void* ctx, int* idesc, struct sockaddr* addr,
     socklen_t* addrlen);
 
 /**
@@ -427,6 +429,7 @@ status RCPR_SYM(psock_from_buffer_write)(
  * \brief Dummy accept method.  We can't accept from a buffer.
  *
  * \param sock          The \ref psock instance to which to accept a socket.
+ * \param ctx           User context (ignored).
  * \param desc          Pointer to the integer field to hold the accepted
  *                      descriptor.
  * \param addr          The address of the accepted socket.
@@ -437,7 +440,7 @@ status RCPR_SYM(psock_from_buffer_write)(
  *      - ERROR_PSOCK_UNSUPPORTED_TYPE - accept is unsupported in buffer socks.
  */
 status RCPR_SYM(psock_from_buffer_accept)(
-    RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+    RCPR_SYM(psock)* sock, void* ctx, int* desc, struct sockaddr* addr,
     socklen_t* addrlen);
 
 /**
@@ -489,6 +492,7 @@ status RCPR_SYM(psock_br_psock_write)(
  * \brief Accept a socket from a \ref psock listen socket instance.
  *
  * \param sock          The \ref psock instance to which to accept a socket.
+ * \param ctx           User context (ignored).
  * \param desc          Pointer to the integer field to hold the accepted
  *                      descriptor.
  * \param addr          The address of the accepted socket.
@@ -500,7 +504,7 @@ status RCPR_SYM(psock_br_psock_write)(
  *      - an error code indicating a specific failure condition.
  */
 status RCPR_SYM(psock_br_psock_accept)(
-    RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
+    RCPR_SYM(psock)* sock, void* ctx, int* desc, struct sockaddr* addr,
     socklen_t* addrlen);
 
 /**
@@ -574,8 +578,9 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(psock)* w, void* x, const void* y, size_t* z) { \
             return RCPR_SYM(psock_from_descriptor_write)(w,x,y,z); } \
     static inline status psock_from_descriptor_accept( \
-        RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
-            return RCPR_SYM(psock_from_descriptor_accept)(w,x,y,z); } \
+        RCPR_SYM(psock)* v, void* w, int* x, struct sockaddr* y, \
+        socklen_t* z) { \
+            return RCPR_SYM(psock_from_descriptor_accept)(v,w,x,y,z); } \
     static inline status psock_from_descriptor_release( \
         RCPR_SYM(resource)* x) { \
             return RCPR_SYM(psock_from_descriptor_release)(x); } \
@@ -586,8 +591,9 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(psock)* w, void* x, const void* y, size_t* z) { \
              return RCPR_SYM(psock_wrap_async_write)(w,x,y,z); } \
     static inline status psock_wrap_async_accept( \
-        RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
-            return RCPR_SYM(psock_wrap_async_accept)(w,x,y,z); } \
+        RCPR_SYM(psock)* v, void* w, int* x, struct sockaddr* y, \
+        socklen_t* z) { \
+            return RCPR_SYM(psock_wrap_async_accept)(v,w,x,y,z); } \
     static inline status psock_fiber_scheduler_discipline_create( \
         RCPR_SYM(fiber_scheduler_discipline)** w, RCPR_SYM(resource)** x, \
         RCPR_SYM(fiber_scheduler)* y, RCPR_SYM(allocator)* z) { \
@@ -626,8 +632,9 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(psock)* w, void* x, const void* y, size_t* z) { \
             return RCPR_SYM(psock_from_buffer_write)(w,x,y,z); } \
     static inline status psock_from_buffer_accept( \
-        RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
-            return RCPR_SYM(psock_from_buffer_accept)(w,x,y,z); } \
+        RCPR_SYM(psock)* v, void* w, int* x, struct sockaddr* y, \
+        socklen_t* z) { \
+            return RCPR_SYM(psock_from_buffer_accept)(v,w,x,y,z); } \
     static inline status psock_from_buffer_release( \
         RCPR_SYM(resource)* x) { \
             return RCPR_SYM(psock_from_buffer_release)(x); } \
@@ -650,8 +657,9 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(psock)* w, void* x, const void* y, size_t* z) { \
             return RCPR_SYM(psock_br_psock_write)(w,x,y,z); } \
     static inline status psock_br_psock_accept( \
-        RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
-            return RCPR_SYM(psock_br_psock_accept)(w,x,y,z); } \
+        RCPR_SYM(psock)* v, void* w, int* x, struct sockaddr* y, \
+        socklen_t* z) { \
+            return RCPR_SYM(psock_br_psock_accept)(v,w,x,y,z); } \
     static inline status psock_br_psock_sendmsg( \
         RCPR_SYM(psock)* x, const struct msghdr* y, int z) { \
             return RCPR_SYM(psock_br_psock_sendmsg)(x,y,z); } \
