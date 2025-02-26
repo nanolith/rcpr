@@ -26,8 +26,10 @@ RCPR_IMPORT_resource;
 
 /* the vtable entry for the psock from descriptor instance. */
 RCPR_VTABLE
-resource_vtable psock_from_descriptor_vtable = {
-    &psock_from_descriptor_release };
+psock_vtable psock_from_descriptor_vtable = {
+    .hdr = { &psock_from_descriptor_release },
+    .read_fn = &psock_from_descriptor_read,
+};
 
 /**
  * \brief Create a \ref psock instance backed by the given file descriptor.
@@ -96,7 +98,7 @@ RCPR_SYM(psock_create_from_descriptor)(
     RCPR_MODEL_STRUCT_TAG_INIT(ps->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock), psock);
 
     /* set the release method. */
-    resource_init(&ps->hdr.hdr, &psock_from_descriptor_vtable);
+    resource_init(&ps->hdr.hdr, &psock_from_descriptor_vtable.hdr);
 
     /* set the descriptor. */
     ps->descriptor = descriptor;
@@ -111,7 +113,6 @@ RCPR_SYM(psock_create_from_descriptor)(
     ps->hdr.alloc = a;
 
     /* set the callbacks. */
-    ps->hdr.read_fn = &psock_from_descriptor_read;
     ps->hdr.write_fn = &psock_from_descriptor_write;
     ps->hdr.accept_fn = &psock_from_descriptor_accept;
     ps->hdr.sendmsg_fn = &psock_from_descriptor_sendmsg;

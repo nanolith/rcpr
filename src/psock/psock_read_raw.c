@@ -17,6 +17,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Attempt to read up to \p data_size bytes from the psock instance. This
@@ -59,6 +60,7 @@ RCPR_SYM(psock_read_raw)(
     RCPR_SYM(psock)* sock, void* data, size_t* data_size)
 {
     status retval;
+    const psock_vtable* sock_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
@@ -68,9 +70,13 @@ RCPR_SYM(psock_read_raw)(
     RCPR_MODEL_ASSERT(*data_size > 0);
     RCPR_MODEL_ASSERT(prop_valid_range(data, *data_size));
 
+    /* get the socket's vtable. */
+    sock_vtable =
+        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+
     /* read data to the buffer. */
     size_t read_size = *data_size;
-    retval = sock->read_fn(sock, sock->context, data, &read_size, false);
+    retval = sock_vtable->read_fn(sock, sock->context, data, &read_size, false);
     if (ERROR_PSOCK_READ_WOULD_BLOCK == retval)
     {
         retval = ERROR_PSOCK_READ_WOULD_BLOCK;

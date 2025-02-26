@@ -26,8 +26,10 @@ RCPR_IMPORT_slist;
 
 /* the vtable entry for the psock from buffer instance. */
 RCPR_VTABLE
-resource_vtable psock_from_buffer_vtable = {
-    &psock_from_buffer_release };
+psock_vtable psock_from_buffer_vtable = {
+    .hdr = { &psock_from_buffer_release },
+    .read_fn = &psock_from_buffer_read,
+};
 
 /**
  * \brief Create a \ref psock instance backed by a given string buffer.
@@ -100,7 +102,7 @@ RCPR_SYM(psock_create_from_buffer)(
     RCPR_MODEL_STRUCT_TAG_INIT(ps->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock), psock);
 
     /* set the release method. */
-    resource_init(&ps->hdr.hdr, &psock_from_buffer_vtable);
+    resource_init(&ps->hdr.hdr, &psock_from_buffer_vtable.hdr);
 
     /* set the type. */
     ps->hdr.type = PSOCK_TYPE_BUFFER;
@@ -112,7 +114,6 @@ RCPR_SYM(psock_create_from_buffer)(
     ps->hdr.alloc = a;
 
     /* set the callbacks. */
-    ps->hdr.read_fn = &psock_from_buffer_read;
     ps->hdr.write_fn = &psock_from_buffer_write;
     ps->hdr.accept_fn = &psock_from_buffer_accept;
 

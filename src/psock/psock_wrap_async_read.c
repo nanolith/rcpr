@@ -19,6 +19,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Read data from the given async \ref psock instance.
@@ -39,6 +40,7 @@ status RCPR_SYM(psock_wrap_async_read)(
 {
     (void)ctx;
     status retval;
+    const psock_vtable* wrapped_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
@@ -51,6 +53,11 @@ status RCPR_SYM(psock_wrap_async_read)(
     psock_wrap_async* s = (psock_wrap_async*)sock;
     RCPR_MODEL_ASSERT(prop_psock_valid(s->wrapped));
 
+    /* get the wrapped socket's vtable. */
+    wrapped_vtable =
+        (const psock_vtable*)resource_vtable_get(
+            psock_resource_handle(s->wrapped));
+
     /* loop through until all bytes are read. */
     size_t read_size = *size;
     *size = 0;
@@ -59,7 +66,7 @@ status RCPR_SYM(psock_wrap_async_read)(
     {
         size_t tmp_size = read_size;
         retval =
-            s->wrapped->read_fn(
+            wrapped_vtable->read_fn(
                 s->wrapped, s->wrapped->context, dptr, &tmp_size, block);
         if (ERROR_PSOCK_READ_WOULD_BLOCK == retval && block)
         {

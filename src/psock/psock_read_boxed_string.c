@@ -18,6 +18,7 @@
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Read a boxed packet from the given \ref psock instance that was
@@ -65,6 +66,7 @@ RCPR_SYM(psock_read_boxed_string)(
     RCPR_SYM(psock)* sock, RCPR_SYM(allocator)* a, char** val, size_t* length)
 {
     status retval, release_retval;
+    const psock_vtable* sock_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
@@ -113,9 +115,14 @@ RCPR_SYM(psock_read_boxed_string)(
     /* ASCIIZ the string buffer. */
     buffer[size] = 0;
 
+    /* get the socket's vtable. */
+    sock_vtable =
+        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+
     /* read data to the buffer. */
     size_t read_size = size;
-    retval = sock->read_fn(sock, sock->context, buffer, &read_size, true);
+    retval =
+        sock_vtable->read_fn(sock, sock->context, buffer, &read_size, true);
     if (STATUS_SUCCESS != retval)
     {
         goto cleanup_buffer;

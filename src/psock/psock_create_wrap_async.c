@@ -34,8 +34,10 @@ RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock);
 
 /* the vtable entry for the psock wrap async instance. */
 RCPR_VTABLE
-resource_vtable psock_wrap_async_vtable = {
-    &psock_wrap_async_release };
+psock_vtable psock_wrap_async_vtable = {
+    .hdr = { &psock_wrap_async_release },
+    .read_fn = &psock_wrap_async_read,
+};
 
 /**
  * \brief Wrap a \ref psock instance with an async \ref psock instance that
@@ -167,7 +169,7 @@ RCPR_SYM(psock_create_wrap_async)(
     RCPR_MODEL_STRUCT_TAG_INIT(ps->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock), psock);
 
     /* set the release method. */
-    resource_init(&ps->hdr.hdr, &psock_wrap_async_vtable);
+    resource_init(&ps->hdr.hdr, &psock_wrap_async_vtable.hdr);
 
     /* save the child psock. */
     ps->wrapped = child;
@@ -188,7 +190,6 @@ RCPR_SYM(psock_create_wrap_async)(
     ps->hdr.alloc = a;
 
     /* set the callbacks. */
-    ps->hdr.read_fn = &psock_wrap_async_read;
     ps->hdr.write_fn = &psock_wrap_async_write;
     ps->hdr.accept_fn = &psock_wrap_async_accept;
     ps->hdr.sendmsg_fn = &psock_wrap_async_sendmsg;

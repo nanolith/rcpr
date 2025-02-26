@@ -14,6 +14,7 @@
 #include "psock_internal.h"
 
 RCPR_IMPORT_allocator;
+RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
 RCPR_IMPORT_resource;
 
@@ -21,8 +22,10 @@ RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(psock_br);
 
 /* the vtable entry for the psock br instance. */
 RCPR_VTABLE
-resource_vtable psock_br_vtable = {
-    &psock_br_release };
+psock_vtable psock_br_vtable = {
+    .hdr = { &psock_br_release },
+    .read_fn = &psock_br_psock_read,
+};
 
 /**
  * \brief Create a \ref psock_br instance backed by the given \ref psock
@@ -88,7 +91,7 @@ RCPR_SYM(psock_br_create_from_psock)(
         tmp->hdr.RCPR_MODEL_STRUCT_TAG_REF(psock_br), psock_br);
 
     /* set the release method. */
-    resource_init(&tmp->hdr.hdr, &psock_br_vtable);
+    resource_init(&tmp->hdr.hdr, &psock_br_vtable.hdr);
 
     /* set the allocator. */
     tmp->hdr.alloc = a;
@@ -100,7 +103,6 @@ RCPR_SYM(psock_br_create_from_psock)(
     tmp->wrapped = sock;
 
     /* set the callbacks. */
-    tmp->hdr.read_fn = &psock_br_psock_read;
     tmp->hdr.write_fn = &psock_br_psock_write;
     tmp->hdr.accept_fn = &psock_br_psock_accept;
     tmp->hdr.sendmsg_fn = &psock_br_psock_sendmsg;

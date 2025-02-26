@@ -13,6 +13,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Fill the \ref psock_br buffer with as much data as the backing \ref
@@ -28,6 +29,7 @@ status RCPR_SYM(psock_br_fill)(
     RCPR_SYM(psock_br)* br)
 {
     status retval;
+    const psock_vtable* wrapped_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_br_valid(br));
@@ -46,10 +48,15 @@ status RCPR_SYM(psock_br_fill)(
         br->offset = 0;
     }
 
+    /* get the wrapped vtable. */
+    wrapped_vtable =
+        (const psock_vtable*)resource_vtable_get(
+            psock_resource_handle(br->wrapped));
+
     /* read as many bytes as we can from the wrapped socket. */
     size_t read_bytes = br->max_size - br->current_size;
     retval =
-        br->wrapped->read_fn(
+        wrapped_vtable->read_fn(
             br->wrapped, br->wrapped->context, br->buffer + br->current_size,
             &read_bytes, false);
     if (STATUS_SUCCESS != retval)

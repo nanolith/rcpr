@@ -17,6 +17,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 RCPR_IMPORT_socket_utilities;
 
 /**
@@ -58,13 +59,18 @@ RCPR_SYM(psock_read_raw_uint16)(
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
     RCPR_MODEL_ASSERT(NULL != val);
+    const psock_vtable* sock_vtable;
 
     /* size and data locals. */
     size_t size = sizeof(uint16_t);
     uint16_t data = 0UL;
 
+    /* get the socket's vtable. */
+    sock_vtable =
+        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+
     /* attempt to read from the socket. */
-    int retval = sock->read_fn(sock, sock->context, &data, &size, true);
+    int retval = sock_vtable->read_fn(sock, sock->context, &data, &size, true);
     if (STATUS_SUCCESS != retval)
     {
         return retval;

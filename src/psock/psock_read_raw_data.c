@@ -18,6 +18,7 @@
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Read a raw value from the given \ref psock instance that was
@@ -62,6 +63,7 @@ RCPR_SYM(psock_read_raw_data)(
 {
     status retval, release_retval;
     size_t buffer_size = data_size;
+    const psock_vtable* sock_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
@@ -76,13 +78,18 @@ RCPR_SYM(psock_read_raw_data)(
         goto done;
     }
 
+    /* get the socket's vtable. */
+    sock_vtable =
+        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+
     /* loop until all bytes are read. */
     uint8_t* ptr = buffer;
     while (data_size > 0)
     {
         /* read data to the buffer. */
         size_t read_size = data_size;
-        retval = sock->read_fn(sock, sock->context, ptr, &read_size, true);
+        retval =
+            sock_vtable->read_fn(sock, sock->context, ptr, &read_size, true);
         if (STATUS_SUCCESS != retval)
         {
             goto cleanup_buffer;
