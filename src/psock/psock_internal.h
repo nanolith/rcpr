@@ -37,6 +37,7 @@ struct RCPR_SYM(psock)
     RCPR_SYM(resource) hdr;
 
     RCPR_MODEL_STRUCT_TAG(psock);
+    void* context;
     int type;
     int socktype;
 
