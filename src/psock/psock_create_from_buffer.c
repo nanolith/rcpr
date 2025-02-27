@@ -30,6 +30,7 @@ psock_vtable psock_from_buffer_vtable = {
     .hdr = { &psock_from_buffer_release },
     .read_fn = &psock_from_buffer_read,
     .write_fn = &psock_from_buffer_write,
+    .accept_fn = &psock_from_buffer_accept,
 };
 
 /**
@@ -113,9 +114,6 @@ RCPR_SYM(psock_create_from_buffer)(
 
     /* set the allocator. */
     ps->hdr.alloc = a;
-
-    /* set the callbacks. */
-    ps->hdr.accept_fn = &psock_from_buffer_accept;
 
     /* is this a read buffer? */
     if (buffer != NULL)

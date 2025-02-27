@@ -11,6 +11,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Accept a socket from a \ref psock listen socket instance.
@@ -33,12 +34,22 @@ status RCPR_SYM(psock_br_psock_accept)(
 {
     (void)ctx;
     psock_br* br = (psock_br*)sock;
+    const psock_vtable* wrapped_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_br_valid(br));
 
+    /* get the wrapped socket's vtable. */
+    wrapped_vtable =
+        (const psock_vtable*)resource_vtable_get(
+            psock_resource_handle(br->wrapped));
+    if (NULL == wrapped_vtable->accept_fn)
+    {
+        return ERROR_PSOCK_METHOD_UNDEFINED;
+    }
+
     /* pass through to the wrapped socket. */
     return
-        br->wrapped->accept_fn(
+        wrapped_vtable->accept_fn(
             br->wrapped, br->wrapped->context, desc, addr, addrlen);
 }

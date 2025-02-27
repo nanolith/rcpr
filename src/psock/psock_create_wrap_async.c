@@ -38,6 +38,7 @@ psock_vtable psock_wrap_async_vtable = {
     .hdr = { &psock_wrap_async_release },
     .read_fn = &psock_wrap_async_read,
     .write_fn = &psock_wrap_async_write,
+    .accept_fn = &psock_wrap_async_accept,
 };
 
 /**
@@ -191,7 +192,6 @@ RCPR_SYM(psock_create_wrap_async)(
     ps->hdr.alloc = a;
 
     /* set the callbacks. */
-    ps->hdr.accept_fn = &psock_wrap_async_accept;
     ps->hdr.sendmsg_fn = &psock_wrap_async_sendmsg;
     ps->hdr.recvmsg_fn = &psock_wrap_async_recvmsg;
 

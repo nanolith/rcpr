@@ -13,6 +13,9 @@
 
 #include "psock_internal.h"
 
+RCPR_IMPORT_psock;
+RCPR_IMPORT_resource;
+
 /**
  * \brief Accept a socket from a listen socket \ref psock instance.
  *
@@ -58,6 +61,8 @@ RCPR_SYM(psock_accept)(
     RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
     socklen_t* addrlen)
 {
+    const psock_vtable* sock_vtable;
+
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
     RCPR_MODEL_ASSERT(NULL != desc);
@@ -65,6 +70,14 @@ RCPR_SYM(psock_accept)(
     RCPR_MODEL_ASSERT(NULL != addrlen);
     RCPR_MODEL_ASSERT(*addrlen > 0);
 
+    /* get the socket's vtable. */
+    sock_vtable =
+        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+    if (NULL == sock_vtable->accept_fn)
+    {
+        return ERROR_PSOCK_METHOD_UNDEFINED;
+    }
+
     return
-        sock->accept_fn(sock, sock->context, desc, addr, addrlen);
+        sock_vtable->accept_fn(sock, sock->context, desc, addr, addrlen);
 }
