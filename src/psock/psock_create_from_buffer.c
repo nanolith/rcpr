@@ -33,6 +33,7 @@ psock_vtable psock_from_buffer_vtable = {
     .accept_fn = &psock_from_buffer_accept,
     .sendmsg_fn = NULL,
     .recvmsg_fn = NULL,
+    .release_fn = NULL,
 };
 
 /**

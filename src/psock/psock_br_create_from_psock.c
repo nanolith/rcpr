@@ -29,6 +29,7 @@ psock_vtable psock_br_vtable = {
     .accept_fn = &psock_br_psock_accept,
     .sendmsg_fn = &psock_br_psock_sendmsg,
     .recvmsg_fn = &psock_br_psock_recvmsg,
+    .release_fn = NULL,
 };
 
 /**

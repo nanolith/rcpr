@@ -41,6 +41,7 @@ psock_vtable psock_wrap_async_vtable = {
     .accept_fn = &psock_wrap_async_accept,
     .sendmsg_fn = &psock_wrap_async_sendmsg,
     .recvmsg_fn = &psock_wrap_async_recvmsg,
+    .release_fn = NULL,
 };
 
 /**
