@@ -32,7 +32,7 @@ psock_vtable psock_from_descriptor_vtable = {
     .write_fn = &psock_from_descriptor_write,
     .accept_fn = &psock_from_descriptor_accept,
     .sendmsg_fn = &psock_from_descriptor_sendmsg,
-    .recvmsg_fn = NULL,
+    .recvmsg_fn = &psock_from_descriptor_recvmsg,
 };
 
 /**
@@ -115,9 +115,6 @@ RCPR_SYM(psock_create_from_descriptor)(
 
     /* set the allocator. */
     ps->hdr.alloc = a;
-
-    /* set the callbacks. */
-    ps->hdr.recvmsg_fn = &psock_from_descriptor_recvmsg;
 
     /* set the socket. */
     *sock = &ps->hdr;

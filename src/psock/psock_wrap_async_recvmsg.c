@@ -17,6 +17,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Receive a message from the \ref psock instance.
@@ -37,6 +38,7 @@ status RCPR_SYM(psock_wrap_async_recvmsg)(
 {
     (void)ctx;
     status retval;
+    const psock_vtable* wrapped_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
@@ -49,12 +51,21 @@ status RCPR_SYM(psock_wrap_async_recvmsg)(
     psock_wrap_async* s = (psock_wrap_async*)sock;
     RCPR_MODEL_ASSERT(prop_sock_valid(s->wrapped));
 
+    /* get the wrapped socket's vtable. */
+    wrapped_vtable =
+        (const psock_vtable*)resource_vtable_get(
+            psock_resource_handle(s->wrapped));
+    if (NULL == wrapped_vtable->recvmsg_fn)
+    {
+        return ERROR_PSOCK_METHOD_UNDEFINED;
+    }
+
     /* loop until the receive succeeds. */
     for (;;)
     {
         retval =
-            s->wrapped->recvmsg_fn(s->wrapped, s->wrapped->context, msg, len,
-            flags);
+            wrapped_vtable->recvmsg_fn(
+                s->wrapped, s->wrapped->context, msg, len, flags);
         if (ERROR_PSOCK_READ_WOULD_BLOCK == retval)
         {
             /* yield to the psock I/O discipline. */

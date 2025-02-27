@@ -40,7 +40,7 @@ psock_vtable psock_wrap_async_vtable = {
     .write_fn = &psock_wrap_async_write,
     .accept_fn = &psock_wrap_async_accept,
     .sendmsg_fn = &psock_wrap_async_sendmsg,
-    .recvmsg_fn = NULL,
+    .recvmsg_fn = &psock_wrap_async_recvmsg,
 };
 
 /**
@@ -192,9 +192,6 @@ RCPR_SYM(psock_create_wrap_async)(
 
     /* set the allocator. */
     ps->hdr.alloc = a;
-
-    /* set the callbacks. */
-    ps->hdr.recvmsg_fn = &psock_wrap_async_recvmsg;
 
     /* set the descriptor to non-blocking. */
     retval = socket_utility_set_nonblock(pchild->descriptor);

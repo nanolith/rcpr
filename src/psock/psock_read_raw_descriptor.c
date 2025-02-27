@@ -17,6 +17,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Read a SCM_RIGHTS message from the \ref psock instance, transferring
@@ -55,14 +56,19 @@ RCPR_SYM(psock_read_raw_descriptor)(
     char dummy[100];
     char buf[CMSG_SPACE(sizeof(int))];
     size_t readlen;
+    const psock_vtable* sock_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
     RCPR_MODEL_ASSERT(PSOCK_SOCKET_TYPE_DATAGRAM == sock->socktype);
 
+    /* get the socket's vtable. */
+    sock_vtable =
+        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+
     /* we can only work with datagram sockets. */
     if (PSOCK_SOCKET_TYPE_DATAGRAM != sock->socktype
-     || NULL == sock->recvmsg_fn)
+     || NULL == sock_vtable->recvmsg_fn)
     {
         return ERROR_PSOCK_UNSUPPORTED_TYPE;
     }
@@ -80,7 +86,7 @@ RCPR_SYM(psock_read_raw_descriptor)(
     *desc = -1;
 
     /* read a message from the socket. */
-    retval = sock->recvmsg_fn(sock, sock->context, &m, &readlen, 0);
+    retval = sock_vtable->recvmsg_fn(sock, sock->context, &m, &readlen, 0);
     if (STATUS_SUCCESS != retval)
     {
         return retval;
@@ -100,7 +106,7 @@ RCPR_SYM(psock_read_raw_descriptor)(
     /* verify that we received a socket. */
     if (*desc < 0)
     {
-        return ERROR_PSOCK_READ_GENERAL;;
+        return ERROR_PSOCK_READ_GENERAL;
     }
 
     return STATUS_SUCCESS;

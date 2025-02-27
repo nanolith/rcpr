@@ -28,7 +28,7 @@ psock_vtable psock_br_vtable = {
     .write_fn = &psock_br_psock_write,
     .accept_fn = &psock_br_psock_accept,
     .sendmsg_fn = &psock_br_psock_sendmsg,
-    .recvmsg_fn = NULL,
+    .recvmsg_fn = &psock_br_psock_recvmsg,
 };
 
 /**
@@ -105,9 +105,6 @@ RCPR_SYM(psock_br_create_from_psock)(
 
     /* set the socket. */
     tmp->wrapped = sock;
-
-    /* set the callbacks. */
-    tmp->hdr.recvmsg_fn = &psock_br_psock_recvmsg;
 
     /* set the maximum buffer size. */
     tmp->max_size = PSOCK_BR_BUFFER_SIZE;
