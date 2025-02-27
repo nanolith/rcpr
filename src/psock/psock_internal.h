@@ -42,8 +42,6 @@ struct RCPR_SYM(psock)
     int socktype;
 
     RCPR_SYM(allocator)* alloc;
-    status (*sendmsg_fn)(
-        RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags);
     status (*recvmsg_fn)(
         RCPR_SYM(psock)* sock, void* ctx, struct msghdr* msg, size_t* len,
         int flags);

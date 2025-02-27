@@ -17,6 +17,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Send a message over the \ref psock instance.
@@ -35,6 +36,7 @@ status RCPR_SYM(psock_wrap_async_sendmsg)(
 {
     (void)ctx;
     status retval;
+    const psock_vtable* wrapped_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
@@ -45,11 +47,20 @@ status RCPR_SYM(psock_wrap_async_sendmsg)(
     psock_wrap_async* s = (psock_wrap_async*)sock;
     RCPR_MODEL_ASSERT(prop_psock_valid(s->wrapped));
 
+    /* get the wrapped socket's vtable. */
+    wrapped_vtable =
+        (const psock_vtable*)resource_vtable_get(
+            psock_resource_handle(s->wrapped));
+    if (NULL == wrapped_vtable->sendmsg_fn)
+    {
+        return ERROR_PSOCK_METHOD_UNDEFINED;
+    }
+
     /* loop through until the message is sent. */
     for (;;)
     {
         retval =
-            s->wrapped->sendmsg_fn(
+            wrapped_vtable->sendmsg_fn(
                 s->wrapped, s->wrapped->context, msg, flags);
         if (ERROR_PSOCK_WRITE_WOULD_BLOCK == retval)
         {

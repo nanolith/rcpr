@@ -17,6 +17,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Write a SCM_RIGHTS message to the \ref psock instance, transferring
@@ -54,14 +55,19 @@ RCPR_SYM(psock_write_raw_descriptor)(
     struct iovec iov;
     char buf[CMSG_SPACE(sizeof(int))];
     char dummy[2];
+    const psock_vtable* sock_vtable;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
     RCPR_MODEL_ASSERT(PSOCK_SOCKET_TYPE_DATAGRAM == sock->socktype);
 
+    /* get the socket's vtable. */
+    sock_vtable =
+        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+
     /* We can only work with datagram sockets. */
     if (PSOCK_SOCKET_TYPE_DATAGRAM != sock->socktype
-     || NULL == sock->sendmsg_fn)
+     || NULL == sock_vtable->sendmsg_fn)
     {
         return ERROR_PSOCK_UNSUPPORTED_TYPE;
     }
@@ -85,7 +91,7 @@ RCPR_SYM(psock_write_raw_descriptor)(
     memset(dummy, 0, sizeof(dummy));
 
     /* attempt to send this message to the peer. */
-    retval = sock->sendmsg_fn(sock, sock->context, &m, 0);
+    retval = sock_vtable->sendmsg_fn(sock, sock->context, &m, 0);
     if (STATUS_SUCCESS != retval)
     {
         return retval;

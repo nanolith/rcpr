@@ -11,6 +11,7 @@
 
 RCPR_IMPORT_psock;
 RCPR_IMPORT_psock_internal;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Send a message over the \ref psock instance.
@@ -28,12 +29,24 @@ status RCPR_SYM(psock_br_psock_sendmsg)(
     RCPR_SYM(psock)* sock, void* ctx, const struct msghdr* msg, int flags)
 {
     (void)ctx;
+    const psock_vtable* wrapped_vtable;
+
     psock_br* br = (psock_br*)sock;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_br_valid(br));
 
+    /* get the wrapped socket's vtable. */
+    wrapped_vtable =
+        (const psock_vtable*)resource_vtable_get(
+            psock_resource_handle(br->wrapped));
+    if (NULL == wrapped_vtable->sendmsg_fn)
+    {
+        return ERROR_PSOCK_METHOD_UNDEFINED;
+    }
+
     /* pass through to the wrapped socket. */
     return
-        br->wrapped->sendmsg_fn(br->wrapped, br->wrapped->context, msg, flags);
+        wrapped_vtable->sendmsg_fn(
+            br->wrapped, br->wrapped->context, msg, flags);
 }
