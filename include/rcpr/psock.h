@@ -560,6 +560,52 @@ RCPR_SYM(psock_create_from_buffer)(
     const char* buffer, size_t size);
 
 /**
+ * \brief Create a custom \ref psock instance backed by user-supplied methods.
+ *
+ * \param sock          Pointer to the \ref psock pointer to receive this
+ *                      resource on success.
+ * \param a             Pointer to the allocator to use for creating this \ref
+ *                      psock resource.
+ * \param context       The context pointer to use for this instance.
+ * \param vtable        The vtable to use for this instance.
+ *
+ * \note This \ref psock is a \ref resource that must be released by calling
+ * \ref resource_release on its resource handle when it is no longer needed by
+ * the caller.  The resource handle can be accessed by calling
+ * \ref psock_resource_handle on this \ref psock instance.  The \ref psock
+ * instance owns the descriptor, which will be closed when this resource is
+ * released.
+ *
+ * The \ref psock instance created is backed by user-specific methods and
+ * context. This instance does not own the context, and it is up to the user to
+ * ensure that it is cleaned up as appropriate.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_OUT_OF_MEMORY if this method failed due to an
+ *        out-of-memory condition.
+ *
+ * \pre
+ *      - \p sock must not reference a valid sock instance and must not be NULL.
+ *      - \p a must reference a valid \ref allocator and must not be NULL.
+ *      - \p context is a user-defined value and can be NULL.
+ *      - \p vtable must be valid; the accept, recvmsg, and sendmsg functions
+ *        are optional, but all other functions must be defined. This vtable
+ *        must be defined as an RCPR_VTABLE so it is linked in the right
+ *        segment.
+ *
+ * \post
+ *      - On success, \p sock is set to a pointer to a valid \ref psock
+ *        instance, which is a \ref resource owned by the caller that must be
+ *        released.
+ *      - On failure, \p sock is set to NULL and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(psock_create_from_user_methods)(
+    RCPR_SYM(psock)** sock, RCPR_SYM(allocator)* a,
+    void* context, const RCPR_SYM(psock_vtable)* vtable);
+
+/**
  * \brief Create a \ref psock_br instance backed by the given \ref psock
  * instance.
  *
