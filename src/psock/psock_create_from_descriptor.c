@@ -31,6 +31,8 @@ psock_vtable psock_from_descriptor_vtable = {
     .read_fn = &psock_from_descriptor_read,
     .write_fn = &psock_from_descriptor_write,
     .accept_fn = &psock_from_descriptor_accept,
+    .sendmsg_fn = NULL,
+    .recvmsg_fn = NULL,
 };
 
 /**

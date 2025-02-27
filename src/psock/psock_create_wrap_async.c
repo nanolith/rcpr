@@ -39,6 +39,8 @@ psock_vtable psock_wrap_async_vtable = {
     .read_fn = &psock_wrap_async_read,
     .write_fn = &psock_wrap_async_write,
     .accept_fn = &psock_wrap_async_accept,
+    .sendmsg_fn = NULL,
+    .recvmsg_fn = NULL,
 };
 
 /**

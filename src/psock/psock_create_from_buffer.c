@@ -31,6 +31,8 @@ psock_vtable psock_from_buffer_vtable = {
     .read_fn = &psock_from_buffer_read,
     .write_fn = &psock_from_buffer_write,
     .accept_fn = &psock_from_buffer_accept,
+    .sendmsg_fn = NULL,
+    .recvmsg_fn = NULL,
 };
 
 /**
