@@ -2393,6 +2393,11 @@ RCPR_SYM(prop_psock_valid)(
         const char* y, size_t z) { \
             return RCPR_SYM(psock_create_from_buffer)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
+    sym ## psock_create_from_user_methods( \
+        RCPR_SYM(psock)** w, RCPR_SYM(allocator)* x, void* y, \
+        const RCPR_SYM(psock_vtable)* z) { \
+            return RCPR_SYM(psock_create_from_user_methods)(w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
     sym ## psock_br_create_from_psock( \
         RCPR_SYM(psock_br)** x, RCPR_SYM(allocator)* y, RCPR_SYM(psock)* z) { \
             return RCPR_SYM(psock_br_create_from_psock)(x,y,z); } \
