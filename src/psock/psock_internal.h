@@ -114,6 +114,16 @@ struct RCPR_SYM(psock_output_buffer_node)
     size_t size;
 };
 
+/* forward decls for psock_from_user_methods. */
+typedef struct RCPR_SYM(psock_from_user_methods)
+RCPR_SYM(psock_from_user_methods);
+
+struct RCPR_SYM(psock_from_user_methods)
+{
+    RCPR_SYM(psock) hdr;
+    const RCPR_SYM(psock_vtable)* user_vtable;
+};
+
 /**
  * \brief Read data from the given \ref psock instance.
  *
