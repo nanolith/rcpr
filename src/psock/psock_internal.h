@@ -577,6 +577,7 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
     typedef RCPR_SYM(psock_from_descriptor) psock_from_descriptor; \
     typedef RCPR_SYM(psock_wrap_async) psock_wrap_async; \
     typedef RCPR_SYM(psock_from_buffer) psock_from_buffer; \
+    typedef RCPR_SYM(psock_from_user_methods) psock_from_user_methods; \
     typedef RCPR_SYM(psock_output_buffer_node) psock_output_buffer_node; \
     typedef RCPR_SYM(psock_br) psock_br; \
     static inline status psock_from_descriptor_read( \
