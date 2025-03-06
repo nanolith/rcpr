@@ -31,6 +31,7 @@ status RCPR_SYM(psock_br_psock_recvmsg)(
     int flags)
 {
     (void)ctx;
+    status retval;
     const psock_vtable* wrapped_vtable;
     psock_br* br = (psock_br*)sock;
 
@@ -38,9 +39,16 @@ status RCPR_SYM(psock_br_psock_recvmsg)(
     RCPR_MODEL_ASSERT(prop_psock_br_valid(br));
 
     /* get the wrapped socket's vtable. */
-    wrapped_vtable =
-        (const psock_vtable*)resource_vtable_get(
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&wrapped_vtable,
             psock_resource_handle(br->wrapped));
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
+
+    /* verify that recvmsg is defined. */
     if (NULL == wrapped_vtable->recvmsg_fn)
     {
         return ERROR_PSOCK_METHOD_UNDEFINED;
