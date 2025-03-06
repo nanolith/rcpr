@@ -26,6 +26,7 @@ struct test_psock_context
     bool release_called = false;
     bool read_called = false;
     bool write_called = false;
+    bool accept_called = false;
 };
 
 static status test_psock_release(psock* sock, void* ctx);
@@ -33,13 +34,16 @@ static status test_psock_read(
     psock* sock, void* ctx, void* data, size_t* size, bool block);
 static status test_psock_write(
     psock* sock, void* ctx, const void* data, size_t* size);
+static status test_psock_accept(
+    psock* sock, void* ctx, int* desc, struct sockaddr* addr,
+    socklen_t* addrlen);
 
 RCPR_VTABLE
 psock_vtable test_psock_vtable = {
     .hdr = { NULL },
     .read_fn = &test_psock_read,
     .write_fn = &test_psock_write,
-    .accept_fn = NULL,
+    .accept_fn = &test_psock_accept,
     .sendmsg_fn = NULL,
     .recvmsg_fn = NULL,
     .release_fn = &test_psock_release,
@@ -81,6 +85,23 @@ static status test_psock_write(
     test_psock_context* test_context = (test_psock_context*)ctx;
 
     test_context->write_called = true;
+
+    return STATUS_SUCCESS;
+}
+
+static status test_psock_accept(
+    psock* sock, void* ctx, int* desc, struct sockaddr* addr,
+    socklen_t* addrlen)
+{
+    (void)sock;
+
+    test_psock_context* test_context = (test_psock_context*)ctx;
+
+    *desc = 0;
+    memset(addr, 0, *addrlen);
+    *addrlen = 0;
+
+    test_context->accept_called = true;
 
     return STATUS_SUCCESS;
 }
@@ -185,6 +206,46 @@ TEST(write)
 
     /* this calls our function. */
     TEST_EXPECT(ctx.write_called);
+
+    /* we should be able to release the socket, which in turn will call our
+     * custom release method. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            resource_release(psock_resource_handle(s)));
+
+    /* clean up. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
+}
+
+/**
+ * Verify that we can accept socket descriptors from a user method psock.
+ */
+TEST(accept)
+{
+    allocator* alloc = nullptr;
+    psock* s = nullptr;
+    test_psock_context ctx;
+    int desc;
+    struct sockaddr addr;
+    socklen_t addrlen = sizeof(addr);
+
+    /* we should be able to create a malloc allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == malloc_allocator_create(&alloc));
+
+    /* we should be able to create a psock from user methods. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            psock_create_from_user_methods(
+                &s, alloc, &ctx, &test_psock_vtable));
+
+    /* we should be able to accept a socket from the the psock. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == psock_accept(s, &desc, &addr, &addrlen));
+
+    /* this calls our function. */
+    TEST_EXPECT(ctx.accept_called);
 
     /* we should be able to release the socket, which in turn will call our
      * custom release method. */
