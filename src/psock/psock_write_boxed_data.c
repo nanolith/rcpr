@@ -47,14 +47,16 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(psock_write_boxed_data)(
     RCPR_SYM(psock)* sock, const void* data, size_t data_size)
 {
+    status retval;
+    const psock_vtable* sock_vtable;
+
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
     RCPR_MODEL_ASSERT(NULL != data);
     RCPR_MODEL_ASSERT(data_size <= UINT32_MAX);
-    const psock_vtable* sock_vtable;
 
     /* attempt to write the type to the socket. */
-    status retval = psock_write_raw_uint32(sock, PSOCK_BOXED_TYPE_DATA);
+    retval = psock_write_raw_uint32(sock, PSOCK_BOXED_TYPE_DATA);
     if (STATUS_SUCCESS != retval)
     {
         return retval;
@@ -69,8 +71,13 @@ RCPR_SYM(psock_write_boxed_data)(
     }
 
     /* get the socket's vtable. */
-    sock_vtable =
-        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&sock_vtable, psock_resource_handle(sock));
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
 
     /* attempt to write the data to the socket. */
     size_t write_size = data_size;
