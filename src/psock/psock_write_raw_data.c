@@ -57,8 +57,13 @@ RCPR_SYM(psock_write_raw_data)(
     RCPR_MODEL_ASSERT(data_size <= UINT32_MAX);
 
     /* get the socket's vtable. */
-    sock_vtable =
-        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&sock_vtable, psock_resource_handle(sock));
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
 
     /* loop to write all data. */
     const uint8_t* dptr = (const uint8_t*)data;
