@@ -79,8 +79,13 @@ RCPR_SYM(psock_read_raw_data)(
     }
 
     /* get the socket's vtable. */
-    sock_vtable =
-        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&sock_vtable, psock_resource_handle(sock));
+    if (STATUS_SUCCESS != retval)
+    {
+        goto cleanup_buffer;
+    }
 
     /* loop until all bytes are read. */
     uint8_t* ptr = buffer;
