@@ -116,8 +116,13 @@ RCPR_SYM(psock_read_boxed_string)(
     buffer[size] = 0;
 
     /* get the socket's vtable. */
-    sock_vtable =
-        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&sock_vtable, psock_resource_handle(sock));
+    if (STATUS_SUCCESS != retval)
+    {
+        goto cleanup_buffer;
+    }
 
     /* read data to the buffer. */
     size_t read_size = size;
