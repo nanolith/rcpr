@@ -61,6 +61,7 @@ RCPR_SYM(psock_accept)(
     RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
     socklen_t* addrlen)
 {
+    status retval;
     const psock_vtable* sock_vtable;
 
     /* parameter sanity checks. */
@@ -71,8 +72,15 @@ RCPR_SYM(psock_accept)(
     RCPR_MODEL_ASSERT(*addrlen > 0);
 
     /* get the socket's vtable. */
-    sock_vtable =
-        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&sock_vtable, psock_resource_handle(sock));
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
+
+    /* verify that accept_fn is defined. */
     if (NULL == sock_vtable->accept_fn)
     {
         return ERROR_PSOCK_METHOD_UNDEFINED;
