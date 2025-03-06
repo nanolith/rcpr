@@ -127,16 +127,6 @@ RCPR_SYM(resource_init)(
     RCPR_SYM(resource)* r, const RCPR_SYM(resource_vtable)* vtable);
 
 /**
- * \brief Get the vtable associated with a resource.
- *
- * \param r         The resource.
- *
- * \returns the vtable associated with this resource.
- */
-const RCPR_SYM(resource_vtable)*
-RCPR_SYM(resource_vtable_get)(RCPR_SYM(resource)* r);
-
-/**
  * \brief Access the vtable associated with this resource.
  *
  * \param vtable    Pointer to the vtable pointer to set on success.
