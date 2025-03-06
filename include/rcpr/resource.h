@@ -183,6 +183,10 @@ RCPR_SYM(prop_resource_valid)(
     sym ## resource_vtable_get( \
         RCPR_SYM(resource)* x) { \
             return RCPR_SYM(resource_vtable_get)(x); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## resource_vtable_read( \
+        const RCPR_SYM(resource_vtable)** x, const RCPR_SYM(resource)* y) { \
+            return resource_vtable_read(x,y); } \
     static inline bool sym ## prop_resource_valid(\
         const RCPR_SYM(resource)* x) { \
             return RCPR_SYM(prop_resource_valid)(x); } \
