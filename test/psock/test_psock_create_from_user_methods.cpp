@@ -25,17 +25,20 @@ struct test_psock_context
 {
     bool release_called = false;
     bool read_called = false;
+    bool write_called = false;
 };
 
 static status test_psock_release(psock* sock, void* ctx);
 static status test_psock_read(
     psock* sock, void* ctx, void* data, size_t* size, bool block);
+static status test_psock_write(
+    psock* sock, void* ctx, const void* data, size_t* size);
 
 RCPR_VTABLE
 psock_vtable test_psock_vtable = {
     .hdr = { NULL },
     .read_fn = &test_psock_read,
-    .write_fn = NULL,
+    .write_fn = &test_psock_write,
     .accept_fn = NULL,
     .sendmsg_fn = NULL,
     .recvmsg_fn = NULL,
@@ -64,6 +67,20 @@ static status test_psock_read(
     test_psock_context* test_context = (test_psock_context*)ctx;
 
     test_context->read_called = true;
+
+    return STATUS_SUCCESS;
+}
+
+static status test_psock_write(
+    psock* sock, void* ctx, const void* data, size_t* size)
+{
+    (void)sock;
+    (void)data;
+    (void)size;
+
+    test_psock_context* test_context = (test_psock_context*)ctx;
+
+    test_context->write_called = true;
 
     return STATUS_SUCCESS;
 }
@@ -129,6 +146,45 @@ TEST(read)
 
     /* this calls our function. */
     TEST_EXPECT(ctx.read_called);
+
+    /* we should be able to release the socket, which in turn will call our
+     * custom release method. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            resource_release(psock_resource_handle(s)));
+
+    /* clean up. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
+}
+
+/**
+ * Verify that we can write to a user method psock.
+ */
+TEST(write)
+{
+    allocator* alloc = nullptr;
+    psock* s = nullptr;
+    test_psock_context ctx;
+    int32_t data = 77;
+    size_t data_size = sizeof(data);
+
+    /* we should be able to create a malloc allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == malloc_allocator_create(&alloc));
+
+    /* we should be able to create a psock from user methods. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            psock_create_from_user_methods(
+                &s, alloc, &ctx, &test_psock_vtable));
+
+    /* we should be able to write to the psock. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == psock_write_raw_data(s, &data, data_size));
+
+    /* this calls our function. */
+    TEST_EXPECT(ctx.write_called);
 
     /* we should be able to release the socket, which in turn will call our
      * custom release method. */
