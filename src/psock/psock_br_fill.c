@@ -49,9 +49,14 @@ status RCPR_SYM(psock_br_fill)(
     }
 
     /* get the wrapped vtable. */
-    wrapped_vtable =
-        (const psock_vtable*)resource_vtable_get(
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&wrapped_vtable,
             psock_resource_handle(br->wrapped));
+    if (STATUS_SUCCESS != retval)
+    {
+        goto done;
+    }
 
     /* read as many bytes as we can from the wrapped socket. */
     size_t read_bytes = br->max_size - br->current_size;
@@ -67,7 +72,8 @@ status RCPR_SYM(psock_br_fill)(
     /* if zero bytes were read, then the socket is closed. */
     if (0 == read_bytes)
     {
-        return ERROR_PSOCK_READ_GENERAL;
+        retval = ERROR_PSOCK_READ_GENERAL;
+        goto done;
     }
 
     /* adjust the current size accordingly. */
