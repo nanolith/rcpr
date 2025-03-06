@@ -52,9 +52,16 @@ status RCPR_SYM(psock_wrap_async_recvmsg)(
     RCPR_MODEL_ASSERT(prop_sock_valid(s->wrapped));
 
     /* get the wrapped socket's vtable. */
-    wrapped_vtable =
-        (const psock_vtable*)resource_vtable_get(
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&wrapped_vtable,
             psock_resource_handle(s->wrapped));
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
+
+    /* verify that recvmsg is set. */
     if (NULL == wrapped_vtable->recvmsg_fn)
     {
         return ERROR_PSOCK_METHOD_UNDEFINED;
