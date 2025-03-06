@@ -136,6 +136,20 @@ RCPR_SYM(resource_init)(
 const RCPR_SYM(resource_vtable)*
 RCPR_SYM(resource_vtable_get)(RCPR_SYM(resource)* r);
 
+/**
+ * \brief Access the vtable associated with this resource.
+ *
+ * \param vtable    Pointer to the vtable pointer to set on success.
+ * \param r         The resource.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_BAD_VTABLE if the vtable for this instance is invalid.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(resource_vtable_read)(
+    const RCPR_SYM(resource_vtable)** vtable, const RCPR_SYM(resource)* r);
+
 /******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
