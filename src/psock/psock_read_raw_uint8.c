@@ -55,21 +55,28 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(psock_read_raw_uint8)(
     RCPR_SYM(psock)* sock, uint8_t* val)
 {
+    status retval;
+    const psock_vtable* sock_vtable;
+
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
     RCPR_MODEL_ASSERT(NULL != val);
-    const psock_vtable* sock_vtable;
 
     /* size and data locals. */
     size_t size = sizeof(uint8_t);
     uint8_t data = 0UL;
 
     /* get the socket's vtable. */
-    sock_vtable =
-        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&sock_vtable, psock_resource_handle(sock));
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
 
     /* attempt to read from the socket. */
-    int retval = sock_vtable->read_fn(sock, sock->context, &data, &size, true);
+    retval = sock_vtable->read_fn(sock, sock->context, &data, &size, true);
     if (STATUS_SUCCESS != retval)
     {
         return retval;
