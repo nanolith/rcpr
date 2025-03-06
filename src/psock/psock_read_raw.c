@@ -71,8 +71,13 @@ RCPR_SYM(psock_read_raw)(
     RCPR_MODEL_ASSERT(prop_valid_range(data, *data_size));
 
     /* get the socket's vtable. */
-    sock_vtable =
-        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&sock_vtable, psock_resource_handle(sock));
+    if (STATUS_SUCCESS != retval)
+    {
+        goto done;
+    }
 
     /* read data to the buffer. */
     size_t read_size = *data_size;
@@ -92,5 +97,4 @@ RCPR_SYM(psock_read_raw)(
 
 done:
     return retval;
-
 }
