@@ -55,9 +55,14 @@ status RCPR_SYM(psock_wrap_async_write)(
     RCPR_MODEL_ASSERT(prop_psock_valid(s->wrapped));
 
     /* get the wrapped socket's vtable. */
-    wrapped_vtable =
-        (const psock_vtable*)resource_vtable_get(
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&wrapped_vtable,
             psock_resource_handle(s->wrapped));
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
 
     /* loop through until all bytes are written. */
     size_t write_size = *size;
