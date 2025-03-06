@@ -33,16 +33,24 @@ status RCPR_SYM(psock_br_psock_accept)(
     socklen_t* addrlen)
 {
     (void)ctx;
-    psock_br* br = (psock_br*)sock;
+    status retval;
     const psock_vtable* wrapped_vtable;
+    psock_br* br = (psock_br*)sock;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_br_valid(br));
 
     /* get the wrapped socket's vtable. */
-    wrapped_vtable =
-        (const psock_vtable*)resource_vtable_get(
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&wrapped_vtable,
             psock_resource_handle(br->wrapped));
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
+
+    /* verify that the accept function is set. */
     if (NULL == wrapped_vtable->accept_fn)
     {
         return ERROR_PSOCK_METHOD_UNDEFINED;
