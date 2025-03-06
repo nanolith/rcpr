@@ -47,19 +47,26 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(psock_write_raw_uint8)(
     RCPR_SYM(psock)* sock, uint8_t val)
 {
+    status retval;
+    const psock_vtable* sock_vtable;
+
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(prop_psock_valid(sock));
-    const psock_vtable* sock_vtable;
 
     /* size to write. */
     size_t size = sizeof(uint8_t);
 
     /* get the socket's vtable. */
-    sock_vtable =
-        (const psock_vtable*)resource_vtable_get(psock_resource_handle(sock));
+    retval =
+        resource_vtable_read(
+            (const resource_vtable**)&sock_vtable, psock_resource_handle(sock));
+    if (STATUS_SUCCESS != retval)
+    {
+        return retval;
+    }
 
     /* attempt to write to the socket. */
-    int retval = sock_vtable->write_fn(sock, sock->context, &val, &size);
+    retval = sock_vtable->write_fn(sock, sock->context, &val, &size);
     if (STATUS_SUCCESS != retval)
     {
         return retval;
