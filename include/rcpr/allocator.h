@@ -86,6 +86,7 @@ RCPR_SYM(malloc_allocator_create)(
 RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
     RCPR_SYM(malloc_allocator_create),
     RCPR_SYM(allocator)** alloc)
+        /* the allocator pointer pointer must not be NULL. */
         RCPR_MODEL_ASSERT(NULL != alloc);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(malloc_allocator_create))
 
