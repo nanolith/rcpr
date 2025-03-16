@@ -58,14 +58,17 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(malloc_allocator_create)(
     RCPR_SYM(allocator)** alloc)
 {
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != alloc);
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(
+        RCPR_SYM(malloc_allocator_create), alloc);
+
+    int retval;
 
     /* attempt to allocate memory for the allocator. */
     *alloc = (allocator*)malloc(sizeof(allocator));
     if (NULL == *alloc)
     {
-        return ERROR_GENERAL_OUT_OF_MEMORY;
+        retval = ERROR_GENERAL_OUT_OF_MEMORY;
+        goto done;
     }
 
     /* clear out the structure. */
@@ -86,7 +89,14 @@ RCPR_SYM(malloc_allocator_create)(
     RCPR_MODEL_ASSERT(prop_allocator_valid(*alloc));
 
     /* success. */
-    return STATUS_SUCCESS;
+    retval = STATUS_SUCCESS;
+    goto done;
+
+done:
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(
+        RCPR_SYM(malloc_allocator_create), retval, alloc);
+
+    return retval;
 }
 
 /**
