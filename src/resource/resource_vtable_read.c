@@ -12,6 +12,7 @@
 
 #include "resource_internal.h"
 
+RCPR_IMPORT_resource;
 RCPR_IMPORT_vtable;
 
 /**
