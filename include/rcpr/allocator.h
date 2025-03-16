@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include <rcpr/function_contracts.h>
 #include <rcpr/function_decl.h>
 #include <rcpr/resource.h>
 #include <rcpr/status.h>
