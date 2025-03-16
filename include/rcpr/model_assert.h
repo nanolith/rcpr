@@ -15,8 +15,8 @@
 #include <rcpr/shadow/valid_range.h>
 
 #if CBMC
-# define RCPR_MODEL_ASSERT(x)  __CPROVER_assert((x), #x)
-# define RCPR_MODEL_ASSUME(x)  __CPROVER_assume((x))
+# define RCPR_MODEL_ASSERT(x) __CPROVER_assert((x), #x); REQUIRE_SEMICOLON_HERE
+# define RCPR_MODEL_ASSUME(x) __CPROVER_assume((x)); REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_CHECK_OBJECT_READ(x, size) \
     __CPROVER_assert(__CPROVER_r_ok((x), (size)), #x " read " #size); \
     REQUIRE_SEMICOLON_HERE
@@ -29,8 +29,8 @@
 # define RCPR_MODEL_EXEMPT(x)
 # define RCPR_MODEL_ONLY(x) (x)
 #else
-# define RCPR_MODEL_ASSERT(x)
-# define RCPR_MODEL_ASSUME(x)
+# define RCPR_MODEL_ASSERT(x) REQUIRE_SEMICOLON_HERE
+# define RCPR_MODEL_ASSUME(x) REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_CHECK_OBJECT_READ(x, size) REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_CHECK_OBJECT_WRITE(x, size) REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_CHECK_OBJECT_RW(x, size) REQUIRE_SEMICOLON_HERE
