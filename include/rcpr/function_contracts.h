@@ -55,3 +55,10 @@
  */
 #define RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(function, ...) \
     RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN1(function, __VA_ARGS__)
+
+/**
+ * \brief End of function contract postconditions.
+ */
+#define RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(function) \
+    } \
+    RCPR_END_CONTRACT_HELPER
