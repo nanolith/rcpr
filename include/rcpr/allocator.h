@@ -89,6 +89,27 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(NULL != alloc);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(malloc_allocator_create))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(malloc_allocator_create),
+    int retval, RCPR_SYM(allocator)** alloc)
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* the allocator is valid. */
+            RCPR_MODEL_ASSERT(RCPR_SYM(prop_allocator_valid)(*alloc));
+        }
+        /* on failure... */
+        else
+        {
+            /* the allocator pointer is set to NULL. */
+            RCPR_MODEL_ASSERT(NULL == *alloc);
+
+            /* the only error code returned is out-of-memory. */
+            RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(malloc_allocator_create))
+
 /**
  * \brief Create a bump allocator, backed by the given memory region.
  *
