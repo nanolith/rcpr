@@ -13,7 +13,6 @@ INCLUDE(CheckSymbolExists)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
-option(MODELCHECK_REQUIRED "Require Model Checking")
 option(MODEL_CHECKING_ENABLED "Enable Model Checking")
 option(PSOCK_ASYNC_USE_POLL "Use poll() for psock async I/O.")
 option(RCPR_VTABLE_RUNTIME_ENFORCEMENT "Runtime checks for vtable segment")
@@ -226,3 +225,8 @@ INSTALL(TARGETS rcpr rcpr-${CMAKE_PROJECT_VERSION}
 
 #Examples
 ADD_SUBDIRECTORY(examples)
+
+#model checks
+if (MODEL_CHECKING_ENABLED)
+    ADD_SUBDIRECTORY(models)
+endif()
