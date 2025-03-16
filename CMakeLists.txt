@@ -14,6 +14,7 @@ INCLUDE(CheckSymbolExists)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
 option(MODELCHECK_REQUIRED "Require Model Checking")
+option(MODEL_CHECKING_ENABLED "Enable Model Checking")
 option(PSOCK_ASYNC_USE_POLL "Use poll() for psock async I/O.")
 option(RCPR_VTABLE_RUNTIME_ENFORCEMENT "Runtime checks for vtable segment")
 option(RCPR_VTABLE_CHECK_ASSERT "Runtime vtable check is an assertion" ON)
@@ -177,15 +178,6 @@ ADD_CUSTOM_TARGET(
     test
     COMMAND testrcpr
     DEPENDS testrcpr)
-
-ADD_CUSTOM_TARGET(
-    model_checks
-    COMMAND make
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/models)
-
-if (MODELCHECK_REQUIRED)
-    ADD_DEPENDENCIES(testrcpr model_checks)
-endif()
 
 #Build a pkg-config file
 SET(RCPR_PC "${CMAKE_BINARY_DIR}/rcpr.pc")
