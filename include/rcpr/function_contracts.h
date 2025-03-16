@@ -11,14 +11,21 @@
 #pragma once
 
 /**
- * Begin a contract helper section.
+ * \brief Begin a contract helper section.
  */
 #define RCPR_BEGIN_CONTRACT_HELPER \
     _Pragma("GCC diagnostic push") \
     _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"")
 
 /**
- * End a contract helper section.
+ * \brief End a contract helper section.
  */
 #define RCPR_END_CONTRACT_HELPER \
     _Pragma("GCC diagnostic pop")
+
+/**
+ * \brief Expansion of the begin preconditions variadic macro.
+ */
+#define RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN1(function, ...) \
+    RCPR_CONTACT_BEGIN_CONTRACT_HELPER \
+    inline void rcpr_model_check ## function ## _preconditions(__VA_ARGS__) {
