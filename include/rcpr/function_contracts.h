@@ -27,7 +27,7 @@
  * \brief Expansion of the begin preconditions variadic macro.
  */
 #define RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN1(function, ...) \
-    RCPR_CONTACT_BEGIN_CONTRACT_HELPER \
+    RCPR_BEGIN_CONTRACT_HELPER \
     inline void rcpr_model_check ## function ## _preconditions(__VA_ARGS__) {
 
 /**
@@ -35,3 +35,10 @@
  */
 #define RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(function, ...) \
     RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN1(function, __VA_ARGS__)
+
+/**
+ * \brief End of function contract preconditions.
+ */
+#define RCPR_MODEL_CONTRACT_PRECONDITIONS_END(function) \
+    } \
+    RCPR_END_CONTRACT_HELPER
