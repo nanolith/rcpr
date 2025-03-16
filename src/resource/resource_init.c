@@ -27,7 +27,7 @@ RCPR_SYM(resource_init)(
 {
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(NULL != r);
-    RCPR_MODEL_ASSERT(NULL != release);
+    RCPR_MODEL_ASSERT(NULL != vtable);
 
     r->vtable = vtable;
 
