@@ -68,8 +68,10 @@
 #ifdef CBMC
 # define RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS1(function, ...) \
     rcpr_model_check_ ## function ## _preconditions(__VA_ARGS__)
+# define MODEL_CONTRACT_CHECK_PRECONDITIONS(function, ...) \
+    MODEL_CONTRACT_CHECK_PRECONDITIONS1(function, __VA_ARGS__)
 #else
-# define RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS1(function, ...) \
+# define RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(function, ...) \
     ; \
     REQUIRE_SEMICOLON_HERE
 #endif
