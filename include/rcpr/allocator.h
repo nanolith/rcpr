@@ -12,6 +12,7 @@
 
 #include <rcpr/function_contracts.h>
 #include <rcpr/function_decl.h>
+#include <rcpr/model_assert.h>
 #include <rcpr/resource.h>
 #include <rcpr/status.h>
 #include <stdbool.h>
@@ -80,6 +81,13 @@ RCPR_SYM(prop_allocator_valid)(
 status FN_DECL_MUST_CHECK
 RCPR_SYM(malloc_allocator_create)(
     RCPR_SYM(allocator)** alloc);
+
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(malloc_allocator_create),
+    RCPR_SYM(allocator)** alloc)
+        RCPR_MODEL_ASSERT(NULL != alloc);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(malloc_allocator_create))
 
 /**
  * \brief Create a bump allocator, backed by the given memory region.
