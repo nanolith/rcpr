@@ -42,6 +42,7 @@ INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
 
 #chooser helpers
 SET(COMPILER_CHOOSER ${CMAKE_SOURCE_DIR}/scripts/compiler-chooser.sh)
+SET(LINKER_CHOOSER ${CMAKE_SOURCE_DIR}/scripts/linker-chooser.sh)
 
 #source files
 AUX_SOURCE_DIRECTORY(src/allocator RCPR_ALLOCATOR_SOURCES)
