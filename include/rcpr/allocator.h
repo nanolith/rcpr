@@ -38,6 +38,21 @@ typedef struct RCPR_SYM(allocator) RCPR_SYM(allocator);
 typedef struct RCPR_SYM(allocator_vtable) RCPR_SYM(allocator_vtable);
 
 /******************************************************************************/
+/* Start of model checking properties.                                        */
+/******************************************************************************/
+
+/**
+ * \brief Valid allocator property.
+ *
+ * \param alloc         The allocator instance to be verified.
+ *
+ * \returns true if the allocator instance is valid.
+ */
+bool
+RCPR_SYM(prop_allocator_valid)(
+    const RCPR_SYM(allocator)* alloc);
+
+/******************************************************************************/
 /* Start of constructors.                                                     */
 /******************************************************************************/
 
@@ -300,21 +315,6 @@ struct RCPR_SYM(allocator_vtable)
     RCPR_SYM(allocator_reclaim_fn) reclaim_fn;
     RCPR_SYM(allocator_reallocate_fn) reallocate_fn;
 };
-
-/******************************************************************************/
-/* Start of model checking properties.                                        */
-/******************************************************************************/
-
-/**
- * \brief Valid allocator property.
- *
- * \param alloc         The allocator instance to be verified.
- *
- * \returns true if the allocator instance is valid.
- */
-bool
-RCPR_SYM(prop_allocator_valid)(
-    const RCPR_SYM(allocator)* alloc);
 
 /******************************************************************************/
 /* Start of public exports.                                                   */
