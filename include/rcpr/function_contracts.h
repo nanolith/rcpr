@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <rcpr/macro_tricks.h>
+
 /**
  * \brief Begin a contract helper section.
  */
@@ -62,3 +64,12 @@
 #define RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(function) \
     } \
     RCPR_END_CONTRACT_HELPER
+
+#ifdef CBMC
+# define RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS1(function, ...) \
+    rcpr_model_check_ ## function ## _preconditions(__VA_ARGS__)
+#else
+# define RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS1(function, ...) \
+    ; \
+    REQUIRE_SEMICOLON_HERE
+#endif
