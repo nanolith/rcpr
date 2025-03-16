@@ -49,3 +49,9 @@
 #define RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN1(function, ...) \
     RCPR_BEGIN_CONTRACT_HELPER \
     inline void rcpr_model_check_ ## function ## _postconditions(__VA_ARGS__) {
+
+/**
+ * \brief Variadic macro describing function contract postconditions.
+ */
+#define RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(function, ...) \
+    RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN1(function, __VA_ARGS__)
