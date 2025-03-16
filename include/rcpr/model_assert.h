@@ -3,7 +3,7 @@
  *
  * \brief Model checking assertions.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2025 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -18,10 +18,6 @@
 # define RCPR_MODEL_ASSUME(x)  __CPROVER_assume((x))
 # define RCPR_MODEL_EXEMPT(x)
 # define RCPR_MODEL_ONLY(x) (x)
-# ifndef CBMC_NO_MALLOC_OVERRIDE
-# define malloc cbmc_malloc
-# define free cbmc_free
-# endif
 #else
 # define RCPR_MODEL_ASSERT(x)
 # define RCPR_MODEL_ASSUME(x)
