@@ -40,6 +40,9 @@ configure_file(config.h.cmake include/rcpr/config.h)
 INCLUDE_DIRECTORIES(include)
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
 
+#chooser helpers
+SET(COMPILER_CHOOSER ${CMAKE_SOURCE_DIR}/scripts/compiler-chooser.sh)
+
 #source files
 AUX_SOURCE_DIRECTORY(src/allocator RCPR_ALLOCATOR_SOURCES)
 AUX_SOURCE_DIRECTORY(src/bigint RCPR_BIGINT_SOURCES)
