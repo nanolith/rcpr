@@ -36,6 +36,21 @@ typedef struct RCPR_SYM(resource) RCPR_SYM(resource);
 typedef struct RCPR_SYM(resource_vtable) RCPR_SYM(resource_vtable);
 
 /******************************************************************************/
+/* Start of model checking properties.                                        */
+/******************************************************************************/
+
+/**
+ * \brief Valid resource property.
+ *
+ * \param r             The resource instance to be verified.
+ *
+ * \returns true if the resource instance is valid.
+ */
+bool
+RCPR_SYM(prop_resource_valid)(
+    const RCPR_SYM(resource)* r);
+
+/******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
 
@@ -139,21 +154,6 @@ RCPR_SYM(resource_init)(
 status FN_DECL_MUST_CHECK
 RCPR_SYM(resource_vtable_read)(
     const RCPR_SYM(resource_vtable)** vtable, const RCPR_SYM(resource)* r);
-
-/******************************************************************************/
-/* Start of model checking properties.                                        */
-/******************************************************************************/
-
-/**
- * \brief Valid resource property.
- *
- * \param r             The resource instance to be verified.
- *
- * \returns true if the resource instance is valid.
- */
-bool
-RCPR_SYM(prop_resource_valid)(
-    const RCPR_SYM(resource)* r);
 
 /******************************************************************************/
 /* Start of public exports.                                                   */
