@@ -99,6 +99,12 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(RCPR_SYM(prop_resource_valid)(r));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(resource_release))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(resource_release), int retval)
+        /* TODO - restrict allowed status codes. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(resource_release))
+
 /******************************************************************************/
 /* Start of public types.                                                     */
 /******************************************************************************/
