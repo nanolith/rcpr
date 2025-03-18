@@ -168,6 +168,13 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_CHECK_OBJECT_READ(vtable, sizeof(*vtable));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(resource_init))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(resource_init), RCPR_SYM(resource)* r)
+        /* r is a valid resource. */
+        RCPR_MODEL_ASSERT(RCPR_SYM(prop_resource_valid(r)));
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(resource_init))
+
 /**
  * \brief Access the vtable associated with this resource.
  *
