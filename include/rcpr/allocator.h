@@ -288,6 +288,24 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(NULL != *ptr);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_reallocate))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(allocator_reallocate),
+    int retval, void** ptr, size_t size)
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* *ptr can hold at least size bytes. */
+            RCPR_MODEL_CHECK_OBJECT_RW(*ptr, size);
+        }
+        /* on failure... */
+        else
+        {
+            /* *ptr is NOT NULL. */
+            RCPR_MODEL_ASSERT(NULL != *ptr);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(allocator_reallocate))
+
 /**
  * \brief Given an allocator instance, return the resource handle for this
  * allocator instance.
