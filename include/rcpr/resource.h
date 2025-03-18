@@ -199,6 +199,28 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(RCPR_SYM(prop_resource_valid(r)));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(resource_vtable_read))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(resource_vtable_read),
+    int retval, const RCPR_SYM(resource_vtable)** vtable)
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* vtable points to a valid resource vtable. */
+            RCPR_MODEL_CHECK_OBJECT_READ(*vtable, sizeof(**vtable));
+            /* resource release is valid. */
+            RCPR_MODEL_ASSERT(NULL != (*vtable)->release);
+        }
+        /* on failure... */
+        else
+        {
+            /* retval is set to ERROR_GENERAL_BAD_VTABLE. */
+            RCPR_MODEL_ASSERT(ERROR_GENERAL_BAD_VTABLE == retval);
+            /* *vtable is set to NULL. */
+            RCPR_MODEL_ASSERT(NULL == *vtable);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(resource_vtable_read))
+
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
