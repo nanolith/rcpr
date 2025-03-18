@@ -4,7 +4,7 @@
  * \brief The allocator interface encapsulates the mechanism used to allocate
  * and reclaim memory.
  *
- * \copyright 2020 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2025 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
@@ -174,6 +174,16 @@ RCPR_SYM(bump_allocator_create)(
 status FN_DECL_MUST_CHECK
 RCPR_SYM(allocator_allocate)(
     RCPR_SYM(allocator)* alloc, void** ptr, size_t size);
+
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(allocator_allocate),
+    RCPR_SYM(allocator)* alloc, void** ptr, size_t size)
+        /* this must be a valid allocator. */
+        RCPR_MODEL_ASSERT(RCPR_SYM(prop_allocator_valid(alloc)));
+        /* ptr must be sized to hold the result. */
+        RCPR_MODEL_CHECK_OBJECT_RW(ptr, sizeof(*ptr));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_allocate))
 
 /**
  * \brief Instruct the allocator instance to reclaim the given memory region.

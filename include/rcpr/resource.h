@@ -5,7 +5,7 @@
  * that can be released, reclaiming the underlying memory or external resources
  * associated with this interface.
  *
- * \copyright 2020-2023 Justin Handville.  Please see license.txt in this
+ * \copyright 2020-2025 Justin Handville.  Please see license.txt in this
  * distribution for the license terms under which this software is distributed.
  */
 
