@@ -40,7 +40,6 @@ extern const void* __stop_rcpr_vtable;
     REQUIRE_SEMICOLON_HERE
 #endif /*RCPR_VTABLE_CHECK_ASSERT*/
 
-
 /**
  * \brief The RCPR_VTABLE attribute macro is used when specifying that a given
  * vtable data structure should be stored in the rcpr_vtable section of the
