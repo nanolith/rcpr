@@ -185,6 +185,24 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_CHECK_OBJECT_RW(ptr, sizeof(*ptr));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_allocate))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(allocator_allocate),
+    int retval, void** ptr, size_t size)
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* *ptr can hold at least size bytes. */
+            RCPR_MODEL_CHECK_OBJECT_RW(*ptr, size);
+        }
+        /* on failure... */
+        else
+        {
+            /* *ptr is set to NULL. */
+            RCPR_MODEL_ASSERT(NULL == *ptr);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(allocator_allocate))
+
 /**
  * \brief Instruct the allocator instance to reclaim the given memory region.
  *
