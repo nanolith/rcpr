@@ -30,6 +30,17 @@ extern const void* __stop_rcpr_vtable;
     return ERROR_GENERAL_BAD_VTABLE
 #endif /*RCPR_VTABLE_CHECK_ASSERT*/
 
+#ifdef RCPR_VTABLE_CHECK_ASSERT
+# define RCPR_VTABLE_CHECK_ERROR_GOTO_FAIL(label) \
+    assert("Invalid RCPR vtable pointer.")
+#else
+# define RCPR_VTABLE_CHECK_ERROR_GOTO_FAIL(label) \
+    retval = ERROR_GENERAL_BAD_VTABLE; \
+    goto label; \
+    REQUIRE_SEMICOLON_HERE
+#endif /*RCPR_VTABLE_CHECK_ASSERT*/
+
+
 /**
  * \brief The RCPR_VTABLE attribute macro is used when specifying that a given
  * vtable data structure should be stored in the rcpr_vtable section of the
