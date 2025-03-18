@@ -238,6 +238,11 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(NULL != ptr);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_reclaim))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(allocator_reclaim), int retval)
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(allocator_reclaim))
+
 /**
  * \brief Attempt to resize a previously allocated memory region, either growing
  * or shrinking it.
