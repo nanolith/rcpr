@@ -25,9 +25,7 @@ void
 RCPR_SYM(resource_init)(
     RCPR_SYM(resource)* r, const RCPR_SYM(resource_vtable)* vtable)
 {
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != r);
-    RCPR_MODEL_ASSERT(NULL != vtable);
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(RCPR_SYM(resource_init), r, vtable);
 
     r->vtable = vtable;
 
@@ -35,6 +33,5 @@ RCPR_SYM(resource_init)(
     RCPR_MODEL_STRUCT_TAG_INIT(
         r->RCPR_MODEL_STRUCT_TAG_REF(resource), resource);
 
-    /* verify that the resource is now valid. */
-    RCPR_MODEL_ASSERT(prop_resource_valid(r));
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(RCPR_SYM(resource_init), r);
 }
