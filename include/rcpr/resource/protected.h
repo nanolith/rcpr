@@ -9,13 +9,16 @@
 
 #pragma once
 
+#include <rcpr/function_decl.h>
 #include <rcpr/model_assert.h>
-#include <rcpr/resource.h>
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
 extern "C" {
 # endif /*__cplusplus*/
+
+/* forward decl for resource_vtable. */
+typedef struct RCPR_SYM(resource_vtable) RCPR_SYM(resource_vtable);
 
 struct RCPR_SYM(resource)
 {
