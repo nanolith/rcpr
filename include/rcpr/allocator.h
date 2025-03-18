@@ -326,6 +326,13 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(RCPR_SYM(prop_allocator_valid)(alloc));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_resource_handle))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(allocator_resource_handle), RCPR_SYM(resource)* retval)
+        /* a valid resource handle is returned. */
+        RCPR_MODEL_ASSERT(RCPR_SYM(prop_resource_valid)(retval));
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(allocator_resource_handle))
+
 /******************************************************************************/
 /* Start of public types.                                                     */
 /******************************************************************************/
