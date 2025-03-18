@@ -49,13 +49,24 @@ RCPR_IMPORT_vtable;
 status FN_DECL_MUST_CHECK
 RCPR_SYM(resource_release)(RCPR_SYM(resource)* r)
 {
-    RCPR_MODEL_ASSERT(prop_resource_valid(r));
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(
+        RCPR_SYM(resource_release), r);
+
+    int retval;
 
     /* vtable runtime check. */
     if (!vtable_range_valid(r->vtable))
     {
-        RCPR_VTABLE_CHECK_ERROR();
+        RCPR_VTABLE_CHECK_ERROR_GOTO_FAIL(done);
     }
 
-    return r->vtable->release(r);
+    /* release resource. */
+    retval = r->vtable->release(r);
+    goto done;
+
+done:
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(
+        RCPR_SYM(resource_release), retval);
+
+    return retval;
 }
