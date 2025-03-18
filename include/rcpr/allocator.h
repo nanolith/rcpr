@@ -228,6 +228,16 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(allocator_reclaim)(
     RCPR_SYM(allocator)* alloc, void* ptr);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(allocator_reclaim),
+    RCPR_SYM(allocator)* alloc, void* ptr)
+        /* alloc is a valid allocator. */
+        RCPR_MODEL_ASSERT(RCPR_SYM(prop_allocator_valid)(alloc));
+        /* ptr is not NULL. */
+        RCPR_MODEL_ASSERT(NULL != ptr);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_reclaim))
+
 /**
  * \brief Attempt to resize a previously allocated memory region, either growing
  * or shrinking it.
