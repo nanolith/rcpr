@@ -319,6 +319,13 @@ RCPR_SYM(resource)*
 RCPR_SYM(allocator_resource_handle)(
     RCPR_SYM(allocator)* alloc);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(allocator_resource_handle), RCPR_SYM(allocator)* alloc)
+        /* alloc must be a valid allocator. */
+        RCPR_MODEL_ASSERT(RCPR_SYM(prop_allocator_valid)(alloc));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_resource_handle))
+
 /******************************************************************************/
 /* Start of public types.                                                     */
 /******************************************************************************/
