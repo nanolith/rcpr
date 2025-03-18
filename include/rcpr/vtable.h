@@ -24,7 +24,7 @@ extern const void* __stop_rcpr_vtable;
 
 #ifdef RCPR_VTABLE_CHECK_ASSERT
 # define RCPR_VTABLE_CHECK_ERROR() \
-    assert("Invalid RCPR vtable pointer.")
+    assert(0 && "Invalid RCPR vtable pointer.")
 #else
 # define RCPR_VTABLE_CHECK_ERROR() \
     return ERROR_GENERAL_BAD_VTABLE
@@ -32,7 +32,7 @@ extern const void* __stop_rcpr_vtable;
 
 #ifdef RCPR_VTABLE_CHECK_ASSERT
 # define RCPR_VTABLE_CHECK_ERROR_GOTO_FAIL(label) \
-    assert("Invalid RCPR vtable pointer.")
+    assert(0 && "Invalid RCPR vtable pointer.")
 #else
 # define RCPR_VTABLE_CHECK_ERROR_GOTO_FAIL(label) \
     retval = ERROR_GENERAL_BAD_VTABLE; \
