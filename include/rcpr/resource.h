@@ -14,6 +14,7 @@
 #include <rcpr/function_contracts.h>
 #include <rcpr/function_decl.h>
 #include <rcpr/model_assert.h>
+#include <rcpr/resource/protected.h>
 #include <rcpr/status.h>
 #include <stdbool.h>
 
@@ -156,6 +157,16 @@ struct RCPR_SYM(resource_vtable)
 void
 RCPR_SYM(resource_init)(
     RCPR_SYM(resource)* r, const RCPR_SYM(resource_vtable)* vtable);
+
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(resource_init),
+    RCPR_SYM(resource)* r, const RCPR_SYM(resource_vtable)* vtable)
+        /* r points to a memory region large enough to hold a resource. */
+        RCPR_MODEL_CHECK_OBJECT_RW(r, sizeof(*r));
+        /* vtable points to a region large enough to hold a resource_vtable. */
+        RCPR_MODEL_CHECK_OBJECT_READ(vtable, sizeof(*vtable));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(resource_init))
 
 /**
  * \brief Access the vtable associated with this resource.
