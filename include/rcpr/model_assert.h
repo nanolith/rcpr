@@ -26,6 +26,9 @@
 # define RCPR_MODEL_CHECK_OBJECT_RW(x, size) \
     __CPROVER_assert(__CPROVER_rw_ok((x), (size)), #x " r/w " #size); \
     REQUIRE_SEMICOLON_HERE
+# define RCPR_MODEL_CHECK_IS_STRING(x) \
+    __CPROVER_ASSERT(__CPROVER_is_zero_string((x)), #x " is string"); \
+    REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_EXEMPT(x)
 # define RCPR_MODEL_ONLY(x) (x)
 #else
@@ -34,6 +37,7 @@
 # define RCPR_MODEL_CHECK_OBJECT_READ(x, size) REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_CHECK_OBJECT_WRITE(x, size) REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_CHECK_OBJECT_RW(x, size) REQUIRE_SEMICOLON_HERE
+# define RCPR_MODEL_CHECK_IS_STRING(x) REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_EXEMPT(x) (x)
 # define RCPR_MODEL_ONLY(x)
 #endif
