@@ -48,19 +48,25 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(allocator_reallocate)(
     RCPR_SYM(allocator)* alloc, void** ptr, size_t size)
 {
-    const allocator_vtable* vtable = allocator_vtable_get(alloc);
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(
+        RCPR_SYM(allocator_reallocate), alloc, ptr, size);
 
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
-    RCPR_MODEL_ASSERT(NULL != ptr);
-    RCPR_MODEL_ASSERT(prop_allocator_vtable_valid(vtable));
+    int retval;
+
+    const allocator_vtable* vtable = allocator_vtable_get(alloc);
 
     /* vtable runtime check. */
     if (!vtable_range_valid(vtable))
     {
-        RCPR_VTABLE_CHECK_ERROR();
+        RCPR_VTABLE_CHECK_ERROR_GOTO_FAIL(done);
     }
 
-    return
-        vtable->reallocate_fn(alloc, ptr, size);
+    retval = vtable->reallocate_fn(alloc, ptr, size);
+    goto done;
+
+done:
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(
+        RCPR_SYM(allocator_reallocate), retval, ptr, size);
+
+    return retval;
 }
