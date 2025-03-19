@@ -33,10 +33,10 @@ bool RCPR_SYM(prop_allocator_valid)(const RCPR_SYM(allocator)* alloc)
     RCPR_MODEL_ASSERT_STRUCT_TAG_INITIALIZED(
         alloc->RCPR_MODEL_STRUCT_TAG_REF(allocator), allocator);
 
-    RCPR_MODEL_ASSERT(prop_resource_valid(allocator_resource_handle(alloc)));
+    RCPR_MODEL_ASSERT(prop_resource_valid(&alloc->hdr));
     RCPR_MODEL_ASSERT(
         STATUS_SUCCESS
-            == resource_vtable_read(&vtable, allocator_resource_handle(alloc)));
+            == resource_vtable_read(&vtable, &alloc->hdr));
 
     /* verify that vtable is the correct size. */
     RCPR_MODEL_CHECK_OBJECT_READ(vtable, sizeof(*vtable));
