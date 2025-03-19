@@ -118,6 +118,13 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(right_trim))
  */
 void RCPR_SYM(trim)(char* str);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(trim), char* str)
+        /* str is a valid string. */
+        RCPR_MODEL_CHECK_IS_STRING(str);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(trim))
+
 /**
  * \brief Initialize a string iterator to scan the given string for individual
  * words separated by one or more whitespace characters.
