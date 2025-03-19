@@ -29,16 +29,27 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(resource_vtable_read)(
     const RCPR_SYM(resource_vtable)** vtable, const RCPR_SYM(resource)* r)
 {
-    RCPR_MODEL_ASSERT(prop_resource_valid(r));
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(
+        RCPR_SYM(resource_vtable_read), vtable, r);
+
+    int retval;
 
     /* vtable runtime check. */
     if (!vtable_range_valid(r->vtable))
     {
-        RCPR_VTABLE_CHECK_ERROR();
+        RCPR_VTABLE_CHECK_ERROR_GOTO_FAIL(done);
     }
 
     /* set the vtable value. */
     *vtable = r->vtable;
 
-    return STATUS_SUCCESS;
+    /* success. */
+    retval = STATUS_SUCCESS;
+    goto done;
+
+done:
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(
+        RCPR_SYM(resource_vtable_read), retval, vtable);
+
+    return retval;
 }
