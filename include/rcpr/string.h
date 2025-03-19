@@ -60,6 +60,13 @@ bool RCPR_SYM(is_whitespace)(int ch);
  */
 void RCPR_SYM(left_trim)(char* str);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(left_trim), char* str)
+        /* str is a valid string. */
+        RCPR_MODEL_CHECK_IS_STRING(str);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(left_trim))
+
 /**
  * \brief Perform a right trim of the given string.
  *
