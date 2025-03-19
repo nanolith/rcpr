@@ -81,6 +81,13 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_CHECK_IS_STRING(str);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(right_trim))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(right_trim), char* str)
+        /* str is a valid string. */
+        RCPR_MODEL_CHECK_IS_STRING(str);
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(right_trim))
+
 /**
  * \brief Perform a trim of the given string.
  *
