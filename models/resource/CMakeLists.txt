@@ -1,0 +1,1 @@
+ADD_SUBDIRECTORY(resource_init_release)
