@@ -24,9 +24,13 @@ RCPR_SYM(resource)*
 RCPR_SYM(allocator_resource_handle)(
     RCPR_SYM(allocator)* alloc)
 {
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != alloc);
-    RCPR_MODEL_ASSERT(prop_resource_valid(&alloc->hdr));
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(
+        RCPR_SYM(allocator_resource_handle), alloc);
 
-    return &alloc->hdr;
+    resource* retval = &alloc->hdr;
+
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(
+        RCPR_SYM(allocator_resource_handle), retval);
+
+    return retval;
 }
