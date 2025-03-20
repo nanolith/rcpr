@@ -192,6 +192,33 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         }
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(words))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(words), int retval, const char** word,
+    RCPR_SYM(string_iterator)* iterator, char* str)
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* word is a valid string. */
+            RCPR_MODEL_CHECK_IS_STRING(word);
+            /* iterator->startpos is not NULL. */
+            RCPR_MODEL_ASSERT(NULL != iterator->startpos);
+            /* iterator->endpos is unused. */
+            RCPR_MODEL_ASSERT(NULL == iterator->endpos);
+            /* iterator->token_fn is unused. */
+            RCPR_MODEL_ASSERT(NULL == iterator->token_fn);
+        }
+        else
+        {
+            /* retval is either STATUS_SUCCESS or ERROR_STRING_END_OF_INPUT. */
+            RCPR_MODEL_ASSERT(ERROR_STRING_END_OF_INPUT == retval);
+            /* words is set to NULL. */
+            RCPR_MODEL_ASSERT(NULL == words);
+            /* startpos points to ASCIIZ. */
+            RCPR_MODEL_ASSERT(0 == *(iterator->startpos));
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(words))
+
 /**
  * \brief Split a string into two halves based on the first occurrence of the
  * given character.
