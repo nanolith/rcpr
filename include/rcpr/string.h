@@ -187,10 +187,8 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         {
             /* startpos is a valid pointer. */
             RCPR_MODEL_ASSERT(NULL != iterator->startpos);
-            /* startpos is "past" word. */
-            RCPR_MODEL_ASSERT(word < iterator->startpos);
             /* word is a valid string. */
-            RCPR_MODEL_CHECK_IS_STRING(str);
+            RCPR_MODEL_CHECK_IS_STRING(word);
         }
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(words))
 
