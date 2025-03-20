@@ -174,12 +174,25 @@ RCPR_SYM(words)(
 RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
     RCPR_SYM(words), const char** word, RCPR_SYM(string_iterator)* iterator,
     char* str)
-        /* word is a valid pointer. */
-        RCPR_MODEL_CHECK_OBJECT_RW(word, sizeof(*word));
-        /* iterator is a valid pointer. */
-        RCPR_MODEL_CHECK_OBJECT_RW(iterator, sizeof(*iterator));
-        /* str is a valid string. */
-        RCPR_MODEL_CHECK_IS_STRING(str);
+        if (NULL != str)
+        {
+            /* word is a valid pointer. */
+            RCPR_MODEL_CHECK_OBJECT_RW(word, sizeof(*word));
+            /* iterator is a valid pointer. */
+            RCPR_MODEL_CHECK_OBJECT_RW(iterator, sizeof(*iterator));
+            /* str is a valid string. */
+            RCPR_MODEL_CHECK_IS_STRING(str);
+        }
+        else
+        {
+            /* word should be between startpos and endpos. */
+            RCPR_MODEL_ASSERT(word >= iterator->startpos);
+            RCPR_MODEL_ASSERT(word < iterator->endpos);
+            /* word is a valid string. */
+            RCPR_MODEL_CHECK_IS_STRING(str);
+            /* token_fn is valid. */
+            RCPR_MODEL_ASSERT(NULL != iterator->token_fn);
+        }
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(words))
 
 /**
