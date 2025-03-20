@@ -241,6 +241,20 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(words))
 status FN_DECL_MUST_CHECK
 RCPR_SYM(split)(const char** lhs, const char** rhs, char* str, int delim);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(split), const char** lhs, const char** rhs, char* str, int delim)
+        /* lhs is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(lhs, sizeof(*lhs));
+        /* rhs is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(rhs, sizeof(*rhs));
+        /* str is a valid string. */
+        RCPR_MODEL_CHECK_IS_STRING(str);
+        /* delim > 0 and < 128. */
+        /* TODO - add UTF-8 support. */
+        RCPR_MODEL_ASSERT(delim > 0 && delim < 128);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(split))
+
 /**
  * \brief Initialize a string iterator to scan the given string for individual
  * sequences separated by one or more occurrences of a token identified by the
