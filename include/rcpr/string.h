@@ -255,6 +255,29 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(delim > 0 && delim < 128);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(split))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(split), int retval, const char** lhs, const char** rhs)
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* *lhs is a valid string. */
+            RCPR_MODEL_CHECK_IS_STRING(*lhs);
+            /* *rhs is a valid string. */
+            RCPR_MODEL_CHECK_IS_STRING(*rhs);
+        }
+        /* on failure... */
+        else
+        {
+            /* on failure, retval is set to ERROR_STRING_END_OF_INPUT. */
+            RCPR_MODEL_ASSERT(ERROR_STRING_END_OF_INPUT == retval);
+            /* *lhs is NULL. */
+            RCPR_MODEL_ASSERT(NULL == *lhs);
+            /* *rhs is NULL. */
+            RCPR_MODEL_ASSERT(NULL == *rhs);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(split))
+
 /**
  * \brief Initialize a string iterator to scan the given string for individual
  * sequences separated by one or more occurrences of a token identified by the
