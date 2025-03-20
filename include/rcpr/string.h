@@ -170,6 +170,18 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(words)(
     const char** word, RCPR_SYM(string_iterator)* iterator, char* str);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(words), const char** word, RCPR_SYM(string_iterator)* iterator,
+    char* str)
+        /* word is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(word, sizeof(*word));
+        /* iterator is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(iterator, sizeof(*iterator));
+        /* str is a valid string. */
+        RCPR_MODEL_CHECK_IS_STRING(str);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(words))
+
 /**
  * \brief Split a string into two halves based on the first occurrence of the
  * given character.
