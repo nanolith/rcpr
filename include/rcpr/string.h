@@ -185,13 +185,12 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         }
         else
         {
-            /* word should be between startpos and endpos. */
-            RCPR_MODEL_ASSERT(word >= iterator->startpos);
-            RCPR_MODEL_ASSERT(word < iterator->endpos);
+            /* startpos is a valid pointer. */
+            RCPR_MODEL_ASSERT(NULL != iterator->startpos);
+            /* startpos is "past" word. */
+            RCPR_MODEL_ASSERT(word < iterator->startpos);
             /* word is a valid string. */
             RCPR_MODEL_CHECK_IS_STRING(str);
-            /* token_fn is valid. */
-            RCPR_MODEL_ASSERT(NULL != iterator->token_fn);
         }
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(words))
 
