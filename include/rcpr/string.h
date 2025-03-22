@@ -444,6 +444,11 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(ch > 0 && ch <= 127);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(ends_with))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(ends_with), bool retval)
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(ends_with))
+
 /**
  * \brief Duplicate a string, creating a duplicate backed by the given allocator
  * instance.
