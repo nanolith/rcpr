@@ -386,6 +386,13 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(multisplit))
  */
 void RCPR_SYM(chomp)(char* str);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(chomp), char* str)
+        /* str is a valid string. */
+        RCPR_MODEL_CHECK_IS_STRING(str);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(chomp))
+
 /**
  * \brief Return true if the given string starts with the given substring.
  *
