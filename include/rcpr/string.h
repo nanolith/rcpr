@@ -324,6 +324,30 @@ RCPR_SYM(multisplit)(
     const char** seq, RCPR_SYM(string_iterator)* iterator, char* str,
     bool (*token_fn)(int));
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(multisplit), const char** seq, RCPR_SYM(string_iterator)* iterator,
+    char* str, bool (*token_fn)(int))
+        if (NULL != str)
+        {
+            /* seq is a valid pointer. */
+            RCPR_MODEL_CHECK_OBJECT_RW(seq, sizeof(*seq));
+            /* iterator is a valid pointer. */
+            RCPR_MODEL_CHECK_OBJECT_RW(iterator, sizeof(*iterator));
+            /* str is a valid string. */
+            RCPR_MODEL_CHECK_IS_STRING(str);
+        }
+        else
+        {
+            /* startpos is a valid pointer. */
+            RCPR_MODEL_ASSERT(NULL != iterator->startpos);
+            /* iterator->token_fn is valid. */
+            RCPR_MODEL_ASSERT(NULL != iterator->token_fn);
+            /* token_fn is NULL. */
+            RCPR_MODEL_ASSERT(NULL == token_fn);
+        }
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(multisplit))
+
 /**
  * \brief Chomp a character off of the end of a string.
  *
