@@ -435,6 +435,15 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(starts_with))
  */
 bool RCPR_SYM(ends_with)(const char* str, int ch);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(ends_with), const char* str, int ch)
+        /* str is a valid string. */
+        RCPR_MODEL_CHECK_IS_STRING(str);
+        /* ch is an ASCII character. */
+        RCPR_MODEL_ASSERT(ch > 0 && ch <= 127);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(ends_with))
+
 /**
  * \brief Duplicate a string, creating a duplicate backed by the given allocator
  * instance.
