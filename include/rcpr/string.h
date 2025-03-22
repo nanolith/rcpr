@@ -525,6 +525,8 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(strcatv)(
     char** output, RCPR_SYM(allocator)* alloc, const char* string1, ...);
 
+/* TODO - variadic function contracts. */
+
 /**
  * \brief Varargs form of \ref strcatv.
  *
@@ -546,6 +548,8 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(vstrcat)(
     char** output, RCPR_SYM(allocator)* alloc, const char* string1,
     va_list args);
+
+/* TODO - variadic function contracts. */
 
 /******************************************************************************/
 /* Start of public exports.                                                   */
