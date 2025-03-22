@@ -470,6 +470,18 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(ends_with))
 status FN_DECL_MUST_CHECK
 RCPR_SYM(strdup)(char** output, RCPR_SYM(allocator)* alloc, const char* input);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(strdup), char** output, RCPR_SYM(allocator)* alloc,
+    const char* input)
+        /* output is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(output, sizeof(*output));
+        /* alloc is a valid allocator. */
+        RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+        /* input is a valid string. */
+        RCPR_MODEL_CHECK_IS_STRING(input);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(strdup))
+
 /**
  * \brief Concatenate multiple strings into a single allocated string value.
  *
