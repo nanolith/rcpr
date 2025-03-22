@@ -348,6 +348,33 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         }
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(multisplit))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(multisplit), int retval, const char** seq,
+    RCPR_SYM(string_iterator)* iterator)
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* seq is a valid string. */
+            RCPR_MODEL_CHECK_IS_STRING(seq);
+            /* iterator->startpos is not NULL. */
+            RCPR_MODEL_ASSERT(NULL != iterator->startpos);
+            /* iterator->endpos is unused. */
+            RCPR_MODEL_ASSERT(NULL == iterator->endpos);
+            /* iterator->token_fn is set. */
+            RCPR_MODEL_ASSERT(NULL != iterator->token_fn);
+        }
+        else
+        {
+            /* on failure, retval is ERROR_STRING_END_OF_INPUT. */
+            RCPR_MODEL_ASSERT(ERROR_STRING_END_OF_INPUT == retval);
+            /* seq is set to NULL. */
+            RCPR_MODEL_ASSERT(NULL == seq);
+            /* startpos points to ASCIIZ. */
+            RCPR_MODEL_ASSERT(0 == *(iterator->startpos));
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(multisplit))
+
 /**
  * \brief Chomp a character off of the end of a string.
  *
