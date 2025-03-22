@@ -419,6 +419,11 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_CHECK_IS_STRING(substr);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(starts_with))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(starts_with), bool retval)
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(starts_with))
+
 /**
  * \brief Return true if the given string ends with the given character.
  *
