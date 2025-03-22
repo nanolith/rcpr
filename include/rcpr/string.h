@@ -482,6 +482,22 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_CHECK_IS_STRING(input);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(strdup))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(strdup), int retval, char** output)
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* *output is a valid string. */
+            RCPR_MODEL_CHECK_IS_STRING(*output);
+        }
+        else
+        {
+            /* *output is NULL. */
+            RCPR_MODEL_ASSERT(NULL == *output);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(strdup))
+
 /**
  * \brief Concatenate multiple strings into a single allocated string value.
  *
