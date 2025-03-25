@@ -28,10 +28,11 @@ RCPR_IMPORT_string_as(rcpr);
  */
 void RCPR_SYM(trim)(char* str)
 {
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != str);
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(RCPR_SYM(trim), str);
 
     /* a trim is a right trim followed by a left trim. */
     rcpr_right_trim(str);
     rcpr_left_trim(str);
+
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(RCPR_SYM(trim), str);
 }
