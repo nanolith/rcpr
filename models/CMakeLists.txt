@@ -11,3 +11,4 @@ ${CMAKE_SOURCE_DIR}/models")
 
 ADD_SUBDIRECTORY(allocator)
 ADD_SUBDIRECTORY(resource)
+ADD_SUBDIRECTORY(string)
