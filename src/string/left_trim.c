@@ -27,10 +27,9 @@ RCPR_IMPORT_string_as(rcpr);
  */
 void RCPR_SYM(left_trim)(char* str)
 {
-    char* tmp = str;
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(RCPR_SYM(left_trim), str);
 
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != str);
+    char* tmp = str;
 
     /* iterate through the string while whitespace is detected. */
     while (rcpr_is_whitespace(*tmp))
@@ -52,4 +51,6 @@ void RCPR_SYM(left_trim)(char* str)
 
     /* move the trimmed string to the start of this string. */
     memmove(str, tmp, strsize);
+
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(RCPR_SYM(left_trim), str);
 }
