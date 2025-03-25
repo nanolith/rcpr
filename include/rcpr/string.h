@@ -212,8 +212,8 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
         {
             /* retval is either STATUS_SUCCESS or ERROR_STRING_END_OF_INPUT. */
             RCPR_MODEL_ASSERT(ERROR_STRING_END_OF_INPUT == retval);
-            /* words is set to NULL. */
-            RCPR_MODEL_ASSERT(NULL == words);
+            /* word is set to NULL. */
+            RCPR_MODEL_ASSERT(NULL == word);
             /* startpos points to ASCIIZ. */
             RCPR_MODEL_ASSERT(0 == *(iterator->startpos));
         }
