@@ -27,10 +27,9 @@ RCPR_IMPORT_string_as(rcpr);
  */
 void RCPR_SYM(right_trim)(char* str)
 {
-    char* tmp = str;
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(RCPR_SYM(right_trim), str);
 
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != str);
+    char* tmp = str;
 
     /* iterate through the string to reach the end of the string. */
     while (*tmp != 0)
@@ -78,4 +77,6 @@ void RCPR_SYM(right_trim)(char* str)
     {
         tmp[1] = 0;
     }
+
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(RCPR_SYM(right_trim), str);
 }
