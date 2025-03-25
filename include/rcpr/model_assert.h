@@ -27,7 +27,7 @@
     __CPROVER_assert(__CPROVER_rw_ok((x), (size)), #x " r/w " #size); \
     REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_CHECK_IS_STRING(x) \
-    __CPROVER_ASSERT(__CPROVER_is_zero_string((x)), #x " is string"); \
+    __CPROVER_assert(__CPROVER_is_zero_string((x)), #x " is string"); \
     REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_CHECK_STRING_BUFFER_SIZE(x, size) \
     __CPROVER_assert(__CPROVER_buffer_size((x)) >= size); \
