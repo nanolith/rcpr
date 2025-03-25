@@ -1,1 +1,2 @@
 ADD_SUBDIRECTORY(left_trim)
+ADD_SUBDIRECTORY(right_trim)
