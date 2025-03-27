@@ -536,7 +536,7 @@ RCPR_SYM(strcatv)(
  *
  * \param output        Pointer to receive the concatenated string on success.
  * \param alloc         The allocator to use for this instance.
- * \param string1       Teh first string to concatenate.
+ * \param string1       The first string to concatenate.
  * \param args          The varargs list (NULL terminated) of remaining strings
  *                      to concatenate.
  *
