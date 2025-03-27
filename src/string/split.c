@@ -33,7 +33,11 @@
 status FN_DECL_MUST_CHECK
 RCPR_SYM(split)(const char** lhs, const char** rhs, char* str, int delim)
 {
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(
+        RCPR_SYM(split), lhs, rhs, str, delim);
+
     const char* tmp;
+    int retval;
 
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(NULL != lhs);
@@ -50,7 +54,10 @@ RCPR_SYM(split)(const char** lhs, const char** rhs, char* str, int delim)
     /* if str is ASCIIZ, then delim wasn't found. */
     if (0 == *str)
     {
-        return ERROR_STRING_END_OF_INPUT;
+        retval = ERROR_STRING_END_OF_INPUT;
+        *lhs = NULL;
+        *rhs = NULL;
+        goto done;
     }
     /* otherwise, set str to ASCIIZ and set rhs to str+1. */
     else
@@ -58,6 +65,11 @@ RCPR_SYM(split)(const char** lhs, const char** rhs, char* str, int delim)
         *lhs = tmp;
         *rhs = str + 1;
         *str = 0;
-        return STATUS_SUCCESS;
+        retval = STATUS_SUCCESS;
     }
+
+done:
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(RCPR_SYM(split), retval, lhs, rhs);
+
+    return retval;
 }
