@@ -185,10 +185,12 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         }
         else
         {
+            /* word is a valid pointer. */
+            RCPR_MODEL_CHECK_OBJECT_RW(word, sizeof(*word));
+            /* iterator is a valid pointer. */
+            RCPR_MODEL_CHECK_OBJECT_RW(iterator, sizeof(*iterator));
             /* startpos is a valid pointer. */
             RCPR_MODEL_ASSERT(NULL != iterator->startpos);
-            /* word is a valid string. */
-            RCPR_MODEL_CHECK_IS_STRING(word);
         }
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(words))
 
@@ -199,8 +201,8 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
         /* on success... */
         if (STATUS_SUCCESS == retval)
         {
-            /* word is a valid string. */
-            RCPR_MODEL_CHECK_IS_STRING(word);
+            /* *word is not NULL. */
+            RCPR_MODEL_ASSERT(NULL != *word);
             /* iterator->startpos is not NULL. */
             RCPR_MODEL_ASSERT(NULL != iterator->startpos);
             /* iterator->endpos is unused. */
@@ -212,8 +214,8 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
         {
             /* retval is either STATUS_SUCCESS or ERROR_STRING_END_OF_INPUT. */
             RCPR_MODEL_ASSERT(ERROR_STRING_END_OF_INPUT == retval);
-            /* word is set to NULL. */
-            RCPR_MODEL_ASSERT(NULL == word);
+            /* *word is set to NULL. */
+            RCPR_MODEL_ASSERT(NULL == *word);
             /* startpos points to ASCIIZ. */
             RCPR_MODEL_ASSERT(0 == *(iterator->startpos));
         }
