@@ -51,11 +51,10 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(words)(
     const char** word, RCPR_SYM(string_iterator)* iterator, char* str)
 {
-    status retval;
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(
+        RCPR_SYM(words), word, iterator, str);
 
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != word);
-    RCPR_MODEL_ASSERT(NULL != iterator);
+    status retval;
 
     /* if str is set, then initialize the iterator. */
     if (NULL != str)
@@ -74,6 +73,7 @@ RCPR_SYM(words)(
     if (0 == *(iterator->startpos))
     {
         retval = ERROR_STRING_END_OF_INPUT;
+        *word = NULL;
         goto done;
     }
 
@@ -97,5 +97,8 @@ RCPR_SYM(words)(
     goto done;
 
 done:
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(
+        RCPR_SYM(words), retval, word, iterator, str);
+
     return retval;
 }
