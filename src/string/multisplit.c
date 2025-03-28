@@ -59,13 +59,10 @@ RCPR_SYM(multisplit)(
     const char** seq, RCPR_SYM(string_iterator)* iterator, char* str,
     bool (*token_fn)(int))
 {
-    status retval;
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(
+        RCPR_SYM(multisplit), seq, iterator, str, token_fn);
 
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != seq);
-    RCPR_MODEL_ASSERT(NULL != iterator);
-    RCPR_MODEL_ASSERT(NULL != str);
-    RCPR_MODEL_ASSERT(NULL != token_fn);
+    status retval;
 
     /* if str is set, then initialize the iterator. */
     if (NULL != str)
@@ -85,6 +82,7 @@ RCPR_SYM(multisplit)(
     if (0 == *(iterator->startpos))
     {
         retval = ERROR_STRING_END_OF_INPUT;
+        *seq = NULL;
         goto done;
     }
 
@@ -108,5 +106,8 @@ RCPR_SYM(multisplit)(
     goto done;
 
 done:
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(
+        RCPR_SYM(multisplit), retval, seq, iterator);
+
     return retval;
 }
