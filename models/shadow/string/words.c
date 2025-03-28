@@ -40,7 +40,7 @@ RCPR_SYM(words)(
         iterator->endpos = (char*)words_count();
 
         /* make sure that the first letter is a valid word. */
-        RCPR_MODEL_ASSUME(rcpr_is_whitespace(*(iterator->startpos)));
+        RCPR_MODEL_ASSUME(!rcpr_is_whitespace(*(iterator->startpos)));
     }
 
     int count = (int)iterator->endpos;
