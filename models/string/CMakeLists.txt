@@ -1,4 +1,5 @@
 ADD_SUBDIRECTORY(chomp)
+ADD_SUBDIRECTORY(chomp_shadow)
 ADD_SUBDIRECTORY(left_trim)
 ADD_SUBDIRECTORY(left_trim_shadow)
 ADD_SUBDIRECTORY(multisplit)
