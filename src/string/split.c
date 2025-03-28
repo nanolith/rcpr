@@ -39,12 +39,6 @@ RCPR_SYM(split)(const char** lhs, const char** rhs, char* str, int delim)
     const char* tmp;
     int retval;
 
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != lhs);
-    RCPR_MODEL_ASSERT(NULL != rhs);
-    RCPR_MODEL_ASSERT(NULL != str);
-    RCPR_MODEL_ASSERT(0 != delim);
-
     /* the left-hand-side starts at str. */
     tmp = str;
 
