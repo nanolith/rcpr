@@ -16,7 +16,7 @@ RCPR_IMPORT_string_as(rcpr);
 static int nondet_words_count();
 static int words_count()
 {
-    int retval = nondet_words();
+    int retval = nondet_words_count();
     if (retval < 0 || retval > 3)
         retval = 3;
 
