@@ -1,5 +1,6 @@
 ADD_SUBDIRECTORY(left_trim)
 ADD_SUBDIRECTORY(left_trim_shadow)
+ADD_SUBDIRECTORY(multisplit)
 ADD_SUBDIRECTORY(right_trim)
 ADD_SUBDIRECTORY(right_trim_shadow)
 ADD_SUBDIRECTORY(split)
