@@ -394,8 +394,8 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(chomp))
 /* postconditions. */
 RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
     RCPR_SYM(chomp), char* str)
-        /* str is a valid string. */
-        RCPR_MODEL_CHECK_IS_STRING(str);
+        /* str is not NULL. */
+        RCPR_MODEL_ASSERT(NULL != str);
 RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(chomp))
 
 /**
