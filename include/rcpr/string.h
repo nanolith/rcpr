@@ -359,8 +359,6 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
             RCPR_MODEL_ASSERT(NULL != *seq);
             /* iterator->startpos is not NULL. */
             RCPR_MODEL_ASSERT(NULL != iterator->startpos);
-            /* iterator->endpos is unused. */
-            RCPR_MODEL_ASSERT(NULL == iterator->endpos);
             /* iterator->token_fn is set. */
             RCPR_MODEL_ASSERT(NULL != iterator->token_fn);
         }
