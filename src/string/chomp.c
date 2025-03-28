@@ -23,9 +23,6 @@ void RCPR_SYM(chomp)(char* str)
 {
     RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(RCPR_SYM(chomp), str);
 
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != str);
-
     /* if the string is empty, we're done. */
     if (0 == *str)
     {
