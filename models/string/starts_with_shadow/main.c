@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     str2[str2_size] = 0;
     RCPR_MODEL_ASSUME(__CPROVER_is_zero_string(str2));
 
-    /* split the buffer. */
+    /* check if str1 starts with str2. */
     if (rcpr_starts_with(str1, str2))
     {
         return 0;
