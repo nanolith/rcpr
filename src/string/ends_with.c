@@ -21,13 +21,15 @@
  */
 bool RCPR_SYM(ends_with)(const char* str, int ch)
 {
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != str);
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(RCPR_SYM(ends_with), str, ch);
+
+    bool retval;
 
     /* can't match an empty string. */
     if (0 == *str)
     {
-        return false;
+        retval = false;
+        goto done;
     }
 
     /* skip to the end of the string. */
@@ -37,5 +39,11 @@ bool RCPR_SYM(ends_with)(const char* str, int ch)
     --str;
 
     /* compare the values. */
-    return *str == ch;
+    retval = (*str == ch);
+    goto done;
+
+done:
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(RCPR_SYM(ends_with), retval);
+
+    return retval;
 }
