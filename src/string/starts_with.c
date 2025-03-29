@@ -21,20 +21,22 @@
  */
 bool RCPR_SYM(starts_with)(const char* str, const char* substr)
 {
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != str);
-    RCPR_MODEL_ASSERT(NULL != substr);
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(RCPR_SYM(starts_with), str, substr);
+
+    bool retval;
 
     /* if substr is NULL, then the result is always true. */
     if (NULL == substr)
     {
-        return true;
+        retval = true;
+        goto done;
     }
 
     /* substr must be not NULL; if str is NULL, then the result is false. */
     if (NULL == str)
     {
-        return false;
+        retval = false;
+        goto done;
     }
 
     /* get the sizes of the strings. */
@@ -45,15 +47,23 @@ bool RCPR_SYM(starts_with)(const char* str, const char* substr)
      * match. */
     if (str_size < substr_size)
     {
-        return false;
+        retval = false;
+        goto done;
     }
 
     /* does str start with substr? */
     if (!memcmp(str, substr, substr_size))
     {
-        return true;
+        retval = true;
+        goto done;
     }
 
     /* str doesn't start with substr. */
-    return false;
+    retval = false;
+    goto done;
+
+done:
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(RCPR_SYM(starts_with), retval);
+
+    return retval;
 }
