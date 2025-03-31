@@ -31,18 +31,21 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(strdup)(
     char** output, RCPR_SYM(allocator)* alloc, const char* input)
 {
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(
+        RCPR_SYM(strdup), output, alloc, input);
+
     status retval;
     char* tmp;
-
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != output);
-    RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
-    RCPR_MODEL_ASSERT(NULL != input);
 
     /* runtime parameter sanity checks. */
     if (NULL == output || NULL == alloc || NULL == input)
     {
-        return ERROR_STRING_INVALID_PARAMETER;
+        if (NULL != output)
+        {
+            *output = NULL;
+        }
+        retval = ERROR_STRING_INVALID_PARAMETER;
+        goto done;
     }
 
     /* get the length of the input string. */
@@ -52,7 +55,8 @@ RCPR_SYM(strdup)(
     retval = allocator_allocate(alloc, (void**)&tmp, len + 1);
     if (STATUS_SUCCESS != retval)
     {
-        return retval;
+        *output = NULL;
+        goto done;
     }
 
     /* copy the input to this memory. */
@@ -63,5 +67,11 @@ RCPR_SYM(strdup)(
 
     /* success. */
     *output = tmp;
-    return STATUS_SUCCESS;
+    retval = STATUS_SUCCESS;
+    goto done;
+
+done:
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(RCPR_SYM(strdup), retval, output);
+
+    return retval;
 }
