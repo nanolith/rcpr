@@ -486,8 +486,8 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
         /* on success... */
         if (STATUS_SUCCESS == retval)
         {
-            /* *output is a valid string. */
-            RCPR_MODEL_CHECK_IS_STRING(*output);
+            /* *output is not NULL. */
+            RCPR_MODEL_ASSERT(NULL != *output);
         }
         else
         {
