@@ -8,6 +8,7 @@
  */
 
 #include <rcpr/model_assert.h>
+#include <rcpr/slist.h>
 #include <rcpr/vtable.h>
 #include <stdlib.h>
 #include <string.h>
@@ -120,33 +121,16 @@ static status slist_release(resource* r)
     status retval;
     slist* l = (slist*)r;
 
-    /* iterate through slist nodes, releasing them. */
-    while (NULL != l->head)
+    /* clear the list. */
+    retval = slist_clear(l);
+    if (STATUS_SUCCESS != retval)
     {
-        slist_node* t = l->head;
-        l->head = l->head->next;
-
-        t->parent = NULL;
-        t->next = NULL;
-
-        /* clean up the node. */
-        retval = slist_node_cleanup(l->alloc, t);
-        if (STATUS_SUCCESS != retval)
-        {
-            return retval;
-        }
+        return retval;
     }
-
-    /* clear out tail. */
-    l->tail = NULL;
-
-    /* clear out count. */
-    l->count = 0U;
 
     /* clean up. */
     allocator* a = l->alloc;
 
     /* if reclaiming this slist instance succeeds, so does this release. */
-    return
-        allocator_reclaim(a, l);
+    return allocator_reclaim(a, l);
 }
