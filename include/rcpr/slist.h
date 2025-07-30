@@ -529,6 +529,9 @@ RCPR_SYM(prop_slist_node_valid)(
     static inline void sym ## slist_swap( \
         RCPR_SYM(slist)* x, RCPR_SYM(slist)* y) { \
             RCPR_SYM(slist_swap)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## slist_clear( \
+        RCPR_SYM(slist)* x) { \
+            return RCPR_SYM(slist_clear)(x); } \
     static inline RCPR_SYM(resource)* sym ## slist_resource_handle( \
         RCPR_SYM(slist)* x) { \
             return RCPR_SYM(slist_resource_handle)(x); } \
