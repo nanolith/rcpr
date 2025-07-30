@@ -120,28 +120,12 @@ static status list_release(resource* r)
     status retval;
     list* l = (list*)r;
 
-    /* iterate through list nodes, releasing them. */
-    while (NULL != l->head)
+    /* clear list. */
+    retval = list_clear(l);
+    if (STATUS_SUCCESS != retval)
     {
-        list_node* t = l->head;
-        l->head = l->head->next;
-
-        t->parent = NULL;
-        t->next = NULL;
-
-        /* clean up the node. */
-        retval = list_node_cleanup(l->alloc, t);
-        if (STATUS_SUCCESS != retval)
-        {
-            return retval;
-        }
+        return retval;
     }
-
-    /* clear out tail. */
-    l->tail = NULL;
-
-    /* clear out count. */
-    l->count = 0U;
 
     /* clean up. */
     allocator* a = l->alloc;
