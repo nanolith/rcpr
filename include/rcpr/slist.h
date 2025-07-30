@@ -295,6 +295,25 @@ RCPR_SYM(slist_node_next_pop)(
  */
 void RCPR_SYM(slist_swap)(RCPR_SYM(slist)* left, RCPR_SYM(slist)* right);
 
+/**
+ * \brief Clear an slist instance, removing all nodes and their resources.
+ *
+ * \param l             The slist to clear.
+ *
+ * \pre
+ *      - \p l must point to a valid \ref slist instance.
+ * \post
+ *      - On success, \p l points to a valid \ref slist instance that has zero
+ *        nodes.
+ *      - On failure, \p l may still contain some nodes.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(slist_clear)(RCPR_SYM(slist)* l);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
