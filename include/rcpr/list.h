@@ -542,6 +542,9 @@ bool RCPR_SYM(prop_list_node_valid)(const RCPR_SYM(list_node)* node);
     static inline void sym ## list_swap( \
         RCPR_SYM(list)* x, RCPR_SYM(list)* y) { \
             RCPR_SYM(list_swap)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK sym ## list_clear( \
+        RCPR_SYM(list)* x) { \
+            return RCPR_SYM(list_clear)(x); } \
     static inline RCPR_SYM(resource)* sym ## list_resource_handle( \
         RCPR_SYM(list)* x) { \
             return RCPR_SYM(list_resource_handle)(x); } \
