@@ -10,6 +10,7 @@
 #pragma once
 
 #include <rcpr/component.h>
+#include <rcpr/status/auto_reset_trigger.h>
 #include <rcpr/status/condition.h>
 #include <rcpr/status/fiber.h>
 #include <rcpr/status/general.h>
