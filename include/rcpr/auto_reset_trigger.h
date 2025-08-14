@@ -124,6 +124,9 @@ RCPR_SYM(auto_reset_trigger_resource_handle)(
     static inline void sym ## auto_reset_trigger_signal( \
         RCPR_SYM(auto_reset_trigger)* x) { \
             return RCPR_SYM(auto_reset_trigger_signal)(x); } \
+    static inline void sym ## auto_reset_trigger_step( \
+        RCPR_SYM(auto_reset_trigger)* x) { \
+            return RCPR_SYM(auto_reset_trigger_step)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_auto_reset_trigger_as(sym) \
