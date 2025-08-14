@@ -12,6 +12,7 @@
 
 #include <rcpr/allocator.h>
 #include <rcpr/function_decl.h>
+#include <rcpr/resource.h>
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
@@ -65,6 +66,23 @@ typedef void (*RCPR_SYM(auto_reset_trigger_callback))(void*);
 status FN_DECL_MUST_CHECK
 RCPR_SYM(auto_reset_trigger_create)(
     RCPR_SYM(auto_reset_trigger)** trigger, RCPR_SYM(allocator)* alloc);
+
+/******************************************************************************/
+/* Start of accessors.                                                        */
+/******************************************************************************/
+
+/**
+ * \brief Given a \ref auto_reset_trigger instance, return the resource handle
+ * for this \ref auto_reset_trigger instance.
+ *
+ * \param trigger           The \ref auto_reset_trigger from which this resource
+ *                          handle is returned.
+ *
+ * \returns the resource handle for this \ref auto_reset_trigger instance.
+ */
+RCPR_SYM(resource)*
+RCPR_SYM(auto_reset_trigger_resource_handle)(
+    RCPR_SYM(auto_reset_trigger)* trigger);
 
 /******************************************************************************/
 /* Start of public exports.                                                   */
