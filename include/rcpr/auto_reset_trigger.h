@@ -89,6 +89,26 @@ RCPR_SYM(auto_reset_trigger_signal)(RCPR_SYM(auto_reset_trigger)* trigger);
 void
 RCPR_SYM(auto_reset_trigger_step)(RCPR_SYM(auto_reset_trigger)* trigger);
 
+/**
+ * \brief Register the listener for this \ref auto_reset_trigger instance.
+ *
+ * This is the first step in a two step process. The listener should be
+ * registered, and the trigger should be stepped to see if it has already been
+ * tripped.
+ *
+ * \param trigger       The \ref auto_reset_trigger instance for this operation.
+ * \param callback      The listener callback method.
+ * \param context       The user context pointer for this listener.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ */
+void
+RCPR_SYM(auto_reset_trigger_register)(
+    RCPR_SYM(auto_reset_trigger)* trigger,
+    RCPR_SYM(auto_reset_trigger_callback) callback, void* context);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
