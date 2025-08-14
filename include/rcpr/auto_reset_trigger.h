@@ -132,6 +132,21 @@ RCPR_SYM(auto_reset_trigger_resource_handle)(
     RCPR_SYM(auto_reset_trigger)* trigger);
 
 /******************************************************************************/
+/* Start of model checking properties.                                        */
+/******************************************************************************/
+
+/**
+ * \brief Valid \ref auto_reset_trigger property.
+ *
+ * \param trigger       The \ref auto_reset_trigger instance to be verified.
+ *
+ * \returns true if the \ref auto_reset_trigger instance is valid.
+ */
+bool
+RCPR_SYM(prop_auto_reset_trigger_valid)(
+    const RCPR_SYM(auto_reset_trigger)* trigger);
+
+/******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define __INTERNAL_RCPR_IMPORT_auto_reset_trigger_sym(sym) \
