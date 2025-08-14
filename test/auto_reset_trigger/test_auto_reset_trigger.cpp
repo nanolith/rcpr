@@ -139,3 +139,42 @@ TEST(multiple_signal_step_then_register_step)
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
 }
+
+/**
+ * Registering twice fails.
+ */
+TEST(second_register_fails)
+{
+    allocator* alloc = nullptr;
+    auto_reset_trigger* trigger = nullptr;
+    int call_count = 0;
+
+    /* we should be able to create a malloc allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == malloc_allocator_create(&alloc));
+
+    /* we should be able to create an auto_reset_trigger. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == auto_reset_trigger_create(&trigger, alloc));
+
+    /* we can register a callback. */
+    TEST_ASSERT(
+        STATUS_SUCCESS
+            == auto_reset_trigger_register(
+                    trigger, (auto_reset_trigger_callback)&test_callback,
+                    &call_count));
+
+    /* the second register fails. */
+    TEST_ASSERT(
+        ERROR_AUTO_RESET_TRIGGER_LISTENER_ALREADY_REGISTERED
+            == auto_reset_trigger_register(
+                    trigger, (auto_reset_trigger_callback)&test_callback,
+                    &call_count));
+
+    /* clean up. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            resource_release(auto_reset_trigger_resource_handle(trigger)));
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
+}
