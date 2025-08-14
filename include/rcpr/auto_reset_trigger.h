@@ -75,6 +75,11 @@ RCPR_SYM(auto_reset_trigger_create)(
  * \brief Signal an \ref auto_reset_trigger, placing it into the triggered
  * state.
  *
+ * This is the first step in a two step process. The trigger should be signaled,
+ * and the trigger should be stepped in order to complete the signaling process.
+ * This ensures that the caller can perform any ordered step that must occur
+ * between the signaling and when the trigger executes the listener callback.
+ *
  * \param trigger       The \ref auto_reset_trigger instance for this operation.
  */
 void
