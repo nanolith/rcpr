@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include <rcpr/allocator.h>
 #include <rcpr/function_decl.h>
 
 /* C++ compatibility. */
@@ -26,6 +27,44 @@ typedef struct RCPR_SYM(auto_reset_trigger) RCPR_SYM(auto_reset_trigger);
  * \brief An auto-reset trigger notification callback.
  */
 typedef void (*RCPR_SYM(auto_reset_trigger_callback))(void*);
+
+/******************************************************************************/
+/* Start of constructors.                                                     */
+/******************************************************************************/
+
+/**
+ * \brief Create an \ref auto_reset_trigger that can accommodate a single
+ * listener.
+ *
+ * An \ref auto_reset_trigger will notify its listener when signaled. After the
+ * listener is notified, it is removed, and the trigger is reset. After
+ * notification, the listener must register with the trigger again to receive a
+ * future notification. If there is no registered listener when the trigger is
+ * signaled, then it will remain in signaled mode until a listener registers, at
+ * which point, it will receive the notification and the trigger will be reset.
+ *
+ * Notifications occur when the trigger is stepped. This two step process allows
+ * any side-effects that must occur after registration to be ordered prior to
+ * the notification occurring. One could imagine, for instance, that the
+ * registration process writes a status to a client socket as does the
+ * notification process. If notification happened immediately after
+ * registration, this ordering would be broken. So, the correct ordering of
+ * events would be to signal the trigger, then step it, or to register the
+ * trigger, then step it. Between signal and step or register and step, there is
+ * an opportunity for the caller to perform operations requiring strict
+ * ordering.
+ *
+ * \param trigger       Pointer to the \ref auto_reset_trigger pointer to be set
+ *                      to this instance on success.
+ * \param alloc         The allocator to use for this operation.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(auto_reset_trigger_create)(
+    RCPR_SYM(auto_reset_trigger)** trigger, RCPR_SYM(allocator)* alloc);
 
 /******************************************************************************/
 /* Start of public exports.                                                   */
