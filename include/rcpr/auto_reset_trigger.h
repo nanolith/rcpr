@@ -80,6 +80,15 @@ RCPR_SYM(auto_reset_trigger_create)(
 void
 RCPR_SYM(auto_reset_trigger_signal)(RCPR_SYM(auto_reset_trigger)* trigger);
 
+/**
+ * \brief Step an \ref auto_reset_trigger, potentially calling the registered
+ * listener and resetting.
+ *
+ * \param trigger       The \ref auto_reset_trigger instance for this operation.
+ */
+void
+RCPR_SYM(auto_reset_trigger_step)(RCPR_SYM(auto_reset_trigger)* trigger);
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
