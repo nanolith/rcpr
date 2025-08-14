@@ -16,6 +16,11 @@ RCPR_IMPORT_resource;
 
 TEST_SUITE(auto_reset_trigger);
 
+static void test_callback(int* context)
+{
+    *context += 1;
+}
+
 /**
  * Verify that we can create and release a \ref auto_reset_trigger instance.
  */
@@ -38,6 +43,50 @@ TEST(create)
             resource_release(auto_reset_trigger_resource_handle(trigger)));
 
     /* clean up. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
+}
+
+/**
+ * Verify that with a registered callback, we can signal the trigger.
+ */
+TEST(signal_with_callback)
+{
+    allocator* alloc = nullptr;
+    auto_reset_trigger* trigger = nullptr;
+    int call_count = 0;
+
+    /* we should be able to create a malloc allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == malloc_allocator_create(&alloc));
+
+    /* we should be able to create an auto_reset_trigger. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == auto_reset_trigger_create(&trigger, alloc));
+
+    /* we can register a callback. */
+    TEST_ASSERT(
+        STATUS_SUCCESS
+            == auto_reset_trigger_register(
+                    trigger, (auto_reset_trigger_callback)&test_callback,
+                    &call_count));
+
+    /* signal the trigger. */
+    auto_reset_trigger_signal(trigger);
+
+    /* precondition: called is false. */
+    TEST_ASSERT(0 == call_count);
+
+    /* step the trigger. */
+    auto_reset_trigger_step(trigger);
+
+    /* postcondition: our listener was called once. */
+    TEST_ASSERT(1 == call_count);
+
+    /* clean up. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            resource_release(auto_reset_trigger_resource_handle(trigger)));
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
 }
