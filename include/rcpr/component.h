@@ -84,6 +84,9 @@ enum rcpr_subcomponents
 
     /** \brief string library subcomponent scope. */
     RCPR_SUBCOMPONENT_STRING                                =             0x0b,
+
+    /** \brief Auto-reset trigger subcomponent scope. */
+    RCPR_SUBCOMPONENT_AUTO_RESET_TRIGGER                    =             0x0c,
 };
 
 /** \brief Global component scope. */
@@ -133,6 +136,10 @@ enum rcpr_subcomponents
 /** \brief string library component scope. */
 #define RCPR_COMPONENT_STRING \
     COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_STRING)
+
+/** \brief auto_reset_trigger component scope. */
+#define RCPR_COMPONENT_AUTO_RESET_TRIGGER \
+    COMPONENT_MAKE(COMPONENT_FAMILY_RCPR, RCPR_SUBCOMPONENT_AUTO_RESET_TRIGGER)
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
