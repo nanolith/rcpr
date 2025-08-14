@@ -68,6 +68,19 @@ RCPR_SYM(auto_reset_trigger_create)(
     RCPR_SYM(auto_reset_trigger)** trigger, RCPR_SYM(allocator)* alloc);
 
 /******************************************************************************/
+/* Start of public methods.                                                   */
+/******************************************************************************/
+
+/**
+ * \brief Signal an \ref auto_reset_trigger, placing it into the triggered
+ * state.
+ *
+ * \param trigger       The \ref auto_reset_trigger instance for this operation.
+ */
+void
+RCPR_SYM(auto_reset_trigger_signal)(RCPR_SYM(auto_reset_trigger)* trigger);
+
+/******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
 
