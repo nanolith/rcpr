@@ -74,6 +74,9 @@ RCPR_SYM(auto_reset_trigger_create)(
     typedef RCPR_SYM(auto_reset_trigger) sym ## auto_reset_trigger; \
     typedef RCPR_SYM(auto_reset_trigger_callback) \
     sym ## auto_reset_trigger_callback; \
+    static inline status FN_DECL_MUST_CHECK sym ## auto_reset_trigger_create( \
+        RCPR_SYM(auto_reset_trigger)** x, RCPR_SYM(allocator)* y) { \
+            return RCPR_SYM(auto_reset_trigger_create)(x,y); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_auto_reset_trigger_as(sym) \
