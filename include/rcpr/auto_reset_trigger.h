@@ -104,7 +104,7 @@ RCPR_SYM(auto_reset_trigger_step)(RCPR_SYM(auto_reset_trigger)* trigger);
  *      - STATUS_SUCCESS on success.
  *      - a non-zero error code on failure.
  */
-void
+status FN_DECL_MUST_CHECK
 RCPR_SYM(auto_reset_trigger_register)(
     RCPR_SYM(auto_reset_trigger)* trigger,
     RCPR_SYM(auto_reset_trigger_callback) callback, void* context);
