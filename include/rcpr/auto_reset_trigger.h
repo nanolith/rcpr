@@ -22,12 +22,19 @@ extern "C" {
  */
 typedef struct RCPR_SYM(auto_reset_trigger) RCPR_SYM(auto_reset_trigger);
 
+/**
+ * \brief An auto-reset trigger notification callback.
+ */
+typedef void (*RCPR_SYM(auto_reset_trigger_callback))(void*);
+
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define __INTERNAL_RCPR_IMPORT_auto_reset_trigger_sym(sym) \
     RCPR_BEGIN_EXPORT \
     typedef RCPR_SYM(auto_reset_trigger) sym ## auto_reset_trigger; \
+    typedef RCPR_SYM(auto_reset_trigger_callback) \
+    sym ## auto_reset_trigger_callback; \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_auto_reset_trigger_as(sym) \
