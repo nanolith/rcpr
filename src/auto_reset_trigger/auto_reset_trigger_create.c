@@ -115,6 +115,8 @@ static status auto_reset_trigger_release(resource* r)
 {
     auto_reset_trigger* trigger = (auto_reset_trigger*)r;
 
+    RCPR_MODEL_ASSERT(prop_auto_reset_trigger_valid(trigger));
+
     /* cache allocator. */
     allocator* alloc = trigger->alloc;
 
