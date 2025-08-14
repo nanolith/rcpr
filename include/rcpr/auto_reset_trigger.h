@@ -95,6 +95,10 @@ RCPR_SYM(auto_reset_trigger_resource_handle)(
     static inline status FN_DECL_MUST_CHECK sym ## auto_reset_trigger_create( \
         RCPR_SYM(auto_reset_trigger)** x, RCPR_SYM(allocator)* y) { \
             return RCPR_SYM(auto_reset_trigger_create)(x,y); } \
+    static inline RCPR_SYM(resource)* \
+    sym ## auto_reset_trigger_resource_handle( \
+        RCPR_SYM(auto_reset_trigger)* x) { \
+            return RCPR_SYM(auto_reset_trigger_resource_handle)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_auto_reset_trigger_as(sym) \
