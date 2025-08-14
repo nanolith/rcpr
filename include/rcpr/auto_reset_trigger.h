@@ -172,6 +172,10 @@ RCPR_SYM(prop_auto_reset_trigger_valid)(
         RCPR_SYM(auto_reset_trigger)* x, \
         RCPR_SYM(auto_reset_trigger_callback) y, void* z) { \
             return RCPR_SYM(auto_reset_trigger_register)(x,y,z); } \
+    static inline bool \
+    sym ## prop_auto_reset_trigger_valid( \
+        const RCPR_SYM(auto_reset_trigger)* x) { \
+            return RCPR_SYM(prop_auto_reset_trigger_valid)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_auto_reset_trigger_as(sym) \
