@@ -185,7 +185,8 @@ endif()
 ADD_CUSTOM_TARGET(
     test
     COMMAND testrcpr
-    DEPENDS testrcpr)
+    DEPENDS testrcpr
+    USES_TERMINAL)
 
 #Build a pkg-config file
 SET(RCPR_PC "${CMAKE_BINARY_DIR}/rcpr.pc")
