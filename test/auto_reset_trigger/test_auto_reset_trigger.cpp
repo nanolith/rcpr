@@ -8,8 +8,6 @@
 #include <rcpr/allocator.h>
 #include <rcpr/auto_reset_trigger.h>
 
-using namespace std;
-
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_auto_reset_trigger;
 RCPR_IMPORT_resource;
