@@ -83,6 +83,16 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(auto_reset_trigger_create)(
     RCPR_SYM(auto_reset_trigger)** trigger, RCPR_SYM(allocator)* alloc);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(auto_reset_trigger_create),
+    RCPR_SYM(auto_reset_trigger)** trigger, RCPR_SYM(allocator)* alloc)
+        /* trigger is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(trigger, sizeof(*trigger));
+        /* alloc is a valid allocator. */
+        RCPR_MODEL_ASSERT(property_allocator_valid(alloc));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(auto_reset_trigger_create))
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
