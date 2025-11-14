@@ -35,7 +35,7 @@ The following table breaks down progress by header.
 | `include/rcpr/psock.h`                         | $\color{red}{0}$ %         |
 | `include/rcpr/queue.h`                         | $\color{red}{0}$ %         |
 | `include/rcpr/rbtree.h`                        | $\color{red}{0}$ %         |
-| `include/rcpr/resource.h`                      | $\color{red}{0}$ %         |
+| `include/rcpr/resource.h`                      | $\color{yellow}{45.83}$ %  |
 | `include/rcpr/resource/protected.h`            | $\color{red}{0}$ %         |
 | `include/rcpr/slist.h`                         | $\color{red}{0}$ %         |
 | `include/rcpr/socket_utilities.h`              | $\color{red}{0}$ %         |
