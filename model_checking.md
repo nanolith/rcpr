@@ -28,10 +28,6 @@ The following table breaks down progress by header.
 | `include/rcpr/bigint.h`                        | $\color{red}{0}$ %         |
 | `include/rcpr/byteswap.h`                      | $\color{red}{0}$ %         |
 | `include/rcpr/condition.h`                     | $\color{red}{0}$ %         |
-| `include/rcpr/fiber/disciplines/condition.h`   | $\color{red}{0}$ %         |
-| `include/rcpr/fiber/disciplines/management.h`  | $\color{red}{0}$ %         |
-| `include/rcpr/fiber/disciplines/message.h`     | $\color{red}{0}$ %         |
-| `include/rcpr/fiber/disciplines/psock_io.h`    | $\color{red}{0}$ %         |
 | `include/rcpr/fiber_fwd.h`                     | $\color{red}{0}$ %         |
 | `include/rcpr/fiber.h`                         | $\color{red}{0}$ %         |
 | `include/rcpr/list.h`                          | $\color{red}{0}$ %         |
