@@ -225,21 +225,6 @@ RCPR_SYM(auto_reset_trigger_resource_handle)(
     RCPR_SYM(auto_reset_trigger)* trigger);
 
 /******************************************************************************/
-/* Start of model checking properties.                                        */
-/******************************************************************************/
-
-/**
- * \brief Valid \ref auto_reset_trigger property.
- *
- * \param trigger       The \ref auto_reset_trigger instance to be verified.
- *
- * \returns true if the \ref auto_reset_trigger instance is valid.
- */
-bool
-RCPR_SYM(prop_auto_reset_trigger_valid)(
-    const RCPR_SYM(auto_reset_trigger)* trigger);
-
-/******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define __INTERNAL_RCPR_IMPORT_auto_reset_trigger_sym(sym) \
@@ -266,9 +251,9 @@ RCPR_SYM(prop_auto_reset_trigger_valid)(
         RCPR_SYM(auto_reset_trigger_callback) y, void* z) { \
             return RCPR_SYM(auto_reset_trigger_register)(x,y,z); } \
     static inline bool \
-    sym ## prop_auto_reset_trigger_valid( \
+    sym ## property_auto_reset_trigger_valid( \
         const RCPR_SYM(auto_reset_trigger)* x) { \
-            return RCPR_SYM(prop_auto_reset_trigger_valid)(x); } \
+            return RCPR_SYM(property_auto_reset_trigger_valid)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_auto_reset_trigger_as(sym) \
