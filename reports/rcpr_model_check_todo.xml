@@ -1872,4 +1872,116 @@
             </category>
         </category>
     </category>
+    <category name="thread.h">
+        <category name="thread structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+        <category name="thread_mutex structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+        <category name="thread_mutex_lock structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+        <category name="thread_cond structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+        <category name="functions">
+            <category name="thread_create">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="thread_mutex_create">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="thread_cond_create">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="thread_mutex_lock_acquire">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="thread_cond_wait">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="thread_cond_signal_one">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="thread_cond_signal_all">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="thread_resource_handle">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="thread_mutex_resource_handle">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="thread_cond_resource_handle">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="thread_mutex_lock_resource_handle">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+        </category>
+    </category>
 </todo>
