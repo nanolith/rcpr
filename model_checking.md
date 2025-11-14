@@ -43,7 +43,6 @@ The following table breaks down progress by header.
 | `include/rcpr/string.h`                        | $\color{yellow}{61.73}$ %  |
 | `include/rcpr/thread.h`                        | $\color{red}{0}$ %         |
 | `include/rcpr/uuid.h`                          | $\color{red}{0}$ %         |
-| `include/rcpr/vtable.h`                        | $\color{red}{0}$ %         |
 |                                                |                            |
 | **Total**                                      | $\color{yellow}{0}$ %      |
 
