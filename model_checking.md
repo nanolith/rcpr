@@ -23,7 +23,7 @@ The following table breaks down progress by header.
 
 | Header                                         | Progress %                 |
 | :----------------------------------------------| -------------------------: |
-| `include/rcpr/allocator.h`                     | $\color{yellow}{42.86}$ %  |
+| `include/rcpr/allocator.h`                     | $\color{yellow}{47.62}$ %  |
 | `include/rcpr/auto_reset_trigger.h`            | $\color{red}{0}$ %         |
 | `include/rcpr/bigint.h`                        | $\color{red}{0}$ %         |
 | `include/rcpr/byteswap.h`                      | $\color{red}{0}$ %         |
@@ -44,7 +44,7 @@ The following table breaks down progress by header.
 | `include/rcpr/thread.h`                        | $\color{red}{0}$ %         |
 | `include/rcpr/uuid.h`                          | $\color{red}{0}$ %         |
 |                                                |                            |
-| **Total**                                      | $\color{yellow}{5.56}$ %   |
+| **Total**                                      | $\color{yellow}{5.70}$ %   |
 
 Private Methods
 ---------------

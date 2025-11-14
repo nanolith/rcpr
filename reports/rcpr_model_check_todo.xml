@@ -4,8 +4,8 @@
     <category name="allocator.h">
         <category name="allocator structure">
             <item name="data structure shadow impl"/>
-            <item name="valid property decl"/>
-            <item name="valid property impl"/>
+            <item name="valid property decl" completed="true"/>
+            <item name="valid property impl" completed="true"/>
         </category>
         <category name="allocator_vtable structure">
             <item name="data structure shadow impl"/>
