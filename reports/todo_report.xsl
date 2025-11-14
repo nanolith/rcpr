@@ -18,7 +18,7 @@
     <xsl:value-of select="@name"/>
     <xsl:text>: </xsl:text>
 
-    <xsl:value-of select="100.0 * count(.//item[@completed='true']) div count(.//item)"/>
+    <xsl:value-of select="round(10000.0 * count(.//item[@completed='true']) div count(.//item)) div 100.0"/>
     <xsl:text>%</xsl:text>
     <xsl:value-of select="$newline"/>
 
