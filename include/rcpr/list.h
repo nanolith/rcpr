@@ -13,7 +13,9 @@
 #pragma once
 
 #include <rcpr/allocator.h>
+#include <rcpr/function_contracts.h>
 #include <rcpr/function_decl.h>
+#include <rcpr/model_assert.h>
 #include <rcpr/resource.h>
 #include <rcpr/status.h>
 #include <stdbool.h>
@@ -92,6 +94,15 @@ RCPR_SYM(property_list_node_valid)(const RCPR_SYM(list_node)* node);
 status FN_DECL_MUST_CHECK
 RCPR_SYM(list_create)(
     RCPR_SYM(list)** l, RCPR_SYM(allocator)* a);
+
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(list_create), RCPR_SYM(list)** l, RCPR_SYM(allocator)* a)
+        /* l is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(l, sizeof(*l));
+        /* a is a valid allocator. */
+        RCPR_MODEL_ASSERT(property_allocator_valid(a));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_create))
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
