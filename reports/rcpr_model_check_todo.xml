@@ -1666,4 +1666,72 @@
             </category>
         </category>
     </category>
+    <category name="socket_utilities.h">
+        <category name="functions">
+            <category name="socket_utility_socketpair">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="socket_utility_set_nonblock">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="socket_utility_hton64">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="socket_utility_ntoh64">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="socket_utility_hton32">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="socket_utility_ntoh32">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="socket_utility_hton16">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="socket_utility_ntoh16">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+        </category>
+    </category>
 </todo>
