@@ -21,8 +21,8 @@ directory.
 
 The following table breaks down progress by header.
 
-| Header                                            | Progress %              |
-| :-------------------------------------------------| ----------------------: |
+| Header                                         | Progress %                 |
+| :----------------------------------------------| -------------------------: |
 | `include/rcpr/allocator.h`                     | $\color{yellow}{42.86}$ %  |
 | `include/rcpr/auto_reset_trigger.h`            | $\color{red}{0}$ %         |
 | `include/rcpr/bigint.h`                        | $\color{red}{0}$ %         |
