@@ -224,6 +224,15 @@ RCPR_SYM(resource)*
 RCPR_SYM(auto_reset_trigger_resource_handle)(
     RCPR_SYM(auto_reset_trigger)* trigger);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(auto_reset_trigger_resource_handle),
+    RCPR_SYM(auto_reset_trigger)* trigger)
+        /* trigger must be valid. */
+        RCPR_MODEL_ASSERT(RCPR_SYM(property_auto_reset_trigger_valid)(trigger));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(
+    RCPR_SYM(auto_reset_trigger_resource_handle))
+
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
