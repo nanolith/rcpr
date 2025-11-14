@@ -40,7 +40,7 @@ The following table breaks down progress by header.
 | `include/rcpr/slist.h`                         | $\color{red}{0}$ %         |
 | `include/rcpr/socket_utilities.h`              | $\color{red}{0}$ %         |
 | `include/rcpr/stack.h`                         | $\color{red}{0}$ %         |
-| `include/rcpr/string.h`                        | $\color{red}{0}$ %         |
+| `include/rcpr/string.h`                        | $\color{yellow}{61.73}$ %  |
 | `include/rcpr/thread.h`                        | $\color{red}{0}$ %         |
 | `include/rcpr/uuid.h`                          | $\color{red}{0}$ %         |
 | `include/rcpr/vtable.h`                        | $\color{red}{0}$ %         |
