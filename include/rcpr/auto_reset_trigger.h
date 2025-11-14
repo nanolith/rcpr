@@ -200,6 +200,13 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(NULL == callback);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(auto_reset_trigger_register))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(auto_reset_trigger_register), status retval,
+    RCPR_SYM(auto_reset_trigger)* trigger,
+    RCPR_SYM(auto_reset_trigger_callback) callback, void* context)
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(auto_reset_trigger_register))
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
