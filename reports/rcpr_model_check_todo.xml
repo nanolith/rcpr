@@ -1512,4 +1512,16 @@
             </category>
         </category>
     </category>
+    <category name="resource/protected.h">
+        <category name="resource structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+        <category name="resource_vtable structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+    </category>
 </todo>
