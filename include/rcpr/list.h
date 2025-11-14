@@ -16,6 +16,7 @@
 #include <rcpr/function_decl.h>
 #include <rcpr/resource.h>
 #include <rcpr/status.h>
+#include <stdbool.h>
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
@@ -31,6 +32,20 @@ typedef struct RCPR_SYM(list) RCPR_SYM(list);
  * \brief The list_node is a single node in an list container.
  */
 typedef struct RCPR_SYM(list_node) RCPR_SYM(list_node);
+
+/******************************************************************************/
+/* Start of model checking properties.                                        */
+/******************************************************************************/
+
+/**
+ * \brief Valid list property.
+ *
+ * \param l             The \ref list instance to be verified.
+ *
+ * \returns true if the \ref list instance is valid.
+ */
+bool
+RCPR_SYM(property_list_valid)(const RCPR_SYM(list)* l);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
