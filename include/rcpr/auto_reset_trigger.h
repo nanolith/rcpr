@@ -164,6 +164,11 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(property_auto_reset_trigger_valid(trigger));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(auto_reset_trigger_step))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(auto_reset_trigger_step), RCPR_SYM(auto_reset_trigger)* trigger)
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(auto_reset_trigger_step))
+
 /**
  * \brief Register the listener for this \ref auto_reset_trigger instance.
  *
