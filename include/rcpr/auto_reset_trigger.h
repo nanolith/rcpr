@@ -13,6 +13,7 @@
 #include <rcpr/allocator.h>
 #include <rcpr/function_decl.h>
 #include <rcpr/resource.h>
+#include <stdbool.h>
 
 /* C++ compatibility. */
 # ifdef    __cplusplus
@@ -28,6 +29,21 @@ typedef struct RCPR_SYM(auto_reset_trigger) RCPR_SYM(auto_reset_trigger);
  * \brief An auto-reset trigger notification callback.
  */
 typedef void (*RCPR_SYM(auto_reset_trigger_callback))(void*);
+
+/******************************************************************************/
+/* Start of model checking properties.                                        */
+/******************************************************************************/
+
+/**
+ * \brief Valid allocator property.
+ *
+ * \param trigger       The \ref auto_reset_trigger instance to be verified.
+ *
+ * \returns true if the \ref auto_reset_trigger instance is valid.
+ */
+bool
+RCPR_SYM(property_auto_reset_trigger_valid)(
+    const RCPR_SYM(auto_reset_trigger)* trigger);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
