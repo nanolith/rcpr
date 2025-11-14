@@ -166,7 +166,7 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(prop_resource_valid(r));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_insert_head))
 
-/* preconditions. */
+/* postconditions. */
 RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
     RCPR_SYM(list_insert_head), status retval, RCPR_SYM(list)* l,
     RCPR_SYM(resource)* r)
