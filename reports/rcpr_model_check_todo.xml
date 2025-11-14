@@ -1734,4 +1734,29 @@
             </category>
         </category>
     </category>
+    <category name="stack.h">
+        <category name="stack structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+        <category name="functions">
+            <category name="stack_create">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="stack_resource_handle">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+        </category>
+    </category>
 </todo>
