@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<todo>
+    <category name="allocator.h">
+        <category name="allocator structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+        <category name="allocator_vtable structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+        <category name="functions">
+            <category name="malloc_allocator_create">
+                <item name="function contract preconditions" completed="true"/>
+                <item name="function contract postconditions" completed="true"/>
+                <item name="concrete function contract enforcement" completed="true"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method" completed="true"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="bump_allocator_create">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="allocator_allocate">
+                <item name="function contract preconditions" completed="true"/>
+                <item name="function contract postconditions" completed="true"/>
+                <item name="concrete function contract enforcement" completed="true"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method" completed="true"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="allocator_reclaim">
+                <item name="function contract preconditions" completed="true"/>
+                <item name="function contract postconditions" completed="true"/>
+                <item name="concrete function contract enforcement" completed="true"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="allocator_reallocate">
+                <item name="function contract preconditions" completed="true"/>
+                <item name="function contract postconditions" completed="true"/>
+                <item name="concrete function contract enforcement" completed="true"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method" completed="true"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="allocator_resource_handle">
+                <item name="function contract preconditions" completed="true"/>
+                <item name="function contract postconditions" completed="true"/>
+                <item name="concrete function contract enforcement" completed="true"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+        </category>
+    </category>
+</todo>
