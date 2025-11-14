@@ -1984,4 +1984,29 @@
             </category>
         </category>
     </category>
+    <category name="uuid.h">
+        <category name="rcpr_uuid structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+        <category name="functions">
+            <category name="rcpr_uuid_to_string">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="rcpr_uuid_parse_string">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="concrete function contract enforcement"/>
+                <item name="shadow method"/>
+                <item name="model checks for concrete method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+        </category>
+    </category>
 </todo>
