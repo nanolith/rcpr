@@ -1,6 +1,6 @@
 SET(MC_SOURCES
     ${CMAKE_SOURCE_DIR}/models/shadow/allocator/allocator_struct_tag_init.c
-    ${CMAKE_SOURCE_DIR}/models/shadow/allocator/prop_allocator_valid.c
+    ${CMAKE_SOURCE_DIR}/models/shadow/allocator/property_allocator_valid.c
     ${CMAKE_SOURCE_DIR}/models/shadow/resource/prop_resource_valid.c
     ${CMAKE_SOURCE_DIR}/models/shadow/resource/resource_struct_tag_init.c
     ${CMAKE_SOURCE_DIR}/src/allocator/allocator_resource_handle.c
