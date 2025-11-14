@@ -27,8 +27,6 @@ The following table breaks down progress by header.
 | `include/rcpr/auto_reset_trigger.h`            | $\color{red}{0}$ %         |
 | `include/rcpr/bigint.h`                        | $\color{red}{0}$ %         |
 | `include/rcpr/byteswap.h`                      | $\color{red}{0}$ %         |
-| `include/rcpr/compare.h`                       | $\color{red}{0}$ %         |
-| `include/rcpr/component.h`                     | $\color{red}{0}$ %         |
 | `include/rcpr/condition.h`                     | $\color{red}{0}$ %         |
 | `include/rcpr/fiber/disciplines/condition.h`   | $\color{red}{0}$ %         |
 | `include/rcpr/fiber/disciplines/management.h`  | $\color{red}{0}$ %         |
