@@ -189,6 +189,17 @@ RCPR_SYM(auto_reset_trigger_register)(
     RCPR_SYM(auto_reset_trigger)* trigger,
     RCPR_SYM(auto_reset_trigger_callback) callback, void* context);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(auto_reset_trigger_register),
+    RCPR_SYM(auto_reset_trigger)* trigger,
+    RCPR_SYM(auto_reset_trigger_callback) callback, void* context)
+        /* trigger valid. */
+        RCPR_MODEL_ASSERT(property_auto_reset_trigger_valid(trigger));
+        /* callback is not NULL. */
+        RCPR_MODEL_ASSERT(NULL == callback);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(auto_reset_trigger_register))
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
