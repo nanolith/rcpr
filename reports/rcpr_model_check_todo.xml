@@ -66,7 +66,7 @@
     <category name="auto_reset_trigger.h">
         <category name="auto_reset_trigger structure">
             <item name="data structure shadow impl"/>
-            <item name="valid property decl"/>
+            <item name="valid property decl" completed="true"/>
             <item name="valid property impl"/>
         </category>
         <category name="functions">
