@@ -9,7 +9,13 @@
 </xsl:text></xsl:variable>
 
 <xsl:template match="/">
-    <xsl:apply-templates select="." mode="display"/>
+    <xsl:apply-templates select="." mode="display">
+        <xsl:with-param name="indent" select="'    '"/>
+    </xsl:apply-templates>
+    <xsl:text>Total: </xsl:text>
+    <xsl:value-of select="round(10000.0 * count(.//item[@completed='true']) div count(.//item)) div 100.0"/>
+    <xsl:text>%</xsl:text>
+    <xsl:value-of select="$newline"/>
 </xsl:template>
 
 <xsl:template match="category" mode="display">
