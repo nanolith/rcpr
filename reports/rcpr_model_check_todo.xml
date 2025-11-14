@@ -240,4 +240,21 @@
             </category>
         </category>
     </category>
+    <category name="fiber_fwd.h">
+        <category name="fiber structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+        <category name="fiber_scheduler structure">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+        <category name="fiber_scheduler discipline">
+            <item name="data structure shadow impl"/>
+            <item name="valid property decl"/>
+            <item name="valid property impl"/>
+        </category>
+    </category>
 </todo>
