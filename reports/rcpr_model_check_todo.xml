@@ -161,4 +161,26 @@
             </category>
         </category>
     </category>
+    <category name="byteswap.h">
+        <category name="functions">
+            <category name="byteswap16">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="shadow method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="byteswap32">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="shadow method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+            <category name="byteswap64">
+                <item name="function contract preconditions"/>
+                <item name="function contract postconditions"/>
+                <item name="shadow method"/>
+                <item name="model checks for shadow method"/>
+            </category>
+        </category>
+    </category>
 </todo>
