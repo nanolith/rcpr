@@ -475,7 +475,7 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         /* output is a valid pointer. */
         RCPR_MODEL_CHECK_OBJECT_RW(output, sizeof(*output));
         /* alloc is a valid allocator. */
-        RCPR_MODEL_ASSERT(prop_allocator_valid(alloc));
+        RCPR_MODEL_ASSERT(property_allocator_valid(alloc));
         /* input is a valid string. */
         RCPR_MODEL_CHECK_IS_STRING(input);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(strdup))

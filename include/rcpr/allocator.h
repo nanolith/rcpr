@@ -50,7 +50,7 @@ typedef struct RCPR_SYM(allocator_vtable) RCPR_SYM(allocator_vtable);
  * \returns true if the allocator instance is valid.
  */
 bool
-RCPR_SYM(prop_allocator_valid)(
+RCPR_SYM(property_allocator_valid)(
     const RCPR_SYM(allocator)* alloc);
 
 /******************************************************************************/
@@ -98,7 +98,7 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
         if (STATUS_SUCCESS == retval)
         {
             /* the allocator is valid. */
-            RCPR_MODEL_ASSERT(RCPR_SYM(prop_allocator_valid)(*alloc));
+            RCPR_MODEL_ASSERT(RCPR_SYM(property_allocator_valid)(*alloc));
         }
         /* on failure... */
         else
@@ -180,7 +180,7 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
     RCPR_SYM(allocator_allocate),
     RCPR_SYM(allocator)* alloc, void** ptr, size_t size)
         /* this must be a valid allocator. */
-        RCPR_MODEL_ASSERT(RCPR_SYM(prop_allocator_valid(alloc)));
+        RCPR_MODEL_ASSERT(RCPR_SYM(property_allocator_valid(alloc)));
         /* ptr must be sized to hold the result. */
         RCPR_MODEL_CHECK_OBJECT_RW(ptr, sizeof(*ptr));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_allocate))
@@ -233,7 +233,7 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
     RCPR_SYM(allocator_reclaim),
     RCPR_SYM(allocator)* alloc, void* ptr)
         /* alloc is a valid allocator. */
-        RCPR_MODEL_ASSERT(RCPR_SYM(prop_allocator_valid)(alloc));
+        RCPR_MODEL_ASSERT(RCPR_SYM(property_allocator_valid)(alloc));
         /* ptr is not NULL. */
         RCPR_MODEL_ASSERT(NULL != ptr);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_reclaim))
@@ -281,7 +281,7 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
     RCPR_SYM(allocator_reallocate),
     RCPR_SYM(allocator)* alloc, void** ptr, size_t size)
         /* alloc is a valid allocator. */
-        RCPR_MODEL_ASSERT(RCPR_SYM(prop_allocator_valid)(alloc));
+        RCPR_MODEL_ASSERT(RCPR_SYM(property_allocator_valid)(alloc));
         /* ptr is not NULL. */
         RCPR_MODEL_ASSERT(NULL != ptr);
         /* *ptr is not NULL. */
@@ -323,7 +323,7 @@ RCPR_SYM(allocator_resource_handle)(
 RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
     RCPR_SYM(allocator_resource_handle), RCPR_SYM(allocator)* alloc)
         /* alloc must be a valid allocator. */
-        RCPR_MODEL_ASSERT(RCPR_SYM(prop_allocator_valid)(alloc));
+        RCPR_MODEL_ASSERT(RCPR_SYM(property_allocator_valid)(alloc));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_resource_handle))
 
 /* postconditions. */
@@ -462,9 +462,9 @@ struct RCPR_SYM(allocator_vtable)
     static inline RCPR_SYM(resource)* sym ## allocator_resource_handle( \
         RCPR_SYM(allocator)* x) { \
             return RCPR_SYM(allocator_resource_handle)(x); } \
-    static inline bool sym ## prop_allocator_valid( \
+    static inline bool sym ## property_allocator_valid( \
         const RCPR_SYM(allocator)* x) { \
-            return RCPR_SYM(prop_allocator_valid)(x); } \
+            return RCPR_SYM(property_allocator_valid)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_allocator_as(sym) \

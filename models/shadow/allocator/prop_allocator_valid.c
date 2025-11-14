@@ -24,7 +24,7 @@ RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(allocator);
  *
  * \returns true if the allocator instance is valid.
  */
-bool RCPR_SYM(prop_allocator_valid)(const RCPR_SYM(allocator)* alloc)
+bool RCPR_SYM(property_allocator_valid)(const RCPR_SYM(allocator)* alloc)
 {
     allocator_vtable* vtable;
 
