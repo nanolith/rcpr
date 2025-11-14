@@ -99,7 +99,7 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(auto_reset_trigger_create))
 /* postconditions. */
 RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
     RCPR_SYM(auto_reset_trigger_create),
-    int retval, RCPR_SYM(auto_reset_trigger)** trigger,
+    status retval, RCPR_SYM(auto_reset_trigger)** trigger,
     RCPR_SYM(allocator)* alloc)
         /* on success... */
         if (STATUS_SUCCESS == retval)
