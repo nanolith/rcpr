@@ -44,7 +44,7 @@ The following table breaks down progress by header.
 | `include/rcpr/thread.h`                        | $\color{red}{0}$ %         |
 | `include/rcpr/uuid.h`                          | $\color{red}{0}$ %         |
 |                                                |                            |
-| **Total**                                      | $\color{yellow}{0}$ %      |
+| **Total**                                      | $\color{yellow}{5.56}$ %   |
 
 Private Methods
 ---------------
