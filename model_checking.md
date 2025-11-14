@@ -4,7 +4,7 @@ Model Checking RCPR
 To improve RCPR's safety, I have started a project to modernize model checking
 in this library. To model check this library, I use [CBMC][cbmc].
 
-[cmbc]: https://www.cprover.org/cbmc/
+[cbmc]: https://www.cprover.org/cbmc/
 
 Public Methods
 --------------
