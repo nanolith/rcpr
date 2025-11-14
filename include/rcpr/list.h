@@ -38,7 +38,7 @@ typedef struct RCPR_SYM(list_node) RCPR_SYM(list_node);
 /******************************************************************************/
 
 /**
- * \brief Valid list property.
+ * \brief Valid \ref list property.
  *
  * \param l             The \ref list instance to be verified.
  *
@@ -46,6 +46,16 @@ typedef struct RCPR_SYM(list_node) RCPR_SYM(list_node);
  */
 bool
 RCPR_SYM(property_list_valid)(const RCPR_SYM(list)* l);
+
+/**
+ * \brief Valid \ref list_node property.
+ *
+ * \param node          The \ref list_node instance to be verified.
+ *
+ * \returns true if the \ref list_node instance is valid.
+ */
+bool
+RCPR_SYM(property_list_node_valid)(const RCPR_SYM(list_node)* node);
 
 /******************************************************************************/
 /* Start of constructors.                                                     */
