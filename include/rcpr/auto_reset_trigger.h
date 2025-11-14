@@ -11,8 +11,11 @@
 #pragma once
 
 #include <rcpr/allocator.h>
+#include <rcpr/function_contracts.h>
 #include <rcpr/function_decl.h>
+#include <rcpr/model_assert.h>
 #include <rcpr/resource.h>
+#include <rcpr/status.h>
 #include <stdbool.h>
 
 /* C++ compatibility. */
@@ -92,6 +95,28 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         /* alloc is a valid allocator. */
         RCPR_MODEL_ASSERT(property_allocator_valid(alloc));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(auto_reset_trigger_create))
+
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(auto_reset_trigger_create),
+    int retval, RCPR_SYM(auto_reset_trigger)** trigger,
+    RCPR_SYM(allocator)* alloc)
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* the trigger is valid. */
+            RCPR_MODEL_ASSERT(property_auto_reset_trigger_valid(*trigger));
+        }
+        /* on failure. */
+        else
+        {
+            /* the trigger pointer is set to NULL. */
+            RCPR_MODEL_ASSERT(NULL == *trigger);
+
+            /* the only error code returned is out-of-memory. */
+            RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(auto_reset_trigger_create))
 
 /******************************************************************************/
 /* Start of public methods.                                                   */
