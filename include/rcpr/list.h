@@ -543,6 +543,13 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(RCPR_SYM(list_clear), RCPR_SYM(list)* l)
         RCPR_MODEL_ASSERT(property_list_valid(l));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_clear))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(list_clear), status retval, RCPR_SYM(list)* l)
+        /* l is a valid list. */
+        RCPR_MODEL_ASSERT(property_list_valid(l));
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(list_clear))
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
