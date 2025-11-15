@@ -445,6 +445,17 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(list_pop)(
     RCPR_SYM(list)* l, RCPR_SYM(resource)** r);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(list_pop), RCPR_SYM(list)* l, RCPR_SYM(resource)** r)
+        /* l is a valid list. */
+        RCPR_MODEL_ASSERT(property_list_valid(l));
+        /* r is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(r, sizeof(*r));
+        /* *r is NULL. */
+        RCPR_MODEL_ASSERT(NULL == *r);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_pop))
+
 /**
  * \brief Swap the contents of two list instances.
  *
