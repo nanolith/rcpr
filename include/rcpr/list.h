@@ -509,6 +509,15 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(property_list_valid(right));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_swap))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(list_swap), RCPR_SYM(list)* left, RCPR_SYM(list)* right)
+        /* left is a valid list. */
+        RCPR_MODEL_ASSERT(property_list_valid(left));
+        /* right is a valid list. */
+        RCPR_MODEL_ASSERT(property_list_valid(right));
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(list_swap))
+
 /**
  * \brief Clear a list instance, removing all nodes and their resources.
  *
