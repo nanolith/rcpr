@@ -263,6 +263,15 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(list_append)(
     RCPR_SYM(list_node)* node, RCPR_SYM(resource)* r);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(list_append), RCPR_SYM(list_node)* node, RCPR_SYM(resource)* r)
+        /* node is a valid list node. */
+        RCPR_MODEL_ASSERT(property_list_node_valid(node));
+        /* r is a valid resource. */
+        RCPR_MODEL_ASSERT(prop_resource_valid(r));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_append))
+
 /**
  * \brief Insert the given \ref resource before the given \ref list_node.
  *
