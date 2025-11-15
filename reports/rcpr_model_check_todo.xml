@@ -585,8 +585,8 @@
                 <item name="model checks for shadow method"/>
             </category>
             <category name="list_node_child_swap">
-                <item name="function contract preconditions"/>
-                <item name="function contract postconditions"/>
+                <item name="function contract preconditions" completed="true"/>
+                <item name="function contract postconditions" completed="true"/>
                 <item name="concrete function contract enforcement"/>
                 <item name="shadow method"/>
                 <item name="model checks for concrete method"/>
