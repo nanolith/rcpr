@@ -391,6 +391,22 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         }
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_node_child_swap))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(list_node_child_swap), status retval, RCPR_SYM(list_node)* node,
+    RCPR_SYM(resource)** r)
+        /* this method always succeeds. TODO - make it return void. */
+        RCPR_MODEL_ASSERT(STATUS_SUCCESS == retval);
+        /* node is a valid list node. */
+        RCPR_MODEL_ASSERT(property_list_node_valid(node));
+        /* if *r is not NULL... */
+        if (NULL != *r)
+        {
+            /* *r is a valid resource. */
+            RCPR_MODEL_ASSERT(prop_resource_valid(*r));
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(list_node_child_swap))
+
 /**
  * \brief Pop the head value of the list, setting the given resource pointer to
  * the resource previously held in the head node.
