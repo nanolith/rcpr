@@ -456,6 +456,29 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(NULL == *r);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_pop))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(list_pop), status retval, RCPR_SYM(list)* l,
+    RCPR_SYM(resource)** r)
+        /* l is a valid list. */
+        RCPR_MODEL_ASSERT(property_list_valid(l));
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* if *r is not NULL... */
+            if (NULL != *r)
+            {
+                /* *r is a valid resource. */
+                RCPR_MODEL_ASSERT(prop_resource_valid(*r));
+            }
+        }
+        else
+        {
+            /* *r must be NULL. */
+            RCPR_MODEL_ASSERT(NULL == *r);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(list_pop))
+
 /**
  * \brief Swap the contents of two list instances.
  *
