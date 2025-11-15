@@ -272,6 +272,19 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(prop_resource_valid(r));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_append))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(list_append), status retval, RCPR_SYM(list_node)* node,
+    RCPR_SYM(resource)* r)
+        /* node is a valid list node. */
+        RCPR_MODEL_ASSERT(property_list_node_valid(node));
+        /* This method either succeeds or fails with
+         * ERROR_GENERAL_OUT_OF_MEMORY. */
+        RCPR_MODEL_ASSERT(
+            (STATUS_SUCCESS == retval)
+         || (ERROR_GENERAL_OUT_OF_MEMORY == retval));
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(list_append))
+
 /**
  * \brief Insert the given \ref resource before the given \ref list_node.
  *
