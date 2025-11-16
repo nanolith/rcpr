@@ -101,7 +101,7 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         /* l is a valid pointer. */
         RCPR_MODEL_CHECK_OBJECT_RW(l, sizeof(*l));
         /* a is a valid allocator. */
-        RCPR_MODEL_ASSERT(property_allocator_valid(a));
+        RCPR_MODEL_ASSERT(RCPR_SYM(property_allocator_valid)(a));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_create))
 
 /* postconditions. */
@@ -112,7 +112,7 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
         if (STATUS_SUCCESS == retval)
         {
             /* the list is valid. */
-            RCPR_MODEL_ASSERT(property_list_valid(*l));
+            RCPR_MODEL_ASSERT(RCPR_SYM(property_list_valid)(*l));
         }
         /* on failure. */
         else
