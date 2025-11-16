@@ -33,6 +33,20 @@ typedef struct RCPR_SYM(slist) RCPR_SYM(slist);
 typedef struct RCPR_SYM(slist_node) RCPR_SYM(slist_node);
 
 /******************************************************************************/
+/* Start of model checking properties.                                        */
+/******************************************************************************/
+
+/**
+ * \brief Valid \ref slist property.
+ *
+ * \param l             The \ref slist instance to be verified.
+ *
+ * \returns true if the \ref slist instance is valid.
+ */
+bool
+RCPR_SYM(property_slist_valid)(const RCPR_SYM(slist)* l);
+
+/******************************************************************************/
 /* Start of constructors.                                                     */
 /******************************************************************************/
 
