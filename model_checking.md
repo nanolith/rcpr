@@ -30,7 +30,7 @@ The following table breaks down progress by header.
 | `include/rcpr/condition.h`                     | $\color{red}{0}$ %         |
 | `include/rcpr/fiber_fwd.h`                     | $\color{red}{0}$ %         |
 | `include/rcpr/fiber.h`                         | $\color{red}{0}$ %         |
-| `include/rcpr/list.h`                          | $\color{yellow}{39.81}$ %  |
+| `include/rcpr/list.h`                          | $\color{yellow}{41.67}$ %  |
 | `include/rcpr/message.h`                       | $\color{red}{0}$ %         |
 | `include/rcpr/psock.h`                         | $\color{red}{0}$ %         |
 | `include/rcpr/queue.h`                         | $\color{red}{0}$ %         |
@@ -44,7 +44,7 @@ The following table breaks down progress by header.
 | `include/rcpr/thread.h`                        | $\color{red}{0}$ %         |
 | `include/rcpr/uuid.h`                          | $\color{red}{0}$ %         |
 |                                                |                            |
-| **Total**                                      | $\color{yellow}{11.88}$ %  |
+| **Total**                                      | $\color{yellow}{12.03}$ %  |
 
 Private Methods
 ---------------

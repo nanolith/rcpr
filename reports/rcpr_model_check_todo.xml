@@ -536,12 +536,12 @@
         <category name="list structure">
             <item name="data structure shadow impl" completed="true"/>
             <item name="valid property decl" completed="true"/>
-            <item name="valid property impl"/>
+            <item name="valid property impl" completed="true"/>
         </category>
         <category name="list_node structure">
             <item name="data structure shadow impl" completed="true"/>
             <item name="valid property decl" completed="true"/>
-            <item name="valid property impl"/>
+            <item name="valid property impl" completed="true"/>
         </category>
         <category name="functions">
             <category name="list_create">
