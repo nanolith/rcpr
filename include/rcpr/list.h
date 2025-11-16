@@ -643,6 +643,15 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(list_head)(
     RCPR_SYM(list_node)** node, RCPR_SYM(list)* l);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(list_head), RCPR_SYM(list_node)** node, RCPR_SYM(list)* l)
+        /* l is a valid list. */
+        RCPR_MODEL_ASSERT(property_list_valid(l));
+        /* node is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(node, sizeof(*node));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_head))
+
 /**
  * \brief Get the tail of a \ref list.
  *
