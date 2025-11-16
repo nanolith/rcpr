@@ -591,6 +591,14 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(property_slist_valid(l));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_resource_handle))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(slist_resource_handle), RCPR_SYM(resource)* retval,
+    RCPR_SYM(slist)* l)
+        /* retval is a valid resource. */
+        RCPR_MODEL_ASSERT(prop_resource_valid(retval));
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_resource_handle))
+
 /**
  * \brief Given an \ref slist_node instance, return the resource handle for this
  * \ref slist_node instance.
@@ -603,14 +611,6 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_resource_handle))
 RCPR_SYM(resource)*
 RCPR_SYM(slist_node_resource_handle)(
     RCPR_SYM(slist_node)* node);
-
-/* postconditions. */
-RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
-    RCPR_SYM(slist_resource_handle), RCPR_SYM(resource)* retval,
-    RCPR_SYM(slist)* l)
-        /* retval is a valid resource. */
-        RCPR_MODEL_ASSERT(prop_resource_valid(retval));
-RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_resource_handle))
 
 /**
  * \brief Get the head of a \ref slist.
