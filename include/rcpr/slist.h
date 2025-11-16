@@ -398,6 +398,29 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(NULL == *r);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_pop))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(slist_pop), status retval, RCPR_SYM(slist)* l,
+    RCPR_SYM(resource)** r)
+        /* l is a valid slist. */
+        RCPR_MODEL_ASSERT(property_slist_valid(l));
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* if *r is not NULL... */
+            if (NULL != *r)
+            {
+                /* *r is a valid resource. */
+                RCPR_MODEL_ASSERT(prop_resource_valid(*r));
+            }
+        }
+        else
+        {
+            /* *r must be NULL. */
+            RCPR_MODEL_ASSERT(NULL == *r);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_pop))
+
 /**
  * \brief Pop the next value of the given node, setting the given resource
  * pointer to the resource previously held by the next node.
