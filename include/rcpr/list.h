@@ -731,6 +731,13 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(list_tail))
  */
 size_t RCPR_SYM(list_count)(RCPR_SYM(list)* l);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(list_count), RCPR_SYM(list)* l)
+        /* l is a valid list. */
+        RCPR_MODEL_ASSERT(property_list_valid(l));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_count))
+
 /**
  * \brief Get the resource associated with the given of \ref list_node.
  *
