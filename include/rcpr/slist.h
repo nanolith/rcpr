@@ -612,6 +612,13 @@ RCPR_SYM(resource)*
 RCPR_SYM(slist_node_resource_handle)(
     RCPR_SYM(slist_node)* node);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(slist_node_resource_handle), RCPR_SYM(slist_node)* node)
+        /* node is a valid slist node. */
+        RCPR_MODEL_ASSERT(property_slist_node_valid(node));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_node_resource_handle))
+
 /**
  * \brief Get the head of a \ref slist.
  *
