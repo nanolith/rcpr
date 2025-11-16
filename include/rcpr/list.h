@@ -892,28 +892,6 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
 RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(list_node_prev))
 
 /******************************************************************************/
-/* Start of model checking properties.                                        */
-/******************************************************************************/
-
-/**
- * \brief Valid \ref list property.
- *
- * \param l              The \ref list instance to be verified.
- *
- * \returns true if the \ref list instance is valid.
- */
-bool RCPR_SYM(prop_list_valid)(const RCPR_SYM(list)* l);
-
-/**
- * \brief Valid \ref list_node property.
- *
- * \param node           The \ref list_node instance to be verified.
- *
- * \returns true if the \ref list_node instance is valid.
- */
-bool RCPR_SYM(prop_list_node_valid)(const RCPR_SYM(list_node)* node);
-
-/******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define __INTERNAL_RCPR_IMPORT_list_sym(sym) \
@@ -971,12 +949,12 @@ bool RCPR_SYM(prop_list_node_valid)(const RCPR_SYM(list_node)* node);
     static inline status FN_DECL_MUST_CHECK sym ## list_node_prev( \
         RCPR_SYM(list_node)** x, RCPR_SYM(list_node)* y) { \
             return RCPR_SYM(list_node_prev)(x,y); } \
-    static inline bool sym ## prop_list_valid( \
+    static inline bool sym ## property_list_valid( \
         const RCPR_SYM(list)* x) { \
-            return RCPR_SYM(prop_list_valid)(x); } \
-    static inline bool sym ## prop_list_node_valid( \
+            return RCPR_SYM(property_list_valid)(x); } \
+    static inline bool sym ## property_list_node_valid( \
         const RCPR_SYM(list_node)* x) { \
-            return RCPR_SYM(prop_list_node_valid)(x); } \
+            return RCPR_SYM(property_list_node_valid)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_list_as(sym) \
