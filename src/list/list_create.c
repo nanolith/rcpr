@@ -62,17 +62,17 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(list_create)(
     RCPR_SYM(list)** l, RCPR_SYM(allocator)* a)
 {
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(NULL != l);
-    RCPR_MODEL_ASSERT(prop_allocator_valid(a));
+    status retval;
+
+    /* function contract preconditions. */
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(RCPR_SYM(list_create), l, a);
 
     /* attempt to allocate memory for this list. */
     list* tmp = NULL;
-    int retval =
-        allocator_allocate(a, (void**)&tmp, sizeof(list));
+    retval = allocator_allocate(a, (void**)&tmp, sizeof(list));
     if (STATUS_SUCCESS != retval)
     {
-        return retval;
+        goto done;
     }
 
     /* clear structure. */
@@ -100,10 +100,18 @@ RCPR_SYM(list_create)(
     *l = tmp;
 
     /* verify that this structure is now valid. */
-    RCPR_MODEL_ASSERT(prop_list_valid(*l));
+    RCPR_MODEL_ASSERT(property_list_valid(*l));
 
     /* success. */
-    return STATUS_SUCCESS;
+    retval = STATUS_SUCCESS;
+    goto done;
+
+done:
+    /* check postconditions. */
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(
+
+        RCPR_SYM(list_create), retval, l, a);
+    return retval;
 }
 
 /**
