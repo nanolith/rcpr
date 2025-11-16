@@ -163,6 +163,19 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(prop_resource_valid(r));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_insert_head))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(slist_insert_head), status retval, RCPR_SYM(slist)* l,
+    RCPR_SYM(resource)* r)
+        /* l is a valid slist. */
+        RCPR_MODEL_ASSERT(property_slist_valid(l));
+        /* This method either succeeds or fails with
+         * ERROR_GENERAL_OUT_OF_MEMORY. */
+        RCPR_MODEL_ASSERT(
+            (STATUS_SUCCESS == retval)
+         || (ERROR_GENERAL_OUT_OF_MEMORY == retval));
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_insert_head))
+
 /**
  * \brief Append the given \ref resource to the back of the \ref slist.
  *
