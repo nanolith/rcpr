@@ -1527,12 +1527,12 @@
     <category name="slist.h">
         <category name="slist structure">
             <item name="data structure shadow impl"/>
-            <item name="valid property decl"/>
+            <item name="valid property decl" completed="true"/>
             <item name="valid property impl"/>
         </category>
         <category name="slist_node structure">
             <item name="data structure shadow impl"/>
-            <item name="valid property decl"/>
+            <item name="valid property decl" completed="true"/>
             <item name="valid property impl"/>
         </category>
         <category name="functions">
