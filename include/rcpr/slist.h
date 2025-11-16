@@ -799,6 +799,20 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_CHECK_OBJECT_RW(r, sizeof(*r));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_node_child))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(slist_node_child), status retval, RCPR_SYM(resource)** r,
+    RCPR_SYM(slist_node)* node)
+        /* retval is always successful. TODO change to void. */
+        RCPR_MODEL_ASSERT(STATUS_SUCCESS == retval);
+        /* if *r is not NULL... */
+        if (NULL != *r)
+        {
+            /* *r is a valid resource. */
+            RCPR_MODEL_ASSERT(prop_resource_valid(*r));
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_node_child))
+
 /**
  * \brief Given an \ref slist_node, return the next \ref slist_node in the list.
  *
