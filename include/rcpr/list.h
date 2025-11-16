@@ -595,6 +595,13 @@ RCPR_SYM(resource)*
 RCPR_SYM(list_node_resource_handle)(
     RCPR_SYM(list_node)* node);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(list_node_resource_handle), RCPR_SYM(list_node)* node)
+        /* node is a valid list node. */
+        RCPR_MODEL_ASSERT(property_list_node_valid(node));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_node_resource_handle))
+
 /**
  * \brief Get the head of a \ref list.
  *
