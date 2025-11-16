@@ -847,6 +847,20 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_CHECK_OBJECT_RW(next, sizeof(*next));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_node_next))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(slist_node_next), status retval, RCPR_SYM(slist_node)** next,
+    RCPR_SYM(slist_node)* node)
+        /* retval is always successful. TODO change to void. */
+        RCPR_MODEL_ASSERT(STATUS_SUCCESS == retval);
+        /* if *next is not NULL... */
+        if (NULL != *next)
+        {
+            /* *next is a valid slist_node. */
+            RCPR_MODEL_ASSERT(property_slist_node_valid(*next));
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_node_next))
+
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
