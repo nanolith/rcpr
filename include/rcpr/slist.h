@@ -260,6 +260,15 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(slist_append)(
     RCPR_SYM(slist_node)* node, RCPR_SYM(resource)* r);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(slist_append), RCPR_SYM(slist_node)* node, RCPR_SYM(resource)* r)
+        /* node is a valid slist node. */
+        RCPR_MODEL_ASSERT(property_slist_node_valid(node));
+        /* r is a valid resource. */
+        RCPR_MODEL_ASSERT(prop_resource_valid(r));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_append))
+
 /**
  * \brief Swap the \ref resource owned by this \ref slist_node with the given
  * resource, replacing it with the value currently owned by this node.
