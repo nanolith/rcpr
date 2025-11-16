@@ -789,6 +789,16 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(slist_node_child)(
     RCPR_SYM(resource)** r, RCPR_SYM(slist_node)* node);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(slist_node_child), RCPR_SYM(resource)** r,
+    RCPR_SYM(slist_node)* node)
+        /* node is a valid slist node. */
+        RCPR_MODEL_ASSERT(property_slist_node_valid(node));
+        /* r is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(r, sizeof(*r));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_node_child))
+
 /**
  * \brief Given an \ref slist_node, return the next \ref slist_node in the list.
  *
