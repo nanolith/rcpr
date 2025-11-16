@@ -838,7 +838,7 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
         if (NULL != *next)
         {
             /* *next is a valid list_node. */
-            RCPR_MODEL_ASSERT(property_list_node_valid(*node));
+            RCPR_MODEL_ASSERT(property_list_node_valid(*next));
         }
 RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(list_node_next))
 
