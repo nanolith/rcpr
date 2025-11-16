@@ -837,6 +837,16 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(slist_node_next)(
     RCPR_SYM(slist_node)** next, RCPR_SYM(slist_node)* node);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(slist_node_next), RCPR_SYM(slist_node)** next,
+    RCPR_SYM(slist_node)* node)
+        /* node is a valid slist node. */
+        RCPR_MODEL_ASSERT(property_slist_node_valid(node));
+        /* next is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(next, sizeof(*next));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_node_next))
+
 /******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
