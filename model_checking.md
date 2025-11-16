@@ -37,14 +37,14 @@ The following table breaks down progress by header.
 | `include/rcpr/rbtree.h`                        | $\color{red}{0}$ %         |
 | `include/rcpr/resource.h`                      | $\color{yellow}{45.83}$ %  |
 | `include/rcpr/resource/protected.h`            | $\color{red}{0}$ %         |
-| `include/rcpr/slist.h`                         | $\color{yellow}{1.96}$ %   |
+| `include/rcpr/slist.h`                         | $\color{yellow}{3.92}$ %   |
 | `include/rcpr/socket_utilities.h`              | $\color{red}{0}$ %         |
 | `include/rcpr/stack.h`                         | $\color{red}{0}$ %         |
 | `include/rcpr/string.h`                        | $\color{yellow}{61.73}$ %  |
 | `include/rcpr/thread.h`                        | $\color{red}{0}$ %         |
 | `include/rcpr/uuid.h`                          | $\color{red}{0}$ %         |
 |                                                |                            |
-| **Total**                                      | $\color{yellow}{9.14}$ %   |
+| **Total**                                      | $\color{yellow}{9.28}$ %   |
 
 Private Methods
 ---------------
