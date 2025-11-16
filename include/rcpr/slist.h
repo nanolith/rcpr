@@ -387,6 +387,17 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(slist_pop)(
     RCPR_SYM(slist)* list, RCPR_SYM(resource)** r);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(slist_pop), RCPR_SYM(slist)* l, RCPR_SYM(resource)** r)
+        /* l is a valid slist. */
+        RCPR_MODEL_ASSERT(property_slist_valid(l));
+        /* r is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(r, sizeof(*r));
+        /* *r is NULL. */
+        RCPR_MODEL_ASSERT(NULL == *r);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_pop))
+
 /**
  * \brief Pop the next value of the given node, setting the given resource
  * pointer to the resource previously held by the next node.
