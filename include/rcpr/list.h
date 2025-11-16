@@ -770,6 +770,16 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(list_node_child)(
     RCPR_SYM(resource)** r, RCPR_SYM(list_node)* node);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(list_node_child), RCPR_SYM(resource)** r,
+    RCPR_SYM(list_node)* node)
+        /* node is a valid list node. */
+        RCPR_MODEL_ASSERT(property_list_node_valid(node));
+        /* r is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(r, sizeof(*r));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_node_child))
+
 /**
  * \brief Given an \ref list_node, return the next \ref list_node in the list.
  *
