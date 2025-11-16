@@ -15,6 +15,7 @@
 #include "list_internal.h"
 
 RCPR_IMPORT_list;
+RCPR_IMPORT_resource;
 
 /**
  * \brief Given an \ref list instance, return the resource handle for this
@@ -29,9 +30,17 @@ RCPR_SYM(resource)*
 RCPR_SYM(list_resource_handle)(
     RCPR_SYM(list)* l)
 {
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(prop_list_valid(l));
+    resource* retval = NULL;
+
+    /* function contract preconditions. */
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(RCPR_SYM(list_resource_handle), l);
 
     /* return the resource handle for this list. */
-    return &l->hdr;
+    retval = &l->hdr;
+
+    /* function contract postconditions. */
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(
+        RCPR_SYM(list_resource_handle), retval, l);
+
+    return retval;
 }
