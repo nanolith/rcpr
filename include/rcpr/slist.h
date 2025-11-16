@@ -92,6 +92,15 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(slist_create)(
     RCPR_SYM(slist)** list, RCPR_SYM(allocator)* a);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(slist_create), RCPR_SYM(slist)** l, RCPR_SYM(allocator)* a)
+        /* l is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(l, sizeof(*l));
+        /* a is a valid allocator. */
+        RCPR_MODEL_ASSERT(property_allocator_valid(a));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_create))
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
