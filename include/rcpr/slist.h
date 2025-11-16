@@ -460,6 +460,18 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(slist_node_next_pop)(
     RCPR_SYM(slist_node)* node, RCPR_SYM(resource)** r);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(slist_node_next_pop), RCPR_SYM(slist_node)* node,
+    RCPR_SYM(resource)** r)
+        /* node is a valid slist node. */
+        RCPR_MODEL_ASSERT(property_slist_node_valid(node));
+        /* r is a valid pointer. */
+        RCPR_MODEL_CHECK_OBJECT_RW(r, sizeof(*r));
+        /* *r is NULL. */
+        RCPR_MODEL_ASSERT(NULL == *r);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_node_next_pop))
+
 /**
  * \brief Swap the contents of two slist instances.
  *
