@@ -497,32 +497,6 @@ RCPR_SYM(slist_node_next)(
     RCPR_SYM(slist_node)** next, RCPR_SYM(slist_node)* node);
 
 /******************************************************************************/
-/* Start of model checking properties.                                        */
-/******************************************************************************/
-
-/**
- * \brief Valid \ref slist property.
- *
- * \param list           The \ref slist instance to be verified.
- *
- * \returns true if the \ref slist instance is valid.
- */
-bool
-RCPR_SYM(prop_slist_valid)(
-    const RCPR_SYM(slist)* list);
-
-/**
- * \brief Valid \ref slist_node property.
- *
- * \param node           The \ref slist_node instance to be verified.
- *
- * \returns true if the \ref slist_node instance is valid.
- */
-bool
-RCPR_SYM(prop_slist_node_valid)(
-    const RCPR_SYM(slist_node)* node);
-
-/******************************************************************************/
 /* Start of public exports.                                                   */
 /******************************************************************************/
 #define __INTERNAL_RCPR_IMPORT_slist_sym(sym) \
@@ -577,12 +551,12 @@ RCPR_SYM(prop_slist_node_valid)(
     static inline status FN_DECL_MUST_CHECK sym ## slist_node_next( \
         RCPR_SYM(slist_node)** x, RCPR_SYM(slist_node)* y) { \
             return RCPR_SYM(slist_node_next)(x,y); } \
-    static inline bool sym ## prop_slist_valid( \
+    static inline bool sym ## property_slist_valid( \
         const RCPR_SYM(slist)* x) { \
-            return RCPR_SYM(prop_slist_valid)(x); } \
-    static inline bool sym ## prop_slist_node_valid( \
+            return RCPR_SYM(property_slist_valid)(x); } \
+    static inline bool sym ## property_slist_node_valid( \
         const RCPR_SYM(slist_node)* x) { \
-            return RCPR_SYM(prop_slist_node_valid)(x); } \
+            return RCPR_SYM(property_slist_node_valid)(x); } \
     RCPR_END_EXPORT \
     REQUIRE_SEMICOLON_HERE
 #define RCPR_IMPORT_slist_as(sym) \
