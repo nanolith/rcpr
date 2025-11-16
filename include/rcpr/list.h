@@ -567,6 +567,13 @@ RCPR_SYM(resource)*
 RCPR_SYM(list_resource_handle)(
     RCPR_SYM(list)* l);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(list_resource_handle), RCPR_SYM(list)* l)
+        /* l is a valid list. */
+        RCPR_MODEL_ASSERT(property_list_valid(l));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_resource_handle))
+
 /**
  * \brief Given a \ref list_node instance, return the resource handle for this
  * \ref list_node instance.
