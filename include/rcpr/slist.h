@@ -101,6 +101,27 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(property_allocator_valid(a));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_create))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(slist_create), status retval, RCPR_SYM(slist)** l,
+    RCPR_SYM(allocator)* a)
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* the slist is valid. */
+            RCPR_MODEL_ASSERT(property_slist_valid(*l));
+        }
+        /* on failure. */
+        else
+        {
+            /* the slist pointer is set to NULL. */
+            RCPR_MODEL_ASSERT(NULL == *l);
+
+            /* the only error code returned is out-of-memory. */
+            RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_create))
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
