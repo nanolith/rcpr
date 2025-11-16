@@ -553,6 +553,13 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_swap))
 status FN_DECL_MUST_CHECK
 RCPR_SYM(slist_clear)(RCPR_SYM(slist)* l);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(slist_clear), RCPR_SYM(slist)* l)
+        /* l is a valid slist. */
+        RCPR_MODEL_ASSERT(property_slist_valid(l));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_clear))
+
 /******************************************************************************/
 /* Start of accessors.                                                        */
 /******************************************************************************/
