@@ -33,6 +33,9 @@ RCPR_SYM(list_clear)(RCPR_SYM(list)* l)
 {
     status retval;
 
+    /* check preconditions. */
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(RCPR_SYM(list_clear), l);
+
     /* iterate through list nodes, releasing them. */
     while (NULL != l->head)
     {
@@ -48,7 +51,7 @@ RCPR_SYM(list_clear)(RCPR_SYM(list)* l)
         retval = list_node_cleanup(l->alloc, t);
         if (STATUS_SUCCESS != retval)
         {
-            return retval;
+            goto done;
         }
     }
 
@@ -59,5 +62,12 @@ RCPR_SYM(list_clear)(RCPR_SYM(list)* l)
     l->count = 0U;
 
     /* success. */
-    return STATUS_SUCCESS;
+    retval = STATUS_SUCCESS;
+    goto done;
+
+done:
+    /* check postconditions. */
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(RCPR_SYM(list_clear), retval, l);
+
+    return retval;
 }
