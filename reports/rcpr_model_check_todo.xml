@@ -547,9 +547,9 @@
             <category name="list_create">
                 <item name="function contract preconditions" completed="true"/>
                 <item name="function contract postconditions" completed="true"/>
-                <item name="concrete function contract enforcement"/>
+                <item name="concrete function contract enforcement" completed="true"/>
                 <item name="shadow method"/>
-                <item name="model checks for concrete method"/>
+                <item name="model checks for concrete method" completed="true"/>
                 <item name="model checks for shadow method"/>
             </category>
             <category name="list_insert_head">
@@ -611,7 +611,7 @@
             <category name="list_clear">
                 <item name="function contract preconditions" completed="true"/>
                 <item name="function contract postconditions" completed="true"/>
-                <item name="concrete function contract enforcement"/>
+                <item name="concrete function contract enforcement" completed="true"/>
                 <item name="shadow method"/>
                 <item name="model checks for concrete method"/>
                 <item name="model checks for shadow method"/>
@@ -619,9 +619,9 @@
             <category name="list_resource_handle">
                 <item name="function contract preconditions" completed="true"/>
                 <item name="function contract postconditions" completed="true"/>
-                <item name="concrete function contract enforcement"/>
+                <item name="concrete function contract enforcement" completed="true"/>
                 <item name="shadow method"/>
-                <item name="model checks for concrete method"/>
+                <item name="model checks for concrete method" completed="true"/>
                 <item name="model checks for shadow method"/>
             </category>
             <category name="list_node_resource_handle">
