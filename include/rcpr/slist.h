@@ -516,6 +516,15 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_node_next_pop))
  */
 void RCPR_SYM(slist_swap)(RCPR_SYM(slist)* left, RCPR_SYM(slist)* right);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(slist_swap), RCPR_SYM(slist)* left, RCPR_SYM(slist)* right)
+        /* left is a valid slist. */
+        RCPR_MODEL_ASSERT(property_slist_valid(left));
+        /* right is a valid slist. */
+        RCPR_MODEL_ASSERT(property_slist_valid(right));
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_swap))
+
 /**
  * \brief Clear an slist instance, removing all nodes and their resources.
  *
