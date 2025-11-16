@@ -757,6 +757,11 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(property_slist_valid(l));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_count))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(slist_count), size_t retval, RCPR_SYM(slist)* l)
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_count))
+
 /**
  * \brief Get the resource associated with the given of \ref slist_node.
  *
