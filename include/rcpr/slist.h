@@ -472,6 +472,29 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_ASSERT(NULL == *r);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(slist_node_next_pop))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(slist_node_next_pop), status retval, RCPR_SYM(slist_node)* node,
+    RCPR_SYM(resource)** r)
+        /* node is a valid slist node. */
+        RCPR_MODEL_ASSERT(property_slist_node_valid(node));
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* if *r is not NULL... */
+            if (NULL != *r)
+            {
+                /* *r is a valid resource. */
+                RCPR_MODEL_ASSERT(prop_resource_valid(*r));
+            }
+        }
+        else
+        {
+            /* *r must be NULL. */
+            RCPR_MODEL_ASSERT(NULL == *r);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_node_next_pop))
+
 /**
  * \brief Swap the contents of two slist instances.
  *
