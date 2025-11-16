@@ -877,6 +877,20 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_CHECK_OBJECT_RW(prev, sizeof(*prev));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_node_prev))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(list_node_prev), status retval, RCPR_SYM(list_node)** prev,
+    RCPR_SYM(list_node)* node)
+        /* retval is always successful. TODO change to void. */
+        RCPR_MODEL_ASSERT(STATUS_SUCCESS == retval);
+        /* if *prev is not NULL... */
+        if (NULL != *prev)
+        {
+            /* *prev is a valid list_node. */
+            RCPR_MODEL_ASSERT(property_list_node_valid(*prev));
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(list_node_prev))
+
 /******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
