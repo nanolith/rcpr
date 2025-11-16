@@ -604,6 +604,14 @@ RCPR_SYM(resource)*
 RCPR_SYM(slist_node_resource_handle)(
     RCPR_SYM(slist_node)* node);
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(slist_resource_handle), RCPR_SYM(resource)* retval,
+    RCPR_SYM(slist)* l)
+        /* retval is a valid resource. */
+        RCPR_MODEL_ASSERT(prop_resource_valid(retval));
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(slist_resource_handle))
+
 /**
  * \brief Get the head of a \ref slist.
  *
