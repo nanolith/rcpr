@@ -211,9 +211,9 @@ RCPR_SYM(list_append_tail)(
 RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
     RCPR_SYM(list_append_tail), RCPR_SYM(list)* l, RCPR_SYM(resource)* r)
         /* l is a valid list. */
-        RCPR_MODEL_ASSERT(property_list_valid(l));
+        RCPR_MODEL_ASSERT(RCPR_SYM(property_list_valid)(l));
         /* r is a valid resource. */
-        RCPR_MODEL_ASSERT(prop_resource_valid(r));
+        RCPR_MODEL_ASSERT(RCPR_SYM(prop_resource_valid)(r));
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(list_append_tail))
 
 /* postconditions. */
@@ -221,7 +221,7 @@ RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
     RCPR_SYM(list_append_tail), status retval, RCPR_SYM(list)* l,
     RCPR_SYM(resource)* r)
         /* l is a valid list. */
-        RCPR_MODEL_ASSERT(property_list_valid(l));
+        RCPR_MODEL_ASSERT(RCPR_SYM(property_list_valid)(l));
         /* This method either succeeds or fails with
          * ERROR_GENERAL_OUT_OF_MEMORY. */
         RCPR_MODEL_ASSERT(
