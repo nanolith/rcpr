@@ -46,17 +46,17 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(list_append_tail)(
     RCPR_SYM(list)* l, RCPR_SYM(resource)* r)
 {
+    int retval;
     list_node* node;
 
-    /* parameter sanity checks. */
-    RCPR_MODEL_ASSERT(prop_list_valid(l));
-    RCPR_MODEL_ASSERT(prop_resource_valid(r));
+    /* check preconditions. */
+    RCPR_MODEL_CONTRACT_CHECK_PRECONDITIONS(RCPR_SYM(list_append_tail), l, r);
 
     /* attempt to create an list_node. */
-    int retval = list_node_create(&node, l, r);
+    retval = list_node_create(&node, l, r);
     if (STATUS_SUCCESS != retval)
     {
-        return retval;
+        goto done;
     }
 
     /* do we have nodes in our list? */
@@ -76,5 +76,13 @@ RCPR_SYM(list_append_tail)(
     ++l->count;
 
     /* success. */
-    return STATUS_SUCCESS;
+    retval = STATUS_SUCCESS;
+    goto done;
+
+done:
+    /* check postconditions. */
+    RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(
+        RCPR_SYM(list_append_tail), retval, l, r);
+
+    return retval;
 }
