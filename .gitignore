@@ -1,3 +1,9 @@
 cscope.*
 tags
 build
+
+#coq related artifacts
+*.glob
+*.vo
+*.vok
+*.vos
