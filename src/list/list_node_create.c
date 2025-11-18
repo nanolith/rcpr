@@ -64,7 +64,7 @@ RCPR_SYM(list_node_create)(
 {
     /* parameter sanity checks. */
     RCPR_MODEL_ASSERT(NULL != node);
-    RCPR_MODEL_ASSERT(prop_list_valid(l));
+    RCPR_MODEL_ASSERT(property_list_valid(l));
     RCPR_MODEL_ASSERT(NULL == r || prop_resource_valid(r));
 
     /* attempt to allocate memory for this list_node. */
@@ -96,8 +96,8 @@ RCPR_SYM(list_node_create)(
     /* set the child. */
     n->child = r;
 
-    /* set parent to NULL. */
-    n->parent = NULL;
+    /* set parent to our list. */
+    n->parent = l;
 
     /* set next to NULL. */
     n->next = NULL;
@@ -109,10 +109,7 @@ RCPR_SYM(list_node_create)(
     *node = n;
 
     /* verify that this structure is now valid. */
-    RCPR_MODEL_ASSERT(prop_list_node_valid(*node));
-
-    /* set the parent; this breaks our invariant, but the caller fixes it up. */
-    n->parent = l;
+    RCPR_MODEL_ASSERT(property_list_node_valid(*node));
 
     /* success. */
     return STATUS_SUCCESS;
