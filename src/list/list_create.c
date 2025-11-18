@@ -109,8 +109,8 @@ RCPR_SYM(list_create)(
 done:
     /* check postconditions. */
     RCPR_MODEL_CONTRACT_CHECK_POSTCONDITIONS(
-
         RCPR_SYM(list_create), retval, l, a);
+
     return retval;
 }
 
