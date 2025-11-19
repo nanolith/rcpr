@@ -4,6 +4,7 @@ Module Semigroup.
 (* associativity. *)
 Class Semigroup (A: Type) : Type := {
     op : A -> A -> A;
+    op_assoc : forall x y z : A, op x (op y z) = op (op x y) z
 }.
 
 Declare Scope semigroup_scope.
