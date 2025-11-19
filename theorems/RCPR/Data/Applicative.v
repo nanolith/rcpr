@@ -11,8 +11,8 @@ Declare Scope applicative_scope.
 
 Delimit Scope applicative_scope with applicative.
 
-(* The <*> operator maps to app. *)
-Infix "<*>" := app (at level 65, left associativity) : applicative_scope.
+(* The ⊛ operator maps to app. *)
+Infix "⊛" := app (at level 65, left associativity) : applicative_scope.
 
 (* Gather the implicit type t parameter from implicit context. *)
 Arguments app {A} {_} {t} _ : rename.
