@@ -9,4 +9,14 @@ Class Functor (F : Type -> Type) := {
         fmap (fun y => g (f y)) x = fmap g (fmap f x)
 }.
 
+Declare Scope functor_scope.
+
+Delimit Scope functor_scope with functor.
+
+(* The ⟨$⟩ operator maps to fmap. *)
+Infix "⟨$⟩" := fmap (at level 65, left associativity) : functor_scope.
+
+(* Gather the implicit types A and B from implicit context. *)
+Arguments fmap {F} {_} {A B} _ _.
+
 End Functor.
