@@ -2,7 +2,7 @@ Module Semigroup.
 
 (* The Semigroup typeclass provides a single computation operation that has *)
 (* associativity. *)
-Class Semigroup (S: Type -> Type) : Type := {
+Class Semigroup (S: Type -> Type) := {
     op : forall {a : Type}, S a -> S a -> S a;
     op_assoc : forall {a : Type} (x y z : S a), op x (op y z) = op (op x y) z
 }.
@@ -15,6 +15,6 @@ Delimit Scope semigroup_scope with semigroup.
 Infix "<o>" := op (at level 65, left associativity) : semigroup_scope.
 
 (* Gather the implicit type A parameter from implicit context. *)
-Arguments op {A} {_} _ _ : rename.
+Arguments op {S} {_} {A} _ : rename.
 
 End Semigroup.
