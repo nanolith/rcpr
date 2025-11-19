@@ -32,3 +32,7 @@ add_dependencies(
 add_dependencies(
     build_rocq_RCPR_Theorems_Monoid.v
     build_rocq_RCPR_Data_Monoid.v)
+
+add_dependencies(
+    build_rocq_RCPR_Theorems_Applicative.v
+    build_rocq_RCPR_Data_Applicative.v)
