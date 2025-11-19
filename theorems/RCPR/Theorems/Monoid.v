@@ -18,8 +18,15 @@ Section MonoidTheories.
     Proof.
         intros.
         apply mempty_right.
-    Abort.
+    Qed.
 
+    (* verify left associative identity. *)
+    Lemma identity_left : forall {t : Type} (x : S t),
+        mempty <o> x = x.
+    Proof.
+        intros.
+        apply mempty_left.
+    Qed.
 End MonoidTheories.
 
 End Monoid.
