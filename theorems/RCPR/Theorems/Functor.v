@@ -18,6 +18,15 @@ Section FunctorTheories.
         apply functor_id.
     Qed.
 
+    (* verify functor composition. *)
+    Lemma composition : forall {A B C : Type} (f : A -> B) (g : B -> C)
+                               (x : F A),
+        (fun y => g (f y)) ⟨$⟩ x = g ⟨$⟩ (f ⟨$⟩ x).
+    Proof.
+        intros.
+        apply functor_comp.
+    Qed.
+
 End FunctorTheories.
 
 End Functor.
