@@ -14,6 +14,7 @@ INCLUDE(CheckSymbolExists)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
 option(MODEL_CHECKING_ENABLED "Enable Model Checking")
+option(ROCQ_PROOFS_ENABLED "Enable rocq Proofs")
 option(PSOCK_ASYNC_USE_POLL "Use poll() for psock async I/O.")
 option(RCPR_VTABLE_RUNTIME_ENFORCEMENT "Runtime checks for vtable segment")
 option(RCPR_VTABLE_CHECK_ASSERT "Runtime vtable check is an assertion" ON)
@@ -239,4 +240,9 @@ ADD_SUBDIRECTORY(examples)
 #model checks
 if (MODEL_CHECKING_ENABLED)
     ADD_SUBDIRECTORY(models)
+endif()
+
+#rocq proofs
+if (ROCQ_PROOFS_ENABLED)
+    ADD_SUBDIRECTORY(theorems)
 endif()
