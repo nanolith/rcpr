@@ -2,9 +2,9 @@ Module Semigroup.
 
 (* The Semigroup typeclass provides a single computation operation that has *)
 (* associativity. *)
-Class Semigroup (A: Type) : Type := {
-    op : A -> A -> A;
-    op_assoc : forall x y z : A, op x (op y z) = op (op x y) z
+Class Semigroup (S: Type -> Type) : Type := {
+    op : forall {a : Type}, S a -> S a -> S a;
+    op_assoc : forall {a : Type} (x y z : S a), op x (op y z) = op (op x y) z
 }.
 
 Declare Scope semigroup_scope.

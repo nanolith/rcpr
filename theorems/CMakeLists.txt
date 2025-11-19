@@ -20,3 +20,11 @@ ENDFOREACH()
 add_dependencies(
     build_rocq_RCPR_Data_IList.v
     build_rocq_RCPR_Data_Maybe.v)
+
+add_dependencies(
+    build_rocq_RCPR_Data_Monoid.v
+    build_rocq_RCPR_Data_Semigroup.v)
+
+add_dependencies(
+    build_rocq_RCPR_Theorems_Semigroup.v
+    build_rocq_RCPR_Data_Semigroup.v)

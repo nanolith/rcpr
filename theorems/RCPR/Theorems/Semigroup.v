@@ -5,13 +5,13 @@ Import Semigroup.
 Module Semigroup.
 
 Section SemigroupTheories.
-    Variable A : Type.
-    Context `{Semigroup A}.
+    Variable S : Type -> Type.
+    Context `{Semigroup S}.
 
     Open Scope semigroup_scope.
 
     (* verify associativity. *)
-    Lemma simple_assoc : forall x y z : A,
+    Lemma simple_assoc : forall {a : Type} (x y z : S a),
         x <o> (y <o> z) = (x <o> y) <o> z.
     Proof.
         intros.
