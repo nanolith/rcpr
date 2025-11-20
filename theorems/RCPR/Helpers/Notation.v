@@ -1,7 +1,12 @@
 Module Notation.
 
+(* Provide nicer forall. *)
 Notation "∀ x .. y , P" := (forall x, .. (forall y, P) ..)
   (at level 200, x binder, y binder, right associativity,
    format "'[' '∀'  x  ..  y ,  '/  ' P ']'") : type_scope.
+
+(* Provide nicer implication arrow. *)
+Reserved Notation "A → B" (at level 99, right associativity, B at level 200).
+Notation "A → B" := (forall (_ : A), B) : type_scope.
 
 End Notation.
