@@ -1,13 +1,15 @@
 Require Import RCPR.Data.Maybe.
+Require Import RCPR.Helpers.Notation.
 
 Import Maybe.
+Import Notation.
 
 Module IList.
 
 (* Generic Linked List for Interpretation. *)
 Inductive IList (A : Type) : Type :=
 | nil : IList A
-| cons : A -> IList A -> IList A.
+| cons : A → IList A → IList A.
 
 (* Gather the implicit type A parameter from implicit context. *)
 Arguments nil {A}.
