@@ -13,7 +13,10 @@ Class Applicative (A : Type → Type) `{Functor A} := {
     ap : ∀ {a b : Type}, A (a → b) → A a → A b;
     (* Identity property. *)
     ap_id : ∀ {t : Type} (v : A t),
-        ap (pure (λ x ↦ x)) v = v
+        ap (pure (λ x ↦ x)) v = v;
+    (* Composition property. *)
+    ap_comp : ∀ {X Y Z : Type} (u : A (Y → Z)) (v : A (X → Y)) (w : A X),
+        ap (ap (ap (pure (λ g f x ↦ g (f x))) u) v) w = ap u (ap v w);
 }.
 
 Declare Scope applicative_scope.
