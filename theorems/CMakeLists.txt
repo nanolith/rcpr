@@ -14,6 +14,13 @@ FOREACH(source ${ROCQ_RCPR_SOURCES})
     ADD_CUSTOM_TARGET(
         ${TARGET_NAME} ALL
         DEPENDS ${source}o)
+
+    if (NOT "${TARGET_NAME}" STREQUAL "build_rocq_RCPR_Helpers_Notation.v")
+        add_dependencies(
+            ${TARGET_NAME}
+            build_rocq_RCPR_Helpers_Notation.v)
+    endif()
+
 ENDFOREACH()
 
 # dependencies
