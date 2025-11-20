@@ -14,7 +14,7 @@ Section FunctorTheories.
 
     (* verify functor identity. *)
     Lemma identity : ∀ {A : Type} (x : F A),
-        (fun a => a) ⟨$⟩ x = x.
+        (λ a ↦ a) ⟨$⟩ x = x.
     Proof.
         intros.
         apply functor_id.
@@ -23,7 +23,7 @@ Section FunctorTheories.
     (* verify functor composition. *)
     Lemma composition : ∀ {A B C : Type} (f : A → B) (g : B → C)
                                (x : F A),
-        (fun y => g (f y)) ⟨$⟩ x = g ⟨$⟩ (f ⟨$⟩ x).
+        (λ y ↦ g (f y)) ⟨$⟩ x = g ⟨$⟩ (f ⟨$⟩ x).
     Proof.
         intros.
         apply functor_comp.
