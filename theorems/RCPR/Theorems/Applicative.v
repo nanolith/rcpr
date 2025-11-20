@@ -49,6 +49,14 @@ Section ApplicativeTheories.
         intros.
         apply ap_comp.
     Qed.
+
+    (* verify homomorphism. *)
+    Lemma applicative_homomorphism : ∀ {X Y : Type} (f : X → Y) (x : X),
+        pure f ⊛ pure x = pure (f x).
+    Proof.
+        intros.
+        apply ap_hmorph.
+    Qed.
 End ApplicativeTheories.
 
 End Applicative.
