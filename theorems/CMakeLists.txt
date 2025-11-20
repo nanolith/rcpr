@@ -42,6 +42,10 @@ add_dependencies(
     build_rocq_RCPR_Data_Semigroup.v)
 
 add_dependencies(
+    build_rocq_RCPR_Data_Applicative.v
+    build_rocq_RCPR_Data_Functor.v)
+
+add_dependencies(
     build_rocq_RCPR_Theorems_Applicative.v
     build_rocq_RCPR_Data_Applicative.v)
 
