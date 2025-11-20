@@ -20,6 +20,9 @@ Class Applicative (A : Type → Type) `{Functor A} := {
     (* Homomorphism property. *)
     ap_hmorph : ∀ {X Y : Type} (f : X → Y) (x : X),
         ap (pure f) (pure x) = pure (f x);
+    (* Interchange. *)
+    ap_interchange : ∀ {X Y : Type} (u : A (X → Y)) (y : X),
+        ap u (pure y) = ap (pure (λ f ↦ f y)) u;
 }.
 
 Declare Scope applicative_scope.
