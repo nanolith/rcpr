@@ -7,7 +7,7 @@ Import Semigroup.
 Module Semigroup.
 
 Section SemigroupTheories.
-    Variable S : Type -> Type.
+    Variable S : Type → Type.
     Context `{Semigroup S}.
 
     Open Scope semigroup_scope.
