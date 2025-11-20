@@ -1,6 +1,8 @@
 Require Import RCPR.Data.Functor.
+Require Import RCPR.Helpers.Notation.
 
 Import Functor.
+Import Notation.
 
 Module Functor.
 
@@ -11,7 +13,7 @@ Section FunctorTheories.
     Open Scope functor_scope.
 
     (* verify functor identity. *)
-    Lemma identity : forall {A : Type} (x : F A),
+    Lemma identity : ∀ {A : Type} (x : F A),
         (fun a => a) ⟨$⟩ x = x.
     Proof.
         intros.
@@ -19,7 +21,7 @@ Section FunctorTheories.
     Qed.
 
     (* verify functor composition. *)
-    Lemma composition : forall {A B C : Type} (f : A -> B) (g : B -> C)
+    Lemma composition : ∀ {A B C : Type} (f : A -> B) (g : B -> C)
                                (x : F A),
         (fun y => g (f y)) ⟨$⟩ x = g ⟨$⟩ (f ⟨$⟩ x).
     Proof.
