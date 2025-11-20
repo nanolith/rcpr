@@ -14,7 +14,7 @@ Section MonoidTheories.
 
     (* verify right associative identity. *)
     Lemma identity_right : forall {t : Type} (x : S t),
-        x <o> mempty = x.
+        x ⊙ mempty = x.
     Proof.
         intros.
         apply mempty_right.
@@ -22,7 +22,7 @@ Section MonoidTheories.
 
     (* verify left associative identity. *)
     Lemma identity_left : forall {t : Type} (x : S t),
-        mempty <o> x = x.
+        mempty ⊙ x = x.
     Proof.
         intros.
         apply mempty_left.

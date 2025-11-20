@@ -12,7 +12,7 @@ Section SemigroupTheories.
 
     (* verify associativity. *)
     Lemma simple_assoc : forall {a : Type} (x y z : S a),
-        x <o> (y <o> z) = (x <o> y) <o> z.
+        x ⊙ (y ⊙ z) = (x ⊙ y) ⊙ z.
     Proof.
         intros.
         apply op_assoc.
