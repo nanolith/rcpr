@@ -6,9 +6,9 @@ Module Applicative.
 
 (* The Applicative Functor provides a way to lift both functions and values *)
 (* to a functor space. *)
-Class Applicative (A : Type -> Type) := {
-    pure : ∀ {t : Type}, t -> A t;
-    app : ∀ {a b : Type}, A (a -> b) -> A a -> A b
+Class Applicative (A : Type → Type) := {
+    pure : ∀ {t : Type}, t → A t;
+    app : ∀ {a b : Type}, A (a → b) → A a → A b
 }.
 
 Declare Scope applicative_scope.
