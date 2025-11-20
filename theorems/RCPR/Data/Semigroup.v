@@ -6,8 +6,8 @@ Module Semigroup.
 
 (* The Semigroup typeclass provides a single computation operation that has *)
 (* associativity. *)
-Class Semigroup (S: Type -> Type) := {
-    op : ∀ {a : Type}, S a -> S a -> S a;
+Class Semigroup (S: Type → Type) := {
+    op : ∀ {a : Type}, S a → S a → S a;
     op_assoc : ∀ {a : Type} (x y z : S a), op x (op y z) = op (op x y) z
 }.
 
