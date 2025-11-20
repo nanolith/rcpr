@@ -31,6 +31,15 @@ Section ApplicativeTheories.
         unfold fmap.
         apply functor_id.
     Qed.
+
+    (* verify composition using fmap. *)
+    Lemma applicative_composition_fmap : ∀ {t u v : Type} (f : t → u)
+        (g : u → v) (x : A t),
+            (λ y ↦ g (f y)) ⟨$⟩ x = g ⟨$⟩ (f ⟨$⟩ x).
+    Proof.
+        intros.
+        apply functor_comp.
+    Qed.
 End ApplicativeTheories.
 
 End Applicative.
