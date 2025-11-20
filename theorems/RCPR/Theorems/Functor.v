@@ -7,7 +7,7 @@ Import Notation.
 Module Functor.
 
 Section FunctorTheories.
-    Variable F : Type -> Type.
+    Variable F : Type → Type.
     Context `{Functor F}.
 
     Open Scope functor_scope.
@@ -21,7 +21,7 @@ Section FunctorTheories.
     Qed.
 
     (* verify functor composition. *)
-    Lemma composition : ∀ {A B C : Type} (f : A -> B) (g : B -> C)
+    Lemma composition : ∀ {A B C : Type} (f : A → B) (g : B → C)
                                (x : F A),
         (fun y => g (f y)) ⟨$⟩ x = g ⟨$⟩ (f ⟨$⟩ x).
     Proof.
