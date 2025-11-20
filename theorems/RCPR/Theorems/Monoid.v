@@ -9,7 +9,7 @@ Import Semigroup.
 Module Monoid.
 
 Section MonoidTheories.
-    Variable S : Type -> Type.
+    Variable S : Type → Type.
     Context `{Monoid S}.
 
     Open Scope semigroup_scope.
