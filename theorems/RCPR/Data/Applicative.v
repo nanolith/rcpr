@@ -8,17 +8,20 @@ Module Applicative.
 (* to a functor space. *)
 Class Applicative (A : Type → Type) := {
     pure : ∀ {t : Type}, t → A t;
-    app : ∀ {a b : Type}, A (a → b) → A a → A b
+    ap : ∀ {a b : Type}, A (a → b) → A a → A b;
+    (* Identity property. *)
+    ap_id : ∀ {t : Type} (v : A t),
+        ap (pure (λ x ↦ x)) v = v
 }.
 
 Declare Scope applicative_scope.
 
 Delimit Scope applicative_scope with applicative.
 
-(* The ⊛ operator maps to app. *)
-Infix "⊛" := app (at level 65, left associativity) : applicative_scope.
+(* The ⊛ operator maps to ap. *)
+Infix "⊛" := ap (at level 65, left associativity) : applicative_scope.
 
 (* Gather the implicit type t parameter from implicit context. *)
-Arguments app {A} {_} {t} _ : rename.
+Arguments ap {A} {_} {t} _ : rename.
 
 End Applicative.
