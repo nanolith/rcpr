@@ -17,6 +17,9 @@ Class Applicative (A : Type → Type) `{Functor A} := {
     (* Composition property. *)
     ap_comp : ∀ {X Y Z : Type} (u : A (Y → Z)) (v : A (X → Y)) (w : A X),
         ap (ap (ap (pure (λ g f x ↦ g (f x))) u) v) w = ap u (ap v w);
+    (* Homomorphism property. *)
+    ap_hmorph : ∀ {X Y : Type} (f : X → Y) (x : X),
+        ap (pure f) (pure x) = pure (f x);
 }.
 
 Declare Scope applicative_scope.
