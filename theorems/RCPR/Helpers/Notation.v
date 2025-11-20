@@ -9,4 +9,9 @@ Notation "∀ x .. y , P" := (forall x, .. (forall y, P) ..)
 Reserved Notation "A → B" (at level 99, right associativity, B at level 200).
 Notation "A → B" := (forall (_ : A), B) : type_scope.
 
+(* Provide a prettier lambda fun binding. *)
+Notation "'λ' x .. y ↦ t" := (fun x => .. (fun y => t) ..)
+  (at level 200, x binder, y binder, right associativity,
+   format "'[' 'λ'  x  ..  y  ↦  '/  ' t ']'").
+
 End Notation.

@@ -8,9 +8,9 @@ Module Functor.
 Class Functor (F : Type → Type) := {
     fmap : ∀ {A B : Type} , (A → B) → F A → F B;
     functor_id : ∀ {A : Type} (x : F A),
-        fmap (fun a => a) x = x;
+        fmap (λ a ↦ a) x = x;
     functor_comp : ∀ {A B C : Type} (f : A → B) (g : B → C) (x : F A),
-        fmap (fun y => g (f y)) x = fmap g (fmap f x)
+        fmap (λ y ↦ g (f y)) x = fmap g (fmap f x)
 }.
 
 Declare Scope functor_scope.
