@@ -40,6 +40,15 @@ Section ApplicativeTheories.
         intros.
         apply functor_comp.
     Qed.
+
+    (* verify composition. *)
+    Lemma applicative_composition :  ∀ {X Y Z : Type} (u : A (Y → Z))
+        (v : A (X → Y)) (w : A X),
+            pure (λ g f x ↦ g (f x)) ⊛ u ⊛ v ⊛ w = u ⊛ (v ⊛ w).
+    Proof.
+        intros.
+        apply ap_comp.
+    Qed.
 End ApplicativeTheories.
 
 End Applicative.
