@@ -57,6 +57,14 @@ Section ApplicativeTheories.
         intros.
         apply ap_hmorph.
     Qed.
+
+    (* verify interchange. *)
+     Lemma applicative_interchange : ∀ {X Y : Type} (u : A (X → Y)) (y : X),
+        u ⊛ pure y = pure (λ f ↦ f y) ⊛ u.
+    Proof.
+        intros.
+        apply ap_interchange.
+    Qed.
 End ApplicativeTheories.
 
 End Applicative.
