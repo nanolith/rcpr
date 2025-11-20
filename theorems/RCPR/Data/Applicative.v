@@ -1,12 +1,14 @@
+Require Import RCPR.Data.Functor.
 Require Import RCPR.Helpers.Notation.
 
+Import Functor.
 Import Notation.
 
 Module Applicative.
 
 (* The Applicative Functor provides a way to lift both functions and values *)
 (* to a functor space. *)
-Class Applicative (A : Type → Type) := {
+Class Applicative (A : Type → Type) `{Functor A} := {
     pure : ∀ {t : Type}, t → A t;
     ap : ∀ {a b : Type}, A (a → b) → A a → A b;
     (* Identity property. *)
