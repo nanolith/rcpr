@@ -88,4 +88,6 @@ Next Obligation.
     reflexivity.
 Qed.
 
+Arguments EitherApplicative {E}.
+
 End Either.
