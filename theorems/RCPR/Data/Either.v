@@ -41,6 +41,8 @@ Next Obligation.
     reflexivity.
 Qed.
 
+Arguments EitherFunctor {E}.
+
 (* The Either Applicative instance provides us with an error Applicative. *)
 Program Instance EitherApplicative (E : Type) : Applicative (Either E) := {
     pure := λ A x ↦ Right x;
