@@ -56,6 +56,7 @@ Program Instance EitherApplicative (E : Type) : Applicative (Either E) := {
             end
         end;
 }.
+(* Proof of identity law. *)
 Next Obligation.
     intros E t x.
     simpl.
@@ -63,6 +64,7 @@ Next Obligation.
     reflexivity.
     reflexivity.
 Qed.
+(* Proof of composition law. *)
 Next Obligation.
     intros E X Y Z w x y.
     simpl.
@@ -75,11 +77,13 @@ Next Obligation.
     reflexivity.
     reflexivity.
 Qed.
+(* Proof of homomorphism law. *)
 Next Obligation.
     intros.
     simpl.
     reflexivity.
 Qed.
+(* Proof of interchange law. *)
 Next Obligation.
     intros E A B f x.
     simpl.
