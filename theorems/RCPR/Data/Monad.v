@@ -11,6 +11,10 @@ Module Monad.
 Class Monad (M : Type → Type) `{Applicative M} := {
     bind : ∀ {A B : Type}, M A → (A → M B) → M B;
     ret : ∀ {t : Type}, t → M t;
+
+    (* Left identity. *)
+    monad_left_id : ∀ {A B : Type} (x : A) (f : A → M B),
+        bind (ret x) f = f x;
 }.
 
 End Monad.
