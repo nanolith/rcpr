@@ -26,4 +26,8 @@ Delimit Scope monad_scope with monad.
 (* The ⤜ operator maps to bind. *)
 Infix "⤜" := bind (at level 65, left associativity) : monad_scope.
 
+(* The » operator maps to "do". *)
+Notation "f » g" :=
+    (bind f (λ _ ↦ g)) (at level 65, left associativity) : monad_scope.
+
 End Monad.
