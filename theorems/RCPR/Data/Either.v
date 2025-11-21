@@ -16,7 +16,7 @@ Arguments Left {A B} _ , [A] B _.
 (* The implicit type B maps to the Right type. *)
 Arguments Right {A B} _ , A [B] _.
 
-(* The Either Applicative instance provides us with an error Applicative. *)
+(* The Either Functor instance provides us with an error Functor. *)
 Program Instance EitherFunctor (E : Type) : Functor (Either E) := {
     fmap := λ A B f x ↦ 
         match x with
