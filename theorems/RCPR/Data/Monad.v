@@ -23,8 +23,8 @@ Arguments ret  {M} {_} {A} x : rename.
 Declare Scope monad_scope.
 Delimit Scope monad_scope with monad.
 
-(* The ⤜ operator maps to bind. *)
-Infix "⤜" := bind (at level 65, left associativity) : monad_scope.
+(* The ▶ operator maps to bind. *)
+Infix "▶" := bind (at level 65, left associativity) : monad_scope.
 
 (* The » operator maps to "do". *)
 Notation "f » g" :=
