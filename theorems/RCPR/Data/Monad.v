@@ -17,4 +17,13 @@ Class Monad (M : Type → Type) `{Applicative M} := {
         bind (ret x) f = f x;
 }.
 
+Arguments bind {M} {_} {A B} m f : rename.
+Arguments ret  {M} {_} {A} x : rename.
+
+Declare Scope monad_scope.
+Delimit Scope monad_scope with monad.
+
+(* The ⤜ operator maps to bind. *)
+Infix "⤜" := bind (at level 65, left associativity) : monad_scope.
+
 End Monad.
