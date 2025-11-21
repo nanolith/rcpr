@@ -1,6 +1,8 @@
+Require Import RCPR.Data.Applicative.
 Require Import RCPR.Data.Functor.
 Require Import RCPR.Helpers.Notation.
 
+Import Applicative.
 Import Functor.
 Import Notation.
 
@@ -35,6 +37,51 @@ Qed.
 Next Obligation.
     intros.
     destruct x.
+    reflexivity.
+    reflexivity.
+Qed.
+
+(* The Either Applicative instance provides us with an error Applicative. *)
+Program Instance EitherApplicative (E : Type) : Applicative (Either E) := {
+    pure := λ A x ↦ Right x;
+    ap := λ A B f x ↦
+        match f with
+        | Left e => Left e
+        | Right f' =>
+            match x with
+            | Left e => Left e
+            | Right x' => Right (f' x')
+            end
+        end;
+}.
+Next Obligation.
+    intros E t x.
+    simpl.
+    destruct x.
+    reflexivity.
+    reflexivity.
+Qed.
+Next Obligation.
+    intros E X Y Z w x y.
+    simpl.
+    destruct w.
+    reflexivity.
+    simpl.
+    destruct x.
+    reflexivity.
+    destruct y.
+    reflexivity.
+    reflexivity.
+Qed.
+Next Obligation.
+    intros.
+    simpl.
+    reflexivity.
+Qed.
+Next Obligation.
+    intros E A B f x.
+    simpl.
+    destruct f.
     reflexivity.
     reflexivity.
 Qed.
