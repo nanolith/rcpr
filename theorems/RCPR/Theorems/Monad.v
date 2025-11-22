@@ -25,6 +25,14 @@ Section MonadTheories.
         intros.
         apply monad_left_id.
     Qed.
+
+    (* verify right identity. *)
+    Lemma right_identity: ∀ {A : Type} (m : M A),
+        m ▶ ret = m.
+    Proof.
+        intros.
+        apply monad_right_id.
+    Qed.
 End MonadTheories.
 
 End Monad.
