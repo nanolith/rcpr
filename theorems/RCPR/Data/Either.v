@@ -1,9 +1,11 @@
 Require Import RCPR.Data.Applicative.
 Require Import RCPR.Data.Functor.
+Require Import RCPR.Data.Monad.
 Require Import RCPR.Helpers.Notation.
 
 Import Applicative.
 Import Functor.
+Import Monad.
 Import Notation.
 
 Module Either.
@@ -93,5 +95,39 @@ Next Obligation.
 Qed.
 
 Arguments EitherApplicative {E}.
+
+(* The Either Monad instance provides us with an error Monad. *)
+Program Instance EitherMonad (E : Type) : Monad (Either E) := {
+    bind := λ {A B} (m : Either E A) (f : A → Either E B) ↦
+        match m with
+        | Left e => Left e
+        | Right a => f a
+    end;
+    ret := λ A x ↦ Right x;
+}.
+Next Obligation.
+    intros.
+    simpl.
+    reflexivity.
+Qed.
+Next Obligation.
+    intros E A m.
+    simpl.
+    destruct m.
+    reflexivity.
+    reflexivity.
+Qed.
+Next Obligation.
+    intros E A B C m f g.
+    simpl.
+    destruct m.
+    reflexivity.
+    simpl.
+    destruct f.
+    reflexivity.
+    reflexivity.
+Qed.
+
+Arguments EitherMonad {E}.
 
 End Either.
