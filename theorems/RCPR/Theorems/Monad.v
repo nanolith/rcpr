@@ -33,6 +33,14 @@ Section MonadTheories.
         intros.
         apply monad_right_id.
     Qed.
+
+    (* verify associativity. *)
+    Lemma associativity: ∀ {A B C : Type} (m : M A) (f : A → M B) (g : B → M C),
+        m ▶ f ▶ g = m ▶ (λ x ↦ f x ▶ g).
+    Proof.
+        intros.
+        apply monad_assoc.
+    Qed.
 End MonadTheories.
 
 End Monad.
