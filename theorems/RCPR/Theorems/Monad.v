@@ -10,4 +10,21 @@ Import Notation.
 
 Module Monad.
 
+Section MonadTheories.
+    Variable M : Type → Type.
+    Context `{Monad M}.
+
+    Open Scope applicative_scope.
+    Open Scope functor_scope.
+    Open Scope monad_scope.
+
+    (* verify left identity. *)
+    Lemma left_identity : ∀ {A B : Type} (x : A) (f : A → M B),
+        (ret x) ▶ f = f x.
+    Proof.
+        intros.
+        apply monad_left_id.
+    Qed.
+End MonadTheories.
+
 End Monad.
