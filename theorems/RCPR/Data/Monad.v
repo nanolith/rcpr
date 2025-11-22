@@ -15,6 +15,10 @@ Class Monad (M : Type → Type) `{Applicative M} := {
     (* Left identity. *)
     monad_left_id : ∀ {A B : Type} (x : A) (f : A → M B),
         bind (ret x) f = f x;
+
+    (* Right identity. *)
+    monad_right_id : ∀ {A : Type} (m : M A),
+        bind m ret = m;
 }.
 
 Declare Scope monad_scope.
