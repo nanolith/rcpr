@@ -105,11 +105,13 @@ Program Instance EitherMonad (E : Type) : Monad (Either E) := {
     end;
     ret := λ A x ↦ Right x;
 }.
+(* Left Identity. *)
 Next Obligation.
     intros.
     simpl.
     reflexivity.
 Qed.
+(* Right Identity. *)
 Next Obligation.
     intros E A m.
     simpl.
@@ -117,6 +119,7 @@ Next Obligation.
     reflexivity.
     reflexivity.
 Qed.
+(* Associativity. *)
 Next Obligation.
     intros E A B C m f g.
     simpl.
