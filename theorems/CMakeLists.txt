@@ -66,11 +66,3 @@ add_dependencies(
     build_rocq_RCPR_Theorems_Monad.v
     build_rocq_RCPR_Data_Applicative.v
     build_rocq_RCPR_Data_Monad.v)
-
-add_dependencies(
-    build_rocq_RCPR_Data_Monad_Transformer.v
-    build_rocq_RCPR_Data_Monad.v)
-
-add_dependencies(
-    build_rocq_RCPR_Theorems_Monad_Transformer.v
-    build_rocq_RCPR_Data_Monad_Transformer.v)
