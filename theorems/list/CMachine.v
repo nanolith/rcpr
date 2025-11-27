@@ -1,7 +1,9 @@
+Require Import RCPR.Data.Functor.
 Require Import RCPR.Data.IList.
 Require Import RCPR.Data.Maybe.
 Require Import RCPR.Helpers.Notation.
 
+Import Functor.
 Import IList.
 Import Maybe.
 Import Notation.
@@ -46,3 +48,25 @@ Inductive Machine (A : Type) :=
 
 Arguments MachineError {A}.
 Arguments MachineState {A}.
+
+Program Instance MachineFunctor : Functor Machine := {
+    fmap := λ A B f m ↦
+        match m with
+        | MachineError e => MachineError e
+        | MachineState n l h v => MachineState n l h (f v)
+        end;
+}.
+Next Obligation.
+    intros A x.
+    simpl.
+    destruct x.
+    reflexivity.
+    reflexivity.
+Qed.
+Next Obligation.
+    intros A B C f g x.
+    simpl.
+    destruct x.
+    reflexivity.
+    reflexivity.
+Qed.
