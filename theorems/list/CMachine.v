@@ -1,9 +1,11 @@
+Require Import RCPR.Data.Applicative.
 Require Import RCPR.Data.Functor.
 Require Import RCPR.Data.IList.
 Require Import RCPR.Data.Maybe.
 Require Import RCPR.Helpers.Notation.
 Require Import RCPR.Tactics.FunctionalExtensionality.
 
+Import Applicative.
 Import FunctionalExtensionality.
 Import Functor.
 Import IList.
@@ -58,6 +60,7 @@ Program Instance MachineFunctor : Functor Machine := {
         | MachineState n l h v => MachineState n l h (f v)
         end;
 }.
+(* Proof of identity law. *)
 Next Obligation.
     intros A x.
     simpl.
@@ -65,6 +68,7 @@ Next Obligation.
     reflexivity.
     reflexivity.
 Qed.
+(* Proof of composition law. *)
 Next Obligation.
     intros A B C f g x.
     simpl.
@@ -86,6 +90,7 @@ Program Instance MachineMFunctor : Functor MachineM := {
             | MachineState n' l' h' v => MachineState n' l' h' (f v)
             end
 }.
+(* Proof of identity law. *)
 Next Obligation.
     intros A m.
     apply functional_extensionality.  intro n.
@@ -97,6 +102,7 @@ Next Obligation.
     simpl.
     reflexivity.
 Qed.
+(* Proof of composition law. *)
 Next Obligation.
     intros A B C f g m.
     apply functional_extensionality.  intro n.
