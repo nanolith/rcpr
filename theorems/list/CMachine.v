@@ -1,8 +1,10 @@
 Require Import RCPR.Data.IList.
 Require Import RCPR.Data.Maybe.
+Require Import RCPR.Helpers.Notation.
 
 Import IList.
 Import Maybe.
+Import Notation.
 
 (* Simulated Linked List node in C. *)
 Inductive CLinkedListNode : Type :=
@@ -36,3 +38,11 @@ Inductive MachineErrorCode : Type :=
 | MachineErrorCast
 | MachineErrorTermination
 | MachineErrorTruncation.
+
+(* Machine State. *)
+Inductive Machine (A : Type) :=
+| MachineError : MachineErrorCode → Machine A
+| MachineState : nat → CLocal → CHeap → A → Machine A.
+
+Arguments MachineError {A}.
+Arguments MachineState {A}.

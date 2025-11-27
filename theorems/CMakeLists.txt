@@ -69,7 +69,9 @@ add_dependencies(
 
 add_dependencies(
     build_rocq_list_CMachine.v
-    build_rocq_RCPR_Data_Maybe.v)
+    build_rocq_RCPR_Data_IList.v
+    build_rocq_RCPR_Data_Maybe.v
+    build_rocq_RCPR_Helpers_Notation.v)
 
 #add_dependencies(
 #    build_rocq_list_heap.v
