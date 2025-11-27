@@ -1,5 +1,7 @@
+Require Import RCPR.Data.IList.
 Require Import RCPR.Data.Maybe.
 
+Import IList.
 Import Maybe.
 
 (* Simulated Linked List node in C. *)
@@ -17,3 +19,7 @@ Inductive CMemoryLocation : Type :=
 | CMemList (loc: nat) (list : CLinkedList)
 | CMemNodePtr (loc : nat) (ptr : nat)
 | CMemListPtr (loc : nat) (ptr : nat).
+
+(* Simulated Heap in C. *)
+Inductive CHeap : Type :=
+| CHeapState (index : nat) (values : IList CMemoryLocation).
