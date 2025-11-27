@@ -2,6 +2,7 @@ Require Import RCPR.Data.Applicative.
 Require Import RCPR.Data.Functor.
 Require Import RCPR.Data.IList.
 Require Import RCPR.Data.Maybe.
+Require Import RCPR.Data.Monad.
 Require Import RCPR.Helpers.Notation.
 Require Import RCPR.Tactics.FunctionalExtensionality.
 
@@ -10,6 +11,7 @@ Import FunctionalExtensionality.
 Import Functor.
 Import IList.
 Import Maybe.
+Import Monad.
 Import Notation.
 
 (* Simulated Linked List node in C. *)
@@ -174,5 +176,48 @@ Next Obligation.
     apply functional_extensionality.  intro l.
     apply functional_extensionality.  intro h.
     simpl.
+    reflexivity.
+Qed.
+
+Program Instance MachineMMonad : Monad MachineM := {
+    ret := λ {T} (x : T) ↦
+        λ (n : nat) (l : CLocal) (h : CHeap) ↦
+            MachineState n l h x;
+    bind := λ {A} {B} (m : MachineM A) (f : A → MachineM B) ↦
+        λ (n : nat) (l : CLocal) (h : CHeap) ↦
+            match m n l h with
+            | MachineError e => MachineError e
+            | MachineState n' l' h' v =>
+                (f v) n' l' h'
+            end
+}.
+Next Obligation.
+    intros A B x f.
+    apply functional_extensionality.  intro n.
+    apply functional_extensionality.  intro l.
+    apply functional_extensionality.  intro h.
+    simpl.
+    reflexivity.
+Qed.
+Next Obligation.
+    intros A m.
+    apply functional_extensionality.  intro n.
+    apply functional_extensionality.  intro l.
+    apply functional_extensionality.  intro h.
+    simpl.
+    destruct (m n l h).
+    reflexivity.
+    reflexivity.
+Qed.
+Next Obligation.
+    intros A B C m f g.
+    apply functional_extensionality.  intro n.
+    apply functional_extensionality.  intro l.
+    apply functional_extensionality.  intro h.
+    simpl.
+    destruct (m n l h).
+    reflexivity.
+    destruct (f a n0 c c0).
+    reflexivity.
     reflexivity.
 Qed.
