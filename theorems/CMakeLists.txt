@@ -1,4 +1,4 @@
-FILE(GLOB_RECURSE ROCQ_RCPR_SOURCES RCPR/*.v)
+FILE(GLOB_RECURSE ROCQ_RCPR_SOURCES *.v)
 
 FOREACH(source ${ROCQ_RCPR_SOURCES})
     STRING(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "" relative_path ${source})
@@ -66,3 +66,17 @@ add_dependencies(
     build_rocq_RCPR_Theorems_Monad.v
     build_rocq_RCPR_Data_Applicative.v
     build_rocq_RCPR_Data_Monad.v)
+
+add_dependencies(
+    build_rocq_list_CMachine.v
+    build_rocq_RCPR_Data_Maybe.v)
+
+#add_dependencies(
+#    build_rocq_list_heap.v
+#    build_rocq_RCPR_Data_Applicative.v
+#    build_rocq_RCPR_Data_Either.v
+#    build_rocq_RCPR_Data_Functor.v
+#    build_rocq_RCPR_Data_IList.v
+#    build_rocq_RCPR_Data_Maybe.v
+#    build_rocq_RCPR_Data_Monad.v
+#    build_rocq_RCPR_Tactics_FunctionalExtensionality.v)
