@@ -114,3 +114,65 @@ Next Obligation.
     simpl.
     reflexivity.
 Qed.
+
+Program Instance MachineMApplicative : Applicative MachineM := {
+    pure := λ {T} (x : T) ↦
+        λ (n : nat) (l : CLocal) (h : CHeap) ↦
+            MachineState n l h x;
+    ap := λ {A} {B} (mf : MachineM (A → B)) (mx : MachineM A) ↦
+        λ (n : nat) (l : CLocal) (h : CHeap) ↦
+            match mf n l h with
+            | MachineError e => MachineError e
+            | MachineState n' l' h' f =>
+                match mx n' l' h' with
+                | MachineError e => MachineError e
+                | MachineState n'' l'' h'' x =>
+                    MachineState n'' l'' h'' (f x)
+                end
+            end;
+}.
+(* Proof of identity law. *)
+Next Obligation.
+    intros t v.
+    apply functional_extensionality.  intro n.
+    apply functional_extensionality.  intro l.
+    apply functional_extensionality.  intro h.
+    simpl.
+    destruct (v n l h).
+    reflexivity.
+    reflexivity.
+Qed.
+(* Proof of composition law. *)
+Next Obligation.
+    intros X Y Z u v w.
+    apply functional_extensionality.  intro n.
+    apply functional_extensionality.  intro l.
+    apply functional_extensionality.  intro h.
+    simpl.
+    destruct (u n l h).
+    reflexivity.
+    simpl.
+    destruct (v n0 c c0).
+    reflexivity.
+    destruct (w n1 c1 c2).
+    reflexivity.
+    reflexivity.
+Qed.
+(* Proof of homomorphism law. *)
+Next Obligation.
+    intros X Y f x.
+    apply functional_extensionality.  intro n.
+    apply functional_extensionality.  intro l.
+    apply functional_extensionality.  intro h.
+    simpl.
+    reflexivity.
+Qed.
+(* Proof of interchange law. *)
+Next Obligation.
+    intros X Y u y.
+    apply functional_extensionality.  intro n.
+    apply functional_extensionality.  intro l.
+    apply functional_extensionality.  intro h.
+    simpl.
+    reflexivity.
+Qed.
