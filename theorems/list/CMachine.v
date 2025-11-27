@@ -2,7 +2,9 @@ Require Import RCPR.Data.Functor.
 Require Import RCPR.Data.IList.
 Require Import RCPR.Data.Maybe.
 Require Import RCPR.Helpers.Notation.
+Require Import RCPR.Tactics.FunctionalExtensionality.
 
+Import FunctionalExtensionality.
 Import Functor.
 Import IList.
 Import Maybe.
@@ -74,3 +76,35 @@ Qed.
 (* Transition Machine states. *)
 Definition MachineM (A : Type) :=
     nat → CLocal → CHeap → Machine A.
+
+Program Instance MachineMFunctor : Functor MachineM := {
+    fmap := λ {A} {B} (f : A → B) (m : MachineM A) ↦
+        λ n l h ↦
+            let result := m n l h in
+            match result with
+            | MachineError e => MachineError e
+            | MachineState n' l' h' v => MachineState n' l' h' (f v)
+            end
+}.
+Next Obligation.
+    intros A m.
+    apply functional_extensionality.  intro n.
+    apply functional_extensionality.  intro l.
+    apply functional_extensionality.  intro h.
+    destruct (m n l h).
+    simpl.
+    reflexivity.
+    simpl.
+    reflexivity.
+Qed.
+Next Obligation.
+    intros A B C f g m.
+    apply functional_extensionality.  intro n.
+    apply functional_extensionality.  intro l.
+    apply functional_extensionality.  intro h.
+    destruct (m n l h).
+    simpl.
+    reflexivity.
+    simpl.
+    reflexivity.
+Qed.
