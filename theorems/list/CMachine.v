@@ -70,3 +70,7 @@ Next Obligation.
     reflexivity.
     reflexivity.
 Qed.
+
+(* Transition Machine states. *)
+Definition MachineM (A : Type) :=
+    nat → CLocal → CHeap → Machine A.
