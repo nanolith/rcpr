@@ -23,3 +23,7 @@ Inductive CMemoryLocation : Type :=
 (* Simulated Heap in C. *)
 Inductive CHeap : Type :=
 | CHeapState (index : nat) (values : IList CMemoryLocation).
+
+(* Simulated function local memory in C. *)
+Inductive CLocal : Type :=
+| CLocalState (index : nat) (values : IList CMemoryLocation).
