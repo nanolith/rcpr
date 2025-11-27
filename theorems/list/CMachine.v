@@ -27,3 +27,12 @@ Inductive CHeap : Type :=
 (* Simulated function local memory in C. *)
 Inductive CLocal : Type :=
 | CLocalState (index : nat) (values : IList CMemoryLocation).
+
+(* Possible Error Types in Machine Definition. *)
+Inductive MachineErrorCode : Type :=
+| MachineErrorUninit
+| MachineErrorLoad
+| MachineErrorStore
+| MachineErrorCast
+| MachineErrorTermination
+| MachineErrorTruncation.
