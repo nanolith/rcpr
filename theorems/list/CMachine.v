@@ -245,3 +245,7 @@ Fixpoint lookupMem (addr : nat) (mem : IList CMemoryLocation) :
             then Just c
             else lookupMem addr cs
     end.
+
+(* Get the heap from the machine. *)
+Definition getHeap : MachineM CHeap :=
+    λ n l h ↦ MachineState n l h h.
