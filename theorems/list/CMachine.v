@@ -253,3 +253,7 @@ Definition getHeap : MachineM CHeap :=
 (* Replace the heap with the new heap. *)
 Definition putHeap (newHeap : CHeap) : MachineM unit :=
     λ n l h ↦ MachineState n l newHeap tt.
+
+(* Throw an exception. *)
+Definition throw {A} (e : MachineErrorCode) : MachineM A :=
+    λ _ _ _ ↦ MachineError e.
