@@ -284,3 +284,12 @@ Definition loadRaw (addr : nat) : MachineM CMemoryLocation :=
             | Just cell => ret cell
             | Nothing => throw MachineErrorLoad
             end.
+
+(* Perform a typed load of a linked list node. *)
+Definition loadLinkedListNode (addr : nat) : MachineM CLinkedListNode :=
+    loadRaw addr ▶
+        λ cell ↦
+            match cell with
+            | CMemNode _ node => ret node
+            | _ => λ n l h ↦ MachineError MachineErrorCast
+            end.
