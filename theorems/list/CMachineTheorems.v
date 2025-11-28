@@ -68,11 +68,7 @@ Lemma loadLinkedListNode_MachineErrorLoad :
             loadLinkedListNode addr n l h = MachineError MachineErrorLoad.
 Proof.
     intros n l h addr H.
-    unfold loadLinkedListNode.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite H.
-    reflexivity.
+    apply bind_failure_MachineM, H.
 Qed.
 
 (* Can't coerce uninitialized memory to LinkedListNode. *)
