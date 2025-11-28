@@ -308,12 +308,8 @@ Lemma loadLinkedListPtr_MachineErrorLoad :
             loadLinkedListPtr addr n l h = MachineError MachineErrorLoad.
 Proof.
     intros n l h addr H.
-    unfold loadLinkedListPtr.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite H.
-    reflexivity.
-Qed.
+    apply bind_failure_MachineM, H.
+Abort.
 
 (* Can't coerce uninitialized memory to LinkedListPtr. *)
 Lemma loadLinkedListPtr_Uninit_MachineErrorCast :
