@@ -176,4 +176,18 @@ Proof.
     reflexivity.
 Qed.
 
+(* Verify that if a location fails to load, it can't be cast to a node ptr. *)
+Lemma loadLinkedListNodePtr_MachineErrorLoad :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
+            loadRaw addr n l h = MachineError MachineErrorLoad →
+            loadLinkedListNodePtr addr n l h = MachineError MachineErrorLoad.
+Proof.
+    intros n l h addr H.
+    unfold loadLinkedListNodePtr.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
