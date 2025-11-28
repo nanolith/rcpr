@@ -63,4 +63,11 @@ Fixpoint length {A : Type} (l : IList A) : nat :=
         | (x :: xs) => S (length xs)
     end.
 
+(* Reverse an IList. *)
+Fixpoint reverse {A : Type} (l : IList A) : IList A :=
+    match l with
+    | [] => []
+    | (x :: xs) => reverse xs ++ [x]
+    end.
+
 End IList.
