@@ -278,11 +278,9 @@ Definition putHeapMemory (values : IList CMemoryLocation) : MachineM unit :=
 
 (* Perform a raw (untyped) load of a location. *)
 Definition loadRaw (addr : nat) : MachineM CMemoryLocation :=
-    λ (n : nat) (l : CLocal) (h : CHeap) ↦
-        match h with
-        | CHeapState _ values =>
+    getHeapMemory ▶
+        λ values ↦
             match lookupMem addr values with
-            | Just cell => MachineState n l h cell
-            | Nothing => MachineError MachineErrorLoad
-            end
-        end.
+            | Just cell => ret cell
+            | Nothing => throw MachineErrorLoad
+            end.
