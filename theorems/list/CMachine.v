@@ -291,5 +291,5 @@ Definition loadLinkedListNode (addr : nat) : MachineM CLinkedListNode :=
         λ cell ↦
             match cell with
             | CMemNode _ node => ret node
-            | _ => λ n l h ↦ MachineError MachineErrorCast
+            | _ => throw MachineErrorCast
             end.
