@@ -335,4 +335,14 @@ Fixpoint memReplace (addr : nat) (newCell : CMemoryLocation)
                 λ cs' ↦ ret (c :: cs')
     end.
 
+(* Store a linked list node, overwriting an existing node. *)
+Definition storeLinkedListNode (addr : nat) (node : CLinkedListNode) :
+        MachineM unit :=
+    getHeapMemory ▶
+        λ values ↦
+            loadLinkedListNode addr »
+                    memReplace addr (CMemNode addr node) values ▶
+                        λ values' ↦
+                            putHeapMemory values'.
+
 End CMachine.
