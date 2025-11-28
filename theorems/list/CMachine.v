@@ -314,4 +314,13 @@ Definition loadLinkedListNodePtr (addr : nat) : MachineM nat :=
             | _ => throw MachineErrorCast
             end.
 
+(* Perform a typed load of a linked list pointer. *)
+Definition loadLinkedListPtr (addr : nat) : MachineM nat :=
+    loadRaw addr ▶
+        λ cell ↦
+            match cell with
+            | CMemListPtr _ node => ret node
+            | _ => throw MachineErrorCast
+            end.
+
 End CMachine.
