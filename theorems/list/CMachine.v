@@ -14,6 +14,8 @@ Import Maybe.
 Import Monad.
 Import Notation.
 
+Module CMachine.
+
 (* Simulated Linked List node in C. *)
 Inductive CLinkedListNode : Type :=
 | Node (prev : Maybe nat) (next : Maybe nat) (val : nat).
@@ -293,3 +295,5 @@ Definition loadLinkedListNode (addr : nat) : MachineM CLinkedListNode :=
             | CMemNode _ node => ret node
             | _ => throw MachineErrorCast
             end.
+
+End CMachine.

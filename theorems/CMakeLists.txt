@@ -8,7 +8,9 @@ FOREACH(source ${ROCQ_RCPR_SOURCES})
 
     ADD_CUSTOM_COMMAND(
         OUTPUT ${source}o
-        COMMAND coqc -R ${CMAKE_CURRENT_SOURCE_DIR}/RCPR RCPR ${source}
+        COMMAND coqc
+            -R ${CMAKE_CURRENT_SOURCE_DIR}/RCPR RCPR
+            -R ${CMAKE_CURRENT_SOURCE_DIR}/list list ${source}
         DEPENDS ${source})
 
     ADD_CUSTOM_TARGET(
@@ -76,6 +78,16 @@ add_dependencies(
     build_rocq_RCPR_Data_Monad.v
     build_rocq_RCPR_Helpers_Notation.v
     build_rocq_RCPR_Tactics_FunctionalExtensionality.v)
+
+add_dependencies(
+    build_rocq_list_CMachineTheorems.v
+    build_rocq_list_CMachine.v
+    build_rocq_RCPR_Data_Applicative.v
+    build_rocq_RCPR_Data_Functor.v
+    build_rocq_RCPR_Data_IList.v
+    build_rocq_RCPR_Data_Maybe.v
+    build_rocq_RCPR_Data_Monad.v
+    build_rocq_RCPR_Helpers_Notation.v)
 
 #add_dependencies(
 #    build_rocq_list_heap.v
