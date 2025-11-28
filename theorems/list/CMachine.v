@@ -224,3 +224,13 @@ Next Obligation.
     reflexivity.
     reflexivity.
 Qed.
+
+(* Get the address of a location on the heap. *)
+Definition locAddr (cell : CMemoryLocation) : nat :=
+    match cell with
+    | CMemUninit loc => loc
+    | CMemNode loc _ => loc
+    | CMemList loc _ => loc
+    | CMemNodePtr loc _ => loc
+    | CMemListPtr loc _ => loc
+    end.
