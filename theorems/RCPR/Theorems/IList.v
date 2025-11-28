@@ -43,4 +43,19 @@ Proof.
     reflexivity.
 Qed.
 
+(* Prove the classic double reverse. *)
+Lemma IList_reverse_reverse :
+    ∀ (A : Type) (l : IList A),
+        reverse (reverse l) = l.
+Proof.
+    intros A l.
+    induction l.
+    simpl.
+    reflexivity.
+    rewrite IList_reverse_peel.
+    rewrite IList_reverse_peel2.
+    rewrite IHl.
+    reflexivity.
+Qed.
+
 End IList.
