@@ -1,12 +1,33 @@
+Require Import RCPR.Data.IList.
+Require Import RCPR.Data.Maybe.
 Require Import RCPR.Data.Monad.
 Require Import RCPR.Helpers.Notation.
 Require Import list.CMachine.
 
 Import CMachine.
+Import IList.
+Import Maybe.
 Import Monad.
 Import Notation.
 
 Module CMachineTheorems.
+
+(* If a memory lookup fails, loadRaw throws a MachineErrorLoad exception. *)
+Lemma loadRaw_MachineErrorLoad :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (values : IList CMemoryLocation)
+      (addr : nat),
+            getHeapMemory n l h = MachineState n l h values →
+            lookupMem addr values = Nothing →
+            loadRaw addr n l h = MachineError MachineErrorLoad.
+Proof.
+    intros n l h values addr H1 H2.
+    unfold loadRaw.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H1.
+    rewrite H2.
+    reflexivity.
+Qed.
 
 (* Verify that if a location fails to load, it can't be cast to a node. *)
 Lemma loadLinkedListNode_MachineErrorLoad :
