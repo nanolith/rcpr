@@ -296,4 +296,13 @@ Definition loadLinkedListNode (addr : nat) : MachineM CLinkedListNode :=
             | _ => throw MachineErrorCast
             end.
 
+(* Perform a typed load of a linked list. *)
+Definition loadLinkedList (addr : nat) : MachineM CLinkedList :=
+    loadRaw addr ▶
+        λ cell ↦
+            match cell with
+            | CMemList _ list => ret list
+            | _ => throw MachineErrorCast
+            end.
+
 End CMachine.
