@@ -191,6 +191,7 @@ Program Instance MachineMMonad : Monad MachineM := {
                 (f v) n' l' h'
             end
 }.
+(* Left Identity. *)
 Next Obligation.
     intros A B x f.
     apply functional_extensionality.  intro n.
@@ -199,6 +200,7 @@ Next Obligation.
     simpl.
     reflexivity.
 Qed.
+(* Right Identity. *)
 Next Obligation.
     intros A m.
     apply functional_extensionality.  intro n.
@@ -209,6 +211,7 @@ Next Obligation.
     reflexivity.
     reflexivity.
 Qed.
+(* Associativity. *)
 Next Obligation.
     intros A B C m f g.
     apply functional_extensionality.  intro n.
