@@ -391,6 +391,6 @@ Proof.
     simpl.
     unfold throw.
     reflexivity.
-Abort.
+Qed.
 
 End CMachineTheorems.
