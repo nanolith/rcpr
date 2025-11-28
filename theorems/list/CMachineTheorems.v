@@ -23,3 +23,17 @@ Proof.
 Qed.
 
 End CMachineTheorems.
+
+(* Can't coerce uninitialized memory to LinkedListNode. *)
+Lemma loadLinkedListNode_MachineErrorCast :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
+            loadRaw addr n l h = MachineState n l h (CMemUninit addr) →
+            loadLinkedListNode addr n l h = MachineError MachineErrorCast.
+Proof.
+    intros n l h addr H.
+    unfold loadLinkedListNode.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H.
+    reflexivity.
+Qed.
