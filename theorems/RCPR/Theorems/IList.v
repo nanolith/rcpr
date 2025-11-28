@@ -16,4 +16,14 @@ Proof.
     reflexivity.
 Qed.
 
+(* Show that we can re-arrange cons and append operations. *)
+Lemma IList_cons_append_associativity :
+    ∀ {A} (a x : A) (l : IList A),
+        (a :: l) ++ [x] = a :: (l ++ [x]).
+Proof.
+    intros A a x l.
+    simpl.
+    reflexivity.
+Qed.
+
 End IList.
