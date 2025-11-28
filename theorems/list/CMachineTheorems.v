@@ -12,6 +12,8 @@ Import Notation.
 
 Module CMachineTheorems.
 
+Open Scope monad_scope.
+
 (* If a memory lookup fails, loadRaw throws a MachineErrorLoad exception. *)
 Lemma loadRaw_MachineErrorLoad :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (values : IList CMemoryLocation)
@@ -43,6 +45,19 @@ Proof.
     simpl.
     rewrite H1.
     rewrite H2.
+    reflexivity.
+Qed.
+
+(* If an upstream MachineM step fails, the whole operation fails. *)
+Lemma bind_failure_MachineM :
+    ∀ {A B} (m : MachineM A) (f : A → MachineM B) (n : nat) (l : CLocal)
+            (h : CHeap) (e : MachineErrorCode),
+        m n l h = MachineError e →
+        (m ▶ f) n l h = MachineError e.
+Proof.
+    intros A B m f n l h e H.
+    unfold bind, MachineMMonad.
+    rewrite H.
     reflexivity.
 Qed.
 
