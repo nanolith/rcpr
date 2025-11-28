@@ -234,3 +234,14 @@ Definition locAddr (cell : CMemoryLocation) : nat :=
     | CMemNodePtr loc _ => loc
     | CMemListPtr loc _ => loc
     end.
+
+(* Look up an address from memory. *)
+Fixpoint lookupMem (addr : nat) (mem : IList CMemoryLocation) :
+        Maybe CMemoryLocation :=
+    match mem with
+    | [] => Nothing
+    | c :: cs =>
+        if Nat.eqb (locAddr c) addr
+            then Just c
+            else lookupMem addr cs
+    end.
