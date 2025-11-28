@@ -26,4 +26,21 @@ Proof.
     reflexivity.
 Qed.
 
+(* Peel the reverse of a list append. *)
+Lemma IList_reverse_peel2 :
+    ∀ {A} (x : A) (l : IList A),
+        reverse (l ++ [x]) = x :: reverse l.
+Proof.
+    intros A x l.
+    induction l.
+    simpl.
+    reflexivity.
+    rewrite IList_cons_append_associativity.
+    rewrite IList_reverse_peel.
+    rewrite IList_reverse_peel.
+    rewrite IHl.
+    rewrite IList_cons_append_associativity.
+    reflexivity.
+Qed.
+
 End IList.
