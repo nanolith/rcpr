@@ -22,8 +22,6 @@ Proof.
     reflexivity.
 Qed.
 
-End CMachineTheorems.
-
 (* Can't coerce uninitialized memory to LinkedListNode. *)
 Lemma loadLinkedListNode_Uninit_MachineErrorCast :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
@@ -107,3 +105,5 @@ Proof.
     rewrite H.
     reflexivity.
 Qed.
+
+End CMachineTheorems.
