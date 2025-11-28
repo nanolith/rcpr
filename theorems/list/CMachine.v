@@ -257,3 +257,13 @@ Definition putHeap (newHeap : CHeap) : MachineM unit :=
 (* Throw an exception. *)
 Definition throw {A} (e : MachineErrorCode) : MachineM A :=
     λ _ _ _ ↦ MachineError e.
+
+Open Scope monad_scope.
+
+(* Get memory from the heap. *)
+Definition getHeapMemory : MachineM (IList CMemoryLocation) :=
+    getHeap ▶
+        λ h ↦
+            match h with
+            | CHeapState _ vals => ret vals
+            end.
