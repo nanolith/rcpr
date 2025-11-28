@@ -190,4 +190,18 @@ Proof.
     reflexivity.
 Qed.
 
+(* Can't coerce uninitialized memory to LinkedListNodePtr. *)
+Lemma loadLinkedListNodePtr_Uninit_MachineErrorCast :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
+            loadRaw addr n l h = MachineState n l h (CMemUninit addr) →
+            loadLinkedListNodePtr addr n l h = MachineError MachineErrorCast.
+Proof.
+    intros n l h addr H.
+    unfold loadLinkedListNodePtr.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
