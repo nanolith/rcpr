@@ -382,4 +382,15 @@ Proof.
     reflexivity.
 Qed.
 
+(* memReplace on an empty list throws a MachineErrorStore exception. *)
+Lemma memReplace_EmptyValues :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
+            memReplace addr cell [] n l h = MachineError MachineErrorStore.
+Proof.
+    intros n l h addr cell.
+    simpl.
+    unfold throw.
+    reflexivity.
+Abort.
+
 End CMachineTheorems.
