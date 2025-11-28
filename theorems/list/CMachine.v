@@ -267,3 +267,11 @@ Definition getHeapMemory : MachineM (IList CMemoryLocation) :=
             match h with
             | CHeapState _ vals => ret vals
             end.
+
+(* Put memory to the heap. *)
+Definition putHeapMemory (values : IList CMemoryLocation) : MachineM unit :=
+    getHeap ▶
+        λ h ↦
+            match h with
+            | CHeapState idx _ => putHeap (CHeapState idx values)
+            end.
