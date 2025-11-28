@@ -249,3 +249,7 @@ Fixpoint lookupMem (addr : nat) (mem : IList CMemoryLocation) :
 (* Get the heap from the machine. *)
 Definition getHeap : MachineM CHeap :=
     λ n l h ↦ MachineState n l h h.
+
+(* Replace the heap with the new heap. *)
+Definition putHeap (newHeap : CHeap) : MachineM unit :=
+    λ n l h ↦ MachineState n l newHeap tt.
