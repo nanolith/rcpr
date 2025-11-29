@@ -2,10 +2,12 @@ Require Import RCPR.Data.IList.
 Require Import RCPR.Data.Maybe.
 Require Import RCPR.Data.Monad.
 Require Import RCPR.Helpers.Notation.
+Require Import RCPR.Theorems.IListTheorems.
 Require Import list.CMachine.
 
 Import CMachine.
 Import IList.
+Import IListTheorems.
 Import Maybe.
 Import Monad.
 Import Notation.
@@ -393,7 +395,7 @@ Proof.
 Qed.
 
 (* if the address of a cell matches, memReplace replaces this cell. *)
-(*Lemma memReplace_MatchingCell :
+Lemma memReplace_MatchingCell :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat)
       (ocell ncell : CMemoryLocation) (values : IList CMemoryLocation),
             locAddr ocell = addr →
@@ -412,12 +414,12 @@ Proof.
     }
     intros H.
     unfold memReplace.
-    unfold bind, MachineMMonad.
+    unfold memReplaceLoop.
     rewrite H.
     rewrite H1.
     simpl.
     reflexivity.
-Qed.*)
+Qed.
 
 (* if the address of a cell does not match, memReplace keeps going. *)
 (*Lemma memReplace_Unfold :
