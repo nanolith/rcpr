@@ -331,7 +331,7 @@ Fixpoint memReplaceLoop (addr : nat) (newCell : CMemoryLocation)
     | [] => throw MachineErrorStore
     | m :: ms =>
         if Nat.eqb (locAddr m) addr then
-            ret (reverse (acc ++ (newCell :: ms)))
+            ret ((reverse acc) ++ (newCell :: ms))
         else memReplaceLoop addr newCell ms (m :: acc)
     end.
 
