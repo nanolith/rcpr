@@ -323,18 +323,6 @@ Definition loadLinkedListPtr (addr : nat) : MachineM nat :=
             | _ => throw MachineErrorCast
             end.
 
-(* Replace a value in the given memory list. *)
-Fixpoint memReplace (addr : nat) (newCell : CMemoryLocation)
-        (mem : IList CMemoryLocation) : MachineM (IList CMemoryLocation) :=
-    match mem with
-    | [] => throw MachineErrorStore
-    | c :: cs =>
-        if Nat.eqb (locAddr c) addr
-            then ret (newCell :: cs)
-            else memReplace addr newCell cs ▶
-                λ cs' ↦ ret (c :: cs')
-    end.
-
 (* Replace a value in the given memory list, creating a new list. *)
 Fixpoint memReplaceLoop (addr : nat) (newCell : CMemoryLocation)
         (mem : IList CMemoryLocation) (acc : IList CMemoryLocation)
@@ -346,6 +334,11 @@ Fixpoint memReplaceLoop (addr : nat) (newCell : CMemoryLocation)
             ret (reverse (acc ++ (newCell :: ms)))
         else memReplaceLoop addr newCell ms (m :: acc)
     end.
+
+(* Replace a value in the given memory list. *)
+Definition memReplace (addr : nat) (newCell : CMemoryLocation)
+        (mem : IList CMemoryLocation) : MachineM (IList CMemoryLocation) :=
+    memReplaceLoop addr newCell mem [].
 
 (* Store a linked list node, overwriting an existing node. *)
 Definition storeLinkedListNode (addr : nat) (node : CLinkedListNode) :
