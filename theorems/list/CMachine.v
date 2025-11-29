@@ -350,4 +350,13 @@ Definition storeLinkedListNode (addr : nat) (node : CLinkedListNode) :
                         λ values' ↦
                             putHeapMemory values'.
 
+Definition storeLinkedList (addr : nat) (list : CLinkedList) :
+        MachineM unit :=
+    getHeapMemory ▶
+        λ values ↦
+            loadLinkedList addr »
+                    memReplace addr (CMemList addr list) values ▶
+                        λ values' ↦
+                            putHeapMemory values'.
+
 End CMachine.
