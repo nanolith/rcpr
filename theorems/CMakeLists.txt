@@ -87,10 +87,11 @@ add_dependencies(
     build_rocq_RCPR_Data_IList.v
     build_rocq_RCPR_Data_Maybe.v
     build_rocq_RCPR_Data_Monad.v
-    build_rocq_RCPR_Helpers_Notation.v)
+    build_rocq_RCPR_Helpers_Notation.v
+    build_rocq_RCPR_Theorems_IListTheorems.v)
 
 add_dependencies(
-    build_rocq_RCPR_Theorems_IList.v
+    build_rocq_RCPR_Theorems_IListTheorems.v
     build_rocq_RCPR_Data_IList.v)
 
 #add_dependencies(
