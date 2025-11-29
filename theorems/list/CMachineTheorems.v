@@ -421,22 +421,21 @@ Proof.
     reflexivity.
 Qed.
 
-(* if the address of a cell does not match, memReplace keeps going. *)
-(*Lemma memReplace_Unfold :
+(* if the address of a cell does not match, memReplaceLoop keeps going. *)
+Lemma memReplaceLoop_Unfold :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr1 addr2 : nat)
       (ocell ncell : CMemoryLocation) (values : IList CMemoryLocation),
             locAddr ocell = addr2 →
             Nat.eqb addr2 addr1 = false →
-            memReplace addr1 ncell (ocell :: values) n l h =
-                (memReplace addr1 ncell values ▶
-                    λ cs' ↦ ret (ocell :: cs')) n l h.
+            memReplaceLoop addr1 ncell (ocell :: values) [] n l h =
+                memReplaceLoop addr1 ncell values [ocell] n l h.
 Proof.
     intros n l h addr1 addr2 ocell ncell values H1 H2.
-    unfold memReplace.
+    unfold memReplaceLoop.
     rewrite H1.
     rewrite H2.
-    fold memReplace.
+    fold memReplaceLoop.
     reflexivity.
-Qed.*)
+Qed.
 
 End CMachineTheorems.
