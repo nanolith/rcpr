@@ -4,7 +4,7 @@ Require Import RCPR.Helpers.Notation.
 Import IList.
 Import Notation.
 
-Module IList.
+Module IListTheorems.
 
 (* We can peel the first item to the end of a reversed list. *)
 Lemma IList_reverse_peel :
@@ -58,4 +58,4 @@ Proof.
     reflexivity.
 Qed.
 
-End IList.
+End IListTheorems.
