@@ -393,7 +393,7 @@ Proof.
 Qed.
 
 (* if the address of a cell matches, memReplace replaces this cell. *)
-Lemma memReplace_MatchingCell :
+(*Lemma memReplace_MatchingCell :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat)
       (ocell ncell : CMemoryLocation) (values : IList CMemoryLocation),
             locAddr ocell = addr →
@@ -417,10 +417,10 @@ Proof.
     rewrite H1.
     simpl.
     reflexivity.
-Qed.
+Qed.*)
 
 (* if the address of a cell does not match, memReplace keeps going. *)
-Lemma memReplace_Unfold :
+(*Lemma memReplace_Unfold :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr1 addr2 : nat)
       (ocell ncell : CMemoryLocation) (values : IList CMemoryLocation),
             locAddr ocell = addr2 →
@@ -435,6 +435,6 @@ Proof.
     rewrite H2.
     fold memReplace.
     reflexivity.
-Qed.
+Qed.*)
 
 End CMachineTheorems.
