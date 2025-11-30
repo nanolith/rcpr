@@ -32,6 +32,13 @@ Inductive CMemoryLocation : Type :=
 | CMemNodePtr (loc : nat) (ptr : nat)
 | CMemListPtr (loc : nat) (ptr : nat).
 
+(* Is this memory location uninitialized? *)
+Definition isCellUninit (cell : CMemoryLocation) : bool :=
+    match cell with
+    | CMemUninit _ => true
+    | _ => false
+    end.
+
 (* Simulated Heap in C. *)
 Inductive CHeap : Type :=
 | CHeapState (index : nat) (values : IList CMemoryLocation).
