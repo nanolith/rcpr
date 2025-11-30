@@ -92,20 +92,6 @@ Proof.
     reflexivity.  reflexivity.  reflexivity.
 Qed.
 
-(* Can't coerce LinkedListPtr to LinkedListNode. *)
-Lemma loadLinkedListNode_LinkedListPtr_MachineErrorCast :
-    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : nat),
-            loadRaw addr n l h = MachineState n l h (CMemListPtr addr x) →
-            loadLinkedListNode addr n l h = MachineError MachineErrorCast.
-Proof.
-    intros n l h addr x H.
-    unfold loadLinkedListNode.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite H.
-    reflexivity.
-Qed.
-
 (* Happy path: we can load linked list nodes. *)
 Lemma loadLinkedListNode_rw :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : CLinkedListNode),
