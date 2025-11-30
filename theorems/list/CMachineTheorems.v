@@ -245,6 +245,19 @@ Proof.
     reflexivity.
 Qed.
 
+(* Helper lemma for nat equality. *)
+Lemma nat_eqb_refl :
+    ∀ (x :  nat),
+        Nat.eqb x x = true.
+Proof.
+    induction x.
+    simpl.
+    reflexivity.
+    simpl.
+    rewrite IHx.
+    reflexivity.
+Qed.
+
 (* if the address of a cell matches, memReplace replaces this cell. *)
 Lemma memReplace_MatchingCell :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat)
