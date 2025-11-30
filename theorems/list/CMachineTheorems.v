@@ -220,20 +220,6 @@ Proof.
     unfold isCellListPtr in H1.  inversion H1.
 Qed.
 
-(* Can't coerce a linked list node to LinkedListPtr. *)
-Lemma loadLinkedListPtr_LinkedListNode_MachineErrorCast :
-    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : CLinkedListNode),
-            loadRaw addr n l h = MachineState n l h (CMemNode addr x) →
-            loadLinkedListPtr addr n l h = MachineError MachineErrorCast.
-Proof.
-    intros n l h addr x H.
-    unfold loadLinkedListPtr.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite H.
-    reflexivity.
-Qed.
-
 (* Can't coerce a linked list to LinkedListPtr. *)
 Lemma loadLinkedListPtr_LinkedList_MachineErrorCast :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : CLinkedList),
