@@ -77,4 +77,25 @@ Proof.
     apply Forall_nil.
 Qed.
 
+Lemma even_Forall_implies_even_In :
+    ∀ (l : IList nat) (x : nat),
+        Forall even l →
+        In x l →
+        even x.
+Proof.
+    intros l x H1 H2.
+    induction l as [| head tail IH_tail].
+    simpl in H2.
+    inversion H2.
+    simpl in H1, H2.
+    destruct H2 as [H_x_eq_head | H_x_in_tail].
+    rewrite <- H_x_eq_head.
+    inversion H1.
+    exact H2.
+    inversion H1.
+    apply IH_tail.
+    exact H3.
+    exact H_x_in_tail.
+Qed.
+
 End IListTheorems.
