@@ -70,4 +70,9 @@ Fixpoint reverse {A : Type} (l : IList A) : IList A :=
     | (x :: xs) => reverse xs ++ [x]
     end.
 
+(* Inductive predicate on List. *)
+Inductive Forall {A : Type} (P : A → Prop) : IList A → Prop :=
+| Forall_nil : Forall P nil
+| Forall_cons : ∀ x l, P x →  Forall P l → Forall P (x :: l).
+
 End IList.
