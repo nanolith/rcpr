@@ -53,6 +53,13 @@ Definition isCellList (cell : CMemoryLocation) : bool :=
     | _ => false
     end.
 
+(* Is this memory location a linked list node pointer? *)
+Definition isCellNodePtr (cell : CMemoryLocation) : bool :=
+    match cell with
+    | CMemNodePtr _ _ => true
+    | _ => false
+    end.
+
 (* Simulated Heap in C. *)
 Inductive CHeap : Type :=
 | CHeapState (index : nat) (values : IList CMemoryLocation).
