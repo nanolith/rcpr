@@ -39,6 +39,13 @@ Definition isCellUninit (cell : CMemoryLocation) : bool :=
     | _ => false
     end.
 
+(* Is this memory location a linked list node? *)
+Definition isCellNode (cell : CMemoryLocation) : bool :=
+    match cell with
+    | CMemNode _ _ => true
+    | _ => false
+    end.
+
 (* Simulated Heap in C. *)
 Inductive CHeap : Type :=
 | CHeapState (index : nat) (values : IList CMemoryLocation).
