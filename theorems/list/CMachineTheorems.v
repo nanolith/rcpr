@@ -116,6 +116,25 @@ Proof.
     apply bind_failure_MachineM, H.
 Abort.
 
+(* If the cell isn't a LinkedList, then it can't be coerced. *)
+Lemma loadLinkedList_MachineErrorCast :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
+        isCellList cell = false →
+        loadRaw addr n l h = MachineState n l h cell →
+        loadLinkedList addr n l h = MachineError MachineErrorCast.
+Proof.
+    intros n l h addr cell H1 H2.
+    unfold loadLinkedList.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H2.
+    unfold throw.
+    destruct cell.
+    reflexivity.  reflexivity.
+    unfold isCellNode in H1.  inversion H1.
+    reflexivity.  reflexivity.
+Qed.
+
 (* Can't coerce uninitialized memory to LinkedList. *)
 Lemma loadLinkedList_Uninit_MachineErrorCast :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
