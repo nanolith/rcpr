@@ -58,4 +58,9 @@ Proof.
     reflexivity.
 Qed.
 
+(* Helper for the even proof. *)
+Inductive even : nat → Prop :=
+| ev_0 : even 0
+| ev_SS {n : nat} : even n → even (S (S n)).
+
 End IListTheorems.
