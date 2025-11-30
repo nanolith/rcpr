@@ -75,4 +75,11 @@ Inductive Forall {A : Type} (P : A → Prop) : IList A → Prop :=
 | Forall_nil : Forall P nil
 | Forall_cons : ∀ x l, P x →  Forall P l → Forall P (x :: l).
 
+(* Recursive prop showing that a value exists in a list. *)
+Fixpoint In {A : Type} (a : A) (l : IList A) : Prop :=
+    match l with
+    | [] => False
+    | b :: m => b = a \/ In a m
+    end.
+
 End IList.
