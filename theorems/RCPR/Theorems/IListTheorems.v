@@ -66,4 +66,15 @@ Inductive even : nat → Prop :=
 (* Helper list for the below proof. *)
 Definition even_list : IList nat := 2 :: 4 :: 6 :: nil.
 
+(* Proof that even_list satisfies a Forall predicate. *)
+Lemma even_list_using_Forall :
+    Forall even even_list.
+Proof.
+    unfold even_list.
+    apply Forall_cons.  apply ev_SS.  apply ev_0.
+    apply Forall_cons.  apply ev_SS.  apply ev_SS.  apply ev_0.
+    apply Forall_cons.  apply ev_SS.  apply ev_SS.  apply ev_SS.  apply ev_0.
+    apply Forall_nil.
+Qed.
+
 End IListTheorems.
