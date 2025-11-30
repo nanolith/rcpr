@@ -63,4 +63,7 @@ Inductive even : nat → Prop :=
 | ev_0 : even 0
 | ev_SS {n : nat} : even n → even (S (S n)).
 
+(* Helper list for the below proof. *)
+Definition even_list : IList nat := 2 :: 4 :: 6 :: nil.
+
 End IListTheorems.
