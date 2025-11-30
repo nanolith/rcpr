@@ -267,20 +267,11 @@ Lemma memReplace_MatchingCell :
                 MachineState n l h (ncell :: values).
 Proof.
     intros n l h addr ocell ncell values.
-    assert (H1 : Nat.eqb addr addr = true).
-    {
-        induction addr.
-        simpl.
-        reflexivity.
-        simpl.
-        rewrite IHaddr.
-        reflexivity.
-    }
     intros H.
     unfold memReplace.
     unfold memReplaceLoop.
     rewrite H.
-    rewrite H1.
+    rewrite nat_eqb_refl.
     simpl.
     reflexivity.
 Qed.
