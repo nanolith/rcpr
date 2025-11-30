@@ -114,7 +114,7 @@ Lemma loadLinkedList_MachineErrorLoad :
 Proof.
     intros n l h addr H.
     apply bind_failure_MachineM, H.
-Abort.
+Qed.
 
 (* If the cell isn't a LinkedList, then it can't be coerced. *)
 Lemma loadLinkedList_MachineErrorCast :
@@ -200,7 +200,7 @@ Lemma loadLinkedListPtr_MachineErrorLoad :
 Proof.
     intros n l h addr H.
     apply bind_failure_MachineM, H.
-Abort.
+Qed.
 
 (* If the cell isn't a LinkedListPtr, then it can't be coerced. *)
 Lemma loadLinkedListPtr_MachineErrorCast :
