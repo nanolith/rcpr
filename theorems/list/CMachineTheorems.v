@@ -174,7 +174,7 @@ Proof.
     unfold throw.
     destruct cell.
     reflexivity.  reflexivity. reflexivity.
-    unfold isCellNode in H1.  inversion H1.
+    unfold isCellNodePtr in H1.  inversion H1.
     reflexivity.
 Qed.
 
