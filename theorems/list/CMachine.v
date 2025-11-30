@@ -295,6 +295,14 @@ Definition putHeap (newHeap : CHeap) : MachineM unit :=
 Definition throw {A} (e : MachineErrorCode) : MachineM A :=
     λ _ _ _ ↦ MachineError e.
 
+(* Filter an operation based on a Boolean operation. *)
+(* Throw the given error if this filter fails. *)
+Definition mfilter (err : MachineErrorCode) (op : bool) : MachineM unit :=
+    if op then
+        ret tt
+    else
+        throw err.
+
 Open Scope monad_scope.
 
 (* Get memory from the heap. *)
