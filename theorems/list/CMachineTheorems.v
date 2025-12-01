@@ -367,4 +367,22 @@ Proof.
     apply memReplaceLoop_MatchingCell; try assumption.
 Qed.
 
+(* if loadLinkedListNode fails, then so does storeLinkedListNode. *)
+Lemma storeLinkedListNode_loadFailure :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (e : MachineErrorCode)
+      (node : CLinkedListNode),
+        loadLinkedListNode addr n l h = MachineError e →
+        storeLinkedListNode addr node n l h = MachineError e.
+Proof.
+    intros.
+    unfold storeLinkedListNode.
+    unfold bind, MachineMMonad.
+    unfold getHeapMemory.
+    unfold getHeap.
+    destruct h.
+    simpl.
+    rewrite H.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
