@@ -482,4 +482,22 @@ Proof.
     reflexivity.
 Qed.
 
+(* if loadLinkedListNodePtr fails, then so does storeLinkedListNodePtr. *)
+Lemma storeLinkedListNodePtr_loadFailure :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (e : MachineErrorCode)
+      (val : nat),
+        loadLinkedListNodePtr addr n l h = MachineError e →
+        storeLinkedListNodePtr addr val n l h = MachineError e.
+Proof.
+    intros.
+    unfold storeLinkedListNodePtr.
+    unfold bind, MachineMMonad.
+    unfold getHeapMemory.
+    unfold getHeap.
+    destruct h.
+    simpl.
+    rewrite H.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
