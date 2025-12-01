@@ -56,6 +56,20 @@ Proof.
     reflexivity.
 Qed.
 
+(* Append of an empty list is that list. *)
+Lemma IList_append_empty :
+    ∀ {A} (l : IList A),
+        l ++ [] = l.
+Proof.
+    intros.
+    induction l.
+    simpl.
+    reflexivity.
+    rewrite IList_cons_append_commutative.
+    rewrite IHl.
+    reflexivity.
+Qed.
+
 (* Prove the classic double reverse. *)
 Lemma IList_reverse_reverse :
     ∀ (A : Type) (l : IList A),
