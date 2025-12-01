@@ -444,4 +444,8 @@ Definition heapCreate (newCell : CMemoryLocation) : MachineM nat :=
                         ret (idx + 1)
             end.
 
+(* Create a linked list node. *)
+Definition createLinkedListNode (node : CLinkedListNode) : MachineM nat :=
+    heapCreate (CMemNode 0 node).
+
 End CMachine.
