@@ -600,4 +600,49 @@ Proof.
     reflexivity.
 Qed.
 
+(* Happy path: cListCreate creates a new list. *)
+Lemma cListCreate_rw :
+    ∀ (n : nat) (l : CLocal) (addr : nat) (oh nh : CHeap)
+      (ovals nvals : IList CMemoryLocation) (listPtr : nat) (ptr : Maybe nat),
+        oh = CHeapState addr ovals →
+        nh = CHeapState (addr + 1) nvals →
+        ovals = [CMemListPtr listPtr Nothing] →
+        nvals = [CMemListPtr listPtr (Just (addr + 1));
+                 CMemList (addr + 1) (List Nothing Nothing 0)] →
+        cListCreate listPtr n l oh = MachineState n l nh StatusSuccess.
+Proof.
+    intros.
+    unfold cListCreate.
+    unfold loadLinkedListPtr.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H.
+    rewrite H1.
+    simpl.
+    rewrite nat_eqb_refl.
+    simpl.
+    unfold storeLinkedListPtr.
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold loadLinkedListPtr.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite nat_eqb_refl.
+    simpl.
+    unfold memReplace.
+    unfold memReplaceLoop.
+    unfold locAddr.
+    rewrite nat_eqb_refl.
+    simpl.
+    rewrite H0.
+    rewrite H2.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
