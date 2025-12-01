@@ -461,4 +461,15 @@ Definition createLinkedListNodePtr (ptr : nat) : MachineM nat :=
 Definition createLinkedListPtr (ptr : nat) : MachineM nat :=
     heapCreate (CMemListPtr 0 ptr).
 
+(* Remove a value in the given memory list, creating a new list. *)
+Fixpoint memRemoveLoop (addr : nat) (mem : IList CMemoryLocation)
+        (acc : IList CMemoryLocation) : MachineM (IList CMemoryLocation) :=
+    match mem with
+    | [] => throw MachineErrorReclaim
+    | m :: ms =>
+        if Nat.eqb (locAddr m) addr then
+            ret ((reverse acc) ++ ms)
+        else memRemoveLoop addr ms (m :: acc)
+    end.
+
 End CMachine.
