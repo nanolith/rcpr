@@ -513,4 +513,27 @@ Definition reclaimLinkedListPtr (addr : nat) : MachineM unit :=
                     λ values' ↦
                         putHeapMemory values'.
 
+(* Extract a linked list into an IList of nat values. *)
+Fixpoint extractList (count : nat) (midx : Maybe nat)
+        (values : IList CMemoryLocation) (acc : IList nat)
+        : MachineM (IList nat) :=
+    match count with
+    | 0 =>
+        match midx with
+        | Nothing => ret (reverse acc)
+        | Just _ => throw MachineErrorTermination
+        end
+    | S n =>
+        match midx with
+        | Nothing => throw MachineErrorTruncation
+        | Just idx =>
+            loadLinkedListNode idx ▶
+                λ node ↦
+                    match node with
+                    | Node _ next val =>
+                        extractList n next values (val :: acc)
+                    end
+        end
+    end.
+
 End CMachine.
