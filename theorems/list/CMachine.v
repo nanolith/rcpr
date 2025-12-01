@@ -477,4 +477,13 @@ Definition memRemove (addr : nat) (mem : IList CMemoryLocation)
         : MachineM (IList CMemoryLocation) :=
     memRemoveLoop addr mem [].
 
+(* Reclaim a linked list node. *)
+Definition reclaimLinkedListNode (addr : nat) : MachineM unit :=
+    getHeapMemory ▶
+        λ values ↦
+            loadLinkedListNode addr »
+                memRemove addr values ▶
+                    λ values' ↦
+                        putHeapMemory values'.
+
 End CMachine.
