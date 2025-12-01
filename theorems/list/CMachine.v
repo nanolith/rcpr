@@ -565,4 +565,10 @@ Fixpoint extractReverseList (count : nat) (midx : Maybe nat)
         end
     end.
 
+(* Simulated form of createLinkedList that could fail. *)
+Definition maybeCreateLinkedList : MachineM (Maybe nat) :=
+    heapCreate (CMemList 0 (List Nothing Nothing 0)) ▶
+        λ listPtr ↦
+            ret (Just listPtr).
+
 End CMachine.
