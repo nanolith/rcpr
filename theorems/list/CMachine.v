@@ -573,6 +573,7 @@ Fixpoint extractReverseList (count : nat) (midx : Maybe nat)
         end
     end.
 
+(* Extract the linked list from C. *)
 Definition extractListFromC (ptr : nat) : MachineM (IList nat) :=
     getHeapMemory ▶
         λ values ↦
@@ -581,6 +582,17 @@ Definition extractListFromC (ptr : nat) : MachineM (IList nat) :=
                     match l with
                     | List h _ count =>
                         extractList count h values []
+                    end.
+
+(* Extract the reverse linked list from C. *)
+Definition extractReverseListFromC (ptr : nat) : MachineM (IList nat) :=
+    getHeapMemory ▶
+        λ values ↦
+            loadLinkedList ptr ▶
+                λ l ↦
+                    match l with
+                    | List _ t count =>
+                        extractReverseList count t values []
                     end.
 
 (* Simulated form of createLinkedList that could fail. *)
