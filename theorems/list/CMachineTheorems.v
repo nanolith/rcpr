@@ -294,7 +294,7 @@ Proof.
 Qed.
 
 (* if the address of a cell matches, memReplace replaces this cell. *)
-Lemma memReplaceLoop_MatchingCell :
+Lemma memReplaceLoop_MatchingCell_reverse_acc :
     ∀ (lvalues : IList CMemoryLocation) (n : nat) (l : CLocal) (h : CHeap)
       (addr : nat) (ocell ncell : CMemoryLocation)
       (rvalues acc : IList CMemoryLocation),
