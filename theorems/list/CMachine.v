@@ -486,4 +486,13 @@ Definition reclaimLinkedListNode (addr : nat) : MachineM unit :=
                     λ values' ↦
                         putHeapMemory values'.
 
+(* Reclaim a linked list. *)
+Definition reclaimLinkedList (addr : nat) : MachineM unit :=
+    getHeapMemory ▶
+        λ values ↦
+            loadLinkedList addr »
+                memRemove addr values ▶
+                    λ values' ↦
+                        putHeapMemory values'.
+
 End CMachine.
