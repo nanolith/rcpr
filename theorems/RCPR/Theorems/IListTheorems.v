@@ -43,6 +43,19 @@ Proof.
     reflexivity.
 Qed.
 
+(* Append of a cons and cons of an append are equivalent. *)
+Lemma IList_cons_append_commutative :
+    ∀ {A} (a : A) (l tail : IList A),
+        (a :: l) ++ tail = a :: (l ++ tail).
+Proof.
+    intros.
+    destruct l.
+    simpl.
+    reflexivity.
+    simpl.
+    reflexivity.
+Qed.
+
 (* Prove the classic double reverse. *)
 Lemma IList_reverse_reverse :
     ∀ (A : Type) (l : IList A),
