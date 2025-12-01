@@ -93,13 +93,3 @@ add_dependencies(
 add_dependencies(
     build_rocq_RCPR_Theorems_IListTheorems.v
     build_rocq_RCPR_Data_IList.v)
-
-#add_dependencies(
-#    build_rocq_list_heap.v
-#    build_rocq_RCPR_Data_Applicative.v
-#    build_rocq_RCPR_Data_Either.v
-#    build_rocq_RCPR_Data_Functor.v
-#    build_rocq_RCPR_Data_IList.v
-#    build_rocq_RCPR_Data_Maybe.v
-#    build_rocq_RCPR_Data_Monad.v
-#    build_rocq_RCPR_Tactics_FunctionalExtensionality.v)
