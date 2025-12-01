@@ -70,6 +70,24 @@ Proof.
     reflexivity.
 Qed.
 
+(* Associativity for a list part 2. *)
+Lemma IList_append_cons_associativity :
+    ∀ {A} (x : A) (l tail : IList A),
+        (l ++ [x]) ++ tail = l ++ x :: tail.
+Proof.
+    intros A x l tail.
+    induction l.
+    simpl.
+    reflexivity.
+    simpl.
+    destruct tail.
+    simpl.
+    rewrite IList_append_empty.
+    reflexivity.
+    rewrite IHl.
+    reflexivity.
+Qed.
+
 (* Prove the classic double reverse. *)
 Lemma IList_reverse_reverse :
     ∀ (A : Type) (l : IList A),
