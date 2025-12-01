@@ -680,4 +680,39 @@ Proof.
     reflexivity.
 Qed.
 
+(* The reverse list created by cListCreate is empty. *)
+Lemma cListCreate_extractReverse_empty :
+    ∀ (n : nat) (l : CLocal) (addr : nat) (oh nh : CHeap)
+      (ovals nvals : IList CMemoryLocation) (listPtr : nat) (ptr : Maybe nat),
+        oh = CHeapState addr ovals →
+        nh = CHeapState (addr + 1) nvals →
+        ovals = [CMemListPtr listPtr Nothing] →
+        nvals = [CMemListPtr listPtr (Just (addr + 1));
+                 CMemList (addr + 1) (List Nothing Nothing 0)] →
+        Nat.eqb listPtr (addr + 1) = false →
+        cListCreate listPtr n l oh = MachineState n l nh StatusSuccess →
+        extractReverseListFromC (addr + 1) n l nh = MachineState n l nh [].
+Proof.
+    intros.
+    rewrite (cListCreate_rw n l addr oh nh ovals nvals listPtr ptr) in H4;
+        try assumption.
+    unfold extractReverseListFromC.
+    unfold loadLinkedList.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold lookupMem.
+    unfold locAddr.
+    rewrite H0.
+    rewrite H2.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H3.
+    rewrite nat_eqb_refl.
+    unfold extractReverseList.
+    unfold reverse.
+    simpl.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
