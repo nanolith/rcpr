@@ -352,4 +352,19 @@ Proof.
     reflexivity.
 Qed.
 
+(* if the address of a cell matches, memReplace replaces this cell. *)
+Lemma memReplace_MatchingCell :
+    ∀ (lvalues : IList CMemoryLocation) (n : nat) (l : CLocal) (h : CHeap)
+      (addr : nat) (ocell ncell : CMemoryLocation)
+      (rvalues acc : IList CMemoryLocation),
+            (∀ x, In x lvalues → Nat.eqb (locAddr x) addr = false) →
+            locAddr ocell = addr →
+            memReplace addr ncell (lvalues ++ (ocell :: rvalues)) n l h =
+                MachineState n l h (lvalues ++ (ncell :: rvalues)).
+Proof.
+    intros.
+    unfold memReplace.
+    apply memReplaceLoop_MatchingCell; try assumption.
+Qed.
+
 End CMachineTheorems.
