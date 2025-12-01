@@ -88,6 +88,7 @@ Inductive MachineErrorCode : Type :=
 | MachineErrorStore
 | MachineErrorReclaim
 | MachineErrorCast
+| MachineErrorDereference
 | MachineErrorTermination
 | MachineErrorTruncation.
 
