@@ -495,4 +495,13 @@ Definition reclaimLinkedList (addr : nat) : MachineM unit :=
                     λ values' ↦
                         putHeapMemory values'.
 
+(* Reclaim a linked list node ptr. *)
+Definition reclaimLinkedListNodePtr (addr : nat) : MachineM unit :=
+    getHeapMemory ▶
+        λ values ↦
+            loadLinkedListNodePtr addr »
+                memRemove addr values ▶
+                    λ values' ↦
+                        putHeapMemory values'.
+
 End CMachine.
