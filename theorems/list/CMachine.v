@@ -272,6 +272,16 @@ Definition locAddr (cell : CMemoryLocation) : nat :=
     | CMemListPtr loc _ => loc
     end.
 
+(* Set the address of a location in memory. *)
+Definition locSet (addr : nat) (cell : CMemoryLocation) : CMemoryLocation :=
+    match cell with
+    | CMemUninit _ => CMemUninit addr
+    | CMemNode _ n => CMemNode addr n
+    | CMemList _ l => CMemList addr l
+    | CMemNodePtr _ ptr => CMemNodePtr addr ptr
+    | CMemListPtr _ ptr => CMemListPtr addr ptr
+    end.
+
 (* Look up an address from memory. *)
 Fixpoint lookupMem (addr : nat) (mem : IList CMemoryLocation) :
         Maybe CMemoryLocation :=
