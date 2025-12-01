@@ -259,7 +259,7 @@ Proof.
 Qed.
 
 (* if the address of a cell matches, memReplace replaces this cell. *)
-Lemma memReplace_MatchingCell :
+Lemma memReplace_MatchingCell_head :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat)
       (ocell ncell : CMemoryLocation) (values : IList CMemoryLocation),
             locAddr ocell = addr →
