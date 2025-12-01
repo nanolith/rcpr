@@ -321,6 +321,13 @@ Definition mfilter (err : MachineErrorCode) (op : bool) : MachineM unit :=
     else
         throw err.
 
+(* Attempt to coerce a Maybe value to a value, throwing an error if it fails. *)
+Definition fromJust {A : Type} (mval : Maybe A) : MachineM A :=
+    match mval with
+    | Just val => ret val
+    | Nothing => throw MachineErrorDereference
+    end.
+
 Open Scope monad_scope.
 
 (* Get memory from the heap. *)
