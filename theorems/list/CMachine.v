@@ -413,6 +413,7 @@ Definition storeLinkedListNodePtr (addr : nat) (ptr : nat) :
                     λ values' ↦
                         putHeapMemory values'.
 
+(* Store a linked list pointer, overwriting an existing pointer. *)
 Definition storeLinkedListPtr (addr : nat) (ptr : nat) :
         MachineM unit :=
     getHeapMemory ▶
