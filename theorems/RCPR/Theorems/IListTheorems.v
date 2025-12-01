@@ -88,6 +88,21 @@ Proof.
     reflexivity.
 Qed.
 
+(* Peel the reverse of a list append. *)
+Lemma IList_reverse_peel3 :
+    ∀ {A} (x m : A) (l tail rvalues : IList A),
+        (reverse l ++ [x]) ++ tail ++ m :: rvalues =
+            reverse l ++ x :: tail ++ m :: rvalues.
+Proof.
+    intros A x m l tail values.
+    induction l.
+    simpl.
+    reflexivity.
+    simpl.
+    rewrite IList_append_cons_associativity.
+    reflexivity.
+Qed.
+
 (* Prove the classic double reverse. *)
 Lemma IList_reverse_reverse :
     ∀ (A : Type) (l : IList A),
