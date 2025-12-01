@@ -29,8 +29,8 @@ Inductive CMemoryLocation : Type :=
 | CMemUninit (loc : nat)
 | CMemNode (loc: nat) (node : CLinkedListNode)
 | CMemList (loc: nat) (list : CLinkedList)
-| CMemNodePtr (loc : nat) (ptr : nat)
-| CMemListPtr (loc : nat) (ptr : nat).
+| CMemNodePtr (loc : nat) (ptr : Maybe nat)
+| CMemListPtr (loc : nat) (ptr : Maybe nat).
 
 (* Is this memory location uninitialized? *)
 Definition isCellUninit (cell : CMemoryLocation) : bool :=
@@ -366,7 +366,7 @@ Definition loadLinkedList (addr : nat) : MachineM CLinkedList :=
             end.
 
 (* Perform a typed load of a linked list node pointer. *)
-Definition loadLinkedListNodePtr (addr : nat) : MachineM nat :=
+Definition loadLinkedListNodePtr (addr : nat) : MachineM (Maybe nat) :=
     loadRaw addr ▶
         λ cell ↦
             match cell with
@@ -375,7 +375,7 @@ Definition loadLinkedListNodePtr (addr : nat) : MachineM nat :=
             end.
 
 (* Perform a typed load of a linked list pointer. *)
-Definition loadLinkedListPtr (addr : nat) : MachineM nat :=
+Definition loadLinkedListPtr (addr : nat) : MachineM (Maybe nat) :=
     loadRaw addr ▶
         λ cell ↦
             match cell with
@@ -421,7 +421,7 @@ Definition storeLinkedList (addr : nat) (list : CLinkedList) :
                         putHeapMemory values'.
 
 (* Store a linked list node pointer, overwriting an existing pointer. *)
-Definition storeLinkedListNodePtr (addr : nat) (ptr : nat) :
+Definition storeLinkedListNodePtr (addr : nat) (ptr : Maybe nat) :
         MachineM unit :=
     getHeapMemory ▶
         λ values ↦
@@ -431,7 +431,7 @@ Definition storeLinkedListNodePtr (addr : nat) (ptr : nat) :
                         putHeapMemory values'.
 
 (* Store a linked list pointer, overwriting an existing pointer. *)
-Definition storeLinkedListPtr (addr : nat) (ptr : nat) :
+Definition storeLinkedListPtr (addr : nat) (ptr : Maybe nat) :
         MachineM unit :=
     getHeapMemory ▶
         λ values ↦
@@ -460,11 +460,11 @@ Definition createLinkedList : MachineM nat :=
     heapCreate (CMemList 0 (List Nothing Nothing 0)).
 
 (* Create a linked list node pointer. *)
-Definition createLinkedListNodePtr (ptr : nat) : MachineM nat :=
+Definition createLinkedListNodePtr (ptr : Maybe nat) : MachineM nat :=
     heapCreate (CMemNodePtr 0 ptr).
 
 (* Create a linked list pointer. *)
-Definition createLinkedListPtr (ptr : nat) : MachineM nat :=
+Definition createLinkedListPtr (ptr : Maybe nat) : MachineM nat :=
     heapCreate (CMemListPtr 0 ptr).
 
 (* Remove a value in the given memory list, creating a new list. *)
@@ -576,7 +576,8 @@ Definition cListCreate (listPtr : nat) : MachineM CStatusCode :=
     maybeCreateLinkedList ▶
         λ mptr ↦
             match mptr with
-            | Just ptr => storeLinkedListPtr listPtr ptr » ret StatusSuccess
+            | Just ptr =>
+                    storeLinkedListPtr listPtr (Just ptr) » ret StatusSuccess
             | Nothing => ret ErrorOutOfMemory
             end.
 

@@ -193,7 +193,7 @@ Qed.
 
 (* Happy path: we can load linked list node pointers. *)
 Lemma loadLinkedListNodePtr_rw :
-    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : nat),
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : Maybe nat),
             loadRaw addr n l h = MachineState n l h (CMemNodePtr addr x) →
             loadLinkedListNodePtr addr n l h = MachineState n l h x.
 Proof.
@@ -235,7 +235,7 @@ Qed.
 
 (* Happy path: we can load linked list pointers. *)
 Lemma loadLinkedListPtr_rw :
-    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : nat),
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : Maybe nat),
             loadRaw addr n l h = MachineState n l h (CMemListPtr addr x) →
             loadLinkedListPtr addr n l h = MachineState n l h x.
 Proof.
@@ -485,7 +485,7 @@ Qed.
 (* if loadLinkedListNodePtr fails, then so does storeLinkedListNodePtr. *)
 Lemma storeLinkedListNodePtr_loadFailure :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (e : MachineErrorCode)
-      (val : nat),
+      (val : Maybe nat),
         loadLinkedListNodePtr addr n l h = MachineError e →
         storeLinkedListNodePtr addr val n l h = MachineError e.
 Proof.
@@ -503,7 +503,7 @@ Qed.
 (* storeLinkedListNodePtr happy path. *)
 Lemma storeLinkedListNodePtr_rw :
     ∀ (n idx : nat) (l : CLocal) (oh nh : CHeap) (addr : nat)
-      (e : MachineErrorCode) (oval nval : nat)
+      (e : MachineErrorCode) (oval nval : Maybe nat)
       (ll values rr : IList CMemoryLocation),
        (∀ x, In x ll → Nat.eqb (locAddr x) addr = false) →
         oh = CHeapState idx values →
@@ -536,7 +536,7 @@ Qed.
 (* if loadLinkedListPtr fails, then so does storeLinkedListPtr. *)
 Lemma storeLinkedListPtr_loadFailure :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (e : MachineErrorCode)
-      (val : nat),
+      (val : Maybe nat),
         loadLinkedListPtr addr n l h = MachineError e →
         storeLinkedListPtr addr val n l h = MachineError e.
 Proof.
@@ -554,7 +554,7 @@ Qed.
 (* storeLinkedListPtr happy path. *)
 Lemma storeLinkedListPtr_rw :
     ∀ (n idx : nat) (l : CLocal) (oh nh : CHeap) (addr : nat)
-      (e : MachineErrorCode) (oval nval : nat)
+      (e : MachineErrorCode) (oval nval : Maybe nat)
       (ll values rr : IList CMemoryLocation),
        (∀ x, In x ll → Nat.eqb (locAddr x) addr = false) →
         oh = CHeapState idx values →
