@@ -403,6 +403,7 @@ Definition storeLinkedList (addr : nat) (list : CLinkedList) :
                     λ values' ↦
                         putHeapMemory values'.
 
+(* Store a linked list node pointer, overwriting an existing pointer. *)
 Definition storeLinkedListNodePtr (addr : nat) (ptr : nat) :
         MachineM unit :=
     getHeapMemory ▶
