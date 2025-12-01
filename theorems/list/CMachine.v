@@ -433,4 +433,14 @@ Definition storeLinkedListPtr (addr : nat) (ptr : nat) :
                     λ values' ↦
                         putHeapMemory values'.
 
+(* Create a value on hte heap, returning the new memory location. *)
+Definition heapCreate (newCell : CMemoryLocation) (heap : CHeap)
+        : MachineM nat :=
+    match heap with
+    | CHeapState idx values =>
+        let allocCell := locSet (idx + 1) newCell in
+            putHeap (CHeapState (idx + 1) (values ++ [allocCell])) »
+                ret (idx + 1)
+    end.
+
 End CMachine.
