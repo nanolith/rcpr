@@ -500,4 +500,37 @@ Proof.
     reflexivity.
 Qed.
 
+(* storeLinkedListNodePtr happy path. *)
+Lemma storeLinkedListNodePtr_rw :
+    ∀ (n idx : nat) (l : CLocal) (oh nh : CHeap) (addr : nat)
+      (e : MachineErrorCode) (oval nval : nat)
+      (ll values rr : IList CMemoryLocation),
+       (∀ x, In x ll → Nat.eqb (locAddr x) addr = false) →
+        oh = CHeapState idx values →
+        values = ll ++ ((CMemNodePtr addr oval) :: rr) →
+        nh = CHeapState idx (ll ++ ((CMemNodePtr addr nval) :: rr)) →
+        getHeapMemory n l oh = MachineState n l oh values →
+        loadLinkedListNodePtr addr n l oh = MachineState n l oh oval →
+        storeLinkedListNodePtr addr nval n l oh = MachineState n l nh tt.
+Proof.
+    intros.
+    unfold storeLinkedListNodePtr.
+    unfold bind, MachineMMonad.
+    unfold getHeapMemory.
+    unfold getHeap.
+    rewrite H0.
+    rewrite H0 in H4.
+    simpl.
+    rewrite H4.
+    rewrite H1.
+    rewrite H2.
+    rewrite memReplace_MatchingCell; try assumption.
+    unfold putHeapMemory.
+    unfold putHeap.
+    simpl.
+    reflexivity.
+    simpl.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
