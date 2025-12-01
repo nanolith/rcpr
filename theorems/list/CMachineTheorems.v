@@ -336,4 +336,20 @@ Proof.
     apply H_match.
 Qed.
 
+(* if the address of a cell matches, memReplace replaces this cell. *)
+Lemma memReplaceLoop_MatchingCell :
+    ∀ (lvalues : IList CMemoryLocation) (n : nat) (l : CLocal) (h : CHeap)
+      (addr : nat) (ocell ncell : CMemoryLocation)
+      (rvalues acc : IList CMemoryLocation),
+            (∀ x, In x lvalues → Nat.eqb (locAddr x) addr = false) →
+            locAddr ocell = addr →
+            memReplaceLoop addr ncell (lvalues ++ (ocell :: rvalues)) [] n l h =
+                MachineState n l h (lvalues ++ (ncell :: rvalues)).
+Proof.
+    intros.
+    rewrite memReplaceLoop_MatchingCell_reverse_acc; try assumption.
+    simpl.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
