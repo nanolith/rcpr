@@ -584,4 +584,20 @@ Proof.
     reflexivity.
 Qed.
 
+(* If linked list allocation fails, cListCreate returns an error code. *)
+Lemma cListCreate_OutOfMemory :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (listPtr : nat) (ptr : Maybe nat),
+        loadLinkedListPtr listPtr n l h = MachineState n l h ptr →
+        maybeCreateLinkedList n l h = MachineState n l h Nothing →
+        cListCreate listPtr n l h = MachineState n l h ErrorOutOfMemory.
+Proof.
+    intros.
+    unfold cListCreate.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H.
+    rewrite H0.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
