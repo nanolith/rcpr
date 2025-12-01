@@ -80,6 +80,7 @@ Inductive MachineErrorCode : Type :=
 | MachineErrorUninit
 | MachineErrorLoad
 | MachineErrorStore
+| MachineErrorReclaim
 | MachineErrorCast
 | MachineErrorTermination
 | MachineErrorTruncation.
