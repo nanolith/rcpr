@@ -75,6 +75,12 @@ Inductive CHeap : Type :=
 Inductive CLocal : Type :=
 | CLocalState (index : nat) (values : IList CMemoryLocation).
 
+(* Possible status codes returned by simulated C functions. *)
+Inductive CStatusCode : Type :=
+| StatusSuccess
+| ErrorOutOfMemory
+| ErrorOther.
+
 (* Possible Error Types in Machine Definition. *)
 Inductive MachineErrorCode : Type :=
 | MachineErrorUninit
