@@ -452,4 +452,8 @@ Definition createLinkedListNode (node : CLinkedListNode) : MachineM nat :=
 Definition createLinkedList : MachineM nat :=
     heapCreate (CMemList 0 (List Nothing Nothing 0)).
 
+(* Create a linked list node pointer. *)
+Definition createLinkedListNodePtr (ptr : nat) : MachineM nat :=
+    heapCreate (CMemNodePtr 0 ptr).
+
 End CMachine.
