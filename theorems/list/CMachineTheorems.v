@@ -293,4 +293,47 @@ Proof.
     reflexivity.
 Qed.
 
+(* if the address of a cell matches, memReplace replaces this cell. *)
+Lemma memReplaceLoop_MatchingCell :
+    ∀ (lvalues : IList CMemoryLocation) (n : nat) (l : CLocal) (h : CHeap)
+      (addr : nat) (ocell ncell : CMemoryLocation)
+      (rvalues acc : IList CMemoryLocation),
+            (∀ x, In x lvalues → Nat.eqb (locAddr x) addr = false) →
+            locAddr ocell = addr →
+            memReplaceLoop addr ncell (lvalues ++ (ocell :: rvalues))
+                           acc n l h =
+                MachineState n l h
+                    ((reverse acc) ++ (lvalues ++ (ncell :: rvalues))).
+Proof.
+    intros lvalues.
+    induction lvalues as [| head tail IH].
+    (* base case: the list starts with ocell. *)
+    intros n l h addr ocell ncell rvalues acc H_not_in H_match.
+    simpl.
+    rewrite H_match.
+    rewrite nat_eqb_refl.
+    reflexivity.
+    (* Inductive case: lvalues = head :: tail. *)
+    intros n l h addr ocell ncell rvalues acc H_not_in H_match.
+    (* Show that head does not match addr. *)
+    assert (H_head_neq : Nat.eqb (locAddr head) addr = false).
+    {
+        apply H_not_in.
+        left.
+        reflexivity.
+    }
+    unfold memReplaceLoop.
+    simpl.
+    rewrite H_head_neq.
+    rewrite IH.
+    rewrite IList_reverse_peel.
+    rewrite IList_reverse_peel3.
+    reflexivity.
+    intros x H_in.
+    apply H_not_in.
+    right.
+    apply H_in.
+    apply H_match.
+Qed.
+
 End CMachineTheorems.
