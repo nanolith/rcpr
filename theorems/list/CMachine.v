@@ -573,12 +573,14 @@ Definition maybeCreateLinkedList : MachineM (Maybe nat) :=
 
 (* Simulated C implementation of list_create and slist_create. *)
 Definition cListCreate (listPtr : nat) : MachineM CStatusCode :=
-    maybeCreateLinkedList ▶
-        λ mptr ↦
-            match mptr with
-            | Just ptr =>
-                    storeLinkedListPtr listPtr (Just ptr) » ret StatusSuccess
-            | Nothing => ret ErrorOutOfMemory
-            end.
+    loadLinkedListPtr listPtr »
+        maybeCreateLinkedList ▶
+            λ mptr ↦
+                match mptr with
+                | Just ptr =>
+                        storeLinkedListPtr listPtr (Just ptr) »
+                            ret StatusSuccess
+                | Nothing => ret ErrorOutOfMemory
+                end.
 
 End CMachine.
