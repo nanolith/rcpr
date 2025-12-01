@@ -472,4 +472,9 @@ Fixpoint memRemoveLoop (addr : nat) (mem : IList CMemoryLocation)
         else memRemoveLoop addr ms (m :: acc)
     end.
 
+(* Remove a value from the given memory list. *)
+Definition memRemove (addr : nat) (mem : IList CMemoryLocation)
+        : MachineM (IList CMemoryLocation) :=
+    memRemoveLoop addr mem [].
+
 End CMachine.
