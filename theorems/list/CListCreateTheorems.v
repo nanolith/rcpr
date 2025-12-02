@@ -42,8 +42,8 @@ Qed.
 
 (* Happy path: cListCreate creates a new list. *)
 (* Lemma cListCreate_rw :
-    ∀ (n index : nat) (ol nl1 nl2 : CLocal) (addr : nat) (oh nh : CHeap)
-      (ovals nvals : IList CMemoryLocation) (listPtr : nat)
+    ∀ (n index : nat) (ol nl1 nl2 : CLocal) (addr : nat) (oh nh1 nh2 : CHeap)
+      (ovals nvals1 nvals2 : IList CMemoryLocation) (listPtr : nat)
       (ptr : Maybe nat),
         ol = CLocalState index [] →
         nl1 = CLocalState (index + 1)
@@ -51,67 +51,46 @@ Qed.
         nl2 = CLocalState (index + 1)
                           [CMemListPtr (index + 1) (Just (addr + 1))] →
         oh = CHeapState addr ovals →
-        nh = CHeapState (addr + 1) nvals →
+        nh1 = CHeapState (addr + 1) nvals1 →
+        nh2 = CHeapState (addr + 1) nvals2 →
         ovals = [CMemListPtr listPtr Nothing] →
-        nvals = [CMemListPtr listPtr (Just (addr + 1));
+        nvals1 = [CMemListPtr listPtr Nothing;
                  CMemList (addr + 1) (List Nothing Nothing 0)] →
-        cListCreate listPtr n ol oh = MachineState n nl2 nh StatusSuccess.
+        nvals2 = [CMemListPtr listPtr (Just (addr + 1));
+                 CMemList (addr + 1) (List Nothing Nothing 0)] →
+        cListCreate listPtr n ol oh = MachineState n nl2 nh2 StatusSuccess.
 Proof.
     intros.
-    rewrite H.
     unfold cListCreate.
-    unfold createLocalLinkedListPtr.
-    unfold localCreate.
-    unfold getLocal.
     unfold bind, MachineMMonad.
+    rewrite (@createLocalLinkedListPtr_rw n index oh ol nl1 Nothing);
+        try assumption.
+    rewrite (@loadLinkedListPtr_rw n nl1 oh listPtr Nothing); try assumption.
+    (* TODO: write lemma for loadRaw. *)
+    2: {
+        unfold loadRaw.
+        unfold getHeapMemory.
+        unfold getHeap.
+        rewrite H2.
+        rewrite H5.
+        unfold bind, MachineMMonad.
+        simpl.
+        rewrite nat_eqb_refl.
+        reflexivity.
+    }
     simpl.
-    unfold loadLinkedListPtr.
-    unfold loadRaw.
-    unfold getHeapMemory.
-    unfold getHeap.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite H2.
-    rewrite H4.
-    simpl.
-    rewrite nat_eqb_refl.
-    simpl.
-    unfold storeLocalLinkedListPtr.
-    unfold loadLocalLinkedListPtr.
-    unfold loadLocalRaw.
-    unfold getLocalMemory.
-    unfold getLocal.
-    unfold memReplace.
-    unfold memReplaceLoop.
-    unfold locAddr.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite nat_eqb_refl.
-    rewrite H1.
-    simpl.
-    rewrite nat_eqb_refl.
-    simpl.
-    unfold storeLinkedListPtr.
-    unfold getHeapMemory.
-    unfold getHeap.
-    unfold loadLinkedListPtr.
-    unfold loadRaw.
-    unfold getHeapMemory.
-    unfold getHeap.
-    unfold bind, MachineMMonad.
-    simpl.
-    unfold locAddr.
-    simpl.
-    rewrite nat_eqb_refl.
-    simpl.
-    unfold memReplace.
-    unfold memReplaceLoop.
-    unfold locAddr.
-    rewrite nat_eqb_refl.
-    simpl.
-    rewrite H3.
-    rewrite H5.
-    reflexivity.
+
+    rewrite (@maybeCreateLinkedList_rw n addr oh nh1 nl1 Nothing ovals);
+        try assumption.
+    2: {
+        rewrite H5.
+        simpl.
+        rewrite <- H6.
+        assumption.
+    }
+
+    (* TODO - here. *)
+
 Qed. *)
 
 (* The list created by cListCreate is empty. *)
