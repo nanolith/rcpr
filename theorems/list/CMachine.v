@@ -516,7 +516,7 @@ Definition storeLocalLinkedListPtr (addr : nat) (ptr : Maybe nat) :
     getLocalMemory ▶
         λ values ↦
             loadLocalLinkedListPtr addr »
-                memReplace addr (CMemNodePtr addr ptr) values ▶
+                memReplace addr (CMemListPtr addr ptr) values ▶
                     λ values' ↦
                         putLocalMemory values'.
 
