@@ -424,6 +424,15 @@ Definition loadLocalRaw (addr : nat) : MachineM CMemoryLocation :=
             | Nothing => throw MachineErrorLoad
             end.
 
+(* Perform a typed local load of a linked list node pointer. *)
+Definition loadLocalLinkedListNodePtr (addr : nat) : MachineM (Maybe nat) :=
+    loadLocalRaw addr ▶
+        λ cell ↦
+            match cell with
+            | CMemNodePtr _ node => ret node
+            | _ => throw MachineErrorCast
+            end.
+
 (* Replace a value in the given memory list, creating a new list. *)
 Fixpoint memReplaceLoop (addr : nat) (newCell : CMemoryLocation)
         (mem : IList CMemoryLocation) (acc : IList CMemoryLocation)
