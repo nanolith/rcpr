@@ -58,6 +58,7 @@ Qed.
                  CMemList (addr + 1) (List Nothing Nothing 0)] →
         nvals2 = [CMemListPtr listPtr (Just (addr + 1));
                  CMemList (addr + 1) (List Nothing Nothing 0)] →
+        Nat.eqb listPtr (addr + 1) = false →
         cListCreate listPtr n ol oh = MachineState n nl2 nh2 StatusSuccess.
 Proof.
     intros.
@@ -79,7 +80,6 @@ Proof.
         reflexivity.
     }
     simpl.
-
     rewrite (@maybeCreateLinkedList_rw n addr oh nh1 nl1 Nothing ovals);
         try assumption.
     2: {
@@ -88,8 +88,32 @@ Proof.
         rewrite <- H6.
         assumption.
     }
+    rewrite (@storeLocalLinkedListPtr_rw
+                n (index + 1) nh1 nl1 nl2 Nothing (Just (addr + 1)));
+        try assumption.
+    rewrite(@loadLocalLinkedListPtr_rw n (index + 1) nh1 nl2 (Just (addr + 1)));
+        try assumption.
 
-    (* TODO - here. *)
+    (* TODO - write simplified rewrite rule for storeLinkedListPtr. *)
+
+    unfold storeLinkedListPtr.
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold loadLinkedListPtr.
+    unfold loadRaw.
+    rewrite H3.
+
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold lookupMem.
+    unfold locAddr.
+
+    rewrite H4.
+    rewrite H7.
+
+    unfold bind, MachineMMonad.
+
+    simpl.
 
 Qed. *)
 
