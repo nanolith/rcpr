@@ -674,4 +674,38 @@ Proof.
     reflexivity.
 Qed.
 
+(* unwrap past a load linked list pointer when the top of heap doesn't match. *)
+Lemma loadLinkedListPtr_unwrap :
+    ∀ (index n : nat) (l : CLocal) (h : CHeap) (addr : nat)
+      (cell : CMemoryLocation) (values : IList CMemoryLocation)
+      (val : Maybe nat),
+        Nat.eqb (locAddr cell) addr = false →
+        h = CHeapState index ([cell] ++ values) →
+        loadLinkedListPtr addr n l h =
+                ((match lookupMem addr values with
+                    | Just cell => ret cell
+                    | Nothing => throw MachineErrorLoad
+                    end) ▶
+                (λ cell ↦
+                    match cell with
+                    | CMemListPtr _ val => ret val
+                    | _ => throw MachineErrorCast
+                    end)) n l h.
+Proof.
+    intros.
+    unfold loadLinkedListPtr.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H0.
+    unfold lookupMem.
+    simpl.
+    rewrite H.
+    simpl.
+    fold lookupMem.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
