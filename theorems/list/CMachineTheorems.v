@@ -710,8 +710,8 @@ Qed.
 
 (* simplified storeLinkedListPtr happy path, linkedListPtr first element. *)
 Lemma storeLinkedListPtr_simpl :
-    ∀ (n index addr notAddr : nat) (l : CLocal) (oh nh : CHeap)
-      (e : MachineErrorCode) (oval nval : Maybe nat) (ocell : CMemoryLocation)
+    ∀ (n index addr: nat) (l : CLocal) (oh nh : CHeap)
+      (oval nval : Maybe nat) (ocell : CMemoryLocation)
       (values nvalues : IList CMemoryLocation),
         oh = CHeapState index values →
         nh = CHeapState index nvalues →
