@@ -41,7 +41,7 @@ Proof.
 Qed.
 
 (* Happy path: cListCreate creates a new list. *)
-(* Lemma cListCreate_rw :
+Lemma cListCreate_rw :
     ∀ (n index : nat) (ol nl1 nl2 : CLocal) (addr : nat) (oh nh1 nh2 : CHeap)
       (ovals nvals1 nvals2 : IList CMemoryLocation) (listPtr : nat)
       (ptr : Maybe nat),
@@ -93,29 +93,12 @@ Proof.
         try assumption.
     rewrite(@loadLocalLinkedListPtr_rw n (index + 1) nh1 nl2 (Just (addr + 1)));
         try assumption.
-
-    (* TODO - write simplified rewrite rule for storeLinkedListPtr. *)
-
-    unfold storeLinkedListPtr.
-    unfold getHeapMemory.
-    unfold getHeap.
-    unfold loadLinkedListPtr.
-    unfold loadRaw.
-    rewrite H3.
-
-    unfold getHeapMemory.
-    unfold getHeap.
-    unfold lookupMem.
-    unfold locAddr.
-
-    rewrite H4.
-    rewrite H7.
-
-    unfold bind, MachineMMonad.
-
-    simpl.
-
-Qed. *)
+    rewrite (@storeLinkedListPtr_simpl n (addr + 1) listPtr nl2 nh1 nh2
+                Nothing (Just (addr + 1))
+                (CMemList (addr + 1) (List Nothing Nothing 0)) nvals1 nvals2);
+        try assumption.
+    reflexivity.
+Qed.
 
 (* The list created by cListCreate is empty. *)
 (* Lemma cListCreate_extract_empty :
