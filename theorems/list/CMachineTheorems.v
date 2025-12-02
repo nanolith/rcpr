@@ -603,4 +603,26 @@ Proof.
     reflexivity.
 Qed.
 
+(* maybeCreateLinkedList happy path lemma. *)
+Definition maybeCreateLinkedList_rw :
+    ∀ (n index : nat) (oh nh : CHeap) (l : CLocal) (ptr : Maybe nat)
+      (vals : IList CMemoryLocation),
+        oh = CHeapState index vals →
+        nh = CHeapState (index + 1)
+                        (vals ++ [CMemList (index + 1)
+                                           (List Nothing Nothing 0)]) →
+        maybeCreateLinkedList n l oh = MachineState n l nh (Just (index + 1)).
+Proof.
+    intros.
+    unfold maybeCreateLinkedList.
+    unfold heapCreate.
+    unfold getHeap.
+    unfold putHeap.
+    rewrite H.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite <- H0.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
