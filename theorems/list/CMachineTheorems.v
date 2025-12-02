@@ -603,6 +603,37 @@ Proof.
     reflexivity.
 Qed.
 
+(* storeLocalLinkedListPtr updates local scope with the pointer. *)
+Lemma storeLocalLinkedListPtr_rw :
+    ∀ (n addr : nat) (h : CHeap) (l nl : CLocal) (oval nval : Maybe nat),
+        l = CLocalState addr [CMemListPtr addr oval] →
+        nl = CLocalState addr [CMemListPtr addr nval] →
+        storeLocalLinkedListPtr addr nval n l h = MachineState n nl h tt.
+Proof.
+    intros.
+    unfold storeLocalLinkedListPtr.
+    unfold loadLocalLinkedListPtr.
+    unfold loadLocalRaw.
+    unfold lookupMem.
+    unfold getLocalMemory.
+    unfold getLocal.
+    rewrite H.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold memReplace.
+    unfold memReplaceLoop.
+    unfold locAddr.
+    rewrite nat_eqb_refl.
+    simpl.
+    unfold putLocalMemory.
+    unfold getLocal.
+    unfold putLocal.
+    unfold bind, MachineMMonad.
+    rewrite <- H0.
+    reflexivity.
+Qed.
+
 (* maybeCreateLinkedList happy path lemma. *)
 Definition maybeCreateLinkedList_rw :
     ∀ (n index : nat) (oh nh : CHeap) (l : CLocal) (ptr : Maybe nat)
