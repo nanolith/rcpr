@@ -91,5 +91,17 @@ add_dependencies(
     build_rocq_RCPR_Theorems_IListTheorems.v)
 
 add_dependencies(
+    build_rocq_list_CListCreateTheorems.v
+    build_rocq_list_CMachineTheorems.v
+    build_rocq_list_CMachine.v
+    build_rocq_RCPR_Data_Applicative.v
+    build_rocq_RCPR_Data_Functor.v
+    build_rocq_RCPR_Data_IList.v
+    build_rocq_RCPR_Data_Maybe.v
+    build_rocq_RCPR_Data_Monad.v
+    build_rocq_RCPR_Helpers_Notation.v
+    build_rocq_RCPR_Theorems_IListTheorems.v)
+
+add_dependencies(
     build_rocq_RCPR_Theorems_IListTheorems.v
     build_rocq_RCPR_Data_IList.v)
