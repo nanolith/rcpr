@@ -612,25 +612,52 @@ Proof.
 Qed.
 
 (* Happy path: cListCreate creates a new list. *)
-(* Lemma cListCreate_rw :
-    ∀ (n : nat) (l : CLocal) (addr : nat) (oh nh : CHeap)
-      (ovals nvals : IList CMemoryLocation) (listPtr : nat) (ptr : Maybe nat),
+Lemma cListCreate_rw :
+    ∀ (n index : nat) (ol nl1 nl2 : CLocal) (addr : nat) (oh nh : CHeap)
+      (ovals nvals : IList CMemoryLocation) (listPtr : nat)
+      (ptr : Maybe nat),
+        ol = CLocalState index [] →
+        nl1 = CLocalState (index + 1)
+                          [CMemListPtr (index + 1) Nothing] →
+        nl2 = CLocalState (index + 1)
+                          [CMemListPtr (index + 1) (Just (addr + 1))] →
         oh = CHeapState addr ovals →
         nh = CHeapState (addr + 1) nvals →
         ovals = [CMemListPtr listPtr Nothing] →
         nvals = [CMemListPtr listPtr (Just (addr + 1));
                  CMemList (addr + 1) (List Nothing Nothing 0)] →
-        cListCreate listPtr n l oh = MachineState n l nh StatusSuccess.
+        cListCreate listPtr n ol oh = MachineState n nl2 nh StatusSuccess.
 Proof.
     intros.
+    rewrite H.
     unfold cListCreate.
+    unfold createLocalLinkedListPtr.
+    unfold localCreate.
+    unfold getLocal.
+    unfold bind, MachineMMonad.
+    simpl.
     unfold loadLinkedListPtr.
     unfold loadRaw.
     unfold getHeapMemory.
     unfold getHeap.
     unfold bind, MachineMMonad.
     simpl.
-    rewrite H.
+    rewrite H2.
+    rewrite H4.
+    simpl.
+    rewrite nat_eqb_refl.
+    simpl.
+    unfold storeLocalLinkedListPtr.
+    unfold loadLocalLinkedListPtr.
+    unfold loadLocalRaw.
+    unfold getLocalMemory.
+    unfold getLocal.
+    unfold memReplace.
+    unfold memReplaceLoop.
+    unfold locAddr.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite nat_eqb_refl.
     rewrite H1.
     simpl.
     rewrite nat_eqb_refl.
@@ -644,6 +671,8 @@ Proof.
     unfold getHeap.
     unfold bind, MachineMMonad.
     simpl.
+    unfold locAddr.
+    simpl.
     rewrite nat_eqb_refl.
     simpl.
     unfold memReplace.
@@ -651,10 +680,10 @@ Proof.
     unfold locAddr.
     rewrite nat_eqb_refl.
     simpl.
-    rewrite H0.
-    rewrite H2.
+    rewrite H3.
+    rewrite H5.
     reflexivity.
-Qed. *)
+Qed.
 
 (* The list created by cListCreate is empty. *)
 (* Lemma cListCreate_extract_empty :
