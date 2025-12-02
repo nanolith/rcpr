@@ -520,7 +520,7 @@ Definition storeLocalLinkedListPtr (addr : nat) (ptr : Maybe nat) :
                     λ values' ↦
                         putLocalMemory values'.
 
-(* Create a value on hte heap, returning the new memory location. *)
+(* Create a value on the heap, returning the new memory location. *)
 Definition heapCreate (newCell : CMemoryLocation) : MachineM nat :=
     getHeap ▶
         λ heap ↦
