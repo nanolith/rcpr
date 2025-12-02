@@ -708,8 +708,8 @@ Proof.
     reflexivity.
 Qed.
 
-(* simplified storeLinkedListPtr happy path. *)
-Lemma storeLinkedListPtr_simpl :
+(* simplified storeLinkedListPtr happy path, linkedListPtr not first element. *)
+Lemma storeLinkedListPtr_simpl2 :
     ∀ (n index addr notAddr : nat) (l : CLocal) (oh nh : CHeap)
       (e : MachineErrorCode) (oval nval : Maybe nat) (ocell : CMemoryLocation)
       (values nvalues : IList CMemoryLocation),
