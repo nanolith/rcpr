@@ -309,6 +309,10 @@ Definition getHeap : MachineM CHeap :=
 Definition putHeap (newHeap : CHeap) : MachineM unit :=
     λ n l h ↦ MachineState n l newHeap tt.
 
+(* Get the local store from the machine. *)
+Definition getLocal : MachineM CLocal :=
+    λ n l h ↦ MachineState n l h l.
+
 (* Throw an exception. *)
 Definition throw {A} (e : MachineErrorCode) : MachineM A :=
     λ _ _ _ ↦ MachineError e.
