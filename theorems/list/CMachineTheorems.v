@@ -708,6 +708,57 @@ Proof.
     reflexivity.
 Qed.
 
+(* simplified storeLinkedListPtr happy path, linkedListPtr first element. *)
+Lemma storeLinkedListPtr_simpl :
+    ∀ (n index addr notAddr : nat) (l : CLocal) (oh nh : CHeap)
+      (e : MachineErrorCode) (oval nval : Maybe nat) (ocell : CMemoryLocation)
+      (values nvalues : IList CMemoryLocation),
+        oh = CHeapState index values →
+        nh = CHeapState index nvalues →
+        values = [CMemListPtr addr oval; ocell] →
+        nvalues = [CMemListPtr addr nval; ocell] →
+        storeLinkedListPtr addr nval n l oh = MachineState n l nh tt.
+Proof.
+    intros.
+    unfold storeLinkedListPtr.
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold bind, MachineMMonad.
+    rewrite H0.
+    rewrite H2.
+    simpl.
+    rewrite H.
+    rewrite H1.
+    simpl.
+    rewrite <- H1.
+    rewrite <- H.
+    rewrite (@loadLinkedListPtr_rw n l oh addr oval);
+        try assumption.
+    (* TODO - lemma for loadRaw. *)
+    2: {
+        unfold loadRaw.
+        unfold getHeapMemory.
+        unfold getHeap.
+        rewrite H.
+        rewrite H1.
+        simpl.
+        rewrite nat_eqb_refl.
+        reflexivity.
+    }
+    unfold memReplace.
+    unfold memReplaceLoop.
+    rewrite H1.
+    unfold locAddr.
+    rewrite nat_eqb_refl.
+    unfold putHeapMemory.
+    unfold putHeap.
+    unfold getHeap.
+    unfold bind, MachineMMonad.
+    rewrite H.
+    simpl.
+    reflexivity.
+Qed.
+
 (* simplified storeLinkedListPtr happy path, linkedListPtr not first element. *)
 Lemma storeLinkedListPtr_simpl2 :
     ∀ (n index addr notAddr : nat) (l : CLocal) (oh nh : CHeap)
