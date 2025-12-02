@@ -21,27 +21,22 @@ Open Scope monad_scope.
 (* If linked list allocation fails, cListCreate returns an error code. *)
 Lemma cListCreate_OutOfMemory :
     ∀ (n index : nat) (ol nl : CLocal) (h : CHeap) (listPtr : nat)
-      (ptr : Maybe nat) (values : IList CMemoryLocation),
-        ol = CLocalState index values →
+      (ptr : Maybe nat),
+        ol = CLocalState index [] →
         nl = CLocalState (index + 1)
-                         (values ++ [CMemListPtr (index + 1) Nothing]) →
+                         [CMemListPtr (index + 1) Nothing] →
         loadLinkedListPtr listPtr n nl h = MachineState n nl h ptr →
         maybeCreateLinkedList n nl h = MachineState n nl h Nothing →
         cListCreate listPtr n ol h = MachineState n nl h ErrorOutOfMemory.
 Proof.
     intros.
-    rewrite H.
     unfold cListCreate.
-    unfold createLocalLinkedListPtr.
-    unfold localCreate.
-    unfold getLocal.
     unfold bind, MachineMMonad.
+    rewrite (@createLocalLinkedListPtr_rw n index h ol nl Nothing);
+        try assumption.
     simpl.
-    rewrite H0 in H1.
-    rewrite H0 in H2.
     rewrite H1.
     rewrite H2.
-    rewrite H0.
     reflexivity.
 Qed.
 
