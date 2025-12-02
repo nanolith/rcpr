@@ -584,4 +584,23 @@ Proof.
     reflexivity.
 Qed.
 
+(* createLocalLinkedListPtr updates local scope with the pointer. *)
+Definition createLocalLinkedListPtr_rw :
+    ∀ (n index : nat) (h : CHeap) (l nl : CLocal) (ptr : Maybe nat),
+        l = CLocalState index [] →
+        nl = CLocalState (index + 1) [CMemListPtr (index + 1) ptr] →
+        createLocalLinkedListPtr ptr n l h = MachineState n nl h (index + 1).
+Proof.
+    intros.
+    unfold createLocalLinkedListPtr.
+    unfold localCreate.
+    unfold getLocal.
+    unfold putLocal.
+    rewrite H.
+    rewrite H0.
+    unfold bind, MachineMMonad.
+    simpl.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
