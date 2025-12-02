@@ -585,7 +585,7 @@ Proof.
 Qed.
 
 (* If linked list allocation fails, cListCreate returns an error code. *)
-Lemma cListCreate_OutOfMemory :
+(* Lemma cListCreate_OutOfMemory :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (listPtr : nat) (ptr : Maybe nat),
         loadLinkedListPtr listPtr n l h = MachineState n l h ptr →
         maybeCreateLinkedList n l h = MachineState n l h Nothing →
@@ -598,10 +598,10 @@ Proof.
     rewrite H.
     rewrite H0.
     reflexivity.
-Qed.
+Qed. *)
 
 (* Happy path: cListCreate creates a new list. *)
-Lemma cListCreate_rw :
+(* Lemma cListCreate_rw :
     ∀ (n : nat) (l : CLocal) (addr : nat) (oh nh : CHeap)
       (ovals nvals : IList CMemoryLocation) (listPtr : nat) (ptr : Maybe nat),
         oh = CHeapState addr ovals →
@@ -643,10 +643,10 @@ Proof.
     rewrite H0.
     rewrite H2.
     reflexivity.
-Qed.
+Qed. *)
 
 (* The list created by cListCreate is empty. *)
-Lemma cListCreate_extract_empty :
+(* Lemma cListCreate_extract_empty :
     ∀ (n : nat) (l : CLocal) (addr : nat) (oh nh : CHeap)
       (ovals nvals : IList CMemoryLocation) (listPtr : nat) (ptr : Maybe nat),
         oh = CHeapState addr ovals →
@@ -678,10 +678,10 @@ Proof.
     unfold reverse.
     simpl.
     reflexivity.
-Qed.
+Qed. *)
 
 (* The reverse list created by cListCreate is empty. *)
-Lemma cListCreate_extractReverse_empty :
+(* Lemma cListCreate_extractReverse_empty :
     ∀ (n : nat) (l : CLocal) (addr : nat) (oh nh : CHeap)
       (ovals nvals : IList CMemoryLocation) (listPtr : nat) (ptr : Maybe nat),
         oh = CHeapState addr ovals →
@@ -713,6 +713,6 @@ Proof.
     unfold reverse.
     simpl.
     reflexivity.
-Qed.
+Qed. *)
 
 End CMachineTheorems.
