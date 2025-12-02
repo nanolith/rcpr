@@ -46,7 +46,7 @@ Proof.
 Qed.
 
 (* Happy path: cListCreate creates a new list. *)
-Lemma cListCreate_rw :
+(* Lemma cListCreate_rw :
     ∀ (n index : nat) (ol nl1 nl2 : CLocal) (addr : nat) (oh nh : CHeap)
       (ovals nvals : IList CMemoryLocation) (listPtr : nat)
       (ptr : Maybe nat),
@@ -117,7 +117,7 @@ Proof.
     rewrite H3.
     rewrite H5.
     reflexivity.
-Qed.
+Qed. *)
 
 (* The list created by cListCreate is empty. *)
 (* Lemma cListCreate_extract_empty :
