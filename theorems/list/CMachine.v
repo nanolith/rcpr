@@ -354,6 +354,14 @@ Definition putHeapMemory (values : IList CMemoryLocation) : MachineM unit :=
             | CHeapState idx _ => putHeap (CHeapState idx values)
             end.
 
+(* Get memory from the local store. *)
+Definition getLocalMemory : MachineM (IList CMemoryLocation) :=
+    getLocal ▶
+        λ h ↦
+            match h with
+            | CLocalState _ vals => ret vals
+            end.
+
 (* Perform a raw (untyped) load of a location. *)
 Definition loadRaw (addr : nat) : MachineM CMemoryLocation :=
     getHeapMemory ▶
