@@ -585,20 +585,31 @@ Proof.
 Qed.
 
 (* If linked list allocation fails, cListCreate returns an error code. *)
-(* Lemma cListCreate_OutOfMemory :
-    ∀ (n : nat) (l : CLocal) (h : CHeap) (listPtr : nat) (ptr : Maybe nat),
-        loadLinkedListPtr listPtr n l h = MachineState n l h ptr →
-        maybeCreateLinkedList n l h = MachineState n l h Nothing →
-        cListCreate listPtr n l h = MachineState n l h ErrorOutOfMemory.
+Lemma cListCreate_OutOfMemory :
+    ∀ (n index : nat) (ol nl : CLocal) (h : CHeap) (listPtr : nat)
+      (ptr : Maybe nat) (values : IList CMemoryLocation),
+        ol = CLocalState index values →
+        nl = CLocalState (index + 1)
+                         (values ++ [CMemListPtr (index + 1) Nothing]) →
+        loadLinkedListPtr listPtr n nl h = MachineState n nl h ptr →
+        maybeCreateLinkedList n nl h = MachineState n nl h Nothing →
+        cListCreate listPtr n ol h = MachineState n nl h ErrorOutOfMemory.
 Proof.
     intros.
+    rewrite H.
     unfold cListCreate.
+    unfold createLocalLinkedListPtr.
+    unfold localCreate.
+    unfold getLocal.
     unfold bind, MachineMMonad.
     simpl.
-    rewrite H.
+    rewrite H0 in H1.
+    rewrite H0 in H2.
+    rewrite H1.
+    rewrite H2.
     rewrite H0.
     reflexivity.
-Qed. *)
+Qed.
 
 (* Happy path: cListCreate creates a new list. *)
 (* Lemma cListCreate_rw :
