@@ -558,6 +558,10 @@ Definition createLinkedListNodePtr (ptr : Maybe nat) : MachineM nat :=
 Definition createLinkedListPtr (ptr : Maybe nat) : MachineM nat :=
     heapCreate (CMemListPtr 0 ptr).
 
+(* Create a local linked list node pointer. *)
+Definition createLocalLinkedListNodePtr (ptr : Maybe nat) : MachineM nat :=
+    localCreate (CMemNodePtr 0 ptr).
+
 (* Remove a value in the given memory list, creating a new list. *)
 Fixpoint memRemoveLoop (addr : nat) (mem : IList CMemoryLocation)
         (acc : IList CMemoryLocation) : MachineM (IList CMemoryLocation) :=
