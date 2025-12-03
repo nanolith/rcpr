@@ -101,20 +101,28 @@ Proof.
 Qed.
 
 (* The list created by cListCreate is empty. *)
-(* Lemma cListCreate_extract_empty :
-    ∀ (n : nat) (l : CLocal) (addr : nat) (oh nh : CHeap)
-      (ovals nvals : IList CMemoryLocation) (listPtr : nat) (ptr : Maybe nat),
+Lemma cListCreate_extract_empty :
+    ∀ (n : nat) (l nl1 nl2 : CLocal) (addr : nat) (oh nh1 nh2 : CHeap)
+      (ovals nvals1 nvals2 : IList CMemoryLocation) (listPtr : nat) (ptr : Maybe nat),
+        l = CLocalState addr [] →
+        nl1 = CLocalState (addr + 1) [CMemListPtr (addr + 1) Nothing] →
+        nl2 = CLocalState (addr + 1)
+                          [CMemListPtr (addr + 1) (Just (addr + 1))] →
         oh = CHeapState addr ovals →
-        nh = CHeapState (addr + 1) nvals →
+        nh1 = CHeapState (addr + 1) nvals1 →
+        nh2 = CHeapState (addr + 1) nvals2 →
         ovals = [CMemListPtr listPtr Nothing] →
-        nvals = [CMemListPtr listPtr (Just (addr + 1));
+        nvals1 = [CMemListPtr listPtr Nothing;
+                 CMemList (addr + 1) (List Nothing Nothing 0)] →
+        nvals2 = [CMemListPtr listPtr (Just (addr + 1));
                  CMemList (addr + 1) (List Nothing Nothing 0)] →
         Nat.eqb listPtr (addr + 1) = false →
-        cListCreate listPtr n l oh = MachineState n l nh StatusSuccess →
-        extractListFromC (addr + 1) n l nh = MachineState n l nh [].
+        cListCreate listPtr n l oh = MachineState n nl2 nh2 StatusSuccess →
+        extractListFromC (addr + 1) n nl2 nh2 = MachineState n nl2 nh2 [].
 Proof.
     intros.
-    rewrite (cListCreate_rw n l addr oh nh ovals nvals listPtr ptr) in H4;
+    rewrite (cListCreate_rw n addr l nl1 nl2 addr oh nh1 nh2 ovals nvals1
+             nvals2 listPtr ptr) in H9;
         try assumption.
     unfold extractListFromC.
     unfold loadLinkedList.
@@ -123,17 +131,17 @@ Proof.
     unfold getHeap.
     unfold lookupMem.
     unfold locAddr.
-    rewrite H0.
-    rewrite H2.
+    rewrite H4.
+    rewrite H7.
     unfold bind, MachineMMonad.
     simpl.
-    rewrite H3.
+    rewrite H8.
     rewrite nat_eqb_refl.
     unfold extractList.
     unfold reverse.
     simpl.
     reflexivity.
-Qed. *)
+Qed.
 
 (* The reverse list created by cListCreate is empty. *)
 (* Lemma cListCreate_extractReverse_empty :
