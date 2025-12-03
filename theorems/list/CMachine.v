@@ -725,6 +725,9 @@ Definition cListCreate (listPtr : nat) : MachineM CStatusCode :=
     | Nothing => ret ErrorOutOfMemory
     end.
 
+Definition evalReturnStatus (code : CStatusCode) : MachineM CStatusCode :=
+    ret code.
+
 Definition evalCrash (e : MachineErrorCode) : MachineM unit :=
     throw e.
 
