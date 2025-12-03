@@ -101,7 +101,7 @@ Inductive CMachineInstruction : Type :=
    pointer. *)
 | INS_CreateLinkedList (localAddr : nat)
 (* Check to see if a given value is present. *)
-| INS_IsPresent (localAddr : nat)
+| INS_IsListPtrPresent (localAddr : nat)
 | INS_ITE (cond : CMachineInstruction) (thenIns : IList CMachineInstruction)
           (elseIns : IList CMachineInstruction)
 | INS_AssignLocalListPtrToHeapListPtr (heapAddr : nat) (localAddr : nat)
