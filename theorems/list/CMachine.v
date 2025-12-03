@@ -757,9 +757,6 @@ Definition evalCheckHeapListPtrAddress (heapAddr : nat) : MachineM unit :=
 Definition evalReturnStatus (code : CStatusCode) : MachineM CStatusCode :=
     ret code.
 
-Definition evalCrash (e : MachineErrorCode) : MachineM unit :=
-    throw e.
-
 Fixpoint evalInstructions (ins : IList CMachineInstruction)
         : MachineM CStatusCode :=
     match ins with
