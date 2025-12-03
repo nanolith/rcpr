@@ -725,6 +725,7 @@ Definition cListCreate (listPtr : nat) : MachineM CStatusCode :=
     | Nothing => ret ErrorOutOfMemory
     end.
 
+(* Evaluate a create local linked list ptr instruction. *)
 Definition evalCreateLocalLinkedListPtr (addr : nat) : MachineM unit :=
     createLocalLinkedListPtr Nothing ▶
     λ localAddr ↦
@@ -733,10 +734,12 @@ Definition evalCreateLocalLinkedListPtr (addr : nat) : MachineM unit :=
     else
         throw MachineErrorBadInstruction.
 
+(* Evaluate a create linked list instruction. *)
 Definition evalCreateLinkedList (localAddr : nat) : MachineM unit :=
     maybeCreateLinkedList ▶
     storeLocalLinkedListPtr localAddr.
 
+(* Evaluate an is list pointer present assertion instruction. *)
 Definition evalIsListPtrPresent (localAddr : nat) : MachineM bool :=
     loadLocalLinkedListPtr localAddr ▶
     λ mptr ↦
@@ -745,18 +748,22 @@ Definition evalIsListPtrPresent (localAddr : nat) : MachineM bool :=
     | Nothing => ret false
     end.
 
+(* Evaluate an assignment instruction for a linked list pointer. *)
 Definition evalAssignLocalListPtrToHeapListPtr (heapAddr localAddr : nat)
         : MachineM unit :=
     loadLocalLinkedListPtr localAddr ▶
     storeLinkedListPtr heapAddr.
 
+(* Evaluate a null check instruction. *)
 Definition evalCheckHeapListPtrAddress (heapAddr : nat) : MachineM unit :=
     loadLinkedListPtr heapAddr »
         ret tt.
 
+(* Evaluate a return instruction. *)
 Definition evalReturnStatus (code : CStatusCode) : MachineM CStatusCode :=
     ret code.
 
+(* Evaluate an ITE conditional instruction. *)
 Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
     match ins with
     | INS_IsListPtrPresent localAddr =>
@@ -764,6 +771,7 @@ Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
     | _ => throw MachineErrorBadInstruction
     end.
 
+(* Evaluate instructions in the then or else branch of an ITE. *)
 Fixpoint evalITEInstructions (ins : IList CMachineInstruction)
         : MachineM CStatusCode :=
     match ins with
@@ -790,6 +798,7 @@ Fixpoint evalITEInstructions (ins : IList CMachineInstruction)
         end
     end.
 
+(* Evaluate function instructions. *)
 Fixpoint evalInstructions (ins : IList CMachineInstruction)
         : MachineM CStatusCode :=
     match ins with
