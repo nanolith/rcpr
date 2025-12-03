@@ -96,6 +96,9 @@ Inductive MachineErrorCode : Type :=
 Inductive CMachineInstruction : Type :=
 (* Create a local variable for holding a linked list pointer. *)
 | INS_CreateLocalLinkedListPtr (addr : nat)
+(* Create a linked list on the heap, storing the result in the given local
+   pointer. *)
+| INS_CreateLinkedList (localAddr : nat)
 | INS_Crash (e : MachineErrorCode).
 
 (* Machine State. *)
