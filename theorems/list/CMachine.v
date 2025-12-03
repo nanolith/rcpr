@@ -102,6 +102,8 @@ Inductive CMachineInstruction : Type :=
 | INS_CreateLinkedList (localAddr : nat)
 (* Check to see if a given value is present. *)
 | INS_IsPresent (localAddr : nat)
+| INS_ITE (cond : CMachineInstruction) (thenIns : IList CMachineInstruction)
+          (elseIns : IList CMachineInstruction)
 | INS_Crash (e : MachineErrorCode).
 
 (* Machine State. *)
