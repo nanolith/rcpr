@@ -99,6 +99,8 @@ Inductive CMachineInstruction : Type :=
 (* Create a linked list on the heap, storing the result in the given local
    pointer. *)
 | INS_CreateLinkedList (localAddr : nat)
+(* Check to see if a given value is present. *)
+| INS_IsPresent (localAddr : nat)
 | INS_Crash (e : MachineErrorCode).
 
 (* Machine State. *)
