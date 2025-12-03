@@ -105,6 +105,7 @@ Inductive CMachineInstruction : Type :=
 | INS_ITE (cond : CMachineInstruction) (thenIns : IList CMachineInstruction)
           (elseIns : IList CMachineInstruction)
 | INS_AssignLocalListPtrToHeapListPtr (heapAddr : nat) (localAddr : nat)
+| INS_CheckHeapListPtrAddress (hapAddr : nat)
 | INS_Crash (e : MachineErrorCode).
 
 (* Machine State. *)
