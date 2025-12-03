@@ -92,6 +92,10 @@ Inductive MachineErrorCode : Type :=
 | MachineErrorTermination
 | MachineErrorTruncation.
 
+(* Machine instructions. *)
+Inductive CMachineInstruction : Type :=
+| INS_Crash (e : MachineErrorCode).
+
 (* Machine State. *)
 Inductive Machine (A : Type) :=
 | MachineError : MachineErrorCode → Machine A
