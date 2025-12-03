@@ -84,6 +84,7 @@ Inductive CStatusCode : Type :=
 (* Possible Error Types in Machine Definition. *)
 Inductive MachineErrorCode : Type :=
 | MachineErrorBadInstruction
+| MachineErrorInvalidParameter
 | MachineErrorUninit
 | MachineErrorLoad
 | MachineErrorStore
