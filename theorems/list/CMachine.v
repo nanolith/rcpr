@@ -757,6 +757,39 @@ Definition evalCheckHeapListPtrAddress (heapAddr : nat) : MachineM unit :=
 Definition evalReturnStatus (code : CStatusCode) : MachineM CStatusCode :=
     ret code.
 
+Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
+    match ins with
+    | INS_IsListPtrPresent localAddr =>
+        evalIsListPtrPresent localAddr
+    | _ => throw MachineErrorBadInstruction
+    end.
+
+Fixpoint evalITEInstructions (ins : IList CMachineInstruction)
+        : MachineM CStatusCode :=
+    match ins with
+    | [] => throw MachineErrorTermination
+    | (INS_ReturnStatus code) :: nil => evalReturnStatus code
+    | x :: xs =>
+        match x with
+        | INS_CreateLocalLinkedListPtr addr =>
+            evalCreateLocalLinkedListPtr addr »
+            evalITEInstructions xs
+        | INS_CreateLinkedList localAddr =>
+            evalCreateLinkedList localAddr »
+            evalITEInstructions xs
+        | INS_IsListPtrPresent _ => throw MachineErrorTermination
+        | INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr =>
+            evalAssignLocalListPtrToHeapListPtr heapAddr localAddr »
+            evalITEInstructions xs
+        | INS_CheckHeapListPtrAddress heapAddr =>
+            evalCheckHeapListPtrAddress heapAddr »
+            evalITEInstructions xs
+        | INS_ReturnStatus _ => throw MachineErrorBadInstruction
+        | INS_Crash e => throw e
+        | _ => throw MachineErrorBadInstruction
+        end
+    end.
+
 Fixpoint evalInstructions (ins : IList CMachineInstruction)
         : MachineM CStatusCode :=
     match ins with
@@ -771,6 +804,13 @@ Fixpoint evalInstructions (ins : IList CMachineInstruction)
             evalCreateLinkedList localAddr »
             evalInstructions xs
         | INS_IsListPtrPresent _ => throw MachineErrorTermination
+        | INS_ITE cond thenIns elseIns =>
+            evalCond cond ▶
+            λ boolExpr ↦
+            if boolExpr then
+                evalITEInstructions thenIns
+            else
+                evalITEInstructions elseIns
         | INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr =>
             evalAssignLocalListPtrToHeapListPtr heapAddr localAddr »
             evalInstructions xs
@@ -779,7 +819,6 @@ Fixpoint evalInstructions (ins : IList CMachineInstruction)
             evalInstructions xs
         | INS_ReturnStatus _ => throw MachineErrorBadInstruction
         | INS_Crash e => throw e
-        | _ => throw MachineErrorBadInstruction
         end
     end.
 
