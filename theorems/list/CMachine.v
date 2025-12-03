@@ -725,6 +725,14 @@ Definition cListCreate (listPtr : nat) : MachineM CStatusCode :=
     | Nothing => ret ErrorOutOfMemory
     end.
 
+Definition evalIsListPtrPresent (localAddr : nat) : MachineM bool :=
+    loadLocalLinkedListPtr localAddr ▶
+    λ mptr ↦
+    match mptr with
+    | Just ptr => ret true
+    | Nothing => ret false
+    end.
+
 Definition evalAssignLocalListPtrToHeapListPtr (heapAddr localAddr : nat)
         : MachineM unit :=
     loadLocalLinkedListPtr localAddr ▶
