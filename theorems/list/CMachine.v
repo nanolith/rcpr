@@ -725,6 +725,11 @@ Definition cListCreate (listPtr : nat) : MachineM CStatusCode :=
     | Nothing => ret ErrorOutOfMemory
     end.
 
+Definition evalAssignLocalListPtrToHeapListPtr (heapAddr localAddr : nat)
+        : MachineM unit :=
+    loadLocalLinkedListPtr localAddr ▶
+    storeLinkedListPtr heapAddr.
+
 Definition evalCheckHeapListPtrAddress (heapAddr : nat) : MachineM unit :=
     loadLinkedListPtr heapAddr »
         ret tt.
