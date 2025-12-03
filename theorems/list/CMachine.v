@@ -94,6 +94,7 @@ Inductive MachineErrorCode : Type :=
 
 (* Machine instructions. *)
 Inductive CMachineInstruction : Type :=
+| INS_CreateLocalLinkedListPtr (addr : nat) (val : Maybe nat)
 | INS_Crash (e : MachineErrorCode).
 
 (* Machine State. *)
