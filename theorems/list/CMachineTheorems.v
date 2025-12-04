@@ -301,6 +301,25 @@ Proof.
     apply bind_failure_MachineM, H.
 Qed.
 
+(* If the cell isn't a LinkedListPtrPtr, then it can't be coerced. *)
+Lemma loadLinkedListPtrPtr_MachineErrorCast :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
+        isCellListPtrPtr cell = false →
+        loadRaw addr n l h = MachineState n l h cell →
+        loadLinkedListPtrPtr addr n l h = MachineError MachineErrorCast.
+Proof.
+    intros n l h addr cell H1 H2.
+    unfold loadLinkedListPtrPtr.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H2.
+    unfold throw.
+    destruct cell.
+    reflexivity.  reflexivity. reflexivity.  reflexivity.  reflexivity.
+    reflexivity.
+    unfold isCellNodePtr in H1.  inversion H1.
+Qed.
+
 (* memReplace on an empty list throws a MachineErrorStore exception. *)
 Lemma memReplace_EmptyValues :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
