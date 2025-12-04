@@ -559,7 +559,6 @@ Definition storeLinkedListPtr (addr : nat) (ptr : Maybe nat) :
                     λ values' ↦
                         putHeapMemory values'.
 
-
 (* Store a linked list node pointer pointer, overwriting an existing pointer. *)
 Definition storeLinkedListNodePtrPtr (addr : nat) (ptr : Maybe nat) :
         MachineM unit :=
@@ -567,6 +566,16 @@ Definition storeLinkedListNodePtrPtr (addr : nat) (ptr : Maybe nat) :
         λ values ↦
             loadLinkedListNodePtrPtr addr »
                 memReplace addr (CMemNodePtrPtr addr ptr) values ▶
+                    λ values' ↦
+                        putHeapMemory values'.
+
+(* Store a linked list pointer pointer, overwriting an existing pointer. *)
+Definition storeLinkedListPtrPtr (addr : nat) (ptr : Maybe nat) :
+        MachineM unit :=
+    getHeapMemory ▶
+        λ values ↦
+            loadLinkedListPtrPtr addr »
+                memReplace addr (CMemListPtrPtr addr ptr) values ▶
                     λ values' ↦
                         putHeapMemory values'.
 
