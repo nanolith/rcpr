@@ -609,6 +609,16 @@ Definition storeLocalLinkedListNodePtrPtr (addr : nat) (ptr : Maybe nat) :
                     λ values' ↦
                         putLocalMemory values'.
 
+(* Store a local linked list ptr ptr, overwriting an existing pointer. *)
+Definition storeLocalLinkedListPtrPtr (addr : nat) (ptr : Maybe nat) :
+        MachineM unit :=
+    getLocalMemory ▶
+        λ values ↦
+            loadLocalLinkedListPtrPtr addr »
+                memReplace addr (CMemListPtrPtr addr ptr) values ▶
+                    λ values' ↦
+                        putLocalMemory values'.
+
 (* Create a value on the heap, returning the new memory location. *)
 Definition heapCreate (newCell : CMemoryLocation) : MachineM nat :=
     getHeap ▶
