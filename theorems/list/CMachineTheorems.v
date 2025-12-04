@@ -16,6 +16,19 @@ Module CMachineTheorems.
 
 Open Scope monad_scope.
 
+(* Helper lemma for nat equality. *)
+Lemma nat_eqb_refl :
+    ∀ (x :  nat),
+        Nat.eqb x x = true.
+Proof.
+    induction x.
+    simpl.
+    reflexivity.
+    simpl.
+    rewrite IHx.
+    reflexivity.
+Qed.
+
 (* If a memory lookup fails, loadRaw throws a MachineErrorLoad exception. *)
 Lemma loadRaw_MachineErrorLoad :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (values : IList CMemoryLocation)
@@ -334,6 +347,24 @@ Proof.
     reflexivity.
 Qed.
 
+(* loadLocalLinkedListPtr reads a pointer value from local scope. *)
+Lemma loadLocalLinkedListPtr_rw :
+    ∀ (n addr : nat) (h : CHeap) (l : CLocal) (val : Maybe nat),
+        l = CLocalState addr [CMemListPtr addr val] →
+        loadLocalLinkedListPtr addr n l h = MachineState n l h val.
+Proof.
+    intros.
+    unfold loadLocalLinkedListPtr.
+    unfold loadLocalRaw.
+    unfold getLocalMemory.
+    unfold getLocal.
+    rewrite H.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite nat_eqb_refl.
+    reflexivity.
+Qed.
+
 (* memReplace on an empty list throws a MachineErrorStore exception. *)
 Lemma memReplace_EmptyValues :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
@@ -342,19 +373,6 @@ Proof.
     intros n l h addr cell.
     simpl.
     unfold throw.
-    reflexivity.
-Qed.
-
-(* Helper lemma for nat equality. *)
-Lemma nat_eqb_refl :
-    ∀ (x :  nat),
-        Nat.eqb x x = true.
-Proof.
-    induction x.
-    simpl.
-    reflexivity.
-    simpl.
-    rewrite IHx.
     reflexivity.
 Qed.
 
@@ -687,24 +705,6 @@ Proof.
     rewrite H0.
     unfold bind, MachineMMonad.
     simpl.
-    reflexivity.
-Qed.
-
-(* loadLocalLinkedListPtr reads a pointer value from local scope. *)
-Lemma loadLocalLinkedListPtr_rw :
-    ∀ (n addr : nat) (h : CHeap) (l : CLocal) (val : Maybe nat),
-        l = CLocalState addr [CMemListPtr addr val] →
-        loadLocalLinkedListPtr addr n l h = MachineState n l h val.
-Proof.
-    intros.
-    unfold loadLocalLinkedListPtr.
-    unfold loadLocalRaw.
-    unfold getLocalMemory.
-    unfold getLocal.
-    rewrite H.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite nat_eqb_refl.
     reflexivity.
 Qed.
 
