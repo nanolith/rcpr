@@ -3,6 +3,7 @@ Require Import RCPR.Data.Maybe.
 Require Import RCPR.Data.Monad.
 Require Import RCPR.Helpers.Notation.
 Require Import RCPR.Theorems.IListTheorems.
+Require Import RCPR.Theorems.NatTheorems.
 Require Import list.CMachine.
 
 Import CMachine.
@@ -10,24 +11,12 @@ Import IList.
 Import IListTheorems.
 Import Maybe.
 Import Monad.
+Import NatTheorems.
 Import Notation.
 
 Module CMachineTheorems.
 
 Open Scope monad_scope.
-
-(* Helper lemma for nat equality. *)
-Lemma nat_eqb_refl :
-    ∀ (x :  nat),
-        Nat.eqb x x = true.
-Proof.
-    induction x.
-    simpl.
-    reflexivity.
-    simpl.
-    rewrite IHx.
-    reflexivity.
-Qed.
 
 (* If a memory lookup fails, loadRaw throws a MachineErrorLoad exception. *)
 Lemma loadRaw_MachineErrorLoad :
