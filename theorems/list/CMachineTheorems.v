@@ -320,6 +320,20 @@ Proof.
     unfold isCellNodePtr in H1.  inversion H1.
 Qed.
 
+(* Happy path: we can load linked list pointer pointers. *)
+Lemma loadLinkedListPtrPtr_rw :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : Maybe nat),
+            loadRaw addr n l h = MachineState n l h (CMemListPtrPtr addr x) →
+            loadLinkedListPtrPtr addr n l h = MachineState n l h x.
+Proof.
+    intros n l h addr x H.
+    unfold loadLinkedListPtrPtr.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H.
+    reflexivity.
+Qed.
+
 (* memReplace on an empty list throws a MachineErrorStore exception. *)
 Lemma memReplace_EmptyValues :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
