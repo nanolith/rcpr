@@ -20,19 +20,6 @@ Module CMachineTheorems.
 
 Open Scope monad_scope.
 
-(* If an upstream MachineM step fails, the whole operation fails. *)
-Lemma bind_alt_failure_MachineM :
-    ∀ {A B} (m : MachineM A) (f : MachineM B) (n : nat) (l : CLocal)
-            (h : CHeap) (e : MachineErrorCode),
-        m n l h = MachineError e →
-        (m » f) n l h = MachineError e.
-Proof.
-    intros A B m f n l h e H.
-    unfold bind, MachineMMonad.
-    rewrite H.
-    reflexivity.
-Qed.
-
 (* Verify that if a location fails to load, it can't be cast to a node. *)
 Lemma loadLinkedListNode_MachineErrorLoad :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
