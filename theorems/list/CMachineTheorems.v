@@ -291,6 +291,16 @@ Proof.
     reflexivity.
 Qed.
 
+(* Verify that if a location fails to load, it can't be a list ptr ptr. *)
+Lemma loadLinkedListPtrPtr_MachineErrorLoad :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
+            loadRaw addr n l h = MachineError MachineErrorLoad →
+            loadLinkedListPtrPtr addr n l h = MachineError MachineErrorLoad.
+Proof.
+    intros n l h addr H.
+    apply bind_failure_MachineM, H.
+Qed.
+
 (* memReplace on an empty list throws a MachineErrorStore exception. *)
 Lemma memReplace_EmptyValues :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
