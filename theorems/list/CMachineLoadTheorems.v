@@ -18,4 +18,21 @@ Module CMachineLoadTheorems.
 
 Open Scope monad_scope.
 
+(* If a memory lookup fails, loadRaw throws a MachineErrorLoad exception. *)
+Lemma loadRaw_MachineErrorLoad :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (values : IList CMemoryLocation)
+      (addr : nat),
+            getHeapMemory n l h = MachineState n l h values →
+            lookupMem addr values = Nothing →
+            loadRaw addr n l h = MachineError MachineErrorLoad.
+Proof.
+    intros n l h values addr H1 H2.
+    unfold loadRaw.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H1.
+    rewrite H2.
+    reflexivity.
+Qed.
+
 End CMachineLoadTheorems.

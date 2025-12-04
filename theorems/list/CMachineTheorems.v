@@ -5,8 +5,10 @@ Require Import RCPR.Helpers.Notation.
 Require Import RCPR.Theorems.IListTheorems.
 Require Import RCPR.Theorems.NatTheorems.
 Require Import list.CMachine.
+Require Import list.CMachineLoadTheorems.
 
 Import CMachine.
+Import CMachineLoadTheorems.
 Import IList.
 Import IListTheorems.
 Import Maybe.
@@ -17,23 +19,6 @@ Import Notation.
 Module CMachineTheorems.
 
 Open Scope monad_scope.
-
-(* If a memory lookup fails, loadRaw throws a MachineErrorLoad exception. *)
-Lemma loadRaw_MachineErrorLoad :
-    ∀ (n : nat) (l : CLocal) (h : CHeap) (values : IList CMemoryLocation)
-      (addr : nat),
-            getHeapMemory n l h = MachineState n l h values →
-            lookupMem addr values = Nothing →
-            loadRaw addr n l h = MachineError MachineErrorLoad.
-Proof.
-    intros n l h values addr H1 H2.
-    unfold loadRaw.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite H1.
-    rewrite H2.
-    reflexivity.
-Qed.
 
 (* If a memory lookup succeeds, loadRaw returns this value. *)
 Lemma loadRaw_rw :
