@@ -102,7 +102,7 @@ Proof.
     destruct cell.
     reflexivity.
     unfold isCellNode in H1.  inversion H1.
-    reflexivity.  reflexivity.  reflexivity.
+    reflexivity.  reflexivity.  reflexivity. reflexivity. reflexivity.
 Qed.
 
 (* Happy path: we can load linked list nodes. *)
@@ -145,7 +145,7 @@ Proof.
     destruct cell.
     reflexivity.  reflexivity.
     unfold isCellList in H1.  inversion H1.
-    reflexivity.  reflexivity.
+    reflexivity.  reflexivity. reflexivity. reflexivity.
 Qed.
 
 (* Happy path: we can load linked lists. *)
@@ -188,7 +188,7 @@ Proof.
     destruct cell.
     reflexivity.  reflexivity. reflexivity.
     unfold isCellNodePtr in H1.  inversion H1.
-    reflexivity.
+    reflexivity. reflexivity. reflexivity.
 Qed.
 
 (* Happy path: we can load linked list node pointers. *)
@@ -231,6 +231,7 @@ Proof.
     destruct cell.
     reflexivity.  reflexivity. reflexivity. reflexivity.
     unfold isCellListPtr in H1.  inversion H1.
+    reflexivity. reflexivity.
 Qed.
 
 (* Happy path: we can load linked list pointers. *)

@@ -30,7 +30,9 @@ Inductive CMemoryLocation : Type :=
 | CMemNode (loc: nat) (node : CLinkedListNode)
 | CMemList (loc: nat) (list : CLinkedList)
 | CMemNodePtr (loc : nat) (ptr : Maybe nat)
-| CMemListPtr (loc : nat) (ptr : Maybe nat).
+| CMemListPtr (loc : nat) (ptr : Maybe nat)
+| CMemNodePtrPtr (loc : nat) (ptr : Maybe nat)
+| CMemListPtrPtr (loc : nat) (ptr : Maybe nat).
 
 (* Is this memory location uninitialized? *)
 Definition isCellUninit (cell : CMemoryLocation) : bool :=
@@ -296,6 +298,8 @@ Definition locAddr (cell : CMemoryLocation) : nat :=
     | CMemList loc _ => loc
     | CMemNodePtr loc _ => loc
     | CMemListPtr loc _ => loc
+    | CMemNodePtrPtr loc _ => loc
+    | CMemListPtrPtr loc _ => loc
     end.
 
 (* Set the address of a location in memory. *)
@@ -306,6 +310,8 @@ Definition locSet (addr : nat) (cell : CMemoryLocation) : CMemoryLocation :=
     | CMemList _ l => CMemList addr l
     | CMemNodePtr _ ptr => CMemNodePtr addr ptr
     | CMemListPtr _ ptr => CMemListPtr addr ptr
+    | CMemNodePtrPtr _ ptr => CMemNodePtr addr ptr
+    | CMemListPtrPtr _ ptr => CMemListPtr addr ptr
     end.
 
 (* Look up an address from memory. *)
