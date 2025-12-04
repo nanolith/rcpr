@@ -20,23 +20,6 @@ Module CMachineTheorems.
 
 Open Scope monad_scope.
 
-(* If a memory lookup succeeds, loadRaw returns this value. *)
-Lemma loadRaw_rw :
-    ∀ (n : nat) (l : CLocal) (h : CHeap) (values : IList CMemoryLocation)
-      (addr : nat) (cell : CMemoryLocation),
-            getHeapMemory n l h = MachineState n l h values →
-            lookupMem addr values = Just cell →
-            loadRaw addr n l h = MachineState n l h cell.
-Proof.
-    intros n l h values addr cell H1 H2.
-    unfold loadRaw.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite H1.
-    rewrite H2.
-    reflexivity.
-Qed.
-
 (* If an upstream MachineM step fails, the whole operation fails. *)
 Lemma bind_failure_MachineM :
     ∀ {A B} (m : MachineM A) (f : A → MachineM B) (n : nat) (l : CLocal)
