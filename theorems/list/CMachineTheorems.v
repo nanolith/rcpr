@@ -277,6 +277,20 @@ Proof.
     reflexivity.
 Qed.
 
+(* Happy path: we can load linked list node pointer pointers. *)
+Lemma loadLinkedListNodePtrPtr_rw :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : Maybe nat),
+            loadRaw addr n l h = MachineState n l h (CMemNodePtrPtr addr x) →
+            loadLinkedListNodePtrPtr addr n l h = MachineState n l h x.
+Proof.
+    intros n l h addr x H.
+    unfold loadLinkedListNodePtrPtr.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H.
+    reflexivity.
+Qed.
+
 (* memReplace on an empty list throws a MachineErrorStore exception. *)
 Lemma memReplace_EmptyValues :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
