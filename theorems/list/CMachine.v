@@ -964,6 +964,8 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
     | INS_CreateLinkedList localAddr next =>
         evalCreateLinkedList localAddr »
         eval next
+    (* This is a conditional instruction for an ITE. *)
+    | INS_IsListPtrPresent localAddr => throw MachineErrorBadInstruction
     | _ => throw MachineErrorBadInstruction
     end.
 
