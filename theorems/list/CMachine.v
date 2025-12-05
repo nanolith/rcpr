@@ -880,7 +880,7 @@ Definition evalReturnStatus (code : CStatusCode) : MachineM CStatusCode :=
     ret code.
 
 (* Evaluate an ITE conditional instruction. *)
-Definition evalCond (ins : CMachineInstruction') : MachineM bool :=
+Definition evalCond' (ins : CMachineInstruction') : MachineM bool :=
     match ins with
     | INS_IsListPtrPresent' localAddr =>
         evalIsListPtrPresent localAddr
@@ -930,7 +930,7 @@ Fixpoint evalInstructions (ins : IList CMachineInstruction')
             evalInstructions xs
         | INS_IsListPtrPresent' _ => throw MachineErrorTermination
         | INS_ITE' cond thenIns elseIns =>
-            evalCond cond ▶
+            evalCond' cond ▶
             λ boolExpr ↦
             if boolExpr then
                 evalITEInstructions thenIns
