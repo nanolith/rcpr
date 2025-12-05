@@ -336,6 +336,17 @@ Proof.
     reflexivity.
 Qed.
 
+(* Verify that if a loc fails to load, it can't be cast to a list node ptr. *)
+Lemma loadLocalLinkedListNodePtr_MachineErrorLoad :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
+            loadLocalRaw addr n l h = MachineError MachineErrorLoad →
+            loadLocalLinkedListNodePtr addr n l h =
+                MachineError MachineErrorLoad.
+Proof.
+    intros n l h addr H.
+    apply bind_failure_MachineM, H.
+Qed.
+
 (* Verify that if a location fails to load, it can't be cast to a list ptr. *)
 Lemma loadLocalLinkedListPtr_MachineErrorLoad :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
