@@ -131,52 +131,57 @@ Inductive CMachineInstruction : Type :=
 
 Declare Custom Entry c_lang.
 
-Notation "{ P }" := (P) (in custom c_lang at level 0, P at level 200).
+Notation "'[[' P ']]'" := (P) (at level 0, P custom c_lang).
 
-Notation "'isListPtrPreset' '(' addr ')'" :=
+Notation "'@isListPtrPreset' '(' addr ')'" :=
     (INS_IsListPtrPresent addr)
     (in custom c_lang at level 0, addr constr).
 
-Notation "'if' '(' cond ')' 'then' '{' t '}' 'else' '{' e '}'" :=
+Notation "'@if' '(' cond ')' '{' t '}' '@else' '{' e '}'" :=
     (INS_ITE cond t e)
-    (in custom c_lang at level 0,
-     cond at level 200, t at level 200, e at level 200).
+    (in custom c_lang at level 2,
+     cond custom c_lang, t custom c_lang, e custom c_lang).
 
-Notation "'return' status ';'" :=
+Notation "'@return' status ';'" :=
     (INS_ReturnStatus status)
-    (in custom c_lang at level 0, status constr).
+    (in custom c_lang at level 1, status constr).
 
-Notation "'throw' err ';'" :=
+Notation "'@throw' err ';'" :=
     (INS_Crash err)
-    (in custom c_lang at level 0, err constr).
+    (in custom c_lang at level 1, err constr).
 
-Notation "'createLocalLinkedListPtr '(' addr ')' ';' next" :=
+Notation "'@createLocalLinkedListPtr' '(' addr ')' ';' next" :=
     (INS_CreateLocalLinkedListPtr addr next)
-    (in custom c_lang at level 1, next at level 200, right associativity).
+    (in custom c_lang at level 3, addr constr, next custom c_lang at level 200).
 
-Notation "'createLocalLinkedListPtrPtr '(' addr ')' ';' next" :=
+Notation "'@createLocalLinkedListPtrPtr' '(' addr ')' ';' next" :=
     (INS_CreateLocalLinkedListPtrPtr addr next)
-    (in custom c_lang at level 1, next at level 200, right associativity).
+    (in custom c_lang at level 3, addr constr, next custom c_lang at level 200).
 
-Notation "'createLinkedList '(' localAddr ')' ';' next" :=
+Notation "'@createLinkedList' '(' localAddr ')' ';' next" :=
     (INS_CreateLinkedList localAddr next)
-    (in custom c_lang at level 1, next at level 200, right associativity).
+    (in custom c_lang at level 3, localAddr constr,
+     next custom c_lang at level 200).
 
-Notation "'assignLocalListPtrToHeapListPtr '(' heapAddr ',' localAddr ')' ';' next" :=
+Notation "'@assignLocalListPtrToHeapListPtr' '(' heapAddr ',' localAddr ')' ';' next" :=
     (INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr next)
-    (in custom c_lang at level 1, next at level 200, right associativity).
+    (in custom c_lang at level 3, heapAddr constr, localAddr constr,
+     next custom c_lang at level 200).
 
-Notation "'assignLocalListPtrPtrToListPtrParameter '(' offset ',' localAddr ')' ';' next" :=
+Notation "'@assignLocalListPtrPtrToListPtrParameter' '(' offset ',' localAddr ')' ';' next" :=
     (INS_AssignLocalListPtrPtrToListPtrParameter offset localAddr next)
-    (in custom c_lang at level 1, next at level 200, right associativity).
+    (in custom c_lang at level 3, offset constr, localAddr constr,
+     next custom c_lang at level 200).
 
-Notation "'assignLocalListHeapPtrToLocalListPtr '(' localHeapAddr ',' localAddr ')' ';' next" :=
+Notation "'@assignLocalListHeapPtrToLocalListPtr' '(' localHeapAddr ',' localAddr ')' ';' next" :=
     (INS_AssignLocalListHeapPtrToLocalListPtr localHeapAddr localAddr next)
-    (in custom c_lang at level 1, next at level 200, right associativity).
+    (in custom c_lang at level 3, localHeapAddr constr, localAddr constr,
+     next custom c_lang at level 200).
 
-Notation "'checkHeapListPtrAddress '(' heapAddr ')' ';' next" :=
+Notation "'@checkHeapListPtrAddress' '(' heapAddr ')' ';' next" :=
     (INS_CheckHeapListPtrAddress heapAddr next)
-    (in custom c_lang at level 1, next at level 200, right associativity).
+    (in custom c_lang at level 3, heapAddr constr,
+     next custom c_lang at level 200).
 
 (* Machine State. *)
 Inductive Machine (A : Type) :=
@@ -993,5 +998,19 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
     | INS_ReturnStatus code => ret code
     | INS_Crash e => throw e
     end.
+
+Definition insListCreate : CMachineInstruction :=
+    [[
+        @createLocalLinkedListPtrPtr(1);
+        @createLocalLinkedListPtr(2);
+        @assignLocalListPtrPtrToListPtrParameter(1,1);
+        @createLinkedList(2);
+        @if (@isListPtrPreset(2)) {
+            @assignLocalListHeapPtrToLocalListPtr(1,2);
+            @return StatusSuccess;
+        } @else {
+            @return ErrorOutOfMemory;
+        }
+    ]].
 
 End CMachine.
