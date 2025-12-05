@@ -111,7 +111,7 @@ Inductive MachineErrorCode : Type :=
 | MachineErrorTruncation.
 
 (* Machine instructions. *)
-Inductive CMachineInstruction : Type :=
+Inductive CMachineInstruction' : Type :=
 (* Create a local variable for holding a linked list pointer. *)
 | INS_CreateLocalLinkedListPtr (addr : nat)
 (* Create a linked list on the heap, storing the result in the given local
@@ -119,8 +119,8 @@ Inductive CMachineInstruction : Type :=
 | INS_CreateLinkedList (localAddr : nat)
 (* Check to see if a given value is present. *)
 | INS_IsListPtrPresent (localAddr : nat)
-| INS_ITE (cond : CMachineInstruction) (thenIns : IList CMachineInstruction)
-          (elseIns : IList CMachineInstruction)
+| INS_ITE (cond : CMachineInstruction') (thenIns : IList CMachineInstruction')
+          (elseIns : IList CMachineInstruction')
 | INS_AssignLocalListPtrToHeapListPtr (heapAddr : nat) (localAddr : nat)
 | INS_CheckHeapListPtrAddress (hapAddr : nat)
 | INS_ReturnStatus (code : CStatusCode)
@@ -866,7 +866,7 @@ Definition evalReturnStatus (code : CStatusCode) : MachineM CStatusCode :=
     ret code.
 
 (* Evaluate an ITE conditional instruction. *)
-Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
+Definition evalCond (ins : CMachineInstruction') : MachineM bool :=
     match ins with
     | INS_IsListPtrPresent localAddr =>
         evalIsListPtrPresent localAddr
@@ -874,7 +874,7 @@ Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
     end.
 
 (* Evaluate instructions in the then or else branch of an ITE. *)
-Fixpoint evalITEInstructions (ins : IList CMachineInstruction)
+Fixpoint evalITEInstructions (ins : IList CMachineInstruction')
         : MachineM CStatusCode :=
     match ins with
     | [] => throw MachineErrorTermination
@@ -901,7 +901,7 @@ Fixpoint evalITEInstructions (ins : IList CMachineInstruction)
     end.
 
 (* Evaluate function instructions. *)
-Fixpoint evalInstructions (ins : IList CMachineInstruction)
+Fixpoint evalInstructions (ins : IList CMachineInstruction')
         : MachineM CStatusCode :=
     match ins with
     | [] => throw MachineErrorTermination
