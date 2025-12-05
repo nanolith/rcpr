@@ -973,6 +973,9 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
             eval thenHead
         else
             eval elseHead
+    | INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr next =>
+        evalAssignLocalListPtrToHeapListPtr heapAddr localAddr »
+        eval next
     | _ => throw MachineErrorBadInstruction
     end.
 
