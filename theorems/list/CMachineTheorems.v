@@ -20,20 +20,6 @@ Module CMachineTheorems.
 
 Open Scope monad_scope.
 
-(* Happy path: we can load linked list nodes. *)
-Lemma loadLinkedListNode_rw :
-    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : CLinkedListNode),
-            loadRaw addr n l h = MachineState n l h (CMemNode addr x) →
-            loadLinkedListNode addr n l h = MachineState n l h x.
-Proof.
-    intros n l h addr x H.
-    unfold loadLinkedListNode.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite H.
-    reflexivity.
-Qed.
-
 (* Verify that if a location fails to load, it can't be cast to a list. *)
 Lemma loadLinkedList_MachineErrorLoad :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
