@@ -20,16 +20,6 @@ Module CMachineTheorems.
 
 Open Scope monad_scope.
 
-(* Verify that if a location fails to load, it can't be a node ptr ptr. *)
-Lemma loadLinkedListNodePtrPtr_MachineErrorLoad :
-    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
-            loadRaw addr n l h = MachineError MachineErrorLoad →
-            loadLinkedListNodePtrPtr addr n l h = MachineError MachineErrorLoad.
-Proof.
-    intros n l h addr H.
-    apply bind_failure_MachineM, H.
-Qed.
-
 (* If the cell isn't a LinkedListNodePtrPtr, then it can't be coerced. *)
 Lemma loadLinkedListNodePtrPtr_MachineErrorCast :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
