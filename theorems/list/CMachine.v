@@ -112,6 +112,7 @@ Inductive MachineErrorCode : Type :=
 
 (* Machine instructions. *)
 Inductive CMachineInstruction : Type :=
+| INS_CheckHeapListPtrAddress (heapAddr : nat) (next : CMachineInstruction)
 | INS_ReturnStatus (code : CStatusCode)
 | INS_Crash (e : MachineErrorCode).
 
