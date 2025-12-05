@@ -473,4 +473,15 @@ Proof.
     reflexivity.
 Qed.
 
+(* Verify that if a loc fails to load, it can't be cast to a list ptr ptr. *)
+Lemma loadLocalLinkedListPtrPtr_MachineErrorLoad :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
+            loadLocalRaw addr n l h = MachineError MachineErrorLoad →
+            loadLocalLinkedListPtrPtr addr n l h =
+                MachineError MachineErrorLoad.
+Proof.
+    intros n l h addr H.
+    apply bind_failure_MachineM, H.
+Qed.
+
 End CMachineLoadTheorems.
