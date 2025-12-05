@@ -20,20 +20,6 @@ Module CMachineTheorems.
 
 Open Scope monad_scope.
 
-(* Happy path: we can load linked list pointer pointers. *)
-Lemma loadLinkedListPtrPtr_rw :
-    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : Maybe nat),
-            loadRaw addr n l h = MachineState n l h (CMemListPtrPtr addr x) →
-            loadLinkedListPtrPtr addr n l h = MachineState n l h x.
-Proof.
-    intros n l h addr x H.
-    unfold loadLinkedListPtrPtr.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite H.
-    reflexivity.
-Qed.
-
 (* loadLocalLinkedListPtr reads a pointer value from local scope. *)
 Lemma loadLocalLinkedListPtr_rw :
     ∀ (n addr : nat) (h : CHeap) (l : CLocal) (val : Maybe nat),
