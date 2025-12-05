@@ -979,6 +979,7 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
     | INS_CheckHeapListPtrAddress heapAddr next =>
         evalCheckHeapListPtrAddress heapAddr »
         eval next
+    | INS_ReturnStatus code => ret code
     | _ => throw MachineErrorBadInstruction
     end.
 
