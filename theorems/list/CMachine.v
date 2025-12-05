@@ -112,6 +112,7 @@ Inductive MachineErrorCode : Type :=
 
 (* Machine instructions. *)
 Inductive CMachineInstruction : Type :=
+| INS_ReturnStatus (code : CStatusCode)
 | INS_Crash (e : MachineErrorCode).
 
 (* Machine instructions. *)
