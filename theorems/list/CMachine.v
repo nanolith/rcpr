@@ -113,6 +113,7 @@ Inductive MachineErrorCode : Type :=
 (* Machine instructions. *)
 Inductive CMachineInstruction : Type :=
 | INS_CreateLocalLinkedListPtr (addr : nat) (next : CMachineInstruction)
+| INS_CreateLocalLinkedListPtrPtr (addr : nat) (next : CMachineInstruction)
 | INS_CreateLinkedList (localAddr : nat) (next : CMachineInstruction)
 | INS_IsListPtrPresent (localAddr : nat)
 | INS_ITE
@@ -926,6 +927,9 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
     match ins with
     | INS_CreateLocalLinkedListPtr addr next =>
         evalCreateLocalLinkedListPtr addr »
+        eval next
+    | INS_CreateLocalLinkedListPtrPtr addr next =>
+        evalCreateLocalLinkedListPtrPtr addr »
         eval next
     | INS_CreateLinkedList localAddr next =>
         evalCreateLinkedList localAddr »
