@@ -966,6 +966,13 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
         eval next
     (* This is a conditional instruction for an ITE. *)
     | INS_IsListPtrPresent localAddr => throw MachineErrorBadInstruction
+    | INS_ITE cond thenHead elseHead =>
+        evalCond cond ▶
+        λ boolExpr ↦
+        if boolExpr then
+            eval thenHead
+        else
+            eval elseHead
     | _ => throw MachineErrorBadInstruction
     end.
 
