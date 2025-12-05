@@ -336,6 +336,16 @@ Proof.
     reflexivity.
 Qed.
 
+(* Verify that if a location fails to load, it can't be cast to a list ptr. *)
+Lemma loadLocalLinkedListPtr_MachineErrorLoad :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
+            loadLocalRaw addr n l h = MachineError MachineErrorLoad →
+            loadLocalLinkedListPtr addr n l h = MachineError MachineErrorLoad.
+Proof.
+    intros n l h addr H.
+    apply bind_failure_MachineM, H.
+Qed.
+
 (* loadLocalLinkedListPtr reads a pointer value from local scope. *)
 Lemma loadLocalLinkedListPtr_rw :
     ∀ (n addr : nat) (h : CHeap) (l : CLocal) (val : Maybe nat),
