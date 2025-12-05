@@ -111,6 +111,10 @@ Inductive MachineErrorCode : Type :=
 | MachineErrorTruncation.
 
 (* Machine instructions. *)
+Inductive CMachineInstruction : Type :=
+| INS_Crash (e : MachineErrorCode).
+
+(* Machine instructions. *)
 Inductive CMachineInstruction' : Type :=
 (* Create a local variable for holding a linked list pointer. *)
 | INS_CreateLocalLinkedListPtr' (addr : nat)
