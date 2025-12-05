@@ -112,6 +112,7 @@ Inductive MachineErrorCode : Type :=
 
 (* Machine instructions. *)
 Inductive CMachineInstruction : Type :=
+| INS_IsListPtrPresent (localAddr : nat) (next : CMachineInstruction)
 | INS_ITE
     (cond : CMachineInstruction) (thenHead : CMachineInstruction)
     (elseHead : CMachineInstruction)
