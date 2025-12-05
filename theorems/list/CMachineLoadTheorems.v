@@ -347,6 +347,26 @@ Proof.
     apply bind_failure_MachineM, H.
 Qed.
 
+(* If the cell isn't a LinkedListNodePtr, then it can't be coerced. *)
+Lemma loadLocalLinkedListNodePtr_MachineErrorCast :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
+        isCellNodePtr cell = false →
+        loadLocalRaw addr n l h = MachineState n l h cell →
+        loadLocalLinkedListNodePtr addr n l h = MachineError MachineErrorCast.
+Proof.
+    intros n l h addr cell H1 H2.
+    unfold loadLocalLinkedListNodePtr.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H2.
+    unfold throw.
+    destruct cell.
+    reflexivity.  reflexivity. reflexivity.
+    unfold isCellNodePtr in H1.  inversion H1.
+    reflexivity. reflexivity. reflexivity.
+Qed.
+
+
 (* Verify that if a location fails to load, it can't be cast to a list ptr. *)
 Lemma loadLocalLinkedListPtr_MachineErrorLoad :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
