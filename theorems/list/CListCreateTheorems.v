@@ -3,15 +3,19 @@ Require Import RCPR.Data.Maybe.
 Require Import RCPR.Data.Monad.
 Require Import RCPR.Helpers.Notation.
 Require Import RCPR.Theorems.IListTheorems.
+Require Import RCPR.Theorems.NatTheorems.
 Require Import list.CMachine.
 Require Import list.CMachineTheorems.
+Require Import list.CMachineLoadTheorems.
 
 Import CMachine.
 Import CMachineTheorems.
+Import CMachineLoadTheorems.
 Import IList.
 Import IListTheorems.
 Import Maybe.
 Import Monad.
+Import NatTheorems.
 Import Notation.
 
 Module CListCreateTheorems.
