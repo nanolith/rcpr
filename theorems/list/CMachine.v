@@ -961,6 +961,9 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
     | INS_CreateLocalLinkedListPtr addr next =>
         evalCreateLocalLinkedListPtr addr »
         eval next
+    | INS_CreateLinkedList localAddr next =>
+        evalCreateLinkedList localAddr »
+        eval next
     | _ => throw MachineErrorBadInstruction
     end.
 
