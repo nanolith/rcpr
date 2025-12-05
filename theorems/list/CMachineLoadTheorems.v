@@ -346,6 +346,25 @@ Proof.
     apply bind_failure_MachineM, H.
 Qed.
 
+(* If the cell isn't a LinkedListPtr, then it can't be coerced. *)
+Lemma loadLocalLinkedListPtr_MachineErrorCast :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
+        isCellListPtr cell = false →
+        loadLocalRaw addr n l h = MachineState n l h cell →
+        loadLocalLinkedListPtr addr n l h = MachineError MachineErrorCast.
+Proof.
+    intros n l h addr cell H1 H2.
+    unfold loadLocalLinkedListPtr.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H2.
+    unfold throw.
+    destruct cell.
+    reflexivity.  reflexivity. reflexivity. reflexivity.
+    unfold isCellListPtr in H1.  inversion H1.
+    reflexivity. reflexivity.
+Qed.
+
 (* loadLocalLinkedListPtr reads a pointer value from local scope. *)
 Lemma loadLocalLinkedListPtr_rw :
     ∀ (n addr : nat) (h : CHeap) (l : CLocal) (val : Maybe nat),
