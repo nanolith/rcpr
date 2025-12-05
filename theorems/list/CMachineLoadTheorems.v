@@ -336,4 +336,22 @@ Proof.
     reflexivity.
 Qed.
 
+(* loadLocalLinkedListPtr reads a pointer value from local scope. *)
+Lemma loadLocalLinkedListPtr_rw :
+    ∀ (n addr : nat) (h : CHeap) (l : CLocal) (val : Maybe nat),
+        l = CLocalState addr [CMemListPtr addr val] →
+        loadLocalLinkedListPtr addr n l h = MachineState n l h val.
+Proof.
+    intros.
+    unfold loadLocalLinkedListPtr.
+    unfold loadLocalRaw.
+    unfold getLocalMemory.
+    unfold getLocal.
+    rewrite H.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite nat_eqb_refl.
+    reflexivity.
+Qed.
+
 End CMachineLoadTheorems.

@@ -20,24 +20,6 @@ Module CMachineTheorems.
 
 Open Scope monad_scope.
 
-(* loadLocalLinkedListPtr reads a pointer value from local scope. *)
-Lemma loadLocalLinkedListPtr_rw :
-    ∀ (n addr : nat) (h : CHeap) (l : CLocal) (val : Maybe nat),
-        l = CLocalState addr [CMemListPtr addr val] →
-        loadLocalLinkedListPtr addr n l h = MachineState n l h val.
-Proof.
-    intros.
-    unfold loadLocalLinkedListPtr.
-    unfold loadLocalRaw.
-    unfold getLocalMemory.
-    unfold getLocal.
-    rewrite H.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite nat_eqb_refl.
-    reflexivity.
-Qed.
-
 (* memReplace on an empty list throws a MachineErrorStore exception. *)
 Lemma memReplace_EmptyValues :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
