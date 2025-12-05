@@ -955,4 +955,10 @@ Fixpoint evalInstructions' (ins : IList CMachineInstruction')
         end
     end.
 
+(* Evaluate function instructions. *)
+Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
+    match ins with
+    | _ => throw MachineErrorBadInstruction
+    end.
+
 End CMachine.
