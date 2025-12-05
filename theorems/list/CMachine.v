@@ -166,6 +166,10 @@ Notation "'assignLocalListPtrToHeapListPtr '(' heapAddr ',' localAddr ')' ';' ne
     (INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr next)
     (in custom c_lang at level 1, next at level 200, right associativity).
 
+Notation "'assignLocalListPtrPtrToListPtrParameter '(' offset ',' localAddr ')' ';' next" :=
+    (INS_AssignLocalListPtrPtrToListPtrParameter offset localAddr next)
+    (in custom c_lang at level 1, next at level 200, right associativity).
+
 Notation "'checkHeapListPtrAddress '(' heapAddr ')' ';' next" :=
     (INS_CheckHeapListPtrAddress heapAddr next)
     (in custom c_lang at level 1, next at level 200, right associativity).
