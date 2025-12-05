@@ -121,6 +121,8 @@ Inductive CMachineInstruction : Type :=
     (elseHead : CMachineInstruction)
 | INS_AssignLocalListPtrToHeapListPtr
     (heapAddr : nat) (localAddr : nat) (next : CMachineInstruction)
+| INS_AssignLocalListPtrPtrToListPtrParameter
+    (offset : nat) (localAddr : nat) (next : CMachineInstruction)
 | INS_CheckHeapListPtrAddress (heapAddr : nat) (next : CMachineInstruction)
 | INS_ReturnStatus (code : CStatusCode)
 | INS_Crash (e : MachineErrorCode).
@@ -872,7 +874,7 @@ Definition getLinkedListPtrParameter (offset : nat) : MachineM (Maybe nat) :=
     throw MachineErrorInvalidParameter.
 
 (* Evaluate an assign list pointer parameter to local list ptr ptr. *)
-Definition evalAssignListPtrParameterToLocalListPtrPtr
+Definition evalAssignLocalListPtrPtrToListPtrParameter
         (offset : nat) (localAddr : nat) : MachineM unit :=
     getLinkedListPtrParameter offset ▶
     storeLocalLinkedListPtrPtr localAddr.
@@ -955,6 +957,9 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
             eval elseHead
     | INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr next =>
         evalAssignLocalListPtrToHeapListPtr heapAddr localAddr »
+        eval next
+    | INS_AssignLocalListPtrPtrToListPtrParameter heapAddr localAddr next =>
+        evalAssignLocalListPtrPtrToListPtrParameter heapAddr localAddr »
         eval next
     | INS_CheckHeapListPtrAddress heapAddr next =>
         evalCheckHeapListPtrAddress heapAddr »
