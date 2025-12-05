@@ -879,6 +879,19 @@ Definition evalAssignLocalListPtrPtrToListPtrParameter
     getLinkedListPtrParameter offset ▶
     storeLocalLinkedListPtrPtr localAddr.
 
+(* Evaluate an assign local list heap pointer to local list ptr. *)
+Definition evalAssignLocalListHeapPointerToLocalListPtr
+        (localHeapAddr localAddr : nat) : MachineM unit :=
+    loadLinkedListPtrPtr localHeapAddr ▶
+    λ mptr ↦
+    match mptr with
+    | Just ptr =>
+        loadLocalLinkedListPtr localAddr ▶
+        storeLinkedListPtr ptr
+    | Nothing =>
+        throw MachineErrorDereference
+    end.
+
 (* Evaluate a create local linked list ptr instruction. *)
 Definition evalCreateLocalLinkedListPtr (addr : nat) : MachineM unit :=
     createLocalLinkedListPtr Nothing ▶
