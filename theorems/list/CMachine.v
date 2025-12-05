@@ -112,6 +112,9 @@ Inductive MachineErrorCode : Type :=
 
 (* Machine instructions. *)
 Inductive CMachineInstruction : Type :=
+| INS_ITE
+    (cond : CMachineInstruction) (thenHead : CMachineInstruction)
+    (elseHead : CMachineInstruction)
 | INS_AssignLocalListPtrToHeapListPtr
     (heapAddr : nat) (localAddr : nat) (next : CMachineInstruction)
 | INS_CheckHeapListPtrAddress (heapAddr : nat) (next : CMachineInstruction)
