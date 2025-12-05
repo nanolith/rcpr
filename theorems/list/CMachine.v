@@ -958,6 +958,9 @@ Fixpoint evalInstructions' (ins : IList CMachineInstruction')
 (* Evaluate function instructions. *)
 Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
     match ins with
+    | INS_CreateLocalLinkedListPtr addr next =>
+        evalCreateLocalLinkedListPtr addr »
+        eval next
     | _ => throw MachineErrorBadInstruction
     end.
 
