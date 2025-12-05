@@ -458,4 +458,19 @@ Proof.
     reflexivity.
 Qed.
 
+(* Happy path: we can load linked list node pointers. *)
+Lemma loadLocalLinkedListNodePtrPtr_rw :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : Maybe nat),
+            loadLocalRaw addr n l h =
+                MachineState n l h (CMemNodePtrPtr addr x) →
+            loadLocalLinkedListNodePtrPtr addr n l h = MachineState n l h x.
+Proof.
+    intros n l h addr x H.
+    unfold loadLocalLinkedListNodePtrPtr.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H.
+    reflexivity.
+Qed.
+
 End CMachineLoadTheorems.
