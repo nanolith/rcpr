@@ -114,7 +114,7 @@ Inductive MachineErrorCode : Type :=
 Inductive CMachineInstruction : Type :=
 | INS_CreateLocalLinkedListPtr (addr : nat) (next : CMachineInstruction)
 | INS_CreateLinkedList (localAddr : nat) (next : CMachineInstruction)
-| INS_IsListPtrPresent (localAddr : nat) (next : CMachineInstruction)
+| INS_IsListPtrPresent (localAddr : nat)
 | INS_ITE
     (cond : CMachineInstruction) (thenHead : CMachineInstruction)
     (elseHead : CMachineInstruction)
@@ -878,6 +878,14 @@ Definition evalCheckHeapListPtrAddress (heapAddr : nat) : MachineM unit :=
 (* Evaluate a return instruction. *)
 Definition evalReturnStatus (code : CStatusCode) : MachineM CStatusCode :=
     ret code.
+
+(* Evaluate an ITE conditional instruction. *)
+Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
+    match ins with
+    | INS_IsListPtrPresent localAddr =>
+        evalIsListPtrPresent localAddr
+    | _ => throw MachineErrorBadInstruction
+    end.
 
 (* Evaluate an ITE conditional instruction. *)
 Definition evalCond' (ins : CMachineInstruction') : MachineM bool :=
