@@ -36,7 +36,7 @@ Proof.
     intros.
     unfold cListCreate.
     unfold bind, MachineMMonad.
-    rewrite (@createLocalLinkedListPtr_rw n index h ol nl Nothing);
+    rewrite (createLocalLinkedListPtr_rw n index h ol nl Nothing);
         try assumption.
     simpl.
     rewrite H1.
@@ -68,9 +68,9 @@ Proof.
     intros.
     unfold cListCreate.
     unfold bind, MachineMMonad.
-    rewrite (@createLocalLinkedListPtr_rw n index oh ol nl1 Nothing);
+    rewrite (createLocalLinkedListPtr_rw n index oh ol nl1 Nothing);
         try assumption.
-    rewrite (@loadLinkedListPtr_rw n nl1 oh listPtr Nothing); try assumption.
+    rewrite (loadLinkedListPtr_rw n nl1 oh listPtr Nothing); try assumption.
     (* TODO: write lemma for loadRaw. *)
     2: {
         unfold loadRaw.
@@ -84,7 +84,7 @@ Proof.
         reflexivity.
     }
     simpl.
-    rewrite (@maybeCreateLinkedList_rw n addr oh nh1 nl1 Nothing ovals);
+    rewrite (maybeCreateLinkedList_rw n addr oh nh1 nl1 Nothing ovals);
         try assumption.
     2: {
         rewrite H5.
@@ -92,12 +92,12 @@ Proof.
         rewrite <- H6.
         assumption.
     }
-    rewrite (@storeLocalLinkedListPtr_rw
+    rewrite (storeLocalLinkedListPtr_rw
                 n (index + 1) nh1 nl1 nl2 Nothing (Just (addr + 1)));
         try assumption.
-    rewrite(@loadLocalLinkedListPtr_rw n (index + 1) nh1 nl2 (Just (addr + 1)));
+    rewrite(loadLocalLinkedListPtr_rw n (index + 1) nh1 nl2 (Just (addr + 1)));
         try assumption.
-    rewrite (@storeLinkedListPtr_simpl n (addr + 1) listPtr nl2 nh1 nh2
+    rewrite (storeLinkedListPtr_simpl n (addr + 1) listPtr nl2 nh1 nh2
                 Nothing (Just (addr + 1))
                 (CMemList (addr + 1) (List Nothing Nothing 0)) nvals1 nvals2);
         try assumption.
