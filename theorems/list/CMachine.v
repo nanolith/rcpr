@@ -113,18 +113,18 @@ Inductive MachineErrorCode : Type :=
 (* Machine instructions. *)
 Inductive CMachineInstruction' : Type :=
 (* Create a local variable for holding a linked list pointer. *)
-| INS_CreateLocalLinkedListPtr (addr : nat)
+| INS_CreateLocalLinkedListPtr' (addr : nat)
 (* Create a linked list on the heap, storing the result in the given local
    pointer. *)
-| INS_CreateLinkedList (localAddr : nat)
+| INS_CreateLinkedList' (localAddr : nat)
 (* Check to see if a given value is present. *)
-| INS_IsListPtrPresent (localAddr : nat)
-| INS_ITE (cond : CMachineInstruction') (thenIns : IList CMachineInstruction')
+| INS_IsListPtrPresent' (localAddr : nat)
+| INS_ITE' (cond : CMachineInstruction') (thenIns : IList CMachineInstruction')
           (elseIns : IList CMachineInstruction')
-| INS_AssignLocalListPtrToHeapListPtr (heapAddr : nat) (localAddr : nat)
-| INS_CheckHeapListPtrAddress (hapAddr : nat)
-| INS_ReturnStatus (code : CStatusCode)
-| INS_Crash (e : MachineErrorCode).
+| INS_AssignLocalListPtrToHeapListPtr' (heapAddr : nat) (localAddr : nat)
+| INS_CheckHeapListPtrAddress' (hapAddr : nat)
+| INS_ReturnStatus' (code : CStatusCode)
+| INS_Crash' (e : MachineErrorCode).
 
 (* Machine State. *)
 Inductive Machine (A : Type) :=
@@ -868,7 +868,7 @@ Definition evalReturnStatus (code : CStatusCode) : MachineM CStatusCode :=
 (* Evaluate an ITE conditional instruction. *)
 Definition evalCond (ins : CMachineInstruction') : MachineM bool :=
     match ins with
-    | INS_IsListPtrPresent localAddr =>
+    | INS_IsListPtrPresent' localAddr =>
         evalIsListPtrPresent localAddr
     | _ => throw MachineErrorBadInstruction
     end.
@@ -878,24 +878,24 @@ Fixpoint evalITEInstructions (ins : IList CMachineInstruction')
         : MachineM CStatusCode :=
     match ins with
     | [] => throw MachineErrorTermination
-    | (INS_ReturnStatus code) :: nil => evalReturnStatus code
+    | (INS_ReturnStatus' code) :: nil => evalReturnStatus code
     | x :: xs =>
         match x with
-        | INS_CreateLocalLinkedListPtr addr =>
+        | INS_CreateLocalLinkedListPtr' addr =>
             evalCreateLocalLinkedListPtr addr »
             evalITEInstructions xs
-        | INS_CreateLinkedList localAddr =>
+        | INS_CreateLinkedList' localAddr =>
             evalCreateLinkedList localAddr »
             evalITEInstructions xs
-        | INS_IsListPtrPresent _ => throw MachineErrorTermination
-        | INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr =>
+        | INS_IsListPtrPresent' _ => throw MachineErrorTermination
+        | INS_AssignLocalListPtrToHeapListPtr' heapAddr localAddr =>
             evalAssignLocalListPtrToHeapListPtr heapAddr localAddr »
             evalITEInstructions xs
-        | INS_CheckHeapListPtrAddress heapAddr =>
+        | INS_CheckHeapListPtrAddress' heapAddr =>
             evalCheckHeapListPtrAddress heapAddr »
             evalITEInstructions xs
-        | INS_ReturnStatus _ => throw MachineErrorBadInstruction
-        | INS_Crash e => throw e
+        | INS_ReturnStatus' _ => throw MachineErrorBadInstruction
+        | INS_Crash' e => throw e
         | _ => throw MachineErrorBadInstruction
         end
     end.
@@ -905,31 +905,31 @@ Fixpoint evalInstructions (ins : IList CMachineInstruction')
         : MachineM CStatusCode :=
     match ins with
     | [] => throw MachineErrorTermination
-    | (INS_ReturnStatus code) :: nil => evalReturnStatus code
+    | (INS_ReturnStatus' code) :: nil => evalReturnStatus code
     | x :: xs =>
         match x with
-        | INS_CreateLocalLinkedListPtr addr =>
+        | INS_CreateLocalLinkedListPtr' addr =>
             evalCreateLocalLinkedListPtr addr »
             evalInstructions xs
-        | INS_CreateLinkedList localAddr =>
+        | INS_CreateLinkedList' localAddr =>
             evalCreateLinkedList localAddr »
             evalInstructions xs
-        | INS_IsListPtrPresent _ => throw MachineErrorTermination
-        | INS_ITE cond thenIns elseIns =>
+        | INS_IsListPtrPresent' _ => throw MachineErrorTermination
+        | INS_ITE' cond thenIns elseIns =>
             evalCond cond ▶
             λ boolExpr ↦
             if boolExpr then
                 evalITEInstructions thenIns
             else
                 evalITEInstructions elseIns
-        | INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr =>
+        | INS_AssignLocalListPtrToHeapListPtr' heapAddr localAddr =>
             evalAssignLocalListPtrToHeapListPtr heapAddr localAddr »
             evalInstructions xs
-        | INS_CheckHeapListPtrAddress heapAddr =>
+        | INS_CheckHeapListPtrAddress' heapAddr =>
             evalCheckHeapListPtrAddress heapAddr »
             evalInstructions xs
-        | INS_ReturnStatus _ => throw MachineErrorBadInstruction
-        | INS_Crash e => throw e
+        | INS_ReturnStatus' _ => throw MachineErrorBadInstruction
+        | INS_Crash' e => throw e
         end
     end.
 
