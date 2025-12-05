@@ -366,6 +366,19 @@ Proof.
     reflexivity. reflexivity. reflexivity.
 Qed.
 
+(* Happy path: we can load linked list node pointers. *)
+Lemma loadLocalLinkedListNodePtr_rw :
+    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : Maybe nat),
+            loadLocalRaw addr n l h = MachineState n l h (CMemNodePtr addr x) →
+            loadLocalLinkedListNodePtr addr n l h = MachineState n l h x.
+Proof.
+    intros n l h addr x H.
+    unfold loadLocalLinkedListNodePtr.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite H.
+    reflexivity.
+Qed.
 
 (* Verify that if a location fails to load, it can't be cast to a list ptr. *)
 Lemma loadLocalLinkedListPtr_MachineErrorLoad :
