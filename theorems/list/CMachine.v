@@ -124,6 +124,43 @@ Inductive CMachineInstruction : Type :=
 | INS_ReturnStatus (code : CStatusCode)
 | INS_Crash (e : MachineErrorCode).
 
+Declare Custom Entry c_lang.
+
+Notation "{ P }" := (P) (in custom c_lang at level 0, P at level 200).
+
+Notation "'isListPtrPreset' '(' addr ')'" :=
+    (INS_IsListPtrPresent addr)
+    (in custom c_lang at level 0, addr constr).
+
+Notation "'if' '(' cond ')' 'then' '{' t '}' 'else' '{' e '}'" :=
+    (INS_ITE cond t e)
+    (in custom c_lang at level 0,
+     cond at level 200, t at level 200, e at level 200).
+
+Notation "'return' status ';'" :=
+    (INS_ReturnStatus status)
+    (in custom c_lang at level 0, status constr).
+
+Notation "'throw' err ';'" :=
+    (INS_Crash err)
+    (in custom c_lang at level 0, err constr).
+
+Notation "'createLocalLinkedListPtr '(' addr ')' ';' next" :=
+    (INS_CreateLocalLinkedListPtr addr next)
+    (in custom c_lang at level 1, next at level 200, right associativity).
+
+Notation "'createLinkedList '(' localAddr ')' ';' next" :=
+    (INS_CreateLinkedList localAddr next)
+    (in custom c_lang at level 1, next at level 200, right associativity).
+
+Notation "'assignLocalListPtrToHeapListPtr '(' heapAddr ',' localAddr ')' ';' next" :=
+    (INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr next)
+    (in custom c_lang at level 1, next at level 200, right associativity).
+
+Notation "'checkHeapListPtrAddress '(' heapAddr ')' ';' next" :=
+    (INS_CheckHeapListPtrAddress heapAddr next)
+    (in custom c_lang at level 1, next at level 200, right associativity).
+
 (* Machine State. *)
 Inductive Machine (A : Type) :=
 | MachineError : MachineErrorCode → Machine A
