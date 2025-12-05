@@ -923,7 +923,7 @@ Fixpoint evalITEInstructions (ins : IList CMachineInstruction')
     end.
 
 (* Evaluate function instructions. *)
-Fixpoint evalInstructions (ins : IList CMachineInstruction')
+Fixpoint evalInstructions' (ins : IList CMachineInstruction')
         : MachineM CStatusCode :=
     match ins with
     | [] => throw MachineErrorTermination
@@ -932,10 +932,10 @@ Fixpoint evalInstructions (ins : IList CMachineInstruction')
         match x with
         | INS_CreateLocalLinkedListPtr' addr =>
             evalCreateLocalLinkedListPtr addr »
-            evalInstructions xs
+            evalInstructions' xs
         | INS_CreateLinkedList' localAddr =>
             evalCreateLinkedList localAddr »
-            evalInstructions xs
+            evalInstructions' xs
         | INS_IsListPtrPresent' _ => throw MachineErrorTermination
         | INS_ITE' cond thenIns elseIns =>
             evalCond' cond ▶
@@ -946,10 +946,10 @@ Fixpoint evalInstructions (ins : IList CMachineInstruction')
                 evalITEInstructions elseIns
         | INS_AssignLocalListPtrToHeapListPtr' heapAddr localAddr =>
             evalAssignLocalListPtrToHeapListPtr heapAddr localAddr »
-            evalInstructions xs
+            evalInstructions' xs
         | INS_CheckHeapListPtrAddress' heapAddr =>
             evalCheckHeapListPtrAddress heapAddr »
-            evalInstructions xs
+            evalInstructions' xs
         | INS_ReturnStatus' _ => throw MachineErrorBadInstruction
         | INS_Crash' e => throw e
         end
