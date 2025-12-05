@@ -503,4 +503,22 @@ Proof.
     unfold isCellListPtr in H1.  inversion H1.
 Qed.
 
+(* loadLocalLinkedListPtrPtr reads a pointer value from local scope. *)
+Lemma loadLocalLinkedListPtrPtr_rw :
+    ∀ (n addr : nat) (h : CHeap) (l : CLocal) (val : Maybe nat),
+        l = CLocalState addr [CMemListPtrPtr addr val] →
+        loadLocalLinkedListPtrPtr addr n l h = MachineState n l h val.
+Proof.
+    intros.
+    unfold loadLocalLinkedListPtrPtr.
+    unfold loadLocalRaw.
+    unfold getLocalMemory.
+    unfold getLocal.
+    rewrite H.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite nat_eqb_refl.
+    reflexivity.
+Qed.
+
 End CMachineLoadTheorems.
