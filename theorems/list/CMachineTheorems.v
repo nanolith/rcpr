@@ -20,25 +20,6 @@ Module CMachineTheorems.
 
 Open Scope monad_scope.
 
-(* If the cell isn't a LinkedListNodePtr, then it can't be coerced. *)
-Lemma loadLinkedListNodePtr_MachineErrorCast :
-    ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (cell : CMemoryLocation),
-        isCellNodePtr cell = false →
-        loadRaw addr n l h = MachineState n l h cell →
-        loadLinkedListNodePtr addr n l h = MachineError MachineErrorCast.
-Proof.
-    intros n l h addr cell H1 H2.
-    unfold loadLinkedListNodePtr.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite H2.
-    unfold throw.
-    destruct cell.
-    reflexivity.  reflexivity. reflexivity.
-    unfold isCellNodePtr in H1.  inversion H1.
-    reflexivity. reflexivity. reflexivity.
-Qed.
-
 (* Happy path: we can load linked list node pointers. *)
 Lemma loadLinkedListNodePtr_rw :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat) (x : Maybe nat),
