@@ -193,4 +193,61 @@ Proof.
     reflexivity.
 Qed. *)
 
+Lemma insListCreate_sound :
+    ∀ (n index : nat) (l l2 l3 : CLocal) (h h2 : CHeap),
+    l = CLocalState 0 [] →
+    l2 = CLocalState 2 [CMemListPtrPtr 1 Nothing; CMemListPtr 2 Nothing] →
+    l3 = CLocalState 2 [CMemListPtrPtr 1 (Just index); CMemListPtr 2 Nothing] →
+    h = CHeapState index [CMemListPtr index Nothing] →
+    h2 = CHeapState index [CMemListPtr index Nothing] →
+    getLinkedListPtrParameter 1 n l2 h = MachineState n l2 h (Just index) →
+    (maybeCreateLinkedList n l3 h = MachineState n l3 h Nothing
+        \/ maybeCreateLinkedList n l3 h = maybeCreateLinkedList' n l3 h) →
+    exists (n' : nat) (l' : CLocal) (h' : CHeap) (c' : CStatusCode),
+    eval insListCreate n l h = MachineState n' l' h' c'.
+Proof.
+    intros.
+    unfold insListCreate.
+    rewrite H.
+    unfold eval.
+    unfold evalCreateLocalLinkedListPtrPtr.
+    unfold createLocalLinkedListPtrPtr.
+    unfold localCreate.
+    unfold putLocal.
+    unfold getLocal.
+    unfold bind, MachineMMonad.
+    simpl.
+    unfold evalAssignLocalListPtrPtrToListPtrParameter.
+    unfold bind, MachineMMonad.
+    rewrite H0 in H4.
+    rewrite H4.
+    simpl.
+    unfold evalCreateLinkedList.
+    unfold bind, MachineMMonad.
+    rewrite H2.
+    rewrite H1 in H5.
+    rewrite H2 in H5.
+    destruct H5 as [H_fail | H_success].
+    1: {
+        rewrite H_fail.
+        simpl.
+        eauto.
+    }
+    rewrite H_success.
+    simpl.
+    unfold evalAssignLocalListHeapPointerToLocalListPtr.
+    unfold loadLocalLinkedListPtrPtr.
+    unfold loadLocalRaw.
+    unfold getLocalMemory.
+    unfold getLocal.
+    unfold bind, MachineMMonad.
+    simpl.
+    erewrite storeLinkedListPtr_simpl.
+    eauto.
+    eauto.
+    eauto.
+    eauto.
+    eauto.
+Qed.
+
 End CListCreateTheorems.
