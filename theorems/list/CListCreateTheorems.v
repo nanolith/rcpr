@@ -196,7 +196,7 @@ Qed. *)
 (* This function terminates and is correct (will cause a machine error),
    for any input, given that the provided preconditions are met. *)
 Lemma insListCreate_total_correctness :
-    ∀ (n index : nat) (l l2 l3 : CLocal) (h h2 : CHeap),
+    ∀ (n index : nat) (l l2 l3 : CLocal) (h : CHeap),
     (* Initial local store. *)
     l = CLocalState 0 [] →
     (* Local Store after creating locals. *)
@@ -205,8 +205,6 @@ Lemma insListCreate_total_correctness :
     l3 = CLocalState 2 [CMemListPtrPtr 1 (Just index); CMemListPtr 2 Nothing] →
     (* Initial heap with pointer to linked list. *)
     h = CHeapState index [CMemListPtr index Nothing] →
-    (* TODO : remove. *)
-    h2 = CHeapState index [CMemListPtr index Nothing] →
     (* The first parameter is a pointer to the linked list pointer. *)
     getLinkedListPtrParameter 1 n l2 h = MachineState n l2 h (Just index) →
     (* Creation of the linked list can succeed or fail. *)
@@ -228,15 +226,15 @@ Proof.
     simpl.
     unfold evalAssignLocalListPtrPtrToListPtrParameter.
     unfold bind, MachineMMonad.
-    rewrite H0 in H4.
-    rewrite H4.
+    rewrite H0 in H3.
+    rewrite H3.
     simpl.
     unfold evalCreateLinkedList.
     unfold bind, MachineMMonad.
     rewrite H2.
-    rewrite H1 in H5.
-    rewrite H2 in H5.
-    destruct H5 as [H_fail | H_success].
+    rewrite H1 in H4.
+    rewrite H2 in H4.
+    destruct H4 as [H_fail | H_success].
     1: {
         rewrite H_fail.
         simpl.
