@@ -402,10 +402,10 @@ Definition maybeCreateLinkedList_rw :
         nh = CHeapState (index + 1)
                         (vals ++ [CMemList (index + 1)
                                            (List Nothing Nothing 0)]) →
-        maybeCreateLinkedList n l oh = MachineState n l nh (Just (index + 1)).
+        maybeCreateLinkedList' n l oh = MachineState n l nh (Just (index + 1)).
 Proof.
     intros.
-    unfold maybeCreateLinkedList.
+    unfold maybeCreateLinkedList'.
     unfold heapCreate.
     unfold getHeap.
     unfold putHeap.

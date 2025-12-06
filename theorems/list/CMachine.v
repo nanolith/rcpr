@@ -860,8 +860,11 @@ Definition extractReverseListFromC (ptr : nat) : MachineM (IList nat) :=
                         extractReverseList count t values []
                     end.
 
-(* Simulated form of createLinkedList that could fail. *)
-Definition maybeCreateLinkedList : MachineM (Maybe nat) :=
+(* Stand-in for an operation that could succeed or fail. *)
+Parameter maybeCreateLinkedList : MachineM (Maybe nat).
+
+(* Simulated form of createLinkedList that always succeeds. *)
+Definition maybeCreateLinkedList' : MachineM (Maybe nat) :=
     heapCreate (CMemList 0 (List Nothing Nothing 0)) ▶
         λ listPtr ↦
             ret (Just listPtr).
@@ -894,7 +897,7 @@ Definition evalAssignLocalListPtrPtrToListPtrParameter
 (* Evaluate an assign local list heap pointer to local list ptr. *)
 Definition evalAssignLocalListHeapPointerToLocalListPtr
         (localHeapAddr localAddr : nat) : MachineM unit :=
-    loadLinkedListPtrPtr localHeapAddr ▶
+    loadLocalLinkedListPtrPtr localHeapAddr ▶
     λ mptr ↦
     match mptr with
     | Just ptr =>

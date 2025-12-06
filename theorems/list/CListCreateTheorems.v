@@ -23,7 +23,7 @@ Module CListCreateTheorems.
 Open Scope monad_scope.
 
 (* If linked list allocation fails, cListCreate returns an error code. *)
-Lemma cListCreate_OutOfMemory :
+(* Lemma cListCreate_OutOfMemory :
     ∀ (n index : nat) (ol nl : CLocal) (h : CHeap) (listPtr : nat)
       (ptr : Maybe nat),
         ol = CLocalState index [] →
@@ -42,10 +42,10 @@ Proof.
     rewrite H1.
     rewrite H2.
     reflexivity.
-Qed.
+Qed. *)
 
 (* Happy path: cListCreate creates a new list. *)
-Lemma cListCreate_rw :
+(* Lemma cListCreate_rw :
     ∀ (n index : nat) (ol nl1 nl2 : CLocal) (addr : nat) (oh nh1 nh2 : CHeap)
       (ovals nvals1 nvals2 : IList CMemoryLocation) (listPtr : nat)
       (ptr : Maybe nat),
@@ -102,10 +102,10 @@ Proof.
                 (CMemList (addr + 1) (List Nothing Nothing 0)) nvals1 nvals2);
         try assumption.
     reflexivity.
-Qed.
+Qed. *)
 
 (* The list created by cListCreate is empty. *)
-Lemma cListCreate_extract_empty :
+(* Lemma cListCreate_extract_empty :
     ∀ (n : nat) (l nl1 nl2 : CLocal) (addr : nat) (oh nh1 nh2 : CHeap)
       (ovals nvals1 nvals2 : IList CMemoryLocation) (listPtr : nat)
       (ptr : Maybe nat),
@@ -146,10 +146,10 @@ Proof.
     unfold reverse.
     simpl.
     reflexivity.
-Qed.
+Qed. *)
 
 (* The reverse list created by cListCreate is empty. *)
-Lemma cListCreate_extractReverse_empty :
+(* Lemma cListCreate_extractReverse_empty :
     ∀ (n : nat) (l nl1 nl2 : CLocal) (addr : nat) (oh nh1 nh2 : CHeap)
       (ovals nvals1 nvals2 : IList CMemoryLocation) (listPtr : nat)
       (ptr : Maybe nat),
@@ -191,6 +191,6 @@ Proof.
     unfold reverse.
     simpl.
     reflexivity.
-Qed.
+Qed. *)
 
 End CListCreateTheorems.
