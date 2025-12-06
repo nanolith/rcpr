@@ -193,7 +193,9 @@ Proof.
     reflexivity.
 Qed. *)
 
-Lemma insListCreate_sound :
+(* This function terminates and is correct (will cause a machine error),
+   for any input, given that the provided preconditions are met. *)
+Lemma insListCreate_total_correctness :
     ∀ (n index : nat) (l l2 l3 : CLocal) (h h2 : CHeap),
     l = CLocalState 0 [] →
     l2 = CLocalState 2 [CMemListPtrPtr 1 Nothing; CMemListPtr 2 Nothing] →
