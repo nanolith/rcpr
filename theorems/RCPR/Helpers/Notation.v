@@ -14,4 +14,9 @@ Notation "'λ' x .. y ↦ t" := (fun x => .. (fun y => t) ..)
   (at level 200, x binder, y binder, right associativity,
    format "'[' 'λ'  x  ..  y  ↦  '/  ' t ']'").
 
+(* Provide a nicer existential operator. *)
+Notation "∃ x .. y , P" := (exists x, .. (exists y, P) ..)
+  (at level 200, x binder, y binder, right associativity,
+   format "'[' '∃'  x  ..  y ,  '/  ' P ']'").
+
 End Notation.
