@@ -381,8 +381,8 @@ Definition locSet (addr : nat) (cell : CMemoryLocation) : CMemoryLocation :=
     | CMemList _ l => CMemList addr l
     | CMemNodePtr _ ptr => CMemNodePtr addr ptr
     | CMemListPtr _ ptr => CMemListPtr addr ptr
-    | CMemNodePtrPtr _ ptr => CMemNodePtr addr ptr
-    | CMemListPtrPtr _ ptr => CMemListPtr addr ptr
+    | CMemNodePtrPtr _ ptr => CMemNodePtrPtr addr ptr
+    | CMemListPtrPtr _ ptr => CMemListPtrPtr addr ptr
     end.
 
 (* Look up an address from memory. *)
