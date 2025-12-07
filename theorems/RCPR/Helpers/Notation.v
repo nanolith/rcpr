@@ -19,4 +19,8 @@ Notation "∃ x .. y , P" := (exists x, .. (exists y, P) ..)
   (at level 200, x binder, y binder, right associativity,
    format "'[' '∃'  x  ..  y ,  '/  ' P ']'").
 
+(* Provide a nicer conjunction. *)
+Reserved Notation "A ∧ B" (at level 80, right associativity).
+Notation "A ∧ B" := (and A B).
+
 End Notation.
