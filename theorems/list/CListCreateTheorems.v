@@ -338,4 +338,85 @@ Proof.
     reflexivity.
 Qed.
 
+(* The reverse list created by insListCreate is empty. *)
+Lemma insListCreate_rextract_empty :
+    ∀ (n index : nat) (l l2 l3 l4 : CLocal) (h h2 : CHeap),
+    (* Initial local store. *)
+    l = CLocalState 0 [] →
+    (* Local Store after creating locals. *)
+    l2 = CLocalState 2 [CMemListPtrPtr 1 Nothing; CMemListPtr 2 Nothing] →
+    (* Local store after creating linked list instance and saving it. *)
+    l3 = CLocalState 2 [CMemListPtrPtr 1 (Just index); CMemListPtr 2 Nothing] →
+    (* Initial heap with pointer to linked list. *)
+    h = CHeapState index [CMemListPtr index Nothing] →
+    (* The first parameter is a pointer to the linked list pointer. *)
+    getLinkedListPtrParameter 1 n l2 h = MachineState n l2 h (Just index) →
+    (* Creation of the linked list can succeed or fail. *)
+    maybeCreateLinkedList n l3 h = maybeCreateLinkedList' n l3 h →
+    l4 = CLocalState 2 [CMemListPtrPtr 1 (Just index);
+                        CMemListPtr 2 (Just (index + 1))] →
+    h2 = CHeapState (index + 1) [CMemListPtr index (Just (index + 1));
+                                 CMemList (index + 1)
+                                          (List Nothing Nothing 0)] →
+    eval insListCreate n l h = MachineState n l4 h2 StatusSuccess
+        ↔ extractReverseListFromC (index + 1) n l4 h2 = MachineState n l4 h2 [].
+Proof.
+    intros.
+    split.
+    rewrite H.
+    rewrite H2.
+    rewrite H5.
+    rewrite H6.
+    intro Hlc.
+    unfold extractReverseListFromC.
+    unfold loadLinkedList.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold bind, MachineMMonad.
+    simpl.
+    rewrite nat_eqb_oneoff.
+    rewrite nat_eqb_refl.
+    unfold extractReverseList.
+    simpl.
+    reflexivity.
+    intro Hext.
+    rewrite H.
+    rewrite H2.
+    rewrite H5.
+    rewrite H6.
+    simpl.
+    unfold evalAssignLocalListPtrPtrToListPtrParameter.
+    simpl.
+    rewrite H0 in H3.
+    rewrite H2 in H3.
+    rewrite H3.
+    simpl.
+    unfold evalCreateLinkedList.
+    simpl.
+    rewrite H1 in H4.
+    rewrite H2 in H4.
+    rewrite H4.
+    simpl.
+    unfold evalAssignLocalListHeapPointerToLocalListPtr.
+    simpl.
+    unfold storeLinkedListPtr.
+    simpl.
+    unfold loadLinkedListPtr.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold lookupMem.
+    unfold locAddr.
+    simpl.
+    rewrite nat_eqb_refl.
+    simpl.
+    unfold memReplace.
+    unfold memReplaceLoop.
+    unfold locAddr.
+    rewrite nat_eqb_refl.
+    simpl.
+    reflexivity.
+Qed.
+
 End CListCreateTheorems.
