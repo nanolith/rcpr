@@ -209,7 +209,7 @@ Lemma insListCreate_total_correctness :
     getLinkedListPtrParameter 1 n l2 h = MachineState n l2 h (Just index) →
     (* Creation of the linked list can succeed or fail. *)
     (maybeCreateLinkedList n l3 h = MachineState n l3 h Nothing
-        \/ maybeCreateLinkedList n l3 h = maybeCreateLinkedList' n l3 h) →
+        ∨ maybeCreateLinkedList n l3 h = maybeCreateLinkedList' n l3 h) →
     ∃ (n' : nat) (l' : CLocal) (h' : CHeap) (c' : CStatusCode),
     eval insListCreate n l h = MachineState n' l' h' c'.
 Proof.
