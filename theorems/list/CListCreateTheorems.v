@@ -262,6 +262,7 @@ Lemma insListCreate_total_correctness :
 Proof.
     intros.
     destruct H4 as [H_fail | H_success].
+    (* Allocation failure case. *)
     1: {
         rewrite H.
         rewrite H0 in H3.
@@ -278,6 +279,7 @@ Proof.
         simpl.
         eauto.
     }
+    (* Allocation success case. *)
     erewrite insListCreate_rw; try eauto.
 Qed.
 
