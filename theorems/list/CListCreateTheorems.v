@@ -134,22 +134,7 @@ Proof.
     intros.
     destruct H4 as [H_fail | H_success].
     (* Allocation failure case. *)
-    1: {
-        rewrite H.
-        rewrite H0 in H3.
-        rewrite H1 in H_fail.
-        simpl.
-        unfold evalAssignLocalListPtrPtrToListPtrParameter.
-        simpl.
-        rewrite H3.
-        unfold storeLocalLinkedListPtrPtr.
-        simpl.
-        unfold evalCreateLinkedList.
-        simpl.
-        rewrite H_fail.
-        simpl.
-        eauto.
-    }
+    erewrite insListCreate_outOfMemory; try eauto.
     (* Allocation success case. *)
     erewrite insListCreate_rw; try eauto.
 Qed.
