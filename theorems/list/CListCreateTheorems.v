@@ -308,6 +308,7 @@ Lemma insListCreate_extract_empty :
 Proof.
     intros.
     split.
+    (* Case 1: The newly created C Linked List is empty in forward dir. *)
     rewrite H.
     rewrite H2.
     rewrite H5.
@@ -325,6 +326,7 @@ Proof.
     unfold extractList.
     simpl.
     reflexivity.
+    (* Case 2: This function constructs this list exactly as specified.  *)
     intro Hext.
     erewrite insListCreate_rw; try eauto.
 Qed.
@@ -354,6 +356,7 @@ Lemma insListCreate_rextract_empty :
 Proof.
     intros.
     split.
+    (* Case 1: The newly created C Linked List is empty in reverse dir. *)
     rewrite H.
     rewrite H2.
     rewrite H5.
@@ -371,6 +374,7 @@ Proof.
     unfold extractReverseList.
     simpl.
     reflexivity.
+    (* Case 2: This function constructs this list exactly as specified.  *)
     intro Hext.
     erewrite insListCreate_rw; try eauto.
 Qed.
