@@ -278,16 +278,7 @@ Proof.
         simpl.
         eauto.
     }
-    erewrite insListCreate_rw.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
+    erewrite insListCreate_rw; try eauto.
 Qed.
 
 (* The list created by insListCreate is empty. *)
