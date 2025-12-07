@@ -23,4 +23,8 @@ Notation "∃ x .. y , P" := (exists x, .. (exists y, P) ..)
 Reserved Notation "A ∧ B" (at level 80, right associativity).
 Notation "A ∧ B" := (and A B).
 
+(* Provide a nicer disjunction. *)
+Reserved Notation "A ∨ B" (at level 85, right associativity).
+Notation "A ∨ B" := (or A B).
+
 End Notation.
