@@ -237,12 +237,7 @@ Proof.
     simpl.
     rewrite H3.
     rewrite H4.
-    erewrite storeLinkedListPtr_simpl.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
-    reflexivity.
+    erewrite storeLinkedListPtr_simpl; try eauto.
 Qed.
 
 (* This function terminates and is correct (will cause a machine error),
