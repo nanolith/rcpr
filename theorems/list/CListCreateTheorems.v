@@ -266,42 +266,28 @@ Lemma insListCreate_total_correctness :
     eval insListCreate n l h = MachineState n' l' h' c'.
 Proof.
     intros.
-    unfold insListCreate.
-    rewrite H.
-    unfold eval.
-    unfold evalCreateLocalLinkedListPtrPtr.
-    unfold createLocalLinkedListPtrPtr.
-    unfold localCreate.
-    unfold putLocal.
-    unfold getLocal.
-    unfold bind, MachineMMonad.
-    simpl.
-    unfold evalAssignLocalListPtrPtrToListPtrParameter.
-    unfold bind, MachineMMonad.
-    rewrite H0 in H3.
-    rewrite H3.
-    simpl.
-    unfold evalCreateLinkedList.
-    unfold bind, MachineMMonad.
-    rewrite H2.
-    rewrite H1 in H4.
-    rewrite H2 in H4.
     destruct H4 as [H_fail | H_success].
     1: {
+        rewrite H.
+        rewrite H0 in H3.
+        rewrite H1 in H_fail.
+        simpl.
+        unfold evalAssignLocalListPtrPtrToListPtrParameter.
+        simpl.
+        rewrite H3.
+        unfold storeLocalLinkedListPtrPtr.
+        simpl.
+        unfold evalCreateLinkedList.
+        simpl.
         rewrite H_fail.
         simpl.
         eauto.
     }
-    rewrite H_success.
-    simpl.
-    unfold evalAssignLocalListHeapPointerToLocalListPtr.
-    unfold loadLocalLinkedListPtrPtr.
-    unfold loadLocalRaw.
-    unfold getLocalMemory.
-    unfold getLocal.
-    unfold bind, MachineMMonad.
-    simpl.
-    erewrite storeLinkedListPtr_simpl.
+    erewrite insListCreate_rw.
+    eauto.
+    eauto.
+    eauto.
+    eauto.
     eauto.
     eauto.
     eauto.
