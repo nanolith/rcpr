@@ -22,51 +22,6 @@ Module CListCreateTheorems.
 
 Open Scope monad_scope.
 
-(* The reverse list created by cListCreate is empty. *)
-(* Lemma cListCreate_extractReverse_empty :
-    ∀ (n : nat) (l nl1 nl2 : CLocal) (addr : nat) (oh nh1 nh2 : CHeap)
-      (ovals nvals1 nvals2 : IList CMemoryLocation) (listPtr : nat)
-      (ptr : Maybe nat),
-        l = CLocalState addr [] →
-        nl1 = CLocalState (addr + 1) [CMemListPtr (addr + 1) Nothing] →
-        nl2 = CLocalState (addr + 1)
-                          [CMemListPtr (addr + 1) (Just (addr + 1))] →
-        oh = CHeapState addr ovals →
-        nh1 = CHeapState (addr + 1) nvals1 →
-        nh2 = CHeapState (addr + 1) nvals2 →
-        ovals = [CMemListPtr listPtr Nothing] →
-        nvals1 = [CMemListPtr listPtr Nothing;
-                 CMemList (addr + 1) (List Nothing Nothing 0)] →
-        nvals2 = [CMemListPtr listPtr (Just (addr + 1));
-                 CMemList (addr + 1) (List Nothing Nothing 0)] →
-        Nat.eqb listPtr (addr + 1) = false →
-        cListCreate listPtr n l oh = MachineState n nl2 nh2 StatusSuccess →
-        extractReverseListFromC (addr + 1) n nl2 nh2 =
-            MachineState n nl2 nh2 [].
-Proof.
-    intros.
-    rewrite (cListCreate_rw n addr l nl1 nl2 addr oh nh1 nh2 ovals nvals1
-             nvals2 listPtr ptr) in H9;
-        try assumption.
-    unfold extractReverseListFromC.
-    unfold loadLinkedList.
-    unfold loadRaw.
-    unfold getHeapMemory.
-    unfold getHeap.
-    unfold lookupMem.
-    unfold locAddr.
-    rewrite H4.
-    rewrite H7.
-    unfold bind, MachineMMonad.
-    simpl.
-    rewrite H8.
-    rewrite nat_eqb_refl.
-    unfold extractReverseList.
-    unfold reverse.
-    simpl.
-    reflexivity.
-Qed. *)
-
 (* Happy path for insListCreate. *)
 Lemma insListCreate_rw :
     ∀ (n index : nat) (l l2 l3 l4 : CLocal) (h h2 : CHeap),
