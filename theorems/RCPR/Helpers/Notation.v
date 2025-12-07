@@ -27,4 +27,8 @@ Notation "A ∧ B" := (and A B).
 Reserved Notation "A ∨ B" (at level 85, right associativity).
 Notation "A ∨ B" := (or A B).
 
+(* Provide a nicer biconditional. *)
+Notation "A ↔ B" := (iff A B)
+  (at level 95, no associativity).
+
 End Notation.
