@@ -324,16 +324,7 @@ Proof.
     simpl.
     reflexivity.
     intro Hext.
-    erewrite insListCreate_rw.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
-    eauto.
+    erewrite insListCreate_rw; try eauto.
 Qed.
 
 (* The reverse list created by insListCreate is empty. *)
