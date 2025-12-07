@@ -22,6 +22,48 @@ Module CListCreateTheorems.
 
 Open Scope monad_scope.
 
+(* insListCreate returns an out-of-memory error if allocation fails. *)
+Lemma insListCreate_outOfMemory :
+    ∀ (n index : nat) (l l2 l3 l4 : CLocal) (h h2 : CHeap),
+    (* Initial local store. *)
+    l = CLocalState 0 [] →
+    (* Local Store after creating locals. *)
+    l2 = CLocalState 2 [CMemListPtrPtr 1 Nothing; CMemListPtr 2 Nothing] →
+    (* Local store after creating linked list instance and saving it. *)
+    l3 = CLocalState 2 [CMemListPtrPtr 1 (Just index); CMemListPtr 2 Nothing] →
+    (* Initial heap with pointer to linked list. *)
+    h = CHeapState index [CMemListPtr index Nothing] →
+    (* Final local store. *)
+    l4 = CLocalState 2 [CMemListPtrPtr 1 (Just index);
+                        CMemListPtr 2 (Just (index + 1))] →
+    (* Final heap. *)
+    h2 = CHeapState (index + 1) [CMemListPtr index (Just (index + 1));
+                                 CMemList (index + 1)
+                                          (List Nothing Nothing 0)] →
+    (* The first parameter is a pointer to the linked list pointer. *)
+    getLinkedListPtrParameter 1 n l2 h = MachineState n l2 h (Just index) →
+    (* Creation of the linked list can succeed or fail. *)
+    maybeCreateLinkedList n l3 h = MachineState n l3 h Nothing →
+    eval insListCreate n l h = MachineState n l3 h ErrorOutOfMemory.
+Proof.
+    intros.
+    rewrite H.
+    rewrite H0 in H5.
+    rewrite H1 in H6.
+    simpl.
+    unfold evalAssignLocalListPtrPtrToListPtrParameter.
+    simpl.
+    rewrite H5.
+    unfold storeLocalLinkedListPtrPtr.
+    simpl.
+    unfold evalCreateLinkedList.
+    simpl.
+    rewrite H6.
+    simpl.
+    rewrite H1.
+    reflexivity.
+Qed.
+
 (* Happy path for insListCreate. *)
 Lemma insListCreate_rw :
     ∀ (n index : nat) (l l2 l3 l4 : CLocal) (h h2 : CHeap),
