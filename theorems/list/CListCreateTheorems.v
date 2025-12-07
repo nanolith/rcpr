@@ -393,42 +393,16 @@ Proof.
     simpl.
     reflexivity.
     intro Hext.
-    rewrite H.
-    rewrite H2.
-    rewrite H5.
-    rewrite H6.
-    simpl.
-    unfold evalAssignLocalListPtrPtrToListPtrParameter.
-    simpl.
-    rewrite H0 in H3.
-    rewrite H2 in H3.
-    rewrite H3.
-    simpl.
-    unfold evalCreateLinkedList.
-    simpl.
-    rewrite H1 in H4.
-    rewrite H2 in H4.
-    rewrite H4.
-    simpl.
-    unfold evalAssignLocalListHeapPointerToLocalListPtr.
-    simpl.
-    unfold storeLinkedListPtr.
-    simpl.
-    unfold loadLinkedListPtr.
-    unfold loadRaw.
-    unfold getHeapMemory.
-    unfold getHeap.
-    unfold lookupMem.
-    unfold locAddr.
-    simpl.
-    rewrite nat_eqb_refl.
-    simpl.
-    unfold memReplace.
-    unfold memReplaceLoop.
-    unfold locAddr.
-    rewrite nat_eqb_refl.
-    simpl.
-    reflexivity.
+    erewrite insListCreate_rw.
+    eauto.
+    eauto.
+    eauto.
+    eauto.
+    eauto.
+    eauto.
+    eauto.
+    eauto.
+    eauto.
 Qed.
 
 End CListCreateTheorems.
