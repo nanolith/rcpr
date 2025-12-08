@@ -114,3 +114,9 @@ Parameter extractInsCrash :
 
 Extract Constant extractInsCrash =>
     "gen-crash".
+
+(* Extract the beginning of the list_create function. *)
+Parameter extractInsBeginListCreateFunction : Either ExtractionError unit.
+
+Extract Constant extractInsBeginListCreateFunction =>
+    "gen-begin-list-create-function".
