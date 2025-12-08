@@ -100,3 +100,10 @@ Parameter extractInsCheckHeapListPtrAddress :
 
 Extract Constant extractInsCheckHeapListPtrAddress =>
     "gen-check-heap-list-ptr-address".
+
+(* Extract an INS_ReturnStatus. *)
+Parameter extractInsReturnStatus :
+    CStatusCode → Either ExtractionError unit.
+
+Extract Constant extractInsReturnStatus =>
+    "gen-return-status".
