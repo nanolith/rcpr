@@ -120,3 +120,9 @@ Parameter extractInsBeginListCreateFunction : Either ExtractionError unit.
 
 Extract Constant extractInsBeginListCreateFunction =>
     "gen-begin-list-create-function".
+
+(* Extract the end of the list_create function. *)
+Parameter extractInsEndListCreateFunction : Either ExtractionError unit.
+
+Extract Constant extractInsEndListCreateFunction =>
+    "gen-end-list-create-function".
