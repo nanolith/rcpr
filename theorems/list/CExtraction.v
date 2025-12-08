@@ -29,3 +29,10 @@ Parameter extractInsCreateLocalLinkedListPtrPtr :
 
 Extract Constant extractInsCreateLocalLinkedListPtrPtr =>
     "gen-create-local-linked-list-ptr-ptr".
+
+(* Extract an INS_CreateLinkedList. *)
+Parameter extractInsCreateLinkedList :
+    nat → Either ExtractionError unit.
+
+Extract Constant extractInsCreateLinkedList =>
+    "gen-create-linked-list".
