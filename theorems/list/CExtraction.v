@@ -48,3 +48,9 @@ Extract Constant extractInsIsListPtrPresent =>
 Parameter extractInsBeginIfStatement : Either ExtractionError unit.
 
 Extract Constant extractInsBeginIfStatement => "gen-begin-if-statement".
+
+(* Extract the beginning of a then block. *)
+Parameter extractInsBeginThenBlock : Either ExtractionError unit.
+
+Extract Constant extractInsBeginThenBlock =>
+    "gen-begin-then-block".
