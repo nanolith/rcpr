@@ -72,3 +72,10 @@ Parameter extractInsEndElseBlock : Either ExtractionError unit.
 
 Extract Constant extractInsEndElseBlock =>
     "gen-end-else-block".
+
+(* Extract an INS_AssignLocalListPtrToHeapListPtr. *)
+Parameter extractInsAssignLocalListPtrToHeapListPtr :
+    nat → nat → Either ExtractionError unit.
+
+Extract Constant extractInsAssignLocalListPtrToHeapListPtr =>
+    "gen-assign-local-list-ptr-to-heap-list-ptr".
