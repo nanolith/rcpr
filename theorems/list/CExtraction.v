@@ -12,5 +12,10 @@ Import Notation.
 
 Extraction Language Scheme.
 
+(* List of extraction errors. *)
 Inductive ExtractionError :=
 | ExtractionErrorGeneral.
+
+(* Extract an INS_CreateLocalLinkedListPtr. *)
+Parameter extractInsCreateLocalLinkedListPtr :
+    nat → Either ExtractionError unit.
