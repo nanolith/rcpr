@@ -183,3 +183,6 @@ Definition extractListCreateFunction (ins : CMachineInstruction)
     extractInsBeginListCreateFunction »
     extractInstructions ins »
     extractInsEndListCreateFunction.
+
+(* Perform the extraction to Scheme. *)
+Extraction "list.generated.scm" extractListCreateFunction.
