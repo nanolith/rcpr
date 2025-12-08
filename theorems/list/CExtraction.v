@@ -60,3 +60,9 @@ Parameter extractInsEndThenBlock : Either ExtractionError unit.
 
 Extract Constant extractInsEndThenBlock =>
     "gen-end-then-block".
+
+(* Extract the beginning of an else block. *)
+Parameter extractInsBeginElseBlock : Either ExtractionError unit.
+
+Extract Constant extractInsBeginElseBlock =>
+    "gen-begin-else-block".
