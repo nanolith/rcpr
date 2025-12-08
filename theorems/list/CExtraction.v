@@ -43,3 +43,8 @@ Parameter extractInsIsListPtrPresent :
 
 Extract Constant extractInsIsListPtrPresent =>
     "gen-cond-is-list-ptr-present".
+
+(* Extract the beginning of an if statement. *)
+Parameter extractInsBeginIfStatement : Either ExtractionError unit.
+
+Extract Constant extractInsBeginIfStatement => "gen-begin-if-statement".
