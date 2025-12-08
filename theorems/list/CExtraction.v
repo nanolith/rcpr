@@ -176,3 +176,10 @@ Fixpoint extractInstructions (ins : CMachineInstruction)
     | INS_Crash e =>
         extractInsCrash e
     end.
+
+(* Extract the list_create function. *)
+Definition extractListCreateFunction (ins : CMachineInstruction)
+        : Either ExtractionError unit :=
+    extractInsBeginListCreateFunction »
+    extractInstructions ins »
+    extractInsEndListCreateFunction.
