@@ -79,3 +79,10 @@ Parameter extractInsAssignLocalListPtrToHeapListPtr :
 
 Extract Constant extractInsAssignLocalListPtrToHeapListPtr =>
     "gen-assign-local-list-ptr-to-heap-list-ptr".
+
+(* Extract an INS_AssignLocalListPtrPtrToListPtrParameter. *)
+Parameter extractInsAssignLocalListPtrPtrToListPtrParameter :
+    nat → nat → Either ExtractionError unit.
+
+Extract Constant extractInsAssignLocalListPtrPtrToListPtrParameter =>
+    "gen-assign-local-list-ptr-ptr-to-list-ptr-parameter".
