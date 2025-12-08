@@ -126,3 +126,12 @@ Parameter extractInsEndListCreateFunction : Either ExtractionError unit.
 
 Extract Constant extractInsEndListCreateFunction =>
     "gen-end-list-create-function".
+
+(* Extract an if statement conditional instruction. *)
+Definition extractInsCond (ins : CMachineInstruction)
+        : Either ExtractionError unit :=
+    match ins with
+    | INS_IsListPtrPresent localAddr =>
+        extractInsIsListPtrPresent localAddr
+    | _ => Left ExtractionErrorGeneral
+    end.
