@@ -19,3 +19,6 @@ Inductive ExtractionError :=
 (* Extract an INS_CreateLocalLinkedListPtr. *)
 Parameter extractInsCreateLocalLinkedListPtr :
     nat → Either ExtractionError unit.
+
+Extract Constant extractInsCreateLocalLinkedListPtr =>
+    "gen-create-local-linked-list-ptr".
