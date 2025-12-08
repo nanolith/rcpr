@@ -135,3 +135,44 @@ Definition extractInsCond (ins : CMachineInstruction)
         extractInsIsListPtrPresent localAddr
     | _ => Left ExtractionErrorGeneral
     end.
+
+(* Extract instructions. *)
+Fixpoint extractInstructions (ins : CMachineInstruction)
+        : Either ExtractionError unit :=
+    match ins with
+    | INS_CreateLocalLinkedListPtr addr next =>
+        extractInsCreateLocalLinkedListPtr addr »
+        extractInstructions next
+    | INS_CreateLocalLinkedListPtrPtr addr next =>
+        extractInsCreateLocalLinkedListPtrPtr addr »
+        extractInstructions next
+    | INS_CreateLinkedList localAddr next =>
+        extractInsCreateLinkedList localAddr »
+        extractInstructions next
+    | INS_IsListPtrPresent localAddr => Left ExtractionErrorGeneral
+    | INS_ITE cond thenHead elseHead =>
+        extractInsBeginIfStatement »
+        extractInsCond cond »
+        extractInsBeginThenBlock »
+        extractInstructions thenHead »
+        extractInsEndThenBlock »
+        extractInsBeginElseBlock »
+        extractInstructions elseHead »
+        extractInsEndElseBlock
+    | INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr next =>
+        extractInsAssignLocalListPtrToHeapListPtr heapAddr localAddr »
+        extractInstructions next
+    | INS_AssignLocalListPtrPtrToListPtrParameter heapAddr localAddr next =>
+        extractInsAssignLocalListPtrPtrToListPtrParameter heapAddr localAddr »
+        extractInstructions next
+    | INS_AssignLocalListHeapPtrToLocalListPtr localHeapAddr localAddr next =>
+        extractInsAssignLocalListHeapPtrToLocalListPtr localHeapAddr localAddr »
+        extractInstructions next
+    | INS_CheckHeapListPtrAddress heapAddr next =>
+        extractInsCheckHeapListPtrAddress heapAddr »
+        extractInstructions next
+    | INS_ReturnStatus code =>
+        extractInsReturnStatus code
+    | INS_Crash e =>
+        extractInsCrash e
+    end.
