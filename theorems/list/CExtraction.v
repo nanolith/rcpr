@@ -107,3 +107,10 @@ Parameter extractInsReturnStatus :
 
 Extract Constant extractInsReturnStatus =>
     "gen-return-status".
+
+(* Extract an INS_Crash. *)
+Parameter extractInsCrash :
+    MachineErrorCode → Either ExtractionError unit.
+
+Extract Constant extractInsCrash =>
+    "gen-crash".
