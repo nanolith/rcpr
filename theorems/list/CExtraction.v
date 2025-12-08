@@ -36,3 +36,10 @@ Parameter extractInsCreateLinkedList :
 
 Extract Constant extractInsCreateLinkedList =>
     "gen-create-linked-list".
+
+(* Extract an INS_IsListPtrPresent. *)
+Parameter extractInsIsListPtrPresent :
+    nat → Either ExtractionError unit.
+
+Extract Constant extractInsIsListPtrPresent =>
+    "gen-cond-is-list-ptr-present".
