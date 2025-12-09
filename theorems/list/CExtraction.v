@@ -115,19 +115,6 @@ Parameter extractInsCrash :
 Extract Constant extractInsCrash =>
     "gen-crash".
 
-(* Extract the beginning of the list_create function. *)
-Parameter extractInsBeginListCreateFunction :
-    unit → Either ExtractionError unit.
-
-Extract Constant extractInsBeginListCreateFunction =>
-    "gen-begin-list-create-function".
-
-(* Extract the end of the list_create function. *)
-Parameter extractInsEndListCreateFunction : unit → Either ExtractionError unit.
-
-Extract Constant extractInsEndListCreateFunction =>
-    "gen-end-list-create-function".
-
 Definition ignoreParameter {A} (x : A) : Either ExtractionError unit :=
     ret tt.
 
