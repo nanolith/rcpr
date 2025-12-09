@@ -229,4 +229,4 @@ Definition extractListCreateFunction : Either ExtractionError unit :=
     extractInsEndListCreateFunction tt.
 
 (* Perform the extraction to Scheme. *)
-Extraction "list.generated.scm" extractListCreateFunction.
+Extraction "list_create.generated.scm" extractListCreateFunction.
