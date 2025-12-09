@@ -13,7 +13,7 @@ Import Notation.
 Extraction Language Scheme.
 
 (* List of extraction errors. *)
-Inductive ExtractionError :=
+Inductive ExtractionError : Type :=
 | ExtractionErrorGeneral.
 
 (* Extract an INS_CreateLocalLinkedListPtr. *)
@@ -178,10 +178,9 @@ Fixpoint extractInstructions (ins : CMachineInstruction)
     end.
 
 (* Extract the list_create function. *)
-Definition extractListCreateFunction (ins : CMachineInstruction)
-        : Either ExtractionError unit :=
+Definition extractListCreateFunction : Either ExtractionError unit :=
     extractInsBeginListCreateFunction »
-    extractInstructions ins »
+    extractInstructions insListCreate »
     extractInsEndListCreateFunction.
 
 (* Perform the extraction to Scheme. *)
