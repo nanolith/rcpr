@@ -45,30 +45,30 @@ Extract Constant extractInsIsListPtrPresent =>
     "gen-cond-is-list-ptr-present".
 
 (* Extract the beginning of an if statement. *)
-Parameter extractInsBeginIfStatement : Either ExtractionError unit.
+Parameter extractInsBeginIfStatement : unit → Either ExtractionError unit.
 
 Extract Constant extractInsBeginIfStatement => "gen-begin-if-statement".
 
 (* Extract the beginning of a then block. *)
-Parameter extractInsBeginThenBlock : Either ExtractionError unit.
+Parameter extractInsBeginThenBlock : unit → Either ExtractionError unit.
 
 Extract Constant extractInsBeginThenBlock =>
     "gen-begin-then-block".
 
 (* Extract the end of a then block. *)
-Parameter extractInsEndThenBlock : Either ExtractionError unit.
+Parameter extractInsEndThenBlock : unit → Either ExtractionError unit.
 
 Extract Constant extractInsEndThenBlock =>
     "gen-end-then-block".
 
 (* Extract the beginning of an else block. *)
-Parameter extractInsBeginElseBlock : Either ExtractionError unit.
+Parameter extractInsBeginElseBlock : unit → Either ExtractionError unit.
 
 Extract Constant extractInsBeginElseBlock =>
     "gen-begin-else-block".
 
 (* Extract the end of an else block. *)
-Parameter extractInsEndElseBlock : Either ExtractionError unit.
+Parameter extractInsEndElseBlock : unit → Either ExtractionError unit.
 
 Extract Constant extractInsEndElseBlock =>
     "gen-end-else-block".
@@ -116,24 +116,69 @@ Extract Constant extractInsCrash =>
     "gen-crash".
 
 (* Extract the beginning of the list_create function. *)
-Parameter extractInsBeginListCreateFunction : Either ExtractionError unit.
+Parameter extractInsBeginListCreateFunction :
+    unit → Either ExtractionError unit.
 
 Extract Constant extractInsBeginListCreateFunction =>
     "gen-begin-list-create-function".
 
 (* Extract the end of the list_create function. *)
-Parameter extractInsEndListCreateFunction : Either ExtractionError unit.
+Parameter extractInsEndListCreateFunction : unit → Either ExtractionError unit.
 
 Extract Constant extractInsEndListCreateFunction =>
     "gen-end-list-create-function".
+
+Definition ignoreParameter {A} (x : A) : Either ExtractionError unit :=
+    ret tt.
 
 (* Extract an if statement conditional instruction. *)
 Definition extractInsCond (ins : CMachineInstruction)
         : Either ExtractionError unit :=
     match ins with
+    | INS_CreateLocalLinkedListPtr addr next =>
+        ignoreParameter addr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
+    | INS_CreateLocalLinkedListPtrPtr addr next =>
+        ignoreParameter addr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
+    | INS_CreateLinkedList localAddr next =>
+        ignoreParameter localAddr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
     | INS_IsListPtrPresent localAddr =>
         extractInsIsListPtrPresent localAddr
-    | _ => Left ExtractionErrorGeneral
+    | INS_ITE cond thenHead elseHead =>
+        ignoreParameter cond »
+        ignoreParameter thenHead »
+        ignoreParameter elseHead »
+        Left ExtractionErrorGeneral
+    | INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr next =>
+        ignoreParameter heapAddr »
+        ignoreParameter localAddr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
+    | INS_AssignLocalListPtrPtrToListPtrParameter heapAddr localAddr next =>
+        ignoreParameter heapAddr »
+        ignoreParameter localAddr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
+    | INS_AssignLocalListHeapPtrToLocalListPtr localHeapAddr localAddr next =>
+        ignoreParameter localHeapAddr »
+        ignoreParameter localAddr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
+    | INS_CheckHeapListPtrAddress heapAddr next =>
+        ignoreParameter heapAddr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
+    | INS_ReturnStatus code =>
+        ignoreParameter code »
+        Left ExtractionErrorGeneral
+    | INS_Crash e =>
+        ignoreParameter e »
+        Left ExtractionErrorGeneral
     end.
 
 (* Extract instructions. *)
@@ -151,14 +196,14 @@ Fixpoint extractInstructions (ins : CMachineInstruction)
         extractInstructions next
     | INS_IsListPtrPresent localAddr => Left ExtractionErrorGeneral
     | INS_ITE cond thenHead elseHead =>
-        extractInsBeginIfStatement »
+        extractInsBeginIfStatement tt »
         extractInsCond cond »
-        extractInsBeginThenBlock »
+        extractInsBeginThenBlock tt »
         extractInstructions thenHead »
-        extractInsEndThenBlock »
-        extractInsBeginElseBlock »
+        extractInsEndThenBlock tt »
+        extractInsBeginElseBlock tt »
         extractInstructions elseHead »
-        extractInsEndElseBlock
+        extractInsEndElseBlock tt
     | INS_AssignLocalListPtrToHeapListPtr heapAddr localAddr next =>
         extractInsAssignLocalListPtrToHeapListPtr heapAddr localAddr »
         extractInstructions next
@@ -179,9 +224,9 @@ Fixpoint extractInstructions (ins : CMachineInstruction)
 
 (* Extract the list_create function. *)
 Definition extractListCreateFunction : Either ExtractionError unit :=
-    extractInsBeginListCreateFunction »
+    extractInsBeginListCreateFunction tt »
     extractInstructions insListCreate »
-    extractInsEndListCreateFunction.
+    extractInsEndListCreateFunction tt.
 
 (* Perform the extraction to Scheme. *)
 Extraction "list.generated.scm" extractListCreateFunction.
