@@ -802,6 +802,19 @@ Definition incrementLinkedListCount (addr : nat) : MachineM unit :=
                 storeLinkedList addr (List head tail (count + 1))
             end.
 
+(* Decrement node count for a linked list. *)
+Definition decrementLinkedListCount (addr : nat) : MachineM unit :=
+    loadLinkedList addr ▶
+        λ list ↦
+            match list with
+            | List head tail count =>
+                match count with
+                | 0 => throw MachineErrorIntegerUnderflow
+                | S n =>
+                    storeLinkedList addr (List head tail n)
+                end
+            end.
+
 (* Extract a linked list into an IList of nat values. *)
 Fixpoint extractList (count : nat) (midx : Maybe nat)
         (values : IList CMemoryLocation) (acc : IList nat)
