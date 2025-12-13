@@ -108,6 +108,7 @@ Inductive MachineErrorCode : Type :=
 | MachineErrorCast
 | MachineErrorDereference
 | MachineErrorTermination
+| MachineErrorIntegerUnderflow
 | MachineErrorTruncation.
 
 (* Machine instructions. *)
