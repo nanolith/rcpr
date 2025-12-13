@@ -78,6 +78,24 @@ Proof.
     reflexivity.
 Qed.
 
+(* simplified lemma for loadRaw. *)
+Lemma loadRaw_simpl :
+    ∀ (n index addr: nat) (l : CLocal) (h : CHeap) (m o : CMemoryLocation),
+        h = CHeapState index [m; o] →
+        locAddr m = addr →
+        loadRaw addr n l h = MachineState n l h m.
+Proof.
+    intros.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    rewrite H.
+    simpl.
+    rewrite H0.
+    rewrite nat_eqb_refl.
+    reflexivity.
+Qed.
+
 (* Verify that if a location fails to load, it can't be cast to a node. *)
 Lemma loadLinkedListNode_MachineErrorLoad :
     ∀ (n : nat) (l : CLocal) (h : CHeap) (addr : nat),
