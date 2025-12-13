@@ -792,6 +792,15 @@ Definition reclaimLinkedListPtr (addr : nat) : MachineM unit :=
                     λ values' ↦
                         putHeapMemory values'.
 
+(* Increment node count for a linked list. *)
+Definition incrementLinkedListCount (addr : nat) : MachineM unit :=
+    loadLinkedList addr ▶
+        λ list ↦
+            match list with
+            | List head tail count =>
+                storeLinkedList addr (List head tail (count + 1))
+            end.
+
 (* Extract a linked list into an IList of nat values. *)
 Fixpoint extractList (count : nat) (midx : Maybe nat)
         (values : IList CMemoryLocation) (acc : IList nat)
