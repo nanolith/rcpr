@@ -460,16 +460,9 @@ Proof.
     rewrite <- H.
     rewrite (@loadLinkedListPtr_rw n l oh addr oval);
         try assumption.
-    (* TODO - lemma for loadRaw. *)
     2: {
-        unfold loadRaw.
-        unfold getHeapMemory.
-        unfold getHeap.
-        rewrite H.
-        rewrite H1.
-        simpl.
-        rewrite nat_eqb_refl.
-        reflexivity.
+        rewrite H1 in H.
+        erewrite loadRaw_simpl; try eauto.
     }
     unfold memReplace.
     unfold memReplaceLoop.
