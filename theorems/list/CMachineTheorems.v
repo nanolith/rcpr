@@ -416,6 +416,24 @@ Proof.
     reflexivity.
 Qed.
 
+(* simplified lemma for loadRaw. *)
+Lemma loadRaw_simpl :
+    ∀ (n index addr: nat) (l : CLocal) (h : CHeap) (m o : CMemoryLocation),
+        h = CHeapState index [m; o] →
+        locAddr m = addr →
+        loadRaw addr n l h = MachineState n l h m.
+Proof.
+    intros.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    rewrite H.
+    simpl.
+    rewrite H0.
+    rewrite nat_eqb_refl.
+    reflexivity.
+Qed.
+
 (* simplified storeLinkedListPtr happy path, linkedListPtr first element. *)
 Lemma storeLinkedListPtr_simpl :
     ∀ (n index addr: nat) (l : CLocal) (oh nh : CHeap)
