@@ -529,4 +529,38 @@ Proof.
     reflexivity.
 Qed.
 
+(* incrementLinkedListCount increments the count of a linked list. *)
+Definition incrementLinkedListCount_rw :
+    ∀ (n index addr count : nat) (oh nh : CHeap) (l : CLocal)
+      (head tail : Maybe nat),
+        oh = CHeapState index [CMemList addr (List head tail count)] →
+        nh = CHeapState index [CMemList addr (List head tail (count + 1))] →
+        incrementLinkedListCount addr n l oh = MachineState n l nh tt.
+Proof.
+    intros.
+    rewrite H.
+    unfold incrementLinkedListCount.
+    simpl.
+    unfold loadLinkedList.
+    simpl.
+    unfold loadRaw.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold storeLinkedList.
+    simpl.
+    unfold loadLinkedList.
+    simpl.
+    unfold loadRaw.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold memReplace.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold putHeapMemory.
+    simpl.
+    unfold putHeap.
+    rewrite H0.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
