@@ -563,4 +563,26 @@ Proof.
     reflexivity.
 Qed.
 
+(* decrementListCount raises an Integer Underflow exception if the count is *)
+(* decremented below 0. *)
+Definition decrementLinkedListCount_IntegerUnderflow :
+    ∀ (n index addr count : nat) (h : CHeap) (l : CLocal)
+      (head tail : Maybe nat),
+        h = CHeapState index [CMemList addr (List head tail 0)] →
+        decrementLinkedListCount addr n l h =
+            MachineError MachineErrorIntegerUnderflow.
+Proof.
+    intros.
+    rewrite H.
+    unfold decrementLinkedListCount.
+    simpl.
+    unfold loadLinkedList.
+    simpl.
+    unfold loadRaw.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold throw.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
