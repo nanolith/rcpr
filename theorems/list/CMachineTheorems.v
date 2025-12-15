@@ -819,4 +819,21 @@ Proof.
     reflexivity.
 Qed.
 
+(* It is an error to set the prev value for a list node to a non-existent or *)
+(* invalid address. *)
+Lemma setListNodePrev_loadFailure :
+    ∀ (n index addr prevAddr val : nat) (l : CLocal) (h : CHeap)
+      (oprev next : Maybe nat) (e : MachineErrorCode),
+        h = CHeapState index [CMemNode addr (Node oprev next val)] →
+        loadLinkedListNode prevAddr n l h = MachineError e →
+        setListNodePrev addr (Just prevAddr) n l h = MachineError e.
+Proof.
+    intros.
+    unfold setListNodePrev.
+    simpl.
+    unfold bind, MachineMMonad.
+    rewrite H0.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
