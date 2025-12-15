@@ -733,4 +733,73 @@ Proof.
     reflexivity.
 Qed.
 
+(* setLinkedListTail is correct for all valid inputs. *)
+Lemma setLinkedListTail_correct :
+    ∀ (n index addr tailAddr count : nat) (l : CLocal) (oh nh : CHeap)
+      (head otail ntail : Maybe nat) (ln : CLinkedListNode),
+        oh = CHeapState index [CMemList addr (List head otail count)] →
+        nh = CHeapState index [CMemList addr (List head ntail count)] →
+        (ntail = Nothing ∨
+         (ntail = Just tailAddr ∧
+            loadLinkedListNode tailAddr n l oh = MachineState n l oh ln)) →
+        setLinkedListTail addr ntail n l oh = MachineState n l nh tt.
+Proof.
+    intros.
+    rewrite H.
+    rewrite H0.
+    destruct H1 as [H_nothing | H_just].
+    {
+        rewrite H_nothing.
+        unfold setLinkedListTail.
+        simpl.
+        unfold loadLinkedList.
+        simpl.
+        unfold loadRaw.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold storeLinkedList.
+        unfold getHeapMemory.
+        unfold getHeap.
+        simpl.
+        unfold loadLinkedList.
+        unfold loadRaw.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold memReplace.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold putHeapMemory.
+        simpl.
+        unfold putHeap.
+        reflexivity.
+    }
+    destruct H_just as [H_just H_load].
+    rewrite H_just.
+    rewrite H in H_load.
+    unfold setLinkedListTail.
+    simpl.
+    rewrite H_load.
+    unfold loadLinkedList.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold storeLinkedList.
+    unfold getHeapMemory.
+    unfold getHeap.
+    simpl.
+    unfold loadLinkedList.
+    unfold loadRaw.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold memReplace.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold putHeapMemory.
+    unfold putHeap.
+    simpl.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
