@@ -585,4 +585,51 @@ Proof.
     reflexivity.
 Qed.
 
+(* decrementLinkedListCount decrements the count of a linked list. *)
+Definition decrementLinkedListCount_rw :
+    ∀ (n index addr count : nat) (oh nh : CHeap) (l : CLocal)
+      (head tail : Maybe nat),
+        count > 0 →
+        oh = CHeapState index [CMemList addr (List head tail count)] →
+        nh = CHeapState index [CMemList addr (List head tail (count - 1))] →
+        decrementLinkedListCount addr n l oh = MachineState n l nh tt.
+Proof.
+    intros.
+    rewrite H0.
+    unfold decrementLinkedListCount.
+    simpl.
+    unfold loadLinkedList.
+    simpl.
+    unfold loadRaw.
+    simpl.
+    rewrite nat_eqb_refl.
+    destruct count.
+    inversion H.
+    unfold storeLinkedList.
+    simpl.
+    unfold loadLinkedList.
+    simpl.
+    unfold loadRaw.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold memReplace.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold putHeapMemory.
+    simpl.
+    unfold putHeap.
+    rewrite H1.
+    simpl.
+    assert (H_count_0 : count - 0 = count).
+    {
+        destruct count.
+        simpl.
+        reflexivity.
+        simpl.
+        reflexivity.
+    }
+    rewrite H_count_0.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
