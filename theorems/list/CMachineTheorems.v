@@ -902,4 +902,70 @@ Proof.
     reflexivity.
 Qed.
 
+(* setListNodePrev is correct for all valid inputs. *)
+Lemma setListNodePrev_correct :
+    ∀ (n index addr prevAddr val : nat) (l : CLocal) (oh nh : CHeap)
+      (oprev nprev next : Maybe nat) (ln : CLinkedListNode),
+        oh = CHeapState index [CMemNode addr (Node oprev next val)] →
+        nh = CHeapState index [CMemNode addr (Node nprev next val)] →
+        (nprev = Nothing ∨
+            (nprev = Just prevAddr ∧
+                loadLinkedListNode prevAddr n l oh = MachineState n l oh ln)) →
+        setListNodePrev addr nprev n l oh = MachineState n l nh tt.
+Proof.
+    intros.
+    rewrite H.
+    rewrite H0.
+    destruct H1 as [H_nothing | H_just].
+    {
+        rewrite H_nothing.
+        unfold setListNodePrev.
+        unfold loadLinkedListNode.
+        unfold loadRaw.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold storeLinkedListNode.
+        unfold getHeapMemory.
+        unfold getHeap.
+        simpl.
+        unfold loadLinkedListNode.
+        unfold loadRaw.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold memReplace.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold putHeapMemory.
+        unfold putHeap.
+        simpl.
+        reflexivity.
+    }
+    destruct H_just as [H_just H_load].
+    rewrite H_just.
+    rewrite H in H_load.
+    unfold setListNodePrev.
+    simpl.
+    rewrite H_load.
+    unfold loadLinkedListNode.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold storeLinkedListNode.
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold loadLinkedListNode.
+    unfold loadRaw.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold memReplace.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold putHeapMemory.
+    unfold putHeap.
+    simpl.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
