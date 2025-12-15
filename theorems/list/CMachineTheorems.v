@@ -648,6 +648,75 @@ Proof.
     reflexivity.
 Qed.
 
+(* setLinkedListHead is correct for all valid inputs. *)
+Lemma setLinkedListHead_correct :
+    ∀ (n index addr headAddr count : nat) (l : CLocal) (oh nh : CHeap)
+      (ohead nhead tail : Maybe nat) (ln : CLinkedListNode),
+        oh = CHeapState index [CMemList addr (List ohead tail count)] →
+        nh = CHeapState index [CMemList addr (List nhead tail count)] →
+        (nhead = Nothing ∨
+         (nhead = Just headAddr ∧
+            loadLinkedListNode headAddr n l oh = MachineState n l oh ln)) →
+        setLinkedListHead addr nhead n l oh = MachineState n l nh tt.
+Proof.
+    intros.
+    rewrite H.
+    rewrite H0.
+    destruct H1 as [H_nothing | H_just].
+    {
+        rewrite H_nothing.
+        unfold setLinkedListHead.
+        simpl.
+        unfold loadLinkedList.
+        simpl.
+        unfold loadRaw.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold storeLinkedList.
+        unfold getHeapMemory.
+        unfold getHeap.
+        simpl.
+        unfold loadLinkedList.
+        unfold loadRaw.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold memReplace.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold putHeapMemory.
+        simpl.
+        unfold putHeap.
+        reflexivity.
+    }
+    destruct H_just as [H_just H_load].
+    rewrite H_just.
+    rewrite H in H_load.
+    unfold setLinkedListHead.
+    simpl.
+    rewrite H_load.
+    unfold loadLinkedList.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold storeLinkedList.
+    unfold getHeapMemory.
+    unfold getHeap.
+    simpl.
+    unfold loadLinkedList.
+    unfold loadRaw.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold memReplace.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold putHeapMemory.
+    unfold putHeap.
+    simpl.
+    reflexivity.
+Qed.
+
 (* It is an error to set the tail value for a linked list to a non-existent *)
 (* or invalid address. *)
 Lemma setLinkedListTail_loadFailure :
