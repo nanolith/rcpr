@@ -448,10 +448,7 @@ Definition putHeapMemory (values : IList CMemoryLocation) : MachineM unit :=
 (* Get memory from the local store. *)
 Definition getLocalMemory : MachineM (IList CMemoryLocation) :=
     getLocal ▶
-        λ h ↦
-            match h with
-            | CLocalState _ vals => ret vals
-            end.
+        λ '(CLocalState _ vals) ↦ ret vals.
 
 (* Put memory to the local store. *)
 Definition putLocalMemory (values : IList CMemoryLocation) : MachineM unit :=
