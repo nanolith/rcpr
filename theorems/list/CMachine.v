@@ -868,11 +868,8 @@ Definition extractListFromC (ptr : nat) : MachineM (IList nat) :=
     getHeapMemory ▶
         λ values ↦
             loadLinkedList ptr ▶
-                λ l ↦
-                    match l with
-                    | List h _ count =>
-                        extractList count h values []
-                    end.
+                λ '(List h _ count) ↦
+                    extractList count h values [].
 
 (* Extract the reverse linked list from C. *)
 Definition extractReverseListFromC (ptr : nat) : MachineM (IList nat) :=
