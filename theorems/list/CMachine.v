@@ -815,6 +815,27 @@ Definition decrementLinkedListCount (addr : nat) : MachineM unit :=
                 end
             end.
 
+(* Set the head pointer for a linked list to the given address. *)
+Definition setLinkedListHead (addr : nat) (headAddr : Maybe nat)
+        : MachineM unit :=
+    match headAddr with
+    | Nothing =>
+        loadLinkedList addr ▶
+            λ list ↦
+                match list with
+                | List _ tail count =>
+                    storeLinkedList addr (List Nothing tail count)
+                end
+    | Just headAddr' =>
+        loadLinkedListPtr headAddr' »
+        loadLinkedList addr ▶
+            λ list ↦
+                match list with
+                | List _ tail count =>
+                    storeLinkedList addr (List headAddr tail count)
+                end
+    end.
+
 (* Extract a linked list into an IList of nat values. *)
 Fixpoint extractList (count : nat) (midx : Maybe nat)
         (values : IList CMemoryLocation) (acc : IList nat)
