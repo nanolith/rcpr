@@ -684,13 +684,10 @@ Definition storeLocalLinkedListPtrPtr (addr : nat) (ptr : Maybe nat) :
 (* Create a value on the heap, returning the new memory location. *)
 Definition heapCreate (newCell : CMemoryLocation) : MachineM nat :=
     getHeap ▶
-        λ heap ↦
-            match heap with
-            | CHeapState idx values =>
-                let allocCell := locSet (idx + 1) newCell in
-                    putHeap (CHeapState (idx + 1) (values ++ [allocCell])) »
-                        ret (idx + 1)
-            end.
+        λ '(CHeapState idx values) ↦
+            let allocCell := locSet (idx + 1) newCell in
+                putHeap (CHeapState (idx + 1) (values ++ [allocCell])) »
+                    ret (idx + 1).
 
 (* Create a value on the local store, returning the new memory location. *)
 Definition localCreate (newCell : CMemoryLocation) : MachineM nat :=
