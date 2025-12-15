@@ -648,4 +648,20 @@ Proof.
     reflexivity.
 Qed.
 
+(* It is an error to set the tail value for a linked list to a non-existent *)
+(* or invalid address. *)
+Lemma setLinkedListTail_loadFailure :
+    ∀ (n index addr tailAddr count : nat) (l : CLocal) (h : CHeap)
+      (head otail : Maybe nat) (e : MachineErrorCode),
+        h = CHeapState index [CMemList addr (List head otail count)] →
+        loadLinkedListNode tailAddr n l h = MachineError e →
+        setLinkedListTail addr (Just tailAddr) n l h = MachineError e.
+Proof.
+    intros.
+    unfold setLinkedListTail.
+    unfold bind, MachineMMonad.
+    rewrite H0.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
