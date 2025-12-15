@@ -453,10 +453,8 @@ Definition getLocalMemory : MachineM (IList CMemoryLocation) :=
 (* Put memory to the local store. *)
 Definition putLocalMemory (values : IList CMemoryLocation) : MachineM unit :=
     getLocal ▶
-        λ h ↦
-            match h with
-            | CLocalState idx _ => putLocal (CLocalState idx values)
-            end.
+        λ '(CLocalState idx _) ↦
+            putLocal (CLocalState idx values).
 
 (* Perform a raw (untyped) load of a location. *)
 Definition loadRaw (addr : nat) : MachineM CMemoryLocation :=
