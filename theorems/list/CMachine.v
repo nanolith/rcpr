@@ -835,7 +835,7 @@ Definition setListNodeNext (addr : nat) (nextAddr : Maybe nat)
         loadLinkedListNode nextAddr' »
         loadLinkedListNode addr ▶
             λ '(Node prev _ val) ↦
-                storeLinkedListNode addr (Node prev Nothing val)
+                storeLinkedListNode addr (Node prev nextAddr val)
     end.
 
 (* Set the prev pointer for a linked list node to the given address. *)
