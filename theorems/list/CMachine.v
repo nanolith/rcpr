@@ -842,19 +842,13 @@ Definition setLinkedListTail (addr : nat) (tailAddr : Maybe nat)
     match tailAddr with
     | Nothing =>
         loadLinkedList addr ▶
-            λ list ↦
-                match list with
-                | List head _ count =>
-                    storeLinkedList addr (List head Nothing count)
-                end
+            λ '(List head _ count) ↦
+                storeLinkedList addr (List head Nothing count)
     | Just tailAddr' =>
         loadLinkedListNode tailAddr' »
         loadLinkedList addr ▶
-            λ list ↦
-                match list with
-                | List head _ count =>
-                    storeLinkedList addr (List head tailAddr count)
-                end
+            λ '(List head _ count) ↦
+                storeLinkedList addr (List head tailAddr count)
     end.
 
 (* Extract a linked list into an IList of nat values. *)
