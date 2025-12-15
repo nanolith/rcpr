@@ -692,13 +692,10 @@ Definition heapCreate (newCell : CMemoryLocation) : MachineM nat :=
 (* Create a value on the local store, returning the new memory location. *)
 Definition localCreate (newCell : CMemoryLocation) : MachineM nat :=
     getLocal ▶
-        λ local ↦
-            match local with
-            | CLocalState idx values =>
-                let allocCell := locSet (idx + 1) newCell in
-                    putLocal (CLocalState (idx + 1) (values ++ [allocCell])) »
-                        ret (idx + 1)
-            end.
+        λ '(CLocalState idx values) ↦
+            let allocCell := locSet (idx + 1) newCell in
+                putLocal (CLocalState (idx + 1) (values ++ [allocCell])) »
+                    ret (idx + 1).
 
 (* Create a linked list node. *)
 Definition createLinkedListNode (node : CLinkedListNode) : MachineM nat :=
