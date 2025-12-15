@@ -823,6 +823,21 @@ Definition setLinkedListTail (addr : nat) (tailAddr : Maybe nat)
                 storeLinkedList addr (List head tailAddr count)
     end.
 
+(* Set the next pointer for a linked list node to the given address. *)
+Definition setListNodeNext (addr : nat) (nextAddr : Maybe nat)
+        : MachineM unit :=
+    match nextAddr with
+    | Nothing =>
+        loadLinkedListNode addr ▶
+            λ '(Node prev _ val) ↦
+                storeLinkedListNode addr (Node prev Nothing val)
+    | Just nextAddr' =>
+        loadLinkedListNode nextAddr' »
+        loadLinkedListNode addr ▶
+            λ '(Node prev _ val) ↦
+                storeLinkedListNode addr (Node prev Nothing val)
+    end.
+
 (* Extract a linked list into an IList of nat values. *)
 Fixpoint extractList (count : nat) (midx : Maybe nat)
         (values : IList CMemoryLocation) (acc : IList nat)
