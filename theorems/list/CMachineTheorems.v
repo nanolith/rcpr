@@ -632,7 +632,7 @@ Proof.
     reflexivity.
 Qed.
 
-(* It is an error to set a the head value for a linked list to a non-existent *)
+(* It is an error to set the head value for a linked list to a non-existent *)
 (* or invalid address. *)
 Lemma setLinkedListHead_loadFailure :
     ∀ (n index addr headAddr count : nat) (l : CLocal) (h : CHeap)
