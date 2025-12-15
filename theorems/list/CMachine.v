@@ -858,11 +858,8 @@ Fixpoint extractReverseList (count : nat) (midx : Maybe nat)
         | Nothing => throw MachineErrorTruncation
         | Just idx =>
             loadLinkedListNode idx ▶
-                λ node ↦
-                    match node with
-                    | Node prev _ val =>
-                        extractReverseList n prev values (val :: acc)
-                    end
+                λ '(Node prev _ val) ↦
+                    extractReverseList n prev values (val :: acc)
         end
     end.
 
