@@ -838,11 +838,8 @@ Fixpoint extractList (count : nat) (midx : Maybe nat)
         | Nothing => throw MachineErrorTruncation
         | Just idx =>
             loadLinkedListNode idx ▶
-                λ node ↦
-                    match node with
-                    | Node _ next val =>
-                        extractList n next values (val :: acc)
-                    end
+                λ '(Node _ next val) ↦
+                    extractList n next values (val :: acc)
         end
     end.
 
