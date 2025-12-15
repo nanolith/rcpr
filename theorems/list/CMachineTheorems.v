@@ -802,4 +802,21 @@ Proof.
     reflexivity.
 Qed.
 
+(* It is an error to set the next value for a list node to a non-existent or *)
+(* invalid address. *)
+Lemma setListNodeNext_loadFailure :
+    ∀ (n index addr nextAddr val : nat) (l : CLocal) (h : CHeap)
+      (prev onext : Maybe nat) (e : MachineErrorCode),
+        h = CHeapState index [CMemNode addr (Node prev onext val)] →
+        loadLinkedListNode nextAddr n l h = MachineError e →
+        setListNodeNext addr (Just nextAddr) n l h = MachineError e.
+Proof.
+    intros.
+    unfold setListNodeNext.
+    simpl.
+    unfold bind, MachineMMonad.
+    rewrite H0.
+    reflexivity.
+Qed.
+
 End CMachineTheorems.
