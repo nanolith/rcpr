@@ -437,10 +437,7 @@ Open Scope monad_scope.
 (* Get memory from the heap. *)
 Definition getHeapMemory : MachineM (IList CMemoryLocation) :=
     getHeap ▶
-        λ h ↦
-            match h with
-            | CHeapState _ vals => ret vals
-            end.
+        λ '(CHeapState _ vals) ↦ ret vals.
 
 (* Put memory to the heap. *)
 Definition putHeapMemory (values : IList CMemoryLocation) : MachineM unit :=
