@@ -18,7 +18,7 @@ Module CMachine.
 
 (* Simulated Linked List node in C. *)
 Inductive CLinkedListNode : Type :=
-| Node (prev : Maybe nat) (next : Maybe nat) (val : nat).
+| Node (prev next : Maybe nat) (val : nat).
 
 (* Simulated Linked List in C. *)
 Inductive CLinkedList : Type :=
