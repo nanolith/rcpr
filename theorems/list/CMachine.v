@@ -836,6 +836,27 @@ Definition setLinkedListHead (addr : nat) (headAddr : Maybe nat)
                 end
     end.
 
+(* Set the tail pointer for a linked list to the given address. *)
+Definition setLinkedListTail (addr : nat) (tailAddr : Maybe nat)
+        : MachineM unit :=
+    match tailAddr with
+    | Nothing =>
+        loadLinkedList addr ▶
+            λ list ↦
+                match list with
+                | List head _ count =>
+                    storeLinkedList addr (List head Nothing count)
+                end
+    | Just tailAddr' =>
+        loadLinkedListPtr tailAddr' »
+        loadLinkedList addr ▶
+            λ list ↦
+                match list with
+                | List head _ count =>
+                    storeLinkedList addr (List head tailAddr count)
+                end
+    end.
+
 (* Extract a linked list into an IList of nat values. *)
 Fixpoint extractList (count : nat) (midx : Maybe nat)
         (values : IList CMemoryLocation) (acc : IList nat)
