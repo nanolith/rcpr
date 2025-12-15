@@ -22,7 +22,7 @@ Inductive CLinkedListNode : Type :=
 
 (* Simulated Linked List in C. *)
 Inductive CLinkedList : Type :=
-| List (head : Maybe nat) (tail : Maybe nat) (count : nat).
+| List (head tail : Maybe nat) (count : nat).
 
 (* Simulated Memory Location in C. *)
 Inductive CMemoryLocation : Type :=
