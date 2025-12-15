@@ -848,7 +848,7 @@ Definition setLinkedListTail (addr : nat) (tailAddr : Maybe nat)
                     storeLinkedList addr (List head Nothing count)
                 end
     | Just tailAddr' =>
-        loadLinkedListPtr tailAddr' »
+        loadLinkedListNode tailAddr' »
         loadLinkedList addr ▶
             λ list ↦
                 match list with
