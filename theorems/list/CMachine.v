@@ -780,11 +780,8 @@ Definition reclaimLinkedListPtr (addr : nat) : MachineM unit :=
 (* Increment node count for a linked list. *)
 Definition incrementLinkedListCount (addr : nat) : MachineM unit :=
     loadLinkedList addr ▶
-        λ list ↦
-            match list with
-            | List head tail count =>
-                storeLinkedList addr (List head tail (count + 1))
-            end.
+        λ '(List head tail count) ↦
+            storeLinkedList addr (List head tail (count + 1)).
 
 (* Decrement node count for a linked list. *)
 Definition decrementLinkedListCount (addr : nat) : MachineM unit :=
