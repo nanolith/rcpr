@@ -819,6 +819,72 @@ Proof.
     reflexivity.
 Qed.
 
+(* setListNodeNext is correct for all valid inputs. *)
+Lemma setListNodeNext_correct :
+    ∀ (n index addr nextAddr val : nat) (l : CLocal) (oh nh : CHeap)
+      (prev onext nnext : Maybe nat) (ln : CLinkedListNode),
+        oh = CHeapState index [CMemNode addr (Node prev onext val)] →
+        nh = CHeapState index [CMemNode addr (Node prev nnext val)] →
+        (nnext = Nothing ∨
+            (nnext = Just nextAddr ∧
+                loadLinkedListNode nextAddr n l oh = MachineState n l oh ln)) →
+        setListNodeNext addr nnext n l oh = MachineState n l nh tt.
+Proof.
+    intros.
+    rewrite H.
+    rewrite H0.
+    destruct H1 as [H_nothing | H_just].
+    {
+        rewrite H_nothing.
+        unfold setListNodeNext.
+        unfold loadLinkedListNode.
+        unfold loadRaw.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold storeLinkedListNode.
+        unfold getHeapMemory.
+        unfold getHeap.
+        simpl.
+        unfold loadLinkedListNode.
+        unfold loadRaw.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold memReplace.
+        simpl.
+        rewrite nat_eqb_refl.
+        unfold putHeapMemory.
+        unfold putHeap.
+        simpl.
+        reflexivity.
+    }
+    destruct H_just as [H_just H_load].
+    rewrite H_just.
+    rewrite H in H_load.
+    unfold setListNodeNext.
+    simpl.
+    rewrite H_load.
+    unfold loadLinkedListNode.
+    unfold loadRaw.
+    unfold getHeapMemory.
+    unfold getHeap.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold storeLinkedListNode.
+    unfold getHeapMemory.
+    unfold getHeap.
+    unfold loadLinkedListNode.
+    unfold loadRaw.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold memReplace.
+    simpl.
+    rewrite nat_eqb_refl.
+    unfold putHeapMemory.
+    unfold putHeap.
+    simpl.
+    reflexivity.
+Qed.
+
 (* It is an error to set the prev value for a list node to a non-existent or *)
 (* invalid address. *)
 Lemma setListNodePrev_loadFailure :
