@@ -876,11 +876,8 @@ Definition extractReverseListFromC (ptr : nat) : MachineM (IList nat) :=
     getHeapMemory ▶
         λ values ↦
             loadLinkedList ptr ▶
-                λ l ↦
-                    match l with
-                    | List _ t count =>
-                        extractReverseList count t values []
-                    end.
+                λ '(List _ t count) ↦
+                    extractReverseList count t values [].
 
 (* Stand-in for an operation that could succeed or fail. *)
 Parameter maybeCreateLinkedList : MachineM (Maybe nat).
