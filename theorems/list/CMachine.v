@@ -799,19 +799,13 @@ Definition setLinkedListHead (addr : nat) (headAddr : Maybe nat)
     match headAddr with
     | Nothing =>
         loadLinkedList addr ▶
-            λ list ↦
-                match list with
-                | List _ tail count =>
-                    storeLinkedList addr (List Nothing tail count)
-                end
+            λ '(List _ tail count) ↦
+                storeLinkedList addr (List Nothing tail count)
     | Just headAddr' =>
         loadLinkedListNode headAddr' »
         loadLinkedList addr ▶
-            λ list ↦
-                match list with
-                | List _ tail count =>
-                    storeLinkedList addr (List headAddr tail count)
-                end
+            λ '(List _ tail count) ↦
+                storeLinkedList addr (List headAddr tail count)
     end.
 
 (* Set the tail pointer for a linked list to the given address. *)
