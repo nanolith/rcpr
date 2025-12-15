@@ -634,11 +634,11 @@ Qed.
 
 (* It is an error to set the head value for a linked list to a non-existent *)
 (* or invalid address. *)
-(* Lemma setLinkedListHead_loadFailure :
+Lemma setLinkedListHead_loadFailure :
     ∀ (n index addr headAddr count : nat) (l : CLocal) (h : CHeap)
       (ohead tail : Maybe nat) (e : MachineErrorCode),
         h = CHeapState index [CMemList addr (List ohead tail count)] →
-        loadLinkedListPtr headAddr n l h = MachineError e →
+        loadLinkedListNode headAddr n l h = MachineError e →
         setLinkedListHead addr (Just headAddr) n l h = MachineError e.
 Proof.
     intros.
@@ -646,6 +646,6 @@ Proof.
     unfold bind, MachineMMonad.
     rewrite H0.
     reflexivity.
-Qed. *)
+Qed.
 
 End CMachineTheorems.
