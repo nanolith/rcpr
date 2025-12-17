@@ -1003,6 +1003,10 @@ Definition evalCheckHeapListPtrAddress (heapAddr : nat) : MachineM unit :=
 Definition evalReturnStatus (code : CStatusCode) : MachineM CStatusCode :=
     ret code.
 
+(* Evaluate an increment list count instruction. *)
+Definition evalIncrementListCount (localAddr : nat) : MachineM unit :=
+    loadLocalLinkedListPtr localAddr ▶ fromJust ▶ incrementLinkedListCount.
+
 (* Evaluate an ITE conditional instruction. *)
 Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
     match ins with
