@@ -127,6 +127,7 @@ Inductive CMachineInstruction : Type :=
 | INS_AssignLocalListHeapPtrToLocalListPtr
     (localHeapAddr localAddr : nat) (next : CMachineInstruction)
 | INS_IncrementListCount (localAddr : nat) (next : CMachineInstruction)
+| INS_DecrementListCount (localAddr : nat) (next : CMachineInstruction)
 | INS_CheckHeapListPtrAddress (heapAddr : nat) (next : CMachineInstruction)
 | INS_ReturnStatus (code : CStatusCode)
 | INS_Crash (e : MachineErrorCode).
@@ -1052,6 +1053,9 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
         eval next
     | INS_IncrementListCount localAddr next =>
         evalIncrementListCount localAddr »
+        eval next
+    | INS_DecrementListCount localAddr next =>
+        evalDecrementListCount localAddr »
         eval next
     | INS_CheckHeapListPtrAddress heapAddr next =>
         evalCheckHeapListPtrAddress heapAddr »
