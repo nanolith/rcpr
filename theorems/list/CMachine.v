@@ -1029,6 +1029,12 @@ Definition evalSetListHead (localAddr : nat) (nodePtrAddr : Maybe nat)
     loadLocalLinkedListPtr localAddr ▶ fromJust ▶
     λ addr ↦ setLinkedListHead addr nodePtrAddr.
 
+(* Evaluae a set list tail instruction. *)
+Definition evalSetListTail (localAddr : nat) (nodePtrAddr : Maybe nat)
+        : MachineM unit :=
+    loadLocalLinkedListPtr localAddr ▶ fromJust ▶
+    λ addr ↦ setLinkedListTail addr nodePtrAddr.
+
 (* Evaluate an ITE conditional instruction. *)
 Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
     match ins with
