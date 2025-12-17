@@ -1023,6 +1023,12 @@ Definition evalIncrementListCount (localAddr : nat) : MachineM unit :=
 Definition evalDecrementListCount (localAddr : nat) : MachineM unit :=
     loadLocalLinkedListPtr localAddr ▶ fromJust ▶ decrementLinkedListCount.
 
+(* Evaluae a set list head instruction. *)
+Definition evalSetListHead (localAddr : nat) (nodePtrAddr : Maybe nat)
+        : MachineM unit :=
+    loadLocalLinkedListPtr localAddr ▶ fromJust ▶
+    λ addr ↦ setLinkedListHead addr nodePtrAddr.
+
 (* Evaluate an ITE conditional instruction. *)
 Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
     match ins with
