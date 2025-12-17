@@ -186,6 +186,11 @@ Notation "'@checkHeapListPtrAddress' '(' heapAddr ')' ';' next" :=
     (in custom c_lang at level 3, heapAddr constr,
      next custom c_lang at level 200).
 
+Notation "'@incrementCount' '(' localAddr ')' ';' next" :=
+    (INS_IncrementListCount localAddr next)
+    (in custom c_lang at level 3, localAddr constr,
+     next custom c_lang at level 200).
+
 (* Machine State. *)
 Inductive Machine (A : Type) :=
 | MachineError : MachineErrorCode → Machine A
