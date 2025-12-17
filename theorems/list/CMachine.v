@@ -1007,6 +1007,10 @@ Definition evalReturnStatus (code : CStatusCode) : MachineM CStatusCode :=
 Definition evalIncrementListCount (localAddr : nat) : MachineM unit :=
     loadLocalLinkedListPtr localAddr ▶ fromJust ▶ incrementLinkedListCount.
 
+(* Evaluate a decrement list count instruction. *)
+Definition evalDecrementListCount (localAddr : nat) : MachineM unit :=
+    loadLocalLinkedListPtr localAddr ▶ fromJust ▶ decrementLinkedListCount.
+
 (* Evaluate an ITE conditional instruction. *)
 Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
     match ins with
