@@ -1025,13 +1025,13 @@ Definition evalIncrementListCount (localAddr : nat) : MachineM unit :=
 Definition evalDecrementListCount (localAddr : nat) : MachineM unit :=
     loadLocalLinkedListPtr localAddr ▶ fromJust ▶ decrementLinkedListCount.
 
-(* Evaluae a set list head instruction. *)
+(* Evaluate a set list head instruction. *)
 Definition evalSetListHead (localAddr : nat) (nodePtrAddr : Maybe nat)
         : MachineM unit :=
     loadLocalLinkedListPtr localAddr ▶ fromJust ▶
     λ addr ↦ setLinkedListHead addr nodePtrAddr.
 
-(* Evaluae a set list tail instruction. *)
+(* Evaluate a set list tail instruction. *)
 Definition evalSetListTail (localAddr : nat) (nodePtrAddr : Maybe nat)
         : MachineM unit :=
     loadLocalLinkedListPtr localAddr ▶ fromJust ▶
