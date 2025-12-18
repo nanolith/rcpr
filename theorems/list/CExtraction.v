@@ -1,4 +1,5 @@
 Require Import RCPR.Data.Either.
+Require Import RCPR.Data.Maybe.
 Require Import RCPR.Data.Monad.
 Require Import RCPR.Helpers.Notation.
 Require Import list.CMachine.
@@ -7,6 +8,7 @@ From Corelib Require Extraction.
 
 Import CMachine.
 Import Either.
+Import Maybe.
 Import Monad.
 Import Notation.
 
@@ -108,6 +110,13 @@ Parameter extractInsDecrementListCount :
 Extract Constant extractInsDecrementListCount =>
     "gen-decrement-list-count".
 
+(* Extract an INS_SetLinkedListHead. *)
+Parameter extractInsSetLinkedListHead :
+    nat → Maybe nat → Either ExtractionError unit.
+
+Extract Constant extractInsSetLinkedListHead =>
+    "gen-set-linked-list-head".
+
 (* Extract an INS_CheckHeapListPtrAddress. *)
 Parameter extractInsCheckHeapListPtrAddress :
     nat → Either ExtractionError unit.
@@ -178,6 +187,11 @@ Definition extractInsCond (ins : CMachineInstruction)
         ignoreParameter localAddr »
         ignoreParameter next »
         Left ExtractionErrorGeneral
+    | INS_SetLinkedListHead localAddr headAddr next =>
+        ignoreParameter localAddr »
+        ignoreParameter headAddr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
     | INS_CheckHeapListPtrAddress heapAddr next =>
         ignoreParameter heapAddr »
         ignoreParameter next »
@@ -227,6 +241,9 @@ Fixpoint extractInstructions (ins : CMachineInstruction)
         extractInstructions next
     | INS_DecrementListCount localAddr next =>
         extractInsDecrementListCount localAddr »
+        extractInstructions next
+    | INS_SetLinkedListHead localAddr headAddr next =>
+        extractInsSetLinkedListHead localAddr headAddr »
         extractInstructions next
     | INS_CheckHeapListPtrAddress heapAddr next =>
         extractInsCheckHeapListPtrAddress heapAddr »
