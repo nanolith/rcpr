@@ -209,6 +209,11 @@ Notation "'@setLinkedListHead' '(' localAddr ',' headAddr ')' ';' next" :=
     (in custom c_lang at level 3, localAddr constr, headAddr constr,
      next custom c_lang at level 200).
 
+Notation "'@setLinkedListTail' '(' localAddr ',' tailAddr ')' ';' next" :=
+    (INS_SetLinkedListTail localAddr tailAddr next)
+    (in custom c_lang at level 3, localAddr constr, tailAddr constr,
+     next custom c_lang at level 200).
+
 (* Machine State. *)
 Inductive Machine (A : Type) :=
 | MachineError : MachineErrorCode → Machine A
