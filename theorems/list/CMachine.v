@@ -214,6 +214,11 @@ Notation "'@setLinkedListTail' '(' localAddr ',' tailAddr ')' ';' next" :=
     (in custom c_lang at level 3, localAddr constr, tailAddr constr,
      next custom c_lang at level 200).
 
+Notation "'@setListNodeNext' '(' localAddr ',' nextAddr ')' ';' next" :=
+    (INS_SetListNodeNext localAddr nextAddr next)
+    (in custom c_lang at level 3, localAddr constr, nextAddr constr,
+     next custom c_lang at level 200).
+
 (* Machine State. *)
 Inductive Machine (A : Type) :=
 | MachineError : MachineErrorCode → Machine A
