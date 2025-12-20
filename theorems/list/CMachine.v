@@ -991,7 +991,8 @@ Definition evalAssignLocalListPtrPtrToListPtrParameter
 (* Evaluate an assign list node pointer parameter to local list node ptr. *)
 Definition evalAssignLocalListNodePtrToListNodePtrParameter
         (offset : nat) (localAddr : nat) : MachineM unit :=
-    getLinkedListNodePtrParameter offset ▶
+    getLinkedListNodePtrParameter offset ▶ fromJust ▶
+    loadLinkedListNodePtr ▶
     storeLocalLinkedListNodePtr localAddr.
 
 (* Evaluate an assign local list heap pointer to local list ptr. *)
