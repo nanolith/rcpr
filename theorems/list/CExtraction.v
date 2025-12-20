@@ -89,6 +89,13 @@ Parameter extractInsAssignLocalListPtrPtrToListPtrParameter :
 Extract Constant extractInsAssignLocalListPtrPtrToListPtrParameter =>
     "gen-assign-local-list-ptr-ptr-to-list-ptr-parameter".
 
+(* Extract an INS_AssignLocalListNodePtrToListNodePtrParameter. *)
+Parameter extractInsAssignLocalListNodePtrToListNodePtrParameter :
+    nat → nat → Either ExtractionError unit.
+
+Extract Constant extractInsAssignLocalListNodePtrToListNodePtrParameter =>
+    "gen-assign-local-list-node-ptr-to-list-node-ptr-parameter".
+
 (* Extract an INS_AssignLocalListHeapPtrToLocalListPtr. *)
 Parameter extractInsAssignLocalListHeapPtrToLocalListPtr :
     nat → nat → Either ExtractionError unit.
@@ -195,6 +202,12 @@ Definition extractInsCond (ins : CMachineInstruction)
         ignoreParameter localAddr »
         ignoreParameter next »
         Left ExtractionErrorGeneral
+    | INS_AssignLocalListNodePtrToListNodePtrParameter
+            heapAddr localAddr next =>
+        ignoreParameter heapAddr »
+        ignoreParameter localAddr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
     | INS_AssignLocalListHeapPtrToLocalListPtr localHeapAddr localAddr next =>
         ignoreParameter localHeapAddr »
         ignoreParameter localAddr »
@@ -268,6 +281,11 @@ Fixpoint extractInstructions (ins : CMachineInstruction)
         extractInstructions next
     | INS_AssignLocalListPtrPtrToListPtrParameter heapAddr localAddr next =>
         extractInsAssignLocalListPtrPtrToListPtrParameter heapAddr localAddr »
+        extractInstructions next
+    | INS_AssignLocalListNodePtrToListNodePtrParameter
+            heapAddr localAddr next =>
+        extractInsAssignLocalListNodePtrToListNodePtrParameter
+            heapAddr localAddr »
         extractInstructions next
     | INS_AssignLocalListHeapPtrToLocalListPtr localHeapAddr localAddr next =>
         extractInsAssignLocalListHeapPtrToLocalListPtr localHeapAddr localAddr »
