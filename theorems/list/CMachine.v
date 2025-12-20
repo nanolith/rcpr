@@ -977,6 +977,9 @@ Definition cListCreate (listPtr : nat) : MachineM CStatusCode :=
 (* Stub function for reading a LinkedListPtr parameter. *)
 Parameter getLinkedListPtrParameter : nat → MachineM (Maybe nat).
 
+(* Stub function for reading a LinkedListNodePtr parameter. *)
+Parameter getLinkedListNodePtrParameter : nat → MachineM (Maybe nat).
+
 (* Evaluate an assign list pointer parameter to local list ptr ptr. *)
 Definition evalAssignLocalListPtrPtrToListPtrParameter
         (offset : nat) (localAddr : nat) : MachineM unit :=
