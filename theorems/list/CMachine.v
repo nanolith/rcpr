@@ -1041,6 +1041,12 @@ Definition evalAssignLocalListPtrToHeapListPtr (heapAddr localAddr : nat)
     loadLocalLinkedListPtr localAddr ▶
     storeLinkedListPtr heapAddr.
 
+(* Evaluate an assignment instruction for a linked list node pointer. *)
+Definition evalAssignLocalListNodePtrToHeapListNodePtr
+        (heapAddr localAddr : nat) : MachineM unit :=
+    loadLinkedListPtr heapAddr ▶
+    storeLocalLinkedListPtr localAddr.
+
 (* Evaluate a null check instruction. *)
 Definition evalCheckHeapListPtrAddress (heapAddr : nat) : MachineM unit :=
     loadLinkedListPtr heapAddr »
