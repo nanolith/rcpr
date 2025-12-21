@@ -998,15 +998,10 @@ Definition evalAssignLocalListNodePtrToListNodePtrParameter
 (* Evaluate an assign local list heap pointer to local list ptr. *)
 Definition evalAssignLocalListHeapPointerToLocalListPtr
         (localHeapAddr localAddr : nat) : MachineM unit :=
-    loadLocalLinkedListPtrPtr localHeapAddr ▶
-    λ mptr ↦
-    match mptr with
-    | Just ptr =>
-        loadLocalLinkedListPtr localAddr ▶
-        storeLinkedListPtr ptr
-    | Nothing =>
-        throw MachineErrorDereference
-    end.
+    loadLocalLinkedListPtrPtr localHeapAddr ▶ fromJust ▶
+    λ ptr ↦
+    loadLocalLinkedListPtr localAddr ▶
+    storeLinkedListPtr ptr.
 
 (* Evaluate a create local linked list ptr instruction. *)
 Definition evalCreateLocalLinkedListPtr (addr : nat) : MachineM unit :=
