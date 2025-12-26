@@ -837,6 +837,12 @@ Definition decrementLinkedListCount (addr : nat) : MachineM unit :=
                 storeLinkedList addr (List head tail n)
             end.
 
+(* Get the head pointer for a linked list. *)
+Definition getLinkedListHead (addr : nat) : MachineM (Maybe nat) :=
+    loadLinkedList addr ▶
+    λ '(List head _ _) ↦
+        ret head.
+
 (* Set the head pointer for a linked list to the given address. *)
 Definition setLinkedListHead (addr : nat) (headAddr : Maybe nat)
         : MachineM unit :=
