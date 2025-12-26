@@ -955,6 +955,13 @@ Definition setListNodePtrNext (addr : nat) (nextAddr : Maybe nat)
                 storeLinkedListNode paddr (Node prev nextAddr val)
     end.
 
+(* Get the prev pointer for a linked list node ptr. *)
+Definition getLinkedListNodePtrPrev (addr : nat) : MachineM (Maybe nat) :=
+    loadLocalLinkedListPtr addr ▶ fromJust ▶
+    loadLinkedListNode ▶
+    λ '(Node _ prev _) ↦
+        ret prev.
+
 (* Extract a linked list into an IList of nat values. *)
 Fixpoint extractList (count : nat) (midx : Maybe nat)
         (values : IList CMemoryLocation) (acc : IList nat)
