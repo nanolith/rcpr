@@ -962,6 +962,25 @@ Definition getLinkedListNodePtrPrev (addr : nat) : MachineM (Maybe nat) :=
     λ '(Node _ prev _) ↦
         ret prev.
 
+(* Set the prev pointer for a linked list node to the given address. *)
+Definition setListNodePtrPrev (addr : nat) (prevAddr : Maybe nat)
+        : MachineM unit :=
+    match prevAddr with
+    | Nothing =>
+        loadLocalLinkedListPtr addr ▶ fromJust ▶
+        λ paddr ↦
+        loadLinkedListNode paddr ▶
+            λ '(Node _ next val) ↦
+                storeLinkedListNode paddr (Node Nothing next val)
+    | Just prevAddr' =>
+        loadLinkedListNode prevAddr' »
+        loadLocalLinkedListPtr addr ▶ fromJust ▶
+        λ paddr ↦
+        loadLinkedListNode paddr ▶
+            λ '(Node _ next val) ↦
+                storeLinkedListNode paddr (Node prevAddr next val)
+    end.
+
 (* Extract a linked list into an IList of nat values. *)
 Fixpoint extractList (count : nat) (midx : Maybe nat)
         (values : IList CMemoryLocation) (acc : IList nat)
