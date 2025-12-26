@@ -900,6 +900,12 @@ Definition setListNodeNext (addr : nat) (nextAddr : Maybe nat)
                 storeLinkedListNode addr (Node prev nextAddr val)
     end.
 
+(* Get the prev pointer for a linked list node. *)
+Definition getLinkedListNodePrev (addr : nat) : MachineM (Maybe nat) :=
+    loadLinkedListNode addr ▶
+    λ '(Node _ prev _) ↦
+        ret prev.
+
 (* Set the prev pointer for a linked list node to the given address. *)
 Definition setListNodePrev (addr : nat) (prevAddr : Maybe nat)
         : MachineM unit :=
