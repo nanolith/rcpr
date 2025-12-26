@@ -879,6 +879,12 @@ Definition setLinkedListTail (addr : nat) (tailAddr : Maybe nat)
                 storeLinkedList addr (List head tailAddr count)
     end.
 
+(* Get the next pointer for a linked list node. *)
+Definition getLinkedListNodeNext (addr : nat) : MachineM (Maybe nat) :=
+    loadLinkedListNode addr ▶
+    λ '(Node next _ _) ↦
+        ret next.
+
 (* Set the next pointer for a linked list node to the given address. *)
 Definition setListNodeNext (addr : nat) (nextAddr : Maybe nat)
         : MachineM unit :=
