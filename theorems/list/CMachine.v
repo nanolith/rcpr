@@ -858,6 +858,12 @@ Definition setLinkedListHead (addr : nat) (headAddr : Maybe nat)
                 storeLinkedList addr (List headAddr tail count)
     end.
 
+(* Get the tail pointer for a linked list. *)
+Definition getLinkedListTail (addr : nat) : MachineM (Maybe nat) :=
+    loadLinkedList addr ▶
+    λ '(List _ tail _) ↦
+        ret tail.
+
 (* Set the tail pointer for a linked list to the given address. *)
 Definition setLinkedListTail (addr : nat) (tailAddr : Maybe nat)
         : MachineM unit :=
