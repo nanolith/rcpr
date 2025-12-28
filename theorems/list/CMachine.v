@@ -1161,6 +1161,13 @@ Definition evalAssignLocalListNodePtrToListNodePrev
     getLinkedListNodePrev nodeAddr ▶
     storeLocalLinkedListPtr localAddr.
 
+(* Evaluate an assignment instruction for a local linked list node pointer to *)
+(* a local list node pointer next. *)
+Definition evalAssignLocalListNodePtrToLocalListNodePtrNext
+        (localAddr nodeAddr : nat) : MachineM unit :=
+    getLinkedListNodePtrNext nodeAddr ▶
+    storeLocalLinkedListPtr localAddr.
+
 (* Evaluate a null check instruction. *)
 Definition evalCheckHeapListPtrAddress (heapAddr : nat) : MachineM unit :=
     loadLinkedListPtr heapAddr »
