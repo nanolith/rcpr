@@ -145,6 +145,13 @@ Parameter extractInsAssignLocalListNodePtrToLocalListNodePtrNext :
 Extract Constant extractInsAssignLocalListNodePtrToLocalListNodePtrNext =>
     "gen-assign-local-list-node-ptr-to-local-list-node-ptr-next".
 
+(* Extract an INS_AssignLocalListNodePtrToLocalListNodePtrPrev. *)
+Parameter extractInsAssignLocalListNodePtrToLocalListNodePtrPrev :
+    nat → nat → Either ExtractionError unit.
+
+Extract Constant extractInsAssignLocalListNodePtrToLocalListNodePtrPrev =>
+    "gen-assign-local-list-node-ptr-to-local-list-node-ptr-prev".
+
 (* Extract an INS_IncrementListCount. *)
 Parameter extractInsIncrementListCount :
     nat → Either ExtractionError unit.
@@ -286,6 +293,12 @@ Definition extractInsCond (ins : CMachineInstruction)
         ignoreParameter nodeAddr »
         ignoreParameter next »
         Left ExtractionErrorGeneral
+    | INS_AssignLocalListNodePtrToLocalListNodePtrPrev
+            localAddr nodeAddr next =>
+        ignoreParameter localAddr »
+        ignoreParameter nodeAddr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
     | INS_IncrementListCount localAddr next =>
         ignoreParameter localAddr »
         ignoreParameter next »
@@ -381,6 +394,11 @@ Fixpoint extractInstructions (ins : CMachineInstruction)
     | INS_AssignLocalListNodePtrToLocalListNodePtrNext
             localAddr nodeAddr next =>
         extractInsAssignLocalListNodePtrToLocalListNodePtrNext
+            localAddr nodeAddr »
+        extractInstructions next
+    | INS_AssignLocalListNodePtrToLocalListNodePtrPrev
+            localAddr nodeAddr next =>
+        extractInsAssignLocalListNodePtrToLocalListNodePtrPrev
             localAddr nodeAddr »
         extractInstructions next
     | INS_IncrementListCount localAddr next =>
