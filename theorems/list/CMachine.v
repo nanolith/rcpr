@@ -210,6 +210,11 @@ Notation "'@assignLocalListNodePtrToHeapListNodePtr' '(' localAddr ',' heapAddr 
     (in custom c_lang at level 3, localAddr constr, heapAddr constr,
      next custom c_lang at level 200).
 
+Notation "'@assignLocalListNodePtrToHeapListHead' '(' localAddr ',' heapAddr ')' ';' next" :=
+    (INS_AssignLocalListNodePtrToHeapListHead localAddr heapAddr next)
+    (in custom c_lang at level 3, localAddr constr, heapAddr constr,
+     next custom c_lang at level 200).
+
 Notation "'@checkHeapListPtrAddress' '(' heapAddr ')' ';' next" :=
     (INS_CheckHeapListPtrAddress heapAddr next)
     (in custom c_lang at level 3, heapAddr constr,
