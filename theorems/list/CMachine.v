@@ -1272,6 +1272,13 @@ Definition evalAssignLocalListNodePtrToListTail
     storeLocalLinkedListPtr localAddr.
 
 (* Evaluate an assignment instruction for a local linked list node pointer *)
+(* to a local list ptr head. *)
+Definition evalAssignLocalListNodePtrToLocalListPtrHead
+        (localAddr listAddr : nat) : MachineM unit :=
+    getLocalLinkedListPtrHead listAddr ▶
+    storeLocalLinkedListPtr localAddr.
+
+(* Evaluate an assignment instruction for a local linked list node pointer *)
 (* to a list node next. *)
 Definition evalAssignLocalListNodePtrToListNodeNext
         (localAddr nodeAddr : nat) : MachineM unit :=
