@@ -1376,6 +1376,14 @@ Definition evalLocalSetNodeNext (localAddr localNodeAddr : nat)
     loadLocalLinkedListNodePtr localNodeAddr ▶
     setListNodeNext addr.
 
+(* Evaluate a local set node prev instruction. *)
+Definition evalLocalSetNodePrev (localAddr localNodeAddr : nat)
+        : MachineM unit :=
+    loadLocalLinkedListNodePtr localAddr ▶ fromJust ▶
+    λ addr ↦
+    loadLocalLinkedListNodePtr localNodeAddr ▶
+    setListNodePrev addr.
+
 (* Evaluate an ITE conditional instruction. *)
 Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
     match ins with
