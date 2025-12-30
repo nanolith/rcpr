@@ -950,6 +950,25 @@ Definition getLocalLinkedListPtrHead (addr : nat) : MachineM (Maybe nat) :=
     λ '(List head _ _) ↦
         ret head.
 
+(* Set the head pointer for a locallinked list pointer to the given address. *)
+Definition setLocalLinkedListPtrHead (addr : nat) (headAddr : Maybe nat)
+        : MachineM unit :=
+    match headAddr with
+    | Nothing =>
+        loadLocalLinkedListPtr addr ▶ fromJust ▶
+        λ paddr ↦
+        loadLinkedList paddr ▶
+            λ '(List _ tail count) ↦
+                storeLinkedList paddr (List Nothing tail count)
+    | Just headAddr' =>
+        loadLocalLinkedListPtr addr ▶ fromJust ▶
+        λ paddr ↦
+        loadLinkedListNode headAddr' »
+        loadLinkedList paddr ▶
+            λ '(List _ tail count) ↦
+                storeLinkedList paddr (List headAddr tail count)
+    end.
+
 (* Get the tail pointer for a local linked list pointer. *)
 Definition getLocalLinkedListPtrTail (addr : nat) : MachineM (Maybe nat) :=
     loadLocalLinkedListPtr addr ▶ fromJust ▶
