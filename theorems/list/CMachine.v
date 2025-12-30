@@ -950,6 +950,13 @@ Definition getLocalLinkedListPtrHead (addr : nat) : MachineM (Maybe nat) :=
     λ '(List head _ _) ↦
         ret head.
 
+(* Get the tail pointer for a local linked list pointer. *)
+Definition getLocalLinkedListPtrTail (addr : nat) : MachineM (Maybe nat) :=
+    loadLocalLinkedListPtr addr ▶ fromJust ▶
+    loadLinkedList ▶
+    λ '(List _ tail _) ↦
+        ret tail.
+
 (* Get the next pointer for a linked list node. *)
 Definition getLinkedListNodeNext (addr : nat) : MachineM (Maybe nat) :=
     loadLinkedListNode addr ▶
