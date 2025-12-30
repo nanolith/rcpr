@@ -202,6 +202,11 @@ Notation "'@assignLocalListPtrPtrToListPtrParameter' '(' offset ',' localAddr ')
     (in custom c_lang at level 3, offset constr, localAddr constr,
      next custom c_lang at level 200).
 
+Notation "'@assignLocalListNodePtrToListNodePtrParameter' '(' offset ',' localAddr ')' ';' next" :=
+    (INS_AssignLocalListNodePtrToListNodePtrParameter offset localAddr next)
+    (in custom c_lang at level 3, offset constr, localAddr constr,
+     next custom c_lang at level 200).
+
 Notation "'@assignLocalListHeapPtrToLocalListPtr' '(' localHeapAddr ',' localAddr ')' ';' next" :=
     (INS_AssignLocalListHeapPtrToLocalListPtr localHeapAddr localAddr next)
     (in custom c_lang at level 3, localHeapAddr constr, localAddr constr,
