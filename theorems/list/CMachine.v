@@ -117,6 +117,7 @@ Inductive CMachineInstruction : Type :=
 | INS_CreateLocalLinkedListPtrPtr (addr : nat) (next : CMachineInstruction)
 | INS_CreateLinkedList (localAddr : nat) (next : CMachineInstruction)
 | INS_IsListPtrPresent (localAddr : nat)
+| INS_IsListNodePtrPresent (localAddr : nat)
 | INS_ITE
     (cond : CMachineInstruction) (thenHead : CMachineInstruction)
     (elseHead : CMachineInstruction)
@@ -1288,6 +1289,8 @@ Definition evalCond (ins : CMachineInstruction) : MachineM bool :=
     match ins with
     | INS_IsListPtrPresent localAddr =>
         evalIsListPtrPresent localAddr
+    | INS_IsListNodePtrPresent localAddr =>
+        evalIsListNodePtrPresent localAddr
     | _ => throw MachineErrorBadInstruction
     end.
 
@@ -1305,6 +1308,7 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
         eval next
     (* This is a conditional instruction for an ITE. *)
     | INS_IsListPtrPresent localAddr => throw MachineErrorBadInstruction
+    | INS_IsListNodePtrPresent localAddr => throw MachineErrorBadInstruction
     | INS_ITE cond thenHead elseHead =>
         evalCond cond ▶
         λ boolExpr ↦

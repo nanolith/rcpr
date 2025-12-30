@@ -46,6 +46,13 @@ Parameter extractInsIsListPtrPresent :
 Extract Constant extractInsIsListPtrPresent =>
     "gen-cond-is-list-ptr-present".
 
+(* Extract an INS_IsListNodePtrPresent. *)
+Parameter extractInsIsListNodePtrPresent :
+    nat → Either ExtractionError unit.
+
+Extract Constant extractInsIsListNodePtrPresent =>
+    "gen-cond-is-list-node-ptr-present".
+
 (* Extract the beginning of an if statement. *)
 Parameter extractInsBeginIfStatement : unit → Either ExtractionError unit.
 
@@ -243,6 +250,8 @@ Definition extractInsCond (ins : CMachineInstruction)
         Left ExtractionErrorGeneral
     | INS_IsListPtrPresent localAddr =>
         extractInsIsListPtrPresent localAddr
+    | INS_IsListNodePtrPresent localAddr =>
+        extractInsIsListNodePtrPresent localAddr
     | INS_ITE cond thenHead elseHead =>
         ignoreParameter cond »
         ignoreParameter thenHead »
@@ -366,6 +375,7 @@ Fixpoint extractInstructions (ins : CMachineInstruction)
         extractInsCreateLinkedList localAddr »
         extractInstructions next
     | INS_IsListPtrPresent localAddr => Left ExtractionErrorGeneral
+    | INS_IsListNodePtrPresent localAddr => Left ExtractionErrorGeneral
     | INS_ITE cond thenHead elseHead =>
         extractInsBeginIfStatement tt »
         extractInsCond cond »
