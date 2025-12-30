@@ -167,6 +167,10 @@ Notation "'@isListPtrPreset' '(' addr ')'" :=
     (INS_IsListPtrPresent addr)
     (in custom c_lang at level 0, addr constr).
 
+Notation "'@isListNodePtrPreset' '(' addr ')'" :=
+    (INS_IsListNodePtrPresent addr)
+    (in custom c_lang at level 0, addr constr).
+
 Notation "'@if' '(' cond ')' '{' t '}' '@else' '{' e '}'" :=
     (INS_ITE cond t e)
     (in custom c_lang at level 2,
