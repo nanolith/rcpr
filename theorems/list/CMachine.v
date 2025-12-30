@@ -1179,6 +1179,15 @@ Definition evalIsListPtrPresent (localAddr : nat) : MachineM bool :=
     | Nothing => ret false
     end.
 
+(* Evaluate an is list node pointer present assertion instruction. *)
+Definition evalIsListNodePtrPresent (localAddr : nat) : MachineM bool :=
+    loadLocalLinkedListNodePtr localAddr ▶
+    λ mptr ↦
+    match mptr with
+    | Just ptr => ret true
+    | Nothing => ret false
+    end.
+
 (* Evaluate an assignment instruction for a linked list pointer. *)
 Definition evalAssignLocalListPtrToHeapListPtr (heapAddr localAddr : nat)
         : MachineM unit :=
