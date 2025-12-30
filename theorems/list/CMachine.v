@@ -943,6 +943,13 @@ Definition setLinkedListTail (addr : nat) (tailAddr : Maybe nat)
                 storeLinkedList addr (List head tailAddr count)
     end.
 
+(* Get the head pointer for a local linked list pointer. *)
+Definition getLocalLinkedListPtrHead (addr : nat) : MachineM (Maybe nat) :=
+    loadLocalLinkedListPtr addr ▶ fromJust ▶
+    loadLinkedList ▶
+    λ '(List head _ _) ↦
+        ret head.
+
 (* Get the next pointer for a linked list node. *)
 Definition getLinkedListNodeNext (addr : nat) : MachineM (Maybe nat) :=
     loadLinkedListNode addr ▶
