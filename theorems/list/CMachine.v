@@ -1434,6 +1434,13 @@ Definition evalLocalSetListHead (localAddr localNodeAddr : nat)
     loadLocalLinkedListNodePtr localNodeAddr ▶
     setLinkedListHead addr.
 
+(* Evaluate a local set list head null instruction. *)
+Definition evalLocalSetListHeadNull (localAddr : nat)
+        : MachineM unit :=
+    loadLocalLinkedListPtr localAddr ▶ fromJust ▶
+    λ addr ↦
+    setLinkedListHead addr Nothing.
+
 (* Evaluate a local set list tail instruction. *)
 Definition evalLocalSetListTail (localAddr localNodeAddr : nat)
         : MachineM unit :=
