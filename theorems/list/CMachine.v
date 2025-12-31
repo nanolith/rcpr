@@ -1404,7 +1404,7 @@ Definition evalLocalSetNodeNext (localAddr localNodeAddr : nat)
     loadLocalLinkedListNodePtr localNodeAddr ▶
     setListNodeNext addr.
 
-(* Evaluate a local set node next instruction. *)
+(* Evaluate a local set node next null instruction. *)
 Definition evalLocalSetNodeNextNull (localAddr : nat)
         : MachineM unit :=
     loadLocalLinkedListNodePtr localAddr ▶ fromJust ▶
@@ -1418,6 +1418,13 @@ Definition evalLocalSetNodePrev (localAddr localNodeAddr : nat)
     λ addr ↦
     loadLocalLinkedListNodePtr localNodeAddr ▶
     setListNodePrev addr.
+
+(* Evaluate a local set node prev null instruction. *)
+Definition evalLocalSetNodePrevNull (localAddr : nat)
+        : MachineM unit :=
+    loadLocalLinkedListNodePtr localAddr ▶ fromJust ▶
+    λ addr ↦
+    setListNodePrev addr Nothing.
 
 (* Evaluate a local set list head instruction. *)
 Definition evalLocalSetListHead (localAddr localNodeAddr : nat)
