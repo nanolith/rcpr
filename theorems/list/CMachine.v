@@ -1638,4 +1638,28 @@ Definition insListCreate : CMachineInstruction :=
         }
     ]].
 
+Definition insListInsertHead : CMachineInstruction :=
+    [[
+        @createLocalLinkedListPtr(1);
+        @createLocalLinkedListNodePtr(2);
+        @createLocalLinkedListNodePtr(3);
+        @createLocalLinkedListNodePtr(4);
+        @assignLocalListPtrToListPtrParameter(1,1);
+        @assignLocalListNodePtrToListNodePtrParameter(2,2);
+        @assignLocalListNodePtrToLocalListPtrHead(3,1);
+        @setLocalListNodeNext(2,3);
+        @setLocalListNodePrevNull(2);
+        @incrementCount(1);
+        @if (@isListNodePtrPreset(3)) {
+            @setLocalListHead(1,2);
+            @assignLocalListNodePtrToLocalListNodePtrNext(4,2);
+            @setLocalListNodePrev(4,2);
+            @return StatusSuccess;
+        } @else {
+            @setLocalListHead(1,2);
+            @setLocalListTail(1,2);
+            @return StatusSuccess;
+        }
+    ]].
+
 End CMachine.
