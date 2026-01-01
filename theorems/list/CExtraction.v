@@ -264,6 +264,13 @@ Parameter extractInsSetLocalListTailNull :
 Extract Constant extractInsSetLocalListTailNull =>
     "gen-set-local-list-tail-null".
 
+(* Extract an INS_SetLocalListNodeNextNull. *)
+Parameter extractInsSetLocalListNodeNextNull :
+    nat → Either ExtractionError unit.
+
+Extract Constant extractInsSetLocalListNodeNextNull =>
+    "gen-set-local-list-node-next-null".
+
 (* Extract an INS_CheckHeapListPtrAddress. *)
 Parameter extractInsCheckHeapListPtrAddress :
     nat → Either ExtractionError unit.
@@ -443,6 +450,10 @@ Definition extractInsCond (ins : CMachineInstruction)
         ignoreParameter localAddr »
         ignoreParameter next »
         Left ExtractionErrorGeneral
+    | INS_SetLocalListNodeNextNull localAddr next =>
+        ignoreParameter localAddr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
     | INS_CheckHeapListPtrAddress heapAddr next =>
         ignoreParameter heapAddr »
         ignoreParameter next »
@@ -563,6 +574,9 @@ Fixpoint extractInstructions (ins : CMachineInstruction)
         extractInstructions next
     | INS_SetLocalListTailNull localAddr next =>
         extractInsSetLocalListTailNull localAddr »
+        extractInstructions next
+    | INS_SetLocalListNodeNextNull localAddr next =>
+        extractInsSetLocalListNodeNextNull localAddr »
         extractInstructions next
     | INS_CheckHeapListPtrAddress heapAddr next =>
         extractInsCheckHeapListPtrAddress heapAddr »
