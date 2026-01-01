@@ -167,6 +167,7 @@ Inductive CMachineInstruction : Type :=
     (localAddr localNodeAddr : nat) (next : CMachineInstruction)
 | INS_SetLocalListNodePrev
     (localAddr localNodeAddr : nat) (next : CMachineInstruction)
+| INS_SetLocalListHeadNull (localAddr : nat) (next : CMachineInstruction)
 | INS_CheckHeapListPtrAddress (heapAddr : nat) (next : CMachineInstruction)
 | INS_ReturnStatus (code : CStatusCode)
 | INS_Crash (e : MachineErrorCode).
@@ -1563,6 +1564,9 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
         eval next
     | INS_SetLocalListNodePrev localAddr localNodeAddr next =>
         evalLocalSetNodePrev localAddr localNodeAddr »
+        eval next
+    | INS_SetLocalListHeadNull localAddr next =>
+        evalLocalSetListHeadNull localAddr »
         eval next
     | INS_CheckHeapListPtrAddress heapAddr next =>
         evalCheckHeapListPtrAddress heapAddr »
