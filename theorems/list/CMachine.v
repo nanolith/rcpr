@@ -1288,6 +1288,15 @@ Definition evalCreateLocalLinkedListPtrPtr (addr : nat) : MachineM unit :=
     else
         throw MachineErrorBadInstruction.
 
+(* Evaluate a create local linked list node ptr instruction. *)
+Definition evalCreateLocalLinkedListNodePtr (addr : nat) : MachineM unit :=
+    createLocalLinkedListNodePtr Nothing ▶
+    λ localAddr ↦
+    if Nat.eqb localAddr addr then
+        ret tt
+    else
+        throw MachineErrorBadInstruction.
+
 (* Evaluate a create linked list instruction. *)
 Definition evalCreateLinkedList (localAddr : nat) : MachineM unit :=
     maybeCreateLinkedList ▶
