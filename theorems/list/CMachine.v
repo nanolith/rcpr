@@ -1574,7 +1574,7 @@ Fixpoint eval (ins : CMachineInstruction) : MachineM CStatusCode :=
         evalLocalSetListTailNull localAddr »
         eval next
     | INS_SetLocalListNodeNextNull localAddr next =>
-        evalLocalSetNodePrevNull localAddr »
+        evalLocalSetNodeNextNull localAddr »
         eval next
     | INS_CheckHeapListPtrAddress heapAddr next =>
         evalCheckHeapListPtrAddress heapAddr »
