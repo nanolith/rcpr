@@ -209,6 +209,10 @@ Notation "'@createLocalLinkedListPtrPtr' '(' addr ')' ';' next" :=
     (INS_CreateLocalLinkedListPtrPtr addr next)
     (in custom c_lang at level 3, addr constr, next custom c_lang at level 200).
 
+Notation "'@createLocalLinkedListNodePtr' '(' addr ')' ';' next" :=
+    (INS_CreateLocalLinkedListNodePtr addr next)
+    (in custom c_lang at level 3, addr constr, next custom c_lang at level 200).
+
 Notation "'@createLinkedList' '(' localAddr ')' ';' next" :=
     (INS_CreateLinkedList localAddr next)
     (in custom c_lang at level 3, localAddr constr,
