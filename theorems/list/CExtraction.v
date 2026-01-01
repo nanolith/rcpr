@@ -32,6 +32,13 @@ Parameter extractInsCreateLocalLinkedListPtrPtr :
 Extract Constant extractInsCreateLocalLinkedListPtrPtr =>
     "gen-create-local-linked-list-ptr-ptr".
 
+(* Extract an INS_CreateLocalLinkedListNodePtr. *)
+Parameter extractInsCreateLocalLinkedListNodePtr :
+    nat → Either ExtractionError unit.
+
+Extract Constant extractInsCreateLocalLinkedListNodePtr =>
+    "gen-create-local-linked-list-node-ptr".
+
 (* Extract an INS_CreateLinkedList. *)
 Parameter extractInsCreateLinkedList :
     nat → Either ExtractionError unit.
@@ -314,6 +321,10 @@ Definition extractInsCond (ins : CMachineInstruction)
         ignoreParameter addr »
         ignoreParameter next »
         Left ExtractionErrorGeneral
+    | INS_CreateLocalLinkedListNodePtr addr next =>
+        ignoreParameter addr »
+        ignoreParameter next »
+        Left ExtractionErrorGeneral
     | INS_CreateLinkedList localAddr next =>
         ignoreParameter localAddr »
         ignoreParameter next »
@@ -486,6 +497,9 @@ Fixpoint extractInstructions (ins : CMachineInstruction)
         extractInstructions next
     | INS_CreateLocalLinkedListPtrPtr addr next =>
         extractInsCreateLocalLinkedListPtrPtr addr »
+        extractInstructions next
+    | INS_CreateLocalLinkedListNodePtr addr next =>
+        extractInsCreateLocalLinkedListNodePtr addr »
         extractInstructions next
     | INS_CreateLinkedList localAddr next =>
         extractInsCreateLinkedList localAddr »
