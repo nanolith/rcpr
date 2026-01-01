@@ -353,6 +353,11 @@ Notation "'@setLocalListNodeNextNull' '(' localAddr ')' ';' next" :=
     (in custom c_lang at level 3, localAddr constr,
      next custom c_lang at level 200).
 
+Notation "'@setLocalListNodePrevNull' '(' localAddr ')' ';' next" :=
+    (INS_SetLocalListNodePrevNull localAddr next)
+    (in custom c_lang at level 3, localAddr constr,
+     next custom c_lang at level 200).
+
 (* Machine State. *)
 Inductive Machine (A : Type) :=
 | MachineError : MachineErrorCode → Machine A
