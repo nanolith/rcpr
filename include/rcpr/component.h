@@ -43,6 +43,9 @@ enum component_family
     /** \brief RCBLOCKSVC component family. */
     COMPONENT_FAMILY_RCBLOCKSVC                                 =         0x05,
 
+    /** \brief Reserved component family. */
+    COMPONENT_FAMILY_RESERVED0                                  =         0x06,
+
     /** \brief USER0 component family.
      *
      * There are 16 low numbered component families set aside for the user. The
