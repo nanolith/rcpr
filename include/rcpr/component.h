@@ -96,6 +96,19 @@ enum component_family
 
     /** \brief USER15 component family. */
     COMPONENT_FAMILY_USER15                                      =        0x1f,
+
+    /** \brief MAX is the largest component family currently used in this
+     * version of RCPR.
+     *
+     * This ensures that at least one final component family is held in reserve.
+     * User code is welcome to use MAX + n where this is < 0xff. However, future
+     * releases of RCPR may increase MAX, so any status codes based on these
+     * family values would also change.
+     *
+     * User code needing stable status codes for APIs should use one of the
+     * reserved low-end user codes above.
+     */
+    COMPONENT_FAMILY_MAX
 };
 
 /**
