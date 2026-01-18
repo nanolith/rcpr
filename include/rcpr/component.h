@@ -42,6 +42,15 @@ enum component_family
 
     /** \brief RCBLOCKSVC component family. */
     COMPONENT_FAMILY_RCBLOCKSVC                                 =         0x05,
+
+    /** \brief USER0 component family.
+     *
+     * There are 16 low numbered component families set aside for the user. The
+     * upper end is also reserved for users, but these shift based on
+     * \ref COMPONENT_FAMILY_LAST. Error codes that require stability, such as
+     * those used in APIs, should use families USER0 through USER15.
+     */
+    COMPONENT_FAMILY_USER0                                      =         0x10,
 };
 
 /**
