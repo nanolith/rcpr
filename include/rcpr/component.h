@@ -75,6 +75,9 @@ enum component_family
 
     /** \brief USER8 component family. */
     COMPONENT_FAMILY_USER8                                      =         0x18,
+
+    /** \brief USER9 component family. */
+    COMPONENT_FAMILY_USER9                                      =         0x19,
 };
 
 /**
