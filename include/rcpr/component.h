@@ -70,6 +70,9 @@ enum component_family
     /** \brief Reserved component family. */
     COMPONENT_FAMILY_RESERVED8                                  =         0x0e,
 
+    /** \brief Reserved component family. */
+    COMPONENT_FAMILY_RESERVED9                                  =         0x0f,
+
     /** \brief USER0 component family.
      *
      * There are 16 low numbered component families set aside for the user. The
