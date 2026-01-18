@@ -51,6 +51,10 @@ enum component_family
      * those used in APIs, should use families USER0 through USER15.
      */
     COMPONENT_FAMILY_USER0                                      =         0x10,
+
+    /** \brief USER1 component family.
+     */
+    COMPONENT_FAMILY_USER1                                      =         0x11,
 };
 
 /**
