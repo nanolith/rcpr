@@ -52,9 +52,11 @@ enum component_family
      */
     COMPONENT_FAMILY_USER0                                      =         0x10,
 
-    /** \brief USER1 component family.
-     */
+    /** \brief USER1 component family. */
     COMPONENT_FAMILY_USER1                                      =         0x11,
+
+    /** \brief USER2 component family. */
+    COMPONENT_FAMILY_USER2                                      =         0x12,
 };
 
 /**
