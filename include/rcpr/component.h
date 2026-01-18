@@ -66,6 +66,9 @@ enum component_family
 
     /** \brief USER5 component family. */
     COMPONENT_FAMILY_USER5                                      =         0x15,
+
+    /** \brief USER6 component family. */
+    COMPONENT_FAMILY_USER6                                      =         0x16,
 };
 
 /**
