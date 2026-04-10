@@ -251,6 +251,19 @@ RCPR_SYM(rbtree_maximum_node)(
     RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
 
 /**
+ * \brief Return the node to the left of the given node.
+ *
+ * \param tree          The \ref rbtree instance.
+ * \param x             The referenced \ref rbtree_node.
+ *
+ * \returns the node to the left of the referenced node, or tree->nil if none is
+ * found.
+ */
+RCPR_SYM(rbtree_node)*
+RCPR_SYM(rbtree_left_node)(
+    RCPR_SYM(rbtree)* tree, RCPR_SYM(rbtree_node)* x);
+
+/**
  * \brief Return the in-order successor node of the given node.
  *
  * \param tree          The \ref rbtree instance.
