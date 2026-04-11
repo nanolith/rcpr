@@ -446,6 +446,10 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline status FN_DECL_MUST_CHECK sym ## rbtree_delete( \
         RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, const void* z) { \
             return RCPR_SYM(rbtree_delete)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## rbtree_delete_node( \
+        RCPR_SYM(resource)** x, RCPR_SYM(rbtree)* y, \
+        RCPR_SYM(rbtree_node)* z) { \
+            return RCPR_SYM(rbtree_delete_node)(x,y,z); } \
     static inline status FN_DECL_MUST_CHECK sym ## rbtree_clear( \
         RCPR_SYM(rbtree)* x) { \
             return RCPR_SYM(rbtree_clear)(x); } \
