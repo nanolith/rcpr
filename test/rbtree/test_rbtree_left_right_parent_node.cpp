@@ -286,3 +286,49 @@ TEST(parent_singular_nil)
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
 }
+
+/**
+ * Left of a singular node is nil.
+ */
+TEST(left_singular_nil)
+{
+    allocator* alloc = nullptr;
+    rbtree* tree = nullptr;
+    rbtree_node* nil;
+    rbtree_node* root;
+    integer* r;
+
+    /* we should be able to create a malloc allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == malloc_allocator_create(&alloc));
+
+    /* we should be able to create an rbtree instance. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            rbtree_create(
+                &tree, alloc, &integer_compare, &integer_key, nullptr));
+
+    /* create a node to insert into the tree. */
+    TEST_ASSERT(STATUS_SUCCESS == integer_create(&r, 3));
+
+    /* insert this node into the tree. */
+    TEST_ASSERT(STATUS_SUCCESS == rbtree_insert(tree, &r->hdr));
+
+    /* get the nil node. */
+    nil = rbtree_nil_node(tree);
+
+    /* get the root node. */
+    root = rbtree_root_node(tree);
+
+    /* root is NOT nil. */
+    TEST_ASSERT(nil != root);
+
+    /* left root is nil. */
+    TEST_ASSERT(nil == rbtree_left_node(tree, root));
+
+    /* clean up. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(rbtree_resource_handle(tree)));
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
+}
