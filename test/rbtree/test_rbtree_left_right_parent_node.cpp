@@ -378,3 +378,89 @@ TEST(right_singular_nil)
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
 }
+
+/**
+ * Basic navigation works as expected.
+ */
+TEST(basics)
+{
+    allocator* alloc = nullptr;
+    rbtree* tree = nullptr;
+    rbtree_node* nil;
+    rbtree_node* root;
+    rbtree_node* right;
+    rbtree_node* left;
+    integer* p;
+    integer* l;
+    integer* r;
+    resource* rp;
+    resource* rl;
+    resource* rr;
+
+    /* we should be able to create a malloc allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == malloc_allocator_create(&alloc));
+
+    /* we should be able to create an rbtree instance. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            rbtree_create(
+                &tree, alloc, &integer_compare, &integer_key, nullptr));
+
+    /* create and insert parent node. */
+    TEST_ASSERT(STATUS_SUCCESS == integer_create(&p, 3));
+    TEST_ASSERT(STATUS_SUCCESS == rbtree_insert(tree, &p->hdr));
+
+    /* create and insert left node. */
+    TEST_ASSERT(STATUS_SUCCESS == integer_create(&l, 1));
+    TEST_ASSERT(STATUS_SUCCESS == rbtree_insert(tree, &l->hdr));
+
+    /* create and insert right node. */
+    TEST_ASSERT(STATUS_SUCCESS == integer_create(&r, 5));
+    TEST_ASSERT(STATUS_SUCCESS == rbtree_insert(tree, &r->hdr));
+
+    /* get the nil node. */
+    nil = rbtree_nil_node(tree);
+
+    /* get the root node. */
+    root = rbtree_root_node(tree);
+
+    /* root is NOT nil. */
+    TEST_ASSERT(nil != root);
+
+    /* root's value is p. */
+    rp = rbtree_node_value(tree, root);
+    TEST_ASSERT(rp == &p->hdr);
+
+    /* get left. */
+    left = rbtree_left_node(tree, root);
+    TEST_ASSERT(nil != left);
+
+    /* left's value is l. */
+    rl = rbtree_node_value(tree, left);
+    TEST_ASSERT(rl == &l->hdr);
+
+    /* get right. */
+    right = rbtree_right_node(tree, root);
+    TEST_ASSERT(nil != right);
+
+    /* right's value is r. */
+    rr = rbtree_node_value(tree, right);
+    TEST_ASSERT(rr == &r->hdr);
+
+    /* left is a leaf with root as a parent. */
+    TEST_ASSERT(root == rbtree_parent_node(tree, left));
+    TEST_ASSERT(nil == rbtree_left_node(tree, left));
+    TEST_ASSERT(nil == rbtree_right_node(tree, left));
+
+    /* right is a leaf with root as a parent. */
+    TEST_ASSERT(root == rbtree_parent_node(tree, right));
+    TEST_ASSERT(nil == rbtree_left_node(tree, right));
+    TEST_ASSERT(nil == rbtree_right_node(tree, right));
+
+    /* clean up. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(rbtree_resource_handle(tree)));
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
+}
