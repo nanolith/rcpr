@@ -130,3 +130,42 @@ TEST(parent_nil)
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
 }
+
+/**
+ * The left node of a nil node is nil.
+ */
+TEST(left_nil)
+{
+    allocator* alloc = nullptr;
+    rbtree* tree = nullptr;
+    rbtree_node* nil;
+    rbtree_node* root;
+
+    /* we should be able to create a malloc allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == malloc_allocator_create(&alloc));
+
+    /* we should be able to create an rbtree instance. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            rbtree_create(
+                &tree, alloc, &integer_compare, &integer_key, nullptr));
+
+    /* get the nil node. */
+    nil = rbtree_nil_node(tree);
+
+    /* get the root node. */
+    root = rbtree_root_node(tree);
+
+    /* root is nil. */
+    TEST_ASSERT(nil == root);
+
+    /* the left of root is nil. */
+    TEST_ASSERT(nil == rbtree_left_node(tree, root));
+
+    /* clean up. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(rbtree_resource_handle(tree)));
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
+}
