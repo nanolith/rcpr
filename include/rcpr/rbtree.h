@@ -420,6 +420,9 @@ RCPR_SYM(prop_rbtree_valid)(
     static inline RCPR_SYM(rbtree_node)* sym ## rbtree_maximum_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_maximum_node)(x,y); } \
+    static inline RCPR_SYM(rbtree_node)* sym ## rbtree_left_node( \
+        RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
+            return RCPR_SYM(rbtree_left_node)(x,y); } \
     static inline RCPR_SYM(rbtree_node)* sym ## rbtree_parent_node( \
         RCPR_SYM(rbtree)* x, RCPR_SYM(rbtree_node)* y) { \
             return RCPR_SYM(rbtree_parent_node)(x,y); } \
