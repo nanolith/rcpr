@@ -178,6 +178,44 @@ RCPR_SYM(rbtree_delete)(
     RCPR_SYM(resource)** r, RCPR_SYM(rbtree)* tree, const void* key);
 
 /**
+ * \brief Delete the given \ref rbtree_node from the \ref rbtree, optionally
+ * releasing the resource.
+ *
+ * \param r             Pointer to the pointer to the resource to be populated
+ *                      after a successful delete operation. If this pointer
+ *                      pointer is NULL, then the resource is released.
+ * \param tree          Pointer to the \ref rbtree for the delete operation.
+ * \param node          Pointer to the node to delete.
+ *
+ * \note After a successful delete, the resource associated with the given key
+ * will be populated in \p r, if \p r is not NULL.  Otherwise, the resource is
+ * released.  If \p r is populated, then ownership of this \ref resource
+ * transfers to the caller, and the caller must release this \ref resource by
+ * calling \ref resource_release on it when it is no longer needed.
+ *
+ * \note \p node MUST be associated with this tree, or bad things will happen.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *
+ * \pre
+ *      - \p tree must be a valid \ref rbtree instance.
+ *      - \p r is optional, and can be NULL if the caller wishes to just release
+ *        the resource.
+ *      - \p node must be a valid \ref rbtree_node associated with this
+ *        \ref rbtree instance.
+ *
+ * \post
+ *      - On success, \p r is set to the value in the tree associated with \p
+ *        key.
+ *      - On failure, \p r is set to NULL.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(rbtree_delete_node)(
+    RCPR_SYM(resource)** r, RCPR_SYM(rbtree)* tree,
+    RCPR_SYM(rbtree_node)* node);
+
+/**
  * \brief Clear all entries from an rbtree instance, releasing resources held by
  * all nodes.
  *
