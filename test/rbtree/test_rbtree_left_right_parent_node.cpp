@@ -16,7 +16,7 @@ RCPR_IMPORT_compare;
 RCPR_IMPORT_rbtree;
 RCPR_IMPORT_resource;
 
-TEST_SUITE(rbtree_insert);
+TEST_SUITE(rbtree_left_right_parent_node);
 
 /* integer resource. */
 typedef struct integer integer;
