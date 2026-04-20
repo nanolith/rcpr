@@ -2662,6 +2662,10 @@ RCPR_SYM(prop_psock_valid)(
         RCPR_SYM(psock)* w, int* x, struct sockaddr* y, socklen_t* z) { \
             return RCPR_SYM(psock_accept)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
+    sym ## psock_setsockopt( \
+        RCPR_SYM(psock)* v, int w, int x, const void* y, socklen_t z) { \
+            return RCPR_SYM(psock_setsockopt)(v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
     sym ## psock_from_buffer_get_output_buffer( \
         RCPR_SYM(psock)* w, RCPR_SYM(allocator)* x, void** y, size_t* z) { \
             return RCPR_SYM(psock_from_buffer_get_output_buffer)(w,x,y,z); } \
