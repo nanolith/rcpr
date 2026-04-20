@@ -608,6 +608,10 @@ status RCPR_SYM(psock_br_release)(RCPR_SYM(resource)* r);
         RCPR_SYM(psock)* v, void* w, int* x, struct sockaddr* y, \
         socklen_t* z) { \
             return RCPR_SYM(psock_from_descriptor_accept)(v,w,x,y,z); } \
+    static inline status psock_from_descriptor_setsockopt( \
+        RCPR_SYM(psock)* u, void* v, int w, int x, const void* y, \
+        socklen_t z) { \
+            return RCPR_SYM(psock_from_descriptor_setsockopt)(u,v,w,x,y,z); } \
     static inline status psock_from_descriptor_release( \
         RCPR_SYM(resource)* x) { \
             return RCPR_SYM(psock_from_descriptor_release)(x); } \
