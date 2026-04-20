@@ -263,7 +263,7 @@ typedef status (*RCPR_SYM(psock_recvmsg_fn))(
 /**
  * \brief Set socket options in a user psock.
  *
- * This method roughly corresponds to the POSIX setsotopt function.
+ * This method roughly corresponds to the POSIX setsockopt function.
  *
  * \param sock          The socket instance for this operation.
  * \param ctx           The user context for this instance.
@@ -2212,6 +2212,40 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(psock_accept)(
     RCPR_SYM(psock)* sock, int* desc, struct sockaddr* addr,
     socklen_t* addrlen);
+
+/**
+ * \brief Set socket options for \ref psock instances that support this feature.
+ *
+ * This method roughly corresponds to the POSIX setsockopt function.
+ *
+ * \param sock          Pointer to the \ref psock pointer on which this
+ *                      operation occurs.
+ * \param level         The protocol level at which this option resides.
+ * \param option_name   The option to set.
+ * \param option_value  The value to which this option is set.
+ * \param option_len    The length of this option value in bytes.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *      - \p ctx must be a pointer to the user context or NULL.
+ *      - \p level must be a valid protocol level argument (e.g. SOL_SOCKET).
+ *      - \p option_value must be a valid pointer to data dependent on the
+ *        option requirements.
+ *      - \p option_len must be the size of \p option_value in bytes.
+ *
+ * \post
+ *      - On success, STATUS_SUCCESS is returned.
+ *      - On failure, an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(psock_setsockopt)(
+    RCPR_SYM(psock)* sock, int level, int option_name, const void* option_value,
+    socklen_t option_len);
 
 /**
  * \brief For an output buffer backed psock, get a copy of the buffer. This
