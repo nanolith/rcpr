@@ -33,7 +33,7 @@ psock_vtable psock_from_descriptor_vtable = {
     .accept_fn = &psock_from_descriptor_accept,
     .sendmsg_fn = &psock_from_descriptor_sendmsg,
     .recvmsg_fn = &psock_from_descriptor_recvmsg,
-    .setsockopt_fn = NULL,
+    .setsockopt_fn = &psock_from_descriptor_setsockopt,
     .release_fn = NULL,
 };
 
