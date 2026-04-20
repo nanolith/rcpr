@@ -261,6 +261,39 @@ typedef status (*RCPR_SYM(psock_recvmsg_fn))(
         int flags);
 
 /**
+ * \brief Set socket options in a user psock.
+ *
+ * This method roughly corresponds to the POSIX setsotopt function.
+ *
+ * \param sock          The socket instance for this operation.
+ * \param ctx           The user context for this instance.
+ * \param level         the protocol level at which the option resides.
+ * \param option_name   The option to set.
+ * \param option_value  The value to which this option is set.
+ * \param option_len    The length of this option in bytes.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a non-zero error code on failure.
+ *
+ * \pre
+ *      - \p sock must be a pointer to a valid \ref psock instance and must not
+ *        be NULL.
+ *      - \p ctx must be a pointer to the user context or NULL.
+ *      - \p level must be a valid protocol level argument (e.g. SOL_SOCKET).
+ *      - \p option_value must be a valid pointer to data dependent on the
+ *        option requirements.
+ *      - \p option_len must be the size of \p option_value in bytes.
+ *
+ * \post
+ *      - On success, STATUS_SUCCESS is returned.
+ *      - On failure, an error status is returned.
+ */
+typedef status (*RCPR_SYM(psock_setsockopt_fn))(
+        RCPR_SYM(psock)* sock, void* ctx, int level, int option_name,
+        const void* option_value, socklen_t option_len);
+
+/**
  * \brief The \ref psock_vtable structure provides a virtual method interface
  * for overriding psock functions.
  *
