@@ -176,6 +176,24 @@ status RCPR_SYM(psock_from_descriptor_accept)(
     socklen_t* addrlen);
 
 /**
+ * \brief Set a socket option for a \ref psock from descriptor socket instance.
+ *
+ * \param sock          The \ref psock instance for this setsockopt operation.
+ * \param ctx           User context (ignored).
+ * \param level         The protocol level at which this option resides.
+ * \param option_name   The option to set.
+ * \param option_value  The value to which this option is set.
+ * \param option_len    The length of this option in bytes.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - an error code indicating a specific failure condition.
+ */
+status RCPR_SYM(psock_from_descriptor_setsockopt)(
+    RCPR_SYM(psock)* sock, void* ctx, int level, int option_name,
+    const void* option_value, socklen_t option_len);
+
+/**
  * \brief Send a message over the \ref psock instance.
  *
  * \param sock          The \ref psock instance to which to send a message.
