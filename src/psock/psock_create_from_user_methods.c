@@ -44,6 +44,7 @@ psock_vtable psock_from_user_methods_vtable = {
     .accept_fn = &psock_from_user_methods_accept,
     .sendmsg_fn = &psock_from_user_methods_sendmsg,
     .recvmsg_fn = &psock_from_user_methods_recvmsg,
+    .setsockopt_fn = NULL,
     .release_fn = NULL,
 };
 

@@ -46,6 +46,7 @@ psock_vtable test_psock_vtable = {
     .accept_fn = &test_psock_accept,
     .sendmsg_fn = NULL,
     .recvmsg_fn = NULL,
+    .setsockopt_fn = NULL,
     .release_fn = &test_psock_release,
 };
 

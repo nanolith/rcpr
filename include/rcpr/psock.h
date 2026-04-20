@@ -311,6 +311,7 @@ struct RCPR_SYM(psock_vtable)
     RCPR_SYM(psock_accept_fn) accept_fn;
     RCPR_SYM(psock_sendmsg_fn) sendmsg_fn;
     RCPR_SYM(psock_recvmsg_fn) recvmsg_fn;
+    RCPR_SYM(psock_setsockopt_fn) setsockopt_fn;
     RCPR_SYM(psock_release_fn) release_fn;
 };
 
