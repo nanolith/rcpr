@@ -62,7 +62,7 @@ RCPR_SYM(rcpr_uuid_parse_raw_string)(
     if (NULL == str) goto fail;
 
     /* verify that the string length is exactly 36. */
-    if (32 != length) goto fail;
+    if (36 != length) goto fail;
 
     /* read the first four byte values. */
     if (!try_read_hex_byte(&str, uuid->data +  0)) goto fail;
