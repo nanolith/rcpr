@@ -163,6 +163,10 @@ RCPR_SYM(prop_uuid_valid)(
     sym ## rcpr_uuid_parse_string( \
         RCPR_SYM(rcpr_uuid)* x, const char* y) { \
             return RCPR_SYM(rcpr_uuid_parse_string)(x,y); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## rcpr_uuid_parse_raw_string( \
+        RCPR_SYM(rcpr_uuid)* x, const char* y, size_t z) { \
+            return RCPR_SYM(rcpr_uuid_parse_raw_string)(x,y,z); } \
     static inline bool sym ## prop_uuid_valid( \
         const RCPR_SYM(rcpr_uuid)* x) { \
             return RCPR_SYM(prop_uuid_valid)(x); } \
