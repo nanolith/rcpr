@@ -101,6 +101,40 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(rcpr_uuid_parse_string)(
     RCPR_SYM(rcpr_uuid)* uuid, const char* str);
 
+/**
+ * \brief Convert a raw string value into a \ref rcpr_uuid value.
+ *
+ * \param uuid      Pointer to the \ref rcpr_uuid value to which the parsed UUID
+ *                  is stored.
+ * \param str       The character string to parse.
+ * \param length    The length of this string.
+ *
+ * \note Unlike other RCPR functions, this does an IN-PLACE copy of the UUID
+ * value into the \ref rcpr_uuid value type. The raw form uses the length field,
+ * and not ASCII-Z, to determine the end of the string.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on succes.
+ *      - ERROR_UUID_PARSING_FAILED if the parsing of a UUID value from the
+ *        string failed.
+ *
+ * \pre
+ *      - \p uuid must point to a \ref rcpr_uuid value that can be overwritten
+ *        by this function. It must not be NULL.
+ *      - \p str must point to a valid C-string, which may or may not be
+ *        terminated with an ASCII zero.
+ *      - \p length is the length of the string, and the string is valid along
+ *        this entire length.
+ *
+ * \post
+ *      - On success, the value pointed to by \p uuid is overwritten by the
+ *        parsed UUID value from \p str.
+ *      - On failure, \p uuid is not changed, and an error status is returned.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(rcpr_uuid_parse_raw_string)(
+    RCPR_SYM(rcpr_uuid)* uuid, const char* str, size_t length);
+
 /******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
