@@ -25,3 +25,17 @@ TEST(null_string)
             rcpr_uuid_parse_raw_string(
                 &id, nullptr, 36));
 }
+
+/**
+ * A string smaller than 36 bytes fails to parse.
+ */
+TEST(blank_string)
+{
+    rcpr_uuid id;
+    const char* STR = "123";
+
+    TEST_ASSERT(
+        STATUS_SUCCESS !=
+            rcpr_uuid_parse_raw_string(
+                &id, STR, strlen(STR)));
+}
