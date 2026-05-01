@@ -570,6 +570,9 @@ struct RCPR_SYM(allocator_vtable)
     static inline status FN_DECL_MUST_CHECK sym ## allocator_reallocate( \
         RCPR_SYM(allocator)* x, void** y, size_t z) { \
             return RCPR_SYM(allocator_reallocate)(x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK sym ## allocator_control( \
+        RCPR_SYM(allocator)* w, int x, void* y, size_t z) { \
+            return RCPR_SYM(allocator_control)(w,x,y,z); } \
     static inline RCPR_SYM(resource)* sym ## allocator_resource_handle( \
         RCPR_SYM(allocator)* x) { \
             return RCPR_SYM(allocator_resource_handle)(x); } \
