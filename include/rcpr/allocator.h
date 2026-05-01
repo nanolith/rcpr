@@ -456,6 +456,7 @@ struct RCPR_SYM(allocator_vtable)
     RCPR_SYM(allocator_allocate_fn) allocate_fn;
     RCPR_SYM(allocator_reclaim_fn) reclaim_fn;
     RCPR_SYM(allocator_reallocate_fn) reallocate_fn;
+    RCPR_SYM(allocator_control_fn) control_fn;
 };
 
 /******************************************************************************/

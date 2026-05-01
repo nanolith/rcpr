@@ -22,6 +22,7 @@ static status malloc_allocator_release(resource*);
 static status malloc_allocator_allocate(allocator*, void**, size_t);
 static status malloc_allocator_reclaim(allocator*, void*);
 static status malloc_allocator_reallocate(allocator*, void**, size_t);
+static status malloc_allocator_control(allocator*, int, void*, size_t);
 
 RCPR_MODEL_STRUCT_TAG_GLOBAL_EXTERN(allocator);
 
@@ -31,7 +32,8 @@ allocator_vtable malloc_allocator_vtable = {
     .hdr = { &malloc_allocator_release },
     .allocate_fn = &malloc_allocator_allocate,
     .reclaim_fn = &malloc_allocator_reclaim,
-    .reallocate_fn = &malloc_allocator_reallocate };
+    .reallocate_fn = &malloc_allocator_reallocate,
+    .control_fn = &malloc_allocator_control };
 
 /**
  * \brief Create an allocator backed by malloc / free.
@@ -251,4 +253,36 @@ static status malloc_allocator_reallocate(
     /* success. */
     *ptr = newptr;
     return STATUS_SUCCESS;
+}
+
+/**
+ * \brief Adjust a control for the given allocator.
+ *
+ * On success, The control setting is updated.
+ *
+ * \param alloc         The allocator instance for this control operation.
+ * \param key           The control key to set.
+ * \param value         The control value to set.
+ * \param value_size    The size of this value in bytes.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_CONTROL_KEY_INVALID if the control key is invalid for
+ *        this allocator type.
+ *
+ * \pre \p alloc must be a valid \ref allocator instance. \p key must be an
+ * allocator control key as defined in the allocator header. \p value and
+ * \p value_size must be appropriate for this control feature.
+ *
+ * \post On success, \p alloc is updated based on the control setting.
+ */
+static status malloc_allocator_control(
+    allocator* alloc, int key, void* value, size_t value_size)
+{
+    (void)alloc;
+    (void)key;
+    (void)value;
+    (void)value_size;
+
+    return ERROR_GENERAL_CONTROL_KEY_INVALID;
 }
