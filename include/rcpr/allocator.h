@@ -154,6 +154,27 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         RCPR_MODEL_CHECK_OBJECT_RW(region, region_size);
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(bump_allocator_create))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(bump_allocator_create),
+    int retval, RCPR_SYM(allocator)** alloc, void* region, size_t region_size)
+        /* on success... */
+        if (STATUS_SUCCESS == retval)
+        {
+            /* the allocator is valid. */
+            RCPR_MODEL_ASSERT(RCPR_SYM(property_allocator_valid)(*alloc));
+        }
+        /* on failure... */
+        else
+        {
+            /* the allocator pointer is set to NULL. */
+            RCPR_MODEL_ASSERT(NULL == *alloc);
+
+            /* the only error code returned is out-of-memory. */
+            RCPR_MODEL_ASSERT(ERROR_GENERAL_OUT_OF_MEMORY == retval);
+        }
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(bump_allocator_create))
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
