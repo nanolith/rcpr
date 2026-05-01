@@ -467,6 +467,7 @@ struct RCPR_SYM(allocator_vtable)
     typedef RCPR_SYM(allocator_allocate_fn) sym ## allocator_allocate_fn; \
     typedef RCPR_SYM(allocator_reclaim_fn) sym ## allocator_reclaim_fn; \
     typedef RCPR_SYM(allocator_reallocate_fn) sym ## allocator_reallocate_fn; \
+    typedef RCPR_SYM(allocator_control_fn) sym ## allocator_control_fn; \
     typedef RCPR_SYM(allocator_vtable) sym ## allocator_vtable; \
     static inline status FN_DECL_MUST_CHECK \
     sym ## malloc_allocator_create( \
