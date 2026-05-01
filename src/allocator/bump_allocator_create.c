@@ -191,7 +191,7 @@ static status bump_allocator_allocate(
     }
 
     /* bump the allocator. */
-    bump->offset += bump_offset;
+    bump->offset = bump_offset;
 
     /* success. */
     *ptr = (bump->region + mem_offset);
