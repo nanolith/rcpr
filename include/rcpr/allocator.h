@@ -344,6 +344,15 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
         }
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_control))
 
+/* postconditions. */
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_BEGIN(
+    RCPR_SYM(allocator_control),
+    int retval, RCPR_SYM(allocator)* alloc, int key, void* value,
+    size_t value_size)
+        /* alloc is a valid allocator. */
+        RCPR_MODEL_ASSERT(RCPR_SYM(property_allocator_valid)(alloc));
+RCPR_MODEL_CONTRACT_POSTCONDITIONS_END(RCPR_SYM(allocator_control))
+
 /**
  * \brief Given an allocator instance, return the resource handle for this
  * allocator instance.
