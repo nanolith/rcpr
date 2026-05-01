@@ -6,6 +6,7 @@
 
 #include <minunit/minunit.h>
 #include <rcpr/allocator.h>
+#include <stdalign.h>
 
 RCPR_IMPORT_allocator;
 RCPR_IMPORT_resource;
@@ -19,7 +20,7 @@ TEST(create_release)
 {
     allocator* alloc = nullptr;
     resource* alloc_resource = nullptr;
-    char region[1024];
+    alignas(16) char region[1024];
 
     /* we can successfully create a bump allocator. */
     TEST_ASSERT(
