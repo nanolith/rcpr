@@ -42,3 +42,35 @@ TEST(create_release)
     TEST_ASSERT(
         STATUS_SUCCESS == resource_release(alloc_resource));
 }
+
+/**
+ * Verify that we can allocate and reclaim memory.
+ */
+TEST(alloc_reclaim)
+{
+    allocator* alloc = nullptr;
+    int* var;
+    alignas(16) char region[1024];
+
+    /* we can create a bump allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS
+            == bump_allocator_create(&alloc, region, sizeof(region)));
+
+    /* we can allocate an int. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            allocator_allocate(alloc, (void**)&var, sizeof(*var)));
+    TEST_ASSERT(nullptr != var);
+
+    *var = 10;
+    TEST_EXPECT(10 == *var);
+
+    /* we can reclaim the var (no-op for a bump allocator). */
+    TEST_ASSERT(
+        STATUS_SUCCESS == allocator_reclaim(alloc, var));
+
+    /* we can release this resource. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
+}
