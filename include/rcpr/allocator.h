@@ -422,6 +422,31 @@ typedef status
     RCPR_SYM(allocator)* alloc, void** ptr, size_t size);
 
 /**
+ * \brief Function type for the allocator control function.
+ *
+ * On success, The control setting is updated.
+ *
+ * \param alloc         The allocator instance for this control operation.
+ * \param key           The control key to set.
+ * \param value         The control value to set.
+ * \param value_size    The size of this value in bytes.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - ERROR_GENERAL_CONTROL_KEY_INVALID if the control key is invalid for
+ *        this allocator type.
+ *
+ * \pre \p alloc must be a valid \ref allocator instance. \p key must be an
+ * allocator control key as defined in the allocator header. \p value and
+ * \p value_size must be appropriate for this control feature.
+ *
+ * \post On success, \p alloc is updated based on the control setting.
+ */
+typedef status
+(*RCPR_SYM(allocator_control_fn))(
+    RCPR_SYM(allocator)* alloc, int key, void* value, size_t value_size);
+
+/**
  * \brief The definition of the allocator vtable used for defining allocator
  * instances.
  */
