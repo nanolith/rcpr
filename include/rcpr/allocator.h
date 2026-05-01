@@ -331,6 +331,19 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(allocator_control)(
     RCPR_SYM(allocator)* alloc, int key, void* value, size_t value_size);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(allocator_control),
+    RCPR_SYM(allocator)* alloc, int key, void* value, size_t value_size)
+        /* alloc is a valid allocator. */
+        RCPR_MODEL_ASSERT(RCPR_SYM(property_allocator_valid)(alloc));
+        /* if value is not NULL, then it should be readable over value_size. */
+        if (NULL != value)
+        {
+            RCPR_MODEL_CHECK_OBJECT_READ(value, value_size);
+        }
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_control))
+
 /**
  * \brief Given an allocator instance, return the resource handle for this
  * allocator instance.
