@@ -22,3 +22,9 @@
  */
 #define ERROR_GENERAL_BAD_VTABLE \
     STATUS_CODE(1, RCPR_COMPONENT_GLOBAL, 0x0001)
+
+/**
+ * \brief An invalid control key was encountered.
+ */
+#define ERROR_GENERAL_CONTROL_KEY_INVALID \
+    STATUS_CODE(1, RCPR_COMPONENT_GLOBAL, 0x0002)
