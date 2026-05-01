@@ -144,6 +144,16 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(bump_allocator_create)(
     RCPR_SYM(allocator)** alloc, void* region, size_t region_size);
 
+/* preconditions. */
+RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
+    RCPR_SYM(bump_allocator_create),
+    RCPR_SYM(allocator)** alloc, void* region, size_t region_size)
+        /* the allocator pointer pointer must not be NULL. */
+        RCPR_MODEL_ASSERT(NULL != alloc);
+        /* the region must be at least region_size in length. */
+        RCPR_MODEL_CHECK_OBJECT_RW(region, region_size);
+RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(bump_allocator_create))
+
 /******************************************************************************/
 /* Start of public methods.                                                   */
 /******************************************************************************/
