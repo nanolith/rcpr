@@ -49,7 +49,7 @@ TEST(create_release)
 TEST(alloc_reclaim)
 {
     allocator* alloc = nullptr;
-    int* var;
+    int* var = nullptr;
     alignas(16) char region[1024];
 
     /* we can create a bump allocator. */
@@ -69,6 +69,48 @@ TEST(alloc_reclaim)
     /* we can reclaim the var (no-op for a bump allocator). */
     TEST_ASSERT(
         STATUS_SUCCESS == allocator_reclaim(alloc, var));
+
+    /* we can release this resource. */
+    TEST_ASSERT(
+        STATUS_SUCCESS == resource_release(allocator_resource_handle(alloc)));
+}
+
+/**
+ * Verify that we can allocate, reset, and allocate again.
+ */
+TEST(alloc_reset)
+{
+    allocator* alloc = nullptr;
+    int* var1 = nullptr;
+    int* var2 = nullptr;
+    alignas(16) char region[1024];
+
+    /* we can create a bump allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS
+            == bump_allocator_create(&alloc, region, sizeof(region)));
+
+    /* we can allocate an int. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            allocator_allocate(alloc, (void**)&var1, sizeof(*var1)));
+    TEST_ASSERT(nullptr != var1);
+
+    /* we can reset the bump allocator. */
+    TEST_ASSERT(
+        STATUS_SUCCESS
+                == allocator_control(
+                        alloc, RCPR_ALLOCATOR_CONTROL_BUMP_ALLOCATOR_RESET,
+                        nullptr, 0));
+
+    /* we can allocate an int. */
+    TEST_ASSERT(
+        STATUS_SUCCESS ==
+            allocator_allocate(alloc, (void**)&var2, sizeof(*var2)));
+    TEST_ASSERT(nullptr != var2);
+
+    /* because the bump allocator was reset, var1 and var2 are aliased. */
+    TEST_ASSERT(var1 == var2);
 
     /* we can release this resource. */
     TEST_ASSERT(
