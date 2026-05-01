@@ -38,6 +38,11 @@ typedef struct RCPR_SYM(allocator) RCPR_SYM(allocator);
  */
 typedef struct RCPR_SYM(allocator_vtable) RCPR_SYM(allocator_vtable);
 
+/**
+ * \brief Control key for resetting a bump allocator.
+ */
+#define RCPR_ALLOCATOR_CONTROL_BUMP_ALLOCATOR_RESET     0x0020
+
 /******************************************************************************/
 /* Start of model checking properties.                                        */
 /******************************************************************************/
@@ -368,10 +373,11 @@ RCPR_MODEL_CONTRACT_PRECONDITIONS_BEGIN(
     RCPR_SYM(allocator)* alloc, int key, void* value, size_t value_size)
         /* alloc is a valid allocator. */
         RCPR_MODEL_ASSERT(RCPR_SYM(property_allocator_valid)(alloc));
-        /* if value is not NULL, then it should be readable over value_size. */
+        /* if value is not NULL, then it should be addressable over
+         * value_size. */
         if (NULL != value)
         {
-            RCPR_MODEL_CHECK_OBJECT_READ(value, value_size);
+            RCPR_MODEL_CHECK_OBJECT_RW(value, value_size);
         }
 RCPR_MODEL_CONTRACT_PRECONDITIONS_END(RCPR_SYM(allocator_control))
 
