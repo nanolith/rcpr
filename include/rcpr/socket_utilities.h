@@ -48,7 +48,7 @@ RCPR_SYM(socket_utility_socketpair)(
  *      - a failure code on failure.
  */
 status FN_DECL_MUST_CHECK
-RCPR_SYM(socket_utility_close_standard_fds)();
+RCPR_SYM(socket_utility_close_standard_fds)(void);
 
 /**
  * \brief Set a descriptor to non-blocking.
