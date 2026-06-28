@@ -40,6 +40,17 @@ RCPR_SYM(socket_utility_socketpair)(
     int domain, int type, int protocol, int* left, int* right);
 
 /**
+ * \brief Close standard file descriptors, such as standard input, standard
+ * output, and standard error.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a failure code on failure.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(socket_utility_close_standard_fds)();
+
+/**
  * \brief Set a descriptor to non-blocking.
  *
  * \param desc              The descriptor to set to non-blocking.
