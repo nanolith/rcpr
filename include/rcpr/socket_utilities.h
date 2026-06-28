@@ -142,6 +142,9 @@ RCPR_SYM(socket_utility_ntoh16)(
     sym ## socket_utility_set_nonblock( \
         int x) { \
             return RCPR_SYM(socket_utility_set_nonblock)(x); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## socket_utility_close_standard_fds(void) { \
+            return RCPR_SYM(socket_utility_close_standard_fds)(); } \
     static inline int64_t sym ## socket_utility_hton64( \
         int64_t x) { \
             return RCPR_SYM(socket_utility_hton64)(x); } \
