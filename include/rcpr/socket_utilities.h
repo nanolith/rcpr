@@ -106,6 +106,26 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(socket_utility_setfds)(int curr, int mapped, ...);
 
 /**
+ * \brief Set the offsets of the given file descriptors to the provided mapped
+ * values.
+ *
+ * \note This method should be called after \ref socket_utility_move_descriptors
+ * in order to set custom descriptors to the expected values for a child
+ * process. This variable length list of arguments should end with -1.
+ *
+ * \param curr          The first number in the pair is the current descriptor.
+ * \param mapped        The second number in the pair is the offset to which
+ *                      this descriptor should be mapped.
+ * \param args          The list of mapped pairs, terminated by -1.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a failure code on failure.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(vsocket_utility_setfds)(int curr, int mapped, va_list args);
+
+/**
  * \brief Close all file descriptors greater than the given descriptor.
  *
  * \param fd            Close any descriptor whose offset is greater than this
