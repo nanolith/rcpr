@@ -51,9 +51,13 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(socket_utility_close_standard_fds)(void);
 
 /**
- * \brief Move the given list of file descriptors above a certain threshold.
+ * \brief Move the given list of file descriptors so they are equal to or above
+ * a certain threshold.
  *
  * This operation updates the file descriptors with their new offsets.
+ *
+ * \param threshold             The threshold value for these descriptors; they
+ *                              will be mapped to this value and above.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
