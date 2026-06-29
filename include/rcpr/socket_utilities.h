@@ -136,7 +136,7 @@ RCPR_SYM(vsocket_utility_setfds)(int curr, int mapped, va_list args);
  *      - a failure code on failure.
  */
 status FN_DECL_MUST_CHECK
-RCPR_SYM(socket_close_other_fds)(int fd);
+RCPR_SYM(socket_utility_close_other_fds)(int fd);
 
 /**
  * \brief Set a descriptor to non-blocking.
