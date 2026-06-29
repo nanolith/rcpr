@@ -11,6 +11,7 @@
 
 #include <rcpr/function_decl.h>
 #include <rcpr/status.h>
+#include <stdarg.h>
 
 /* C++ compatibility. */
 # ifdef   __cplusplus
@@ -65,6 +66,25 @@ RCPR_SYM(socket_utility_close_standard_fds)(void);
  */
 status FN_DECL_MUST_CHECK
 RCPR_SYM(socket_utility_move_descriptors)(int threshold, int* desc, ...);
+
+/**
+ * \brief Move the given list of file descriptors so they are equal to or above
+ * a certain threshold.
+ *
+ * This operation updates the file descriptors with their new offsets.
+ *
+ * \param threshold             The threshold value for these descriptors; they
+ *                              will be mapped to this value and above.
+ * \param desc                  Pointer to the first descriptor.
+ * \param args                  The list of remaining args, terminated by NULL.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a failure code on failure.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(vsocket_utility_move_descriptors)(
+    int threshold, int* desc, va_list args);
 
 /**
  * \brief Set the offsets of the given file descriptors to the provided mapped
