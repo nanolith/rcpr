@@ -213,6 +213,14 @@ RCPR_SYM(socket_utility_ntoh16)(
     static inline status FN_DECL_MUST_CHECK \
     sym ## socket_utility_close_standard_fds(void) { \
             return RCPR_SYM(socket_utility_close_standard_fds)(); } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## socket_utility_move_descriptors(int x, int* y, ...) { \
+            status retval; \
+            va_list args; \
+            va_start(args, y); \
+            retval = RCPR_SYM(vsocket_utility_move_descriptors)(x, y, args); \
+            va_end(args); \
+            return retval; } \
     static inline int64_t sym ## socket_utility_hton64( \
         int64_t x) { \
             return RCPR_SYM(socket_utility_hton64)(x); } \
