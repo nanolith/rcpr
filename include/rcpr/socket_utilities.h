@@ -51,6 +51,18 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(socket_utility_close_standard_fds)(void);
 
 /**
+ * \brief Move the given list of file descriptors above a certain threshold.
+ *
+ * This operation updates the file descriptors with their new offsets.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a failure code on failure.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(socket_utility_move_descriptors)(int threshold, int* desc, ...);
+
+/**
  * \brief Set a descriptor to non-blocking.
  *
  * \param desc              The descriptor to set to non-blocking.
