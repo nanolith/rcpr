@@ -78,6 +78,19 @@ status FN_DECL_MUST_CHECK
 RCPR_SYM(socket_utility_setfds)(int curr, int mapped, ...);
 
 /**
+ * \brief Close all file descriptors greater than the given descriptor.
+ *
+ * \param fd            Close any descriptor whose offset is greater than this
+ *                      one.
+ *
+ * \returns a status code indicating success or failure.
+ *      - STATUS_SUCCESS on success.
+ *      - a failure code on failure.
+ */
+status FN_DECL_MUST_CHECK
+RCPR_SYM(socket_close_other_fds)(int fd);
+
+/**
  * \brief Set a descriptor to non-blocking.
  *
  * \param desc              The descriptor to set to non-blocking.
