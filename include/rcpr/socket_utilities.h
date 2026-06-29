@@ -72,7 +72,11 @@ RCPR_SYM(socket_utility_move_descriptors)(int threshold, int* desc, ...);
  *
  * \note This method should be called after \ref socket_utility_move_descriptors
  * in order to set custom descriptors to the expected values for a child
- * process.
+ * process. This variable length list of arguments should end with -1.
+ *
+ * \param curr          The first number in the pair is the current descriptor.
+ * \param mapped        The second number in the pair is the offset to which
+ *                      this descriptor should be mapped.
  *
  * \returns a status code indicating success or failure.
  *      - STATUS_SUCCESS on success.
