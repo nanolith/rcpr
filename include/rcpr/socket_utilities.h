@@ -249,6 +249,9 @@ RCPR_SYM(socket_utility_ntoh16)(
             retval = RCPR_SYM(vsocket_utility_setfds)(x, y, args); \
             va_end(args); \
             return retval; } \
+    static inline status FN_DECL_MUST_CHECK \
+    sym ## socket_utility_close_other_fds(int x) { \
+            return RCPR_SYM(socket_utility_close_other_fds)(x); } \
     static inline int64_t sym ## socket_utility_hton64( \
         int64_t x) { \
             return RCPR_SYM(socket_utility_hton64)(x); } \
