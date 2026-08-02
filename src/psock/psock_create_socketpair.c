@@ -95,6 +95,7 @@ RCPR_SYM(psock_create_socketpair)(
 
     /* create a psock instance backed by the right-hand socket. */
     retval = psock_create_from_descriptor(&tmp_rhs, a, r);
+    if (STATUS_SUCCESS != retval)
     {
         goto cleanup_tmp_lhs;
     }
