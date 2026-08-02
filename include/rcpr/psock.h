@@ -2516,6 +2516,11 @@ RCPR_SYM(prop_psock_valid)(
         const RCPR_SYM(psock_vtable)* z) { \
             return RCPR_SYM(psock_create_from_user_methods)(w,x,y,z); } \
     static inline status FN_DECL_MUST_CHECK \
+    sym ## psock_create_socketpair( \
+        RCPR_SYM(psock)** u, RCPR_SYM(psock)** v, RCPR_SYM(allocator)* w, \
+        int x, int y, int z) { \
+            return RCPR_SYM(psock_create_socketpair)(u,v,w,x,y,z); } \
+    static inline status FN_DECL_MUST_CHECK \
     sym ## psock_br_create_from_psock( \
         RCPR_SYM(psock_br)** x, RCPR_SYM(allocator)* y, RCPR_SYM(psock)* z) { \
             return RCPR_SYM(psock_br_create_from_psock)(x,y,z); } \
