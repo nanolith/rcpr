@@ -34,7 +34,7 @@ status RCPR_SYM(bigint_release)(RCPR_SYM(resource)* r)
     RCPR_MODEL_ASSERT(prop_bigint_valid(i));
 
     /* clear the integer array. */
-    memset(i->array, 0, i->length * sizeof(native_int));
+    explicit_bzero(i->array, i->length * sizeof(native_int));
 
     /* reclaim the array memory. */
     reclaim_retval = allocator_reclaim(i->a, i->array);
