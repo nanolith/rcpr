@@ -94,7 +94,7 @@ RCPR_SYM(bump_allocator_create)(
     tmp = (bump_allocator*)region;
 
     /* clear out the structure. */
-    memset(tmp, 0, sizeof(bump_allocator));
+    explicit_bzero(tmp, sizeof(bump_allocator));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -139,7 +139,7 @@ static status bump_allocator_release(resource* r)
 
     /* clean up the bump allocator instance. */
     /* Note that since we don't own the memory region, we can't free it. */
-    memset(alloc, 0, sizeof(bump_allocator));
+    explicit_bzero(alloc, sizeof(bump_allocator));
 
     /* success. */
     return STATUS_SUCCESS;
