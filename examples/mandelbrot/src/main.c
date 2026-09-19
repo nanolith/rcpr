@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
     }
 
     /* clear thread_info. */
-    memset(&info, 0, sizeof(info));
+    explicit_bzero(&info, sizeof(info));
 
     /* allocate memory for the array. */
     info.array = (char**)malloc(height * sizeof(char*));
@@ -114,7 +114,7 @@ int main(int argc, char* argv[])
     }
 
     /* clear the thread array. */
-    memset(threads, 0, jobs * sizeof(thread*));
+    explicit_bzero(threads, jobs * sizeof(thread*));
 
     /* create each thread. They will immediately block on the worker cond.*/
     for (size_t i = 0; i < jobs; ++i)
