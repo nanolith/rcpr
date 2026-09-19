@@ -37,7 +37,7 @@ RCPR_SYM(stack_create)(
     }
 
     /* clear structure. */
-    memset(tmp, 0, sizeof(stack));
+    explicit_bzero(tmp, sizeof(stack));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -75,7 +75,7 @@ RCPR_SYM(stack_create)(
     goto done;
 
 free_stack:
-    memset(tmp, 0, sizeof(stack));
+    explicit_bzero(tmp, sizeof(stack));
     reclaim_retval = allocator_reclaim(a, tmp);
     if (STATUS_SUCCESS != reclaim_retval)
         retval = reclaim_retval;
