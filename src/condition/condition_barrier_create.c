@@ -60,7 +60,7 @@ status RCPR_SYM(condition_barrier_create)(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(condition_barrier));
+    explicit_bzero(tmp, sizeof(condition_barrier));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
