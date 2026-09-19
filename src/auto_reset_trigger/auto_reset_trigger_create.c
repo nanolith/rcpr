@@ -76,7 +76,7 @@ RCPR_SYM(auto_reset_trigger_create)(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(*tmp));
+    explicit_bzero(tmp, sizeof(*tmp));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -121,7 +121,7 @@ static status auto_reset_trigger_release(resource* r)
     allocator* alloc = trigger->alloc;
 
     /* clear memory. */
-    memset(trigger, 0, sizeof(*trigger));
+    explicit_bzero(trigger, sizeof(*trigger));
 
     /* reclaim memory. */
     return allocator_reclaim(alloc, trigger);
