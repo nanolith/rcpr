@@ -13,6 +13,7 @@
 #include <rcpr/shadow/allocator.h>
 #include <rcpr/shadow/model_tag.h>
 #include <rcpr/shadow/valid_range.h>
+#include <string.h>
 
 #if CBMC
 # define RCPR_MODEL_ASSERT(x) __CPROVER_assert((x), #x); REQUIRE_SEMICOLON_HERE
@@ -34,6 +35,7 @@
     REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_EXEMPT(x)
 # define RCPR_MODEL_ONLY(x) (x)
+# define explicit_bzero(a, b) memset((a), 0, (b))
 #else
 # define RCPR_MODEL_ASSERT(x) REQUIRE_SEMICOLON_HERE
 # define RCPR_MODEL_ASSUME(x) REQUIRE_SEMICOLON_HERE
