@@ -429,7 +429,7 @@ dispatch_context_create(
     }
 
     /* clear out structure. */
-    memset(tmp, 0, sizeof(dispatch_context));
+    explicit_bzero(tmp, sizeof(dispatch_context));
 
     /* initialize resource. */
     resource_init(&tmp->hdr, &dispatch_context_vtable);
@@ -669,7 +669,7 @@ static status listen_fiber_add(
     }
 
     /* clear the listen context. */
-    memset(ctx, 0, sizeof(listen_context));
+    explicit_bzero(ctx, sizeof(listen_context));
 
     /* set the resource release method. */
     resource_init(&ctx->hdr, &listen_context_vtable);
@@ -861,7 +861,7 @@ static status signal_thread_create(
     }
 
     /* clear the struct. */
-    memset(ctx, 0, sizeof(signal_thread_context));
+    explicit_bzero(ctx, sizeof(signal_thread_context));
 
     /* set the resource handler. */
     resource_init(&ctx->hdr, &signal_thread_context_vtable);
