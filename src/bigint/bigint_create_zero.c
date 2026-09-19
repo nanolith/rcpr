@@ -95,7 +95,7 @@ RCPR_SYM(bigint_create_zero)(
     }
 
     /* clear structure. */
-    memset(tmp, 0, sizeof(bigint));
+    explicit_bzero(tmp, sizeof(bigint));
 
     /* attempt to allocate memory for the integer array. */
     native_int* int_bytes = NULL;
@@ -108,7 +108,7 @@ RCPR_SYM(bigint_create_zero)(
     }
 
     /* clear these bytes (assign the value to zero). */
-    memset(int_bytes, 0, int_size * sizeof(native_int));
+    explicit_bzero(int_bytes, int_size * sizeof(native_int));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
