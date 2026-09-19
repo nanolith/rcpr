@@ -74,7 +74,7 @@ RCPR_SYM(malloc_allocator_create)(
     }
 
     /* clear out the structure. */
-    memset(*alloc, 0, sizeof(allocator));
+    explicit_bzero(*alloc, sizeof(allocator));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -118,7 +118,7 @@ static status malloc_allocator_release(resource* r)
     RCPR_MODEL_ASSERT(property_allocator_valid(alloc));
 
     /* clean up the malloc allocator instance. */
-    memset(alloc, 0, sizeof(allocator));
+    explicit_bzero(alloc, sizeof(allocator));
     free(alloc);
 
     /* success. */
