@@ -54,7 +54,7 @@ config_create(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(config));
+    explicit_bzero(tmp, sizeof(config));
 
     /* set the resource release method. */
     resource_init(&tmp->hdr, &config_vtable);
@@ -113,7 +113,7 @@ static status config_resource_release(resource* r)
         free(c->filename_prefix);
 
     /* clear the structure. */
-    memset(c, 0, sizeof(config));
+    explicit_bzero(c, sizeof(config));
 
     return STATUS_SUCCESS;
 }
