@@ -83,7 +83,7 @@ RCPR_SYM(psock_create_from_hostname_and_port)(
         struct sockaddr_in addr;
 
         /* set the socket address family and port. */
-        memset(&addr, 0, sizeof(addr));
+        explicit_bzero(&addr, sizeof(addr));
         addr.sin_family = AF_INET;
         addr.sin_port = htons(port);
         memcpy(&addr.sin_addr, resolved->h_addr_list[0], resolved->h_length);
@@ -126,7 +126,7 @@ RCPR_SYM(psock_create_from_hostname_and_port)(
         }
 
         /* set the socket address family and port. */
-        memset(&addr, 0, sizeof(addr));
+        explicit_bzero(&addr, sizeof(addr));
         addr.sin6_family = AF_INET6;
         addr.sin6_port = htons(port);
         memcpy(&addr.sin6_addr, resolved->h_addr_list[0], resolved->h_length);
