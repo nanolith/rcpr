@@ -94,7 +94,7 @@ RCPR_SYM(psock_create_from_descriptor)(
     }
 
     /* clear out the structure. */
-    memset(ps, 0, sizeof(psock_from_descriptor));
+    explicit_bzero(ps, sizeof(psock_from_descriptor));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
