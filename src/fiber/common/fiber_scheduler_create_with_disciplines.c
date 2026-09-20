@@ -149,7 +149,7 @@ RCPR_SYM(fiber_scheduler_create_with_disciplines)(
     }
 
     /* clear the structure. */
-    memset(ctx, 0, sizeof(fiber_scheduler_disciplined_context));
+    explicit_bzero(ctx, sizeof(fiber_scheduler_disciplined_context));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
