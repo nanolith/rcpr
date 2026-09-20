@@ -38,7 +38,7 @@ RCPR_SYM(psock_from_descriptor_release)(RCPR_SYM(resource)* r)
 
     /* clean up. */
     allocator* a = ps->hdr.alloc;
-    memset(ps, 0, sizeof(psock_from_descriptor));
+    explicit_bzero(ps, sizeof(psock_from_descriptor));
 
     /* if reclaiming this psock instance succeeds, so does this release. */
     return
