@@ -77,7 +77,7 @@ RCPR_SYM(slist_node_create)(
     }
 
     /* clear structure. */
-    memset(n, 0, sizeof(slist_node));
+    explicit_bzero(n, sizeof(slist_node));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
