@@ -67,7 +67,7 @@ status RCPR_SYM(condition_discipline_context_create)(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(condition_discipline_context));
+    explicit_bzero(tmp, sizeof(condition_discipline_context));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -192,7 +192,7 @@ static status condition_discipline_context_resource_release(resource* r)
         resource_release(rbtree_resource_handle(ctx->condition_barriers));
 
     /* clear this structure. */
-    memset(ctx, 0, sizeof(*ctx));
+    explicit_bzero(ctx, sizeof(*ctx));
 
     /* reclaim the memory for this structure. */
     status release_retval = allocator_reclaim(alloc, ctx);
