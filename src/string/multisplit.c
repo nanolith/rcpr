@@ -67,7 +67,7 @@ RCPR_SYM(multisplit)(
     /* if str is set, then initialize the iterator. */
     if (NULL != str)
     {
-        memset(iterator, 0, sizeof(*iterator));
+        explicit_bzero(iterator, sizeof(*iterator));
         iterator->startpos = str;
         iterator->token_fn = token_fn;
         /* we don't use endpos for multisplit. */
