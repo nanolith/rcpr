@@ -86,7 +86,7 @@ RCPR_SYM(psock_br_create_from_psock)(
     }
 
     /* clear out the structure. */
-    memset(tmp, 0, sizeof(*tmp));
+    explicit_bzero(tmp, sizeof(*tmp));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
