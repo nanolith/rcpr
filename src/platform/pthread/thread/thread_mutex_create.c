@@ -85,7 +85,7 @@ RCPR_SYM(thread_mutex_create)(
     }
 
     /* clear structure. */
-    memset(tmp, 0, sizeof(thread_mutex));
+    explicit_bzero(tmp, sizeof(thread_mutex));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -139,7 +139,7 @@ RCPR_SYM(thread_mutex_create)(
     goto done;
 
 free_thread_mutex:
-    memset(tmp, 0, sizeof(thread_mutex));
+    explicit_bzero(tmp, sizeof(thread_mutex));
     reclaim_retval = allocator_reclaim(a, tmp);
     if (STATUS_SUCCESS != reclaim_retval)
         retval = reclaim_retval;
@@ -176,7 +176,7 @@ static status thread_mutex_release(resource* r)
     }
 
     /* clear the mutex structure. */
-    memset(mut, 0, sizeof(thread_mutex));
+    explicit_bzero(mut, sizeof(thread_mutex));
 
     /* reclaim the mutex structure. */
     retval = allocator_reclaim(a, mut);
