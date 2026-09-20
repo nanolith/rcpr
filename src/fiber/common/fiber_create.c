@@ -92,7 +92,7 @@ RCPR_SYM(fiber_create)(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(fiber));
+    explicit_bzero(tmp, sizeof(fiber));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -140,7 +140,7 @@ RCPR_SYM(fiber_create)(
     goto done;
 
 fiber_release:
-    RCPR_MODEL_EXEMPT(memset(tmp, 0, sizeof(fiber)));
+    RCPR_MODEL_EXEMPT(explicit_bzero(tmp, sizeof(fiber)));
     release_retval = allocator_reclaim(a, tmp);
     if (STATUS_SUCCESS != release_retval)
     {
