@@ -70,7 +70,7 @@ RCPR_SYM(message_create)(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(message));
+    explicit_bzero(tmp, sizeof(message));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
