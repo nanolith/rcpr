@@ -49,7 +49,7 @@ status RCPR_SYM(psock_fiber_scheduler_disciplined_read_wait_callback_handler)(
     RCPR_MODEL_ASSERT(desc->descriptor >= 0);
 
     /* set the epoll control for this yield event. */
-    memset(&event, 0, sizeof(event));
+    explicit_bzero(&event, sizeof(event));
     event.events = EPOLLONESHOT;
 
     /* if we are blocked for reading, set the read event. */
