@@ -67,7 +67,7 @@ status RCPR_SYM(psock_idle_fiber_entry)(void* context)
             struct epoll_event event;
 
             /* clear the event. */
-            memset(&event, 0, sizeof(event));
+            explicit_bzero(&event, sizeof(event));
             event.events = EPOLLONESHOT;
 
             /* check for a read resume event. */
