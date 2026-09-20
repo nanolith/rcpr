@@ -87,7 +87,7 @@ RCPR_SYM(fiber_scheduler_create)(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(fiber_scheduler));
+    explicit_bzero(tmp, sizeof(fiber_scheduler));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
