@@ -78,10 +78,10 @@ RCPR_SYM(psock_write_raw_descriptor)(
     }
 
     /* build the message header. */
-    memset(&m, 0, sizeof(m));
+    explicit_bzero(&m, sizeof(m));
     m.msg_controllen = CMSG_SPACE(sizeof(int));
     m.msg_control = &buf;
-    memset(m.msg_control, 0, m.msg_controllen);
+    explicit_bzero(m.msg_control, m.msg_controllen);
 
     /* build a socket control message header. */
     cm = CMSG_FIRSTHDR(&m);
@@ -93,7 +93,7 @@ RCPR_SYM(psock_write_raw_descriptor)(
     m.msg_iovlen = 1;
     iov.iov_base = dummy;
     iov.iov_len = 1;
-    memset(dummy, 0, sizeof(dummy));
+    explicit_bzero(dummy, sizeof(dummy));
 
     /* attempt to send this message to the peer. */
     retval = sock_vtable->sendmsg_fn(sock, sock->context, &m, 0);
