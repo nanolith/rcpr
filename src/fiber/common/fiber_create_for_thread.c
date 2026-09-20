@@ -81,7 +81,7 @@ RCPR_SYM(fiber_create_for_thread)(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(fiber));
+    explicit_bzero(tmp, sizeof(fiber));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
