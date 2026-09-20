@@ -67,7 +67,7 @@ RCPR_SYM(rbtree_node_create)(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(rbtree_node));
+    explicit_bzero(tmp, sizeof(rbtree_node));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
