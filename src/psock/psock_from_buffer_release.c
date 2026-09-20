@@ -46,14 +46,14 @@ status RCPR_SYM(psock_from_buffer_release)(RCPR_SYM(resource)* r)
     /* if the input buffer is set, reclaim it. */
     if (NULL != ps->input_buffer)
     {
-        memset(ps->input_buffer, 0, ps->input_buffer_size);
+        explicit_bzero(ps->input_buffer, ps->input_buffer_size);
         input_buffer_retval = allocator_reclaim(a, ps->input_buffer);
     }
 
     /* if the output buffer is set, reclaim it. */
     if (NULL != ps->output_curr_buffer)
     {
-        memset(ps->output_curr_buffer, 0, ps->output_buffer_size);
+        explicit_bzero(ps->output_curr_buffer, ps->output_buffer_size);
         output_buffer_retval = allocator_reclaim(a, ps->output_curr_buffer);
     }
 
@@ -65,7 +65,7 @@ status RCPR_SYM(psock_from_buffer_release)(RCPR_SYM(resource)* r)
     }
 
     /* clean up the struct. */
-    memset(ps, 0, sizeof(psock_from_buffer));
+    explicit_bzero(ps, sizeof(psock_from_buffer));
     retval = allocator_reclaim(a, ps);
 
     /* did anything fail? */
