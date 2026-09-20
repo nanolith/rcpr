@@ -78,7 +78,7 @@ RCPR_SYM(thread_cond_create)(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(thread_cond));
+    explicit_bzero(tmp, sizeof(thread_cond));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -113,7 +113,7 @@ RCPR_SYM(thread_cond_create)(
     goto done;
 
 free_thread_cond:
-    memset(tmp, 0, sizeof(thread_cond));
+    explicit_bzero(tmp, sizeof(thread_cond));
     reclaim_retval = allocator_reclaim(a, tmp);
     if (STATUS_SUCCESS != reclaim_retval)
         retval = reclaim_retval;
@@ -150,7 +150,7 @@ static status thread_cond_release(resource* r)
     }
 
     /* clear the cond structure. */
-    memset(cond, 0, sizeof(thread_cond));
+    explicit_bzero(cond, sizeof(thread_cond));
 
     /* reclaim the cond structure. */
     retval = allocator_reclaim(a, cond);
