@@ -76,7 +76,7 @@ RCPR_SYM(queue_create)(
     }
 
     /* clear structure. */
-    memset(tmp, 0, sizeof(queue));
+    explicit_bzero(tmp, sizeof(queue));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
