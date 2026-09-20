@@ -59,7 +59,7 @@ RCPR_SYM(words)(
     /* if str is set, then initialize the iterator. */
     if (NULL != str)
     {
-        memset(iterator, 0, sizeof(*iterator));
+        explicit_bzero(iterator, sizeof(*iterator));
         iterator->startpos = str;
         /* we don't use endpos or token for words. */
     }
