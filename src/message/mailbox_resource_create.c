@@ -59,7 +59,7 @@ status RCPR_SYM(mailbox_resource_create)(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(mailbox));
+    explicit_bzero(tmp, sizeof(mailbox));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
