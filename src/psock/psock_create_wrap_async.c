@@ -165,7 +165,7 @@ RCPR_SYM(psock_create_wrap_async)(
     }
 
     /* clear out the structure. */
-    memset(ps, 0, sizeof(psock_wrap_async));
+    explicit_bzero(ps, sizeof(psock_wrap_async));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
