@@ -274,7 +274,7 @@ static status psock_output_buffer_node_create(
     }
 
     /* clear the data structure. */
-    memset(tmp, 0, sizeof(*tmp));
+    explicit_bzero(tmp, sizeof(*tmp));
 
     /* initialize the resource header with a resource release method. */
     resource_init(&tmp->hdr, &psock_output_buffer_node_vtable);
