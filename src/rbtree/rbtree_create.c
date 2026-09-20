@@ -94,7 +94,7 @@ RCPR_SYM(rbtree_create)(
     }
 
     /* clear the structure. */
-    memset(tmp, 0, sizeof(rbtree));
+    explicit_bzero(tmp, sizeof(rbtree));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -157,7 +157,7 @@ static status rbtree_resource_release(resource* r)
     }
 
     /* clear the rbtree structure. */
-    RCPR_MODEL_EXEMPT(memset(tree, 0, sizeof(*tree)));
+    RCPR_MODEL_EXEMPT(explicit_bzero(tree, sizeof(*tree)));
 
     /* reclaim the rbtree structure. */
     status reclaim_retval = allocator_reclaim(a, tree);
