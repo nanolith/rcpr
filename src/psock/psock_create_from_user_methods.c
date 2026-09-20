@@ -108,7 +108,7 @@ RCPR_SYM(psock_create_from_user_methods)(
     }
 
     /* clear out the structure. */
-    memset(ps, 0, sizeof(*ps));
+    explicit_bzero(ps, sizeof(*ps));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -177,7 +177,7 @@ static status psock_from_user_methods_release(RCPR_SYM(resource)* r)
     }
 
     /* clear memory. */
-    memset(ps, 0, sizeof(*ps));
+    explicit_bzero(ps, sizeof(*ps));
 
     /* reclaim memory. */
     release_retval = allocator_reclaim(alloc, ps);
