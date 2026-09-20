@@ -47,7 +47,7 @@ status RCPR_SYM(fiber_resource_release)(RCPR_SYM(resource)* r)
     }
 
     /* clear the fiber structure. */
-    RCPR_MODEL_EXEMPT(memset(fib, 0, sizeof(fiber)));
+    RCPR_MODEL_EXEMPT(explicit_bzero(fib, sizeof(fiber)));
 
     /* reclaim the fiber structure. */
     retval = allocator_reclaim(a, fib);
