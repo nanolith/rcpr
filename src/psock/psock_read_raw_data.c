@@ -124,7 +124,7 @@ RCPR_SYM(psock_read_raw_data)(
     goto done;
 
 cleanup_buffer:
-    memset(buffer, 0, buffer_size);
+    explicit_bzero(buffer, buffer_size);
 
     release_retval = allocator_reclaim(a, buffer);
     if (STATUS_SUCCESS == retval && STATUS_SUCCESS != release_retval)
