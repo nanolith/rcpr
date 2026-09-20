@@ -61,7 +61,7 @@ status RCPR_SYM(psock_fiber_scheduler_discipline_context_create)(
     }
 
     /* clear out the structure. */
-    memset(ctx, 0, sizeof(psock_io_poll_context));
+    explicit_bzero(ctx, sizeof(psock_io_poll_context));
 
     /* attempt to allocate memory for the poll event array. */
     ctx->poll_max = POLL_EVENT_SIZE_INCREMENT;
@@ -92,7 +92,7 @@ status RCPR_SYM(psock_fiber_scheduler_discipline_context_create)(
     }
 
     /* clear out the fiber array. */
-    memset(ctx->poll_fibers, 0, ctx->poll_max * sizeof(fiber*));
+    explicit_bzero(ctx->poll_fibers, ctx->poll_max * sizeof(fiber*));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -160,19 +160,19 @@ static status psock_io_poll_context_resource_release(resource* r)
     allocator* alloc = ctx->alloc;
 
     /* clear the event array. */
-    memset(ctx->poll_events, 0, ctx->poll_max * sizeof(struct pollfd));
+    explicit_bzero(ctx->poll_events, ctx->poll_max * sizeof(struct pollfd));
 
     /* release the event array. */
     status event_array_retval = allocator_reclaim(alloc, ctx->poll_events);
 
     /* clear the fiber array. */
-    memset(ctx->poll_fibers, 0, ctx->poll_max * sizeof(fiber*));
+    explicit_bzero(ctx->poll_fibers, ctx->poll_max * sizeof(fiber*));
 
     /* release the fiber array. */
     status fiber_array_retval = allocator_reclaim(alloc, ctx->poll_fibers);
 
     /* clear the structure. */
-    memset(ctx, 0, sizeof(psock_io_poll_context));
+    explicit_bzero(ctx, sizeof(psock_io_poll_context));
 
     /* reclaim the structure. */
     status ctx_retval = allocator_reclaim(alloc, ctx);
