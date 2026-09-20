@@ -81,7 +81,7 @@ RCPR_SYM(psock_read_raw_descriptor)(
     /* set up the receive buffer. */
     iov.iov_base = dummy;
     iov.iov_len = sizeof(dummy);
-    memset(&m, 0, sizeof(m));
+    explicit_bzero(&m, sizeof(m));
     m.msg_iov = &iov;
     m.msg_iovlen = 1;
     m.msg_controllen = CMSG_SPACE(sizeof(int));
