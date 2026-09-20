@@ -62,7 +62,7 @@ status RCPR_SYM(psock_fiber_scheduler_discipline_context_create)(
     }
 
     /* clear out the structure. */
-    memset(ctx, 0, sizeof(psock_io_epoll_context));
+    explicit_bzero(ctx, sizeof(psock_io_epoll_context));
 
     /* the tag is not set by default. */
     RCPR_MODEL_ASSERT_STRUCT_TAG_NOT_INITIALIZED(
@@ -134,7 +134,7 @@ static status psock_io_epoll_context_resource_release(resource* r)
     close(ctx->ep);
 
     /* clear the structure. */
-    memset(ctx, 0, sizeof(psock_io_epoll_context));
+    explicit_bzero(ctx, sizeof(psock_io_epoll_context));
 
     /* reclaim the structure. */
     return
