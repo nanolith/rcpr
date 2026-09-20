@@ -60,7 +60,7 @@ status RCPR_SYM(fiber_scheduler_resource_release)(RCPR_SYM(resource)* r)
     }
 
     /* clear the scheduler structure. */
-    RCPR_MODEL_EXEMPT(memset(sched, 0, sizeof(*sched)));
+    RCPR_MODEL_EXEMPT(explicit_bzero(sched, sizeof(*sched)));
 
     /* reclaim the scheduler structure. */
     retval = allocator_reclaim(a, sched);
