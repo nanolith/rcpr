@@ -1,6 +1,11 @@
 #Initially, fibers haven't been detected.
 SET(RCPR_FIBER_FOUND FALSE)
 
+#Fibers are broken in OpenBSD 7.9
+if(CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
+    return ()
+endif ()
+
 #Detect fiber processor
 if ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "amd64")
     SET(RCPR_FIBER_PROCESSOR "x86_64")
